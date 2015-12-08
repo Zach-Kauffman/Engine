@@ -20,14 +20,12 @@
 #include <boost/log/utility/setup/common_attributes.hpp>
 
 //reserved namespaces
-
 namespace logging = boost::log;
 namespace src = boost::log::sources;
 namespace expr = boost::log::expressions;
 namespace sinks = boost::log::sinks;
 namespace attrs = boost::log::attributes;
 namespace keywords = boost::log::keywords;
-
 
 // We define our own severity levels
 enum severity_level
@@ -39,19 +37,20 @@ enum severity_level
 	FATAL
 };
 
+//attributes that can be set in logs are defined here
 BOOST_LOG_ATTRIBUTE_KEYWORD(line_id, "LineID", unsigned int)
 BOOST_LOG_ATTRIBUTE_KEYWORD(severity, "Severity", severity_level)
 BOOST_LOG_ATTRIBUTE_KEYWORD(tag_attr, "Tag", std::string)
 BOOST_LOG_ATTRIBUTE_KEYWORD(scope, "Scope", attrs::named_scope::value_type)
 BOOST_LOG_ATTRIBUTE_KEYWORD(timeline, "Timeline", attrs::timer::value_type)
 
+//sets level for maximum level of output ex (level of INFO would not output DEBUG level statements)
 inline void setSeverityLevel(const severity_level &newLevel)
 {
 	logging::core::get()->set_filter(expr::attr<severity_level>("Severity") >= newLevel);
 }
-//wrapper to return severity logger
-//#ifndef getSLogger
 
+//wrapper to return severity logger
 inline src::severity_logger<severity_level> getSLogger() //should return standard ref to class memeber?s 
 {
 	src::severity_logger<severity_level> sl;
