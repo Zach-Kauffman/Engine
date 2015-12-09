@@ -23,10 +23,10 @@
 void logging_function()
 {
 	
-	INIReader reader("confi.ini");
+	INIReader reader("config.ini");
 	
 	std::vector<std::string> variables;
-	variables.push_back("Beans.Eh");
+	variables.push_back("Beans.Ehhh");
 	variables.push_back("Beans.Meh");
 	variables.push_back("Beans.Heh");
 	std::vector<int> output = reader.readVector<int>(variables);
