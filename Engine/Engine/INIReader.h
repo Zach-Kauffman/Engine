@@ -19,7 +19,19 @@ public:
 	template<class T>
 	T readValue(const std::string& key)	//takes a string and return its value loaded from INI
 	{
-		return tree.get<T>(key);
+		//tree.get would throw ptree_bad_path (ptree_error) on nonexistent value
+		boost::optional<T> op = tree.get_optional<T>(key); //returns uninitialized boost::optional object if value != exist
+
+		if (op)
+		{
+			return *op;
+		}
+		else
+		{
+			BOOST_LOG_SEV(logger, INFO) << "Value \"" << key << "\" not loaded from INI file " << filePath;
+
+			return NULL;	//return NULL value
+		} 
 	}
 
 	template<class T>
@@ -28,7 +40,7 @@ public:
 		std::vector<T> toReturn;
 		for (int i = 0; i < keyNames.size(); i++)
 		{
-			toReturn.push_back(tree.get<T>(keyNames[i]));
+			toReturn.push_back(readValue<T>(keyNames[i])); //get and push back value
 		}
 		return toReturn;
 	}
