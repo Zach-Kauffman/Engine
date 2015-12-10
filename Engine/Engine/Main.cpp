@@ -22,7 +22,7 @@
 
 void logging_function()
 {
-	BOOST_LOG_NAMED_SCOPE("INI_Reader_Testing");
+	//BOOST_LOG_NAMED_SCOPE("INI_Reader_Testing");
 	INIReader reader("config.ini");
 	
 	std::vector<std::string> variables;
@@ -31,7 +31,7 @@ void logging_function()
 	variables.push_back("Beans.Heh");
 	std::vector<int> output = reader.readVector<int>(variables);
 	auto slg = logger::getSLogger();
-
+	slg.add_attribute("Scope", attrs::constant<std::string>("INITESTING"));
 	BOOST_LOG_SEV(slg, DEBUG) << "This is the first value as a string. " << reader.readValue<std::string>("Beans.Smoky");
 	BOOST_LOG_SEV(slg, ERROR) << "Array values as int. " << output[0] << " + " << output[1];
 	BOOST_LOG_SEV(slg, WARNING) << "Everything crumbles, shoot me now!";
@@ -71,10 +71,11 @@ std::ostream& operator<< (std::ostream& strm, severity_level level)
 
 int main(int, char*[])
 {
-	BOOST_LOG_NAMED_SCOPE("MAIN");
+
 	logger::init();
 	logger::setSeverityLevel(DEBUG);
 	logging_function();
+
 	//while (true){}
 	return 0;
 }
