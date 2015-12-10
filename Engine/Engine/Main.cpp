@@ -22,7 +22,7 @@
 
 void logging_function()
 {
-	
+
 	INIReader reader("config.ini");
 	
 	std::vector<std::string> variables;
@@ -35,6 +35,8 @@ void logging_function()
 	BOOST_LOG_SEV(slg, DEBUG) << "This is the first value as a string. " << reader.readValue<std::string>("Beans.Smoky");
 	BOOST_LOG_SEV(slg, ERROR) << "Array values as int. " << output[0] << " + " << output[1];
 	BOOST_LOG_SEV(slg, WARNING) << "Everything crumbles, shoot me now!";
+	BOOST_LOG_SEV(slg, INFO) << "2 + 2 = 4!";
+	BOOST_LOG_SEV(slg, FATAL) << "Insert fatal error here";
 }
 
 //[ example_tutorial_attributes_named_scope
@@ -126,11 +128,13 @@ void init()
 
 int main(int, char*[])
 {
-	init();
 
+	init();
+	setSeverityLevel(FATAL);
 	named_scope_logging();
 	tagged_logging();
 	timed_logging();
+	
 	//while (true){}
 	return 0;
 }
