@@ -44,18 +44,55 @@ BOOST_LOG_ATTRIBUTE_KEYWORD(tag_attr, "Tag", std::string)
 BOOST_LOG_ATTRIBUTE_KEYWORD(scope, "Scope", attrs::named_scope::value_type)
 BOOST_LOG_ATTRIBUTE_KEYWORD(timeline, "Timeline", attrs::timer::value_type)
 
-//sets level for maximum level of output ex (level of INFO would not output DEBUG level statements)
-inline void setSeverityLevel(const severity_level &newLevel)
+namespace logger
 {
-	logging::core::get()->set_filter(expr::attr<severity_level>("Severity") >= newLevel);
+	//sets level for maximum level of output ex (level of INFO would not output DEBUG level statements)
+	inline void setSeverityLevel(const severity_level &newLevel)
+	{
+		logging::core::get()->set_filter(expr::attr<severity_level>("Severity") >= newLevel);
+	}
+
+	//wrapper to return severity logger
+	inline src::severity_logger<severity_level> getSLogger() //should return standard ref to class memeber?s 
+	{
+		src::severity_logger<severity_level> sl;
+		return sl;
+	}
+
+	//initialization function
+	inline void init()
+	{
+		typedef sinks::synchronous_sink< sinks::text_ostream_backend > text_sink;
+		boost::shared_ptr< text_sink > sink = boost::make_shared< text_sink >();
+
+		sink->locked_backend()->add_stream(
+			boost::make_shared< std::ofstream >("sample.log"));
+
+		sink->set_formatter	//setting formatting for log output based on attributes
+			(
+			expr::stream
+			<< std::hex << std::setw(8) << std::setfill('0') << line_id << std::dec << std::setfill(' ')
+			<< ": <" << severity << ">\t"
+			<< "(" << scope << ") "
+			<< expr::if_(expr::has_attr(tag_attr))
+			[
+				expr::stream << "[" << tag_attr << "] "
+			]
+		<< expr::if_(expr::has_attr(timeline))
+			[
+				expr::stream << "[" << timeline << "] "
+			]
+		<< expr::smessage
+			);
+
+		logging::core::get()->add_sink(sink);
+
+		// Add attributes
+		logging::add_common_attributes();
+		logging::core::get()->add_global_attribute("Scope", attrs::named_scope());
+	}
 }
 
-//wrapper to return severity logger
-inline src::severity_logger<severity_level> getSLogger() //should return standard ref to class memeber?s 
-{
-	src::severity_logger<severity_level> sl;
-	return sl;
-}
 
 
 
