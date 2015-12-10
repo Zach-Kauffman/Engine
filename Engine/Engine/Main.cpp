@@ -22,7 +22,7 @@
 
 void logging_function()
 {
-
+	BOOST_LOG_NAMED_SCOPE("INI_Reader_Testing");
 	INIReader reader("config.ini");
 	
 	std::vector<std::string> variables;
@@ -30,49 +30,24 @@ void logging_function()
 	variables.push_back("Beans.Meh");
 	variables.push_back("Beans.Heh");
 	std::vector<int> output = reader.readVector<int>(variables);
-	auto slg = getSLogger();
-	BOOST_LOG_NAMED_SCOPE("INI_Reader_Testing");
+	auto slg = logger::getSLogger();
+
 	BOOST_LOG_SEV(slg, DEBUG) << "This is the first value as a string. " << reader.readValue<std::string>("Beans.Smoky");
 	BOOST_LOG_SEV(slg, ERROR) << "Array values as int. " << output[0] << " + " << output[1];
 	BOOST_LOG_SEV(slg, WARNING) << "Everything crumbles, shoot me now!";
 	BOOST_LOG_SEV(slg, INFO) << "2 + 2 = 4!";
 	BOOST_LOG_SEV(slg, FATAL) << "Insert fatal error here";
-}
 
-//[ example_tutorial_attributes_named_scope
-void named_scope_logging()
-{
-	BOOST_LOG_NAMED_SCOPE("named_scope_logging");
+	BOOST_LOG_SCOPED_THREAD_ATTR("Timeline", attrs::timer());
 
-	src::severity_logger< severity_level > slg;
+	BOOST_LOG_SEV(slg, INFO) << "Starting to time nested functions";
 
-	BOOST_LOG_SEV(slg, DEBUG) << "Hello from the function named_scope_logging!";
-}
-//]
+	BOOST_LOG_SEV(slg, INFO) << "Stopping to time nested functions";
 
-//[ example_tutorial_attributes_tagged_logging
-void tagged_logging()
-{
-	auto slg = getSLogger();
 	slg.add_attribute("Tag", attrs::constant< std::string >("My tag value"));
 
 	BOOST_LOG_SEV(slg, INFO) << "Here goes the tagged record";
 }
-//]
-
-//[ example_tutorial_attributes_timed_logging
-void timed_logging()
-{
-	BOOST_LOG_SCOPED_THREAD_ATTR("Timeline", attrs::timer());
-
-	src::severity_logger< severity_level > slg;
-	BOOST_LOG_SEV(slg, INFO) << "Starting to time nested functions";
-
-	logging_function();
-
-	BOOST_LOG_SEV(slg, INFO) << "Stopping to time nested functions";
-}
-//]
 
 // The operator puts a human-friendly representation of the severity level to the stream
 std::ostream& operator<< (std::ostream& strm, severity_level level)
@@ -94,47 +69,12 @@ std::ostream& operator<< (std::ostream& strm, severity_level level)
 	return strm;
 }
 
-void init()
-{
-	typedef sinks::synchronous_sink< sinks::text_ostream_backend > text_sink;
-	boost::shared_ptr< text_sink > sink = boost::make_shared< text_sink >();
-
-	sink->locked_backend()->add_stream(
-		boost::make_shared< std::ofstream >("sample.log"));
-
-	sink->set_formatter
-		(
-		expr::stream
-		<< std::hex << std::setw(8) << std::setfill('0') << line_id << std::dec << std::setfill(' ')
-		<< ": <" << severity << ">\t"
-		<< "(" << scope << ") "
-		<< expr::if_(expr::has_attr(tag_attr))
-		[
-			expr::stream << "[" << tag_attr << "] "
-		]
-	<< expr::if_(expr::has_attr(timeline))
-		[
-			expr::stream << "[" << timeline << "] "
-		]
-	<< expr::smessage
-		);
-
-	logging::core::get()->add_sink(sink);
-
-	// Add attributes
-	logging::add_common_attributes();
-	logging::core::get()->add_global_attribute("Scope", attrs::named_scope());
-}
-
 int main(int, char*[])
 {
-
-	init();
-	setSeverityLevel(FATAL);
-	named_scope_logging();
-	tagged_logging();
-	timed_logging();
-	
+	BOOST_LOG_NAMED_SCOPE("MAIN");
+	logger::init();
+	logger::setSeverityLevel(DEBUG);
+	logging_function();
 	//while (true){}
 	return 0;
 }
