@@ -71,7 +71,7 @@ namespace logger
 		sink->set_formatter	//setting formatting for log output based on attributes
 			(
 			expr::stream
-			<< std::hex << std::setw(8) << std::setfill('0') << line_id << std::dec << std::setfill(' ')
+			<< std::dec << std::setw(8) << std::setfill('0') << line_id << std::dec << std::setfill(' ')	//output types hardcoded here ie(std::dec)
 			<< ": <" << severity << ">\t"
 			<< "(" << scope << ") "
 			<< expr::if_(expr::has_attr(tag_attr))
