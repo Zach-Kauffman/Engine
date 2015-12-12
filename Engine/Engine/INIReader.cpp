@@ -14,7 +14,8 @@ INIReader::INIReader(const std::string& INIPath)	//overloaded constructor with f
 void INIReader::init()
 {
 	setFilePath("");
-	logger = getSLogger();
+	logger = logger::getSLogger();
+	BOOST_LOG_SEV(logger, INFO) << "INIReader Initialization Completed";
 }
 
 void INIReader::setFilePath(const std::string& INIPath)
@@ -22,6 +23,7 @@ void INIReader::setFilePath(const std::string& INIPath)
 	if (INIPath != "")	//if there is no string input, only reload the file
 	{
 		filePath = INIPath;
+		BOOST_LOG_SEV(logger, DEBUG) << "INIReader path set to " << filePath;
 	}
 	
 	try	//attempt to load from file
