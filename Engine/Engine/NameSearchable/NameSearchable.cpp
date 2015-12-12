@@ -45,11 +45,7 @@ NameSearchable::~NameSearchable()
 ------------------------------------------------------------------------------------*/
 std::string NameSearchable::intToString(int finput)		//converts an int to a string using stringstreams
 {
-	std::stringstream ss;								//make a stringstream
-
-	ss << finput;										//push the int onto it
-
-	return ss.str();									//return the string-ified version of it
+	return boost::lexical_cast<std::string>(finput);
 }
 
 
