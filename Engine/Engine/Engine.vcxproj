@@ -16,8 +16,8 @@
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="INIReader.h" />
-    <ClInclude Include="Logger.h" />
+    <ClInclude Include="INIReader.hpp" />
+    <ClInclude Include="Logger.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{E4773390-6C05-47C2-AEAE-C779CFC9B10F}</ProjectGuid>
