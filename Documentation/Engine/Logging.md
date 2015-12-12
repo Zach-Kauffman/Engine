@@ -33,7 +33,7 @@ Setting the level is done through one command:
 
 Now we get to the good stuff. Creating a basic log is simple.
 
-	BOOST_LOG(logger_object, ERROR) << "YOUR TEXT HERE";
+	BOOST_LOG_SEV(logger_object, ERROR) << "YOUR TEXT HERE";
 
 This creates a new log with the severity level of an error and the text "YOUR TEXT HERE".
 You can also input variables into logs, assuming they support the << operator.
