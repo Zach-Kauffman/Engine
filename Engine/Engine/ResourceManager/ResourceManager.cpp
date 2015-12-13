@@ -1,5 +1,4 @@
 #include "ResourceManager.h"
-#include <iostream>
 
 
 
@@ -15,11 +14,36 @@
 ResourceManager::ResourceManager()											//Constructor
 {
 	setVectorSize(4);
+	resourceManagerLogger = logger::getSLogger();
 }
 
 
 
 //----------------------------------------------------------------------------------------------------------------------------***************************
+
+void ResourceManager::addFilesFromDirectory(std::string directory)
+{
+
+  std::vector<std::string> files;
+
+  for ( boost::filesystem::directory_iterator it( boost::filesystem::initial_path() );
+        it != boost::filesystem::directory_iterator(); ++it )
+  {
+
+    if ( boost::filesystem::is_regular_file( it->status() ))
+    {
+      files.push_back( it->path().filename().string() );
+    }
+
+
+  }
+
+  for (int i = 0; i < files.size(); i++)
+  {
+	  std::cout << files[i] << std::endl;
+	  //BOOST_LOG(resourceManagerLogger, DEBUG) << files[i];
+  }
+}
 
 
 /*------------------------------------------------------------------------------------

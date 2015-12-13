@@ -2,6 +2,7 @@
 #include <vector>
 #include <map>
 #include <sstream>
+#include "../Logger.h"
 
 class NameSearchable										//A useful parent class to make other classes have standard name maps for vectors
 {

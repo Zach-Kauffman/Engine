@@ -1,6 +1,8 @@
 #pragma once
 #include "ResourceGroup.h"
-
+#include <boost/algorithm/string/case_conv.hpp>
+#include "boost/filesystem/operations.hpp"
+#include "boost/filesystem/fstream.hpp" 
 
 
 
@@ -19,6 +21,8 @@ public:
 
 	ResourceManager();														//Constructor
 
+
+	void addFilesFromDirectory(std::string directory);
 
 	void addFile(std::string fileName, std::string name);					//Adds a generic file
 
@@ -70,7 +74,7 @@ private:
 	enum nameVectorIndeces {Texture_Names = 0, Font_Names = 1, SoundBuf_Names = 2, ResourceGroup_Names = 3}; 
 																			//enum for accessing vectors more intuitively
 
-
+	src::severity_logger<severity_level> resourceManagerLogger;
 	
 };
 

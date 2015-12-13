@@ -1,5 +1,6 @@
 #include "Logger.h"
 #include "INIReader.h"
+#include "ResourceManager/ResourceManager.h"
 
 
 void logging_function()
@@ -60,7 +61,15 @@ int main(int, char*[])
 	logger::setSeverityLevel(DEBUG);
 	logging_function();
 	auto slg = logger::getSLogger();
+	
+
+
+	std::string directoryToResources = "C:\\Users\\Riley\\Documents\\Visual Studio 2013\\Projects\\Engine\\Engine\\Engine\\Resources\\";
+	ResourceManager testRM;
+	testRM.addFilesFromDirectory(directoryToResources + "TestPngs");
+
+
 	BOOST_LOG_SEV(slg, DEBUG) << "Exiting soon";
-	//while (true){}
+	while (true){}
 	return 0;
 }

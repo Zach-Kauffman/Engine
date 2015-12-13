@@ -7,9 +7,7 @@
 
 
 
-/*------------------------------------------------------------------------------------
----------------------------------constructor------------------------------------------
-------------------------------------------------------------------------------------*/
+
 NameSearchable::NameSearchable()
 {
 
@@ -17,15 +15,11 @@ NameSearchable::NameSearchable()
 
 
 
-/*------------------------------------------------------------------------------------
----------------------------------destructor-------------------------------------------
-------------------------------------------------------------------------------------*/
+
 NameSearchable::~NameSearchable()
 {
 
 }
-
-
 
 //----------------------------------------------------------------------------------------------------------------------------***************************
 
@@ -39,11 +33,7 @@ NameSearchable::~NameSearchable()
 
 
 
-
-/*------------------------------------------------------------------------------------
----------------------------------intToString------------------------------------------
-------------------------------------------------------------------------------------*/
-std::string NameSearchable::intToString(int finput)		//converts an int to a string using stringstreams
+std::string NameSearchable::intToString(int finput)		//converts an int to a string using boost
 {
 	return boost::lexical_cast<std::string>(finput);
 }
@@ -53,18 +43,14 @@ std::string NameSearchable::intToString(int finput)		//converts an int to a stri
 //----------------------------------------------------------------------------------------------------------------------------***************************
 
 
-/*------------------------------------------------------------------------------------
----------------------------------ntoi(name to index)1---------------------------------
-------------------------------------------------------------------------------------*/
+
 int NameSearchable::ntoi(std::string fname)				//accesses the nameMap to get the int associated with the name (assumes the amount of name maps is 1)
 {
 	return ntoi(fname, 0);								//assumes the index is 0
 }
 
 
-/*------------------------------------------------------------------------------------
----------------------------------ntoi(name to index)2---------------------------------
-------------------------------------------------------------------------------------*/
+
 int NameSearchable::ntoi(std::string fname, int findex)	//accesses the nameMap to get the int associated with the name
 {
 	return nameMapVector[findex][fname];				//returns the int associated with the name of the "findexth" vector (for instance, textures as oppesd to fonts)			
@@ -76,9 +62,7 @@ int NameSearchable::ntoi(std::string fname, int findex)	//accesses the nameMap t
 //----------------------------------------------------------------------------------------------------------------------------***************************
 
 
-/*------------------------------------------------------------------------------------
----------------------------------setVectorSize----------------------------------------
-------------------------------------------------------------------------------------*/
+
 void NameSearchable::setVectorSize(int fsize)			//resizes the vector of name maps -- typically used only once
 {
 	nameMapVector.resize(fsize);						//resize it
@@ -89,9 +73,7 @@ void NameSearchable::setVectorSize(int fsize)			//resizes the vector of name map
 //----------------------------------------------------------------------------------------------------------------------------***************************
 
 
-/*------------------------------------------------------------------------------------
----------------------------------addName1---------------------------------------------
-------------------------------------------------------------------------------------*/
+//--1
 void  NameSearchable::addName(int fintname, int fend)	//adds an int 'name' (used for general creation of things) and an index, assuming the vector index is 0 
 {
 	addName(fintname, 0, fend);							//assumes the vector index is 0
@@ -99,9 +81,7 @@ void  NameSearchable::addName(int fintname, int fend)	//adds an int 'name' (used
 
 
 
-/*------------------------------------------------------------------------------------
----------------------------------addName2---------------------------------------------
-------------------------------------------------------------------------------------*/
+//--2
 void  NameSearchable::addName(int fintname, int findex, int fend)		//adds an int 'name', a desired index, and a vector index
 {
 	std::string tmpString = "Unnamed" + intToString(fintname) + ".";	//make a name out of the int (23 -> "Unnamed23.") the '.' is to prevent multiple copies 
@@ -113,9 +93,7 @@ void  NameSearchable::addName(int fintname, int findex, int fend)		//adds an int
 
 
 
-/*------------------------------------------------------------------------------------
----------------------------------addName3---------------------------------------------
-------------------------------------------------------------------------------------*/	
+//--3
 void NameSearchable::addName(std::string fname, int fend)				//adds a name and a desired index to map to, assuming the vector index is 0 
 {
 	addName(fname, 0, fend);											//assume the vector index is 0
@@ -123,9 +101,7 @@ void NameSearchable::addName(std::string fname, int fend)				//adds a name and a
 
 
 
-/*------------------------------------------------------------------------------------
-----------------------addName4(root of all other "addname"s)---------------------------
-------------------------------------------------------------------------------------*/
+//--4
 void NameSearchable::addName(std::string fname, int findex, int fend)	//the BIG one -- adds a name, an index to correspond to, and a vector index
 {
 
@@ -152,6 +128,7 @@ void NameSearchable::addName(std::string fname, int findex, int fend)	//the BIG 
 														it will become "RedTexture3"		*/
 
 			}
+
 		}
 
 		else
