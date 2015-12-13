@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Logger.h"
+#include "Logger.hpp"
 #include <boost\property_tree\ini_parser.hpp>
 #include <boost\property_tree\ptree.hpp>
 #include <string.h>
@@ -51,7 +51,11 @@ public:
 		typedef std::map<std::string, T*>::iterator it;		//construct iterator for map object
 		for (it i= valMap.begin(); i != valMap.end(); i++)	//iterate through map
 		{
-			*valMap[i->first] = readValue<T>(i->first);		//read value and place it in the map
+			T val = readValue<T>(i->first);		//read value and place it in the map
+			if (val)							
+			{
+				*valMap[i->first] = val;		//set value only if something was actually read
+			}
 		}
 	}
 

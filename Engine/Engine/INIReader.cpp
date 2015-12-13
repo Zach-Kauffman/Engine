@@ -1,4 +1,4 @@
-#include "INIReader.h"
+#include "INIReader.hpp"
 
 
 INIReader::INIReader(){ init(); }			//default constructor
