@@ -26,7 +26,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
     <ClInclude Include="Logger.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -40,12 +39,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="INIReader.hpp">
-=======
-    <ClInclude Include="INIReader.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Logger.hpp">
->>>>>>> 0c29a83bf8b532bf0810145e00def402b1020b19
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
