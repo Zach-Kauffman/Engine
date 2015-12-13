@@ -1,5 +1,5 @@
-#include "Logger.h"
-#include "INIReader.h"
+#include "Logger.hpp"
+#include "INIReader.hpp"
 
 
 void logging_function()
@@ -10,7 +10,7 @@ void logging_function()
 
 	INIReader reader("config.ini");
 	
-	int one, two, three;
+	int one = 5, two = 1, three = 3;
 	std::map<std::string, int*> variables;
 	variables["Beans.Ehhh"] = &one;
 	variables["Beans.Meh"] = &two;
