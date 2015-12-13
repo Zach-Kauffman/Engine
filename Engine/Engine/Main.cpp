@@ -1,5 +1,5 @@
 #include "Logger.hpp"
-#include "INIReader.hpp"
+#include "INIHandler.hpp"
 
 
 void logging_function()
@@ -18,7 +18,7 @@ void logging_function()
 	variables["Beans.Heh"] = &three;
 
 	
-	reader.writeValue<int>("Eugene", "Bitches", "7", pt);
+	reader.writeValue<int>("Eugene", "cookies", "7");								//Adds header called "eugene" with an attribute called "cookies" which has a value of 7
 	reader.readWriteMap<int>(variables);
 	auto slg = logger::getSLogger();
 	slg.add_attribute("Scope", attrs::named_scope());

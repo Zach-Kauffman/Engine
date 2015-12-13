@@ -35,10 +35,10 @@ public:
 	}
 
 	template<class T>
-	void writeValue(const std::string header, const std::string section, const std::string value, boost::property_tree::ptree pt)
+	void writeValue(const std::string& header, const std::string& section, const std::string& value) //writes value to ini file
 	{
-		pt.put(header + "." + section, value);
-		write_ini("config.ini", pt);
+		tree.put(header + "." + section, value);
+		write_ini("config.ini", tree);
 	}
 
 	template<class T>
