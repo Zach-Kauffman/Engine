@@ -35,6 +35,13 @@ public:
 	}
 
 	template<class T>
+	void writeValue(const std::string header, const std::string section, const std::string value, boost::property_tree::ptree pt)
+	{
+		pt.put(header + "." + section, value);
+		write_ini("config.ini", pt);
+	}
+
+	template<class T>
 	std::vector<T> readVector(const std::vector<std::string> &keyNames)	//reads vector of strings and returns vector of matching values as loaded from ini value
 	{
 		std::vector<T> toReturn;

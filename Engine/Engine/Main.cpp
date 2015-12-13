@@ -9,7 +9,8 @@ void logging_function()
 	//severity_logger.add_attribute("Tag", attrs::constant<std::string>("<yourstring>"));	<<--- adds tag attribute in brackets ex. [<yourstring>]
 
 	INIReader reader("config.ini");
-	
+	boost::property_tree::ptree pt;
+
 	int one = 5, two = 1, three = 3;
 	std::map<std::string, int*> variables;
 	variables["Beans.Ehhh"] = &one;
@@ -17,7 +18,7 @@ void logging_function()
 	variables["Beans.Heh"] = &three;
 
 	
-	
+	reader.writeValue<int>("Eugene", "Bitches", "7", pt);
 	reader.readWriteMap<int>(variables);
 	auto slg = logger::getSLogger();
 	slg.add_attribute("Scope", attrs::named_scope());
