@@ -1,5 +1,5 @@
 #pragma once
-#include "ResourceGroup.h"
+#include "ResourceGroup.hpp"
 #include <boost/algorithm/string/case_conv.hpp>
 #include "boost/filesystem/operations.hpp"
 #include "boost/filesystem/fstream.hpp" 

@@ -1,4 +1,4 @@
-#include "ResourceGroup.h"
+#include "ResourceGroup.hpp"
 
 //----------------------------------------------------------------------------------------------------------------------------***************************
 //-----------------------------------------PUBLIC-----------------------------------------------------------------------------***************************
@@ -17,10 +17,9 @@ ResourceGroup::ResourceGroup()												//Constructor is empty
 //----------------------------------------------------------------------------------------------------------------------------***************************
 
 
-<<<<<<< HEAD
 
-=======
->>>>>>> bfaa9cd1ffab085fdf4d781e2ba8fca10a50c9a3
+
+
 void ResourceGroup::addTexture(sf::Texture* ftexture)						//add a pointer to a texture to textureVector
 {
 
@@ -30,10 +29,9 @@ void ResourceGroup::addTexture(sf::Texture* ftexture)						//add a pointer to a 
 }
 
 
-<<<<<<< HEAD
 
-=======
->>>>>>> bfaa9cd1ffab085fdf4d781e2ba8fca10a50c9a3
+
+
 void ResourceGroup::addTexture(sf::Texture* ftexture, std::string fname)						//add a pointer to a texture to textureVector
 {
 
@@ -43,10 +41,9 @@ void ResourceGroup::addTexture(sf::Texture* ftexture, std::string fname)						//
 }
 
 
-<<<<<<< HEAD
 
-=======
->>>>>>> bfaa9cd1ffab085fdf4d781e2ba8fca10a50c9a3
+
+
 void ResourceGroup::addFont(sf::Font* ffont)								//add a pointer to a font to fontVector
 {
 
@@ -56,10 +53,9 @@ void ResourceGroup::addFont(sf::Font* ffont)								//add a pointer to a font to
 }
 
 
-<<<<<<< HEAD
 
-=======
->>>>>>> bfaa9cd1ffab085fdf4d781e2ba8fca10a50c9a3
+
+
 void ResourceGroup::addFont(sf::Font* ffont, std::string fname)								//add a pointer to a font to fontVector
 {
 
@@ -71,15 +67,12 @@ void ResourceGroup::addFont(sf::Font* ffont, std::string fname)								//add a p
 
 
 
-<<<<<<< HEAD
+
 //----------------------------------------------------------------------------------------------------------------------------***************************
 
 
 
 void ResourceGroup::addSoundBuf(sf::SoundBuffer* fsoundbuf)						//add a pointer to a soundBuf to soundBufVector
-=======
-/*void addSoundBuf(sf::SoundBuffer* fsoundbuf)								//add a pointer to a soundBuf to soundBufVector
->>>>>>> bfaa9cd1ffab085fdf4d781e2ba8fca10a50c9a3
 {
 
 	soundBufVector.push_back(fsoundbuf);
@@ -89,7 +82,7 @@ void ResourceGroup::addSoundBuf(sf::SoundBuffer* fsoundbuf)						//add a pointer
 }
 
 
-<<<<<<< HEAD
+
 
 void ResourceGroup::addSoundBuf(sf::SoundBuffer* fsoundbuf, std::string fname)						//add a pointer to a soundBuf to soundBufVector
 {
@@ -104,8 +97,6 @@ void ResourceGroup::addSoundBuf(sf::SoundBuffer* fsoundbuf, std::string fname)		
 
 
 
-=======
->>>>>>> bfaa9cd1ffab085fdf4d781e2ba8fca10a50c9a3
 std::vector<sf::Texture*> ResourceGroup::getTextureVector()					//returns the entire textureVector; probably not going to use
 {
 
@@ -114,14 +105,13 @@ std::vector<sf::Texture*> ResourceGroup::getTextureVector()					//returns the en
 }
 
 
-<<<<<<< HEAD
+
 
 //----------------------------------------------------------------------------------------------------------------------------***************************
 
 
 
-=======
->>>>>>> bfaa9cd1ffab085fdf4d781e2ba8fca10a50c9a3
+
 std::vector<sf::Font*> ResourceGroup::getFontVector()						//returns the entire fontVector; probably not going to use
 {
 
@@ -130,16 +120,14 @@ std::vector<sf::Font*> ResourceGroup::getFontVector()						//returns the entire 
 }
 
 
-<<<<<<< HEAD
+
 
 //----------------------------------------------------------------------------------------------------------------------------***************************
 
 
 
 std::vector<sf::SoundBuffer*> ResourceGroup::getSoundBufVector()			//returns the entire soundBufVector; probably not going to use
-=======
-/*std::vector<sf::SoundBuffer*> ResourceGroup::getSoundBufVector()			//returns the entire soundBufVector; probably not going to use
->>>>>>> bfaa9cd1ffab085fdf4d781e2ba8fca10a50c9a3
+
 {
 
 	return soundBufVector;
@@ -147,14 +135,13 @@ std::vector<sf::SoundBuffer*> ResourceGroup::getSoundBufVector()			//returns the
 }
 
 
-<<<<<<< HEAD
+
 
 //----------------------------------------------------------------------------------------------------------------------------***************************
 
 
 
-=======
->>>>>>> bfaa9cd1ffab085fdf4d781e2ba8fca10a50c9a3
+
 sf::Texture* ResourceGroup::getTexturePointer(int findex)					//returns an element of textureVector -- a pointer to a texture
 {
 
@@ -163,10 +150,9 @@ sf::Texture* ResourceGroup::getTexturePointer(int findex)					//returns an eleme
 }
 
 
-<<<<<<< HEAD
 
-=======
->>>>>>> bfaa9cd1ffab085fdf4d781e2ba8fca10a50c9a3
+
+
 sf::Texture* ResourceGroup::getTexturePointer(std::string fname)					//returns an element of textureVector -- a pointer to a texture
 {
 
@@ -191,19 +177,16 @@ sf::Font* ResourceGroup::getFontPointer(std::string fname)							//returns an el
 }
 
 
-<<<<<<< HEAD
+
 //----------------------------------------------------------------------------------------------------------------------------***************************
 
 
 sf::SoundBuffer* ResourceGroup::getSoundBufPointer(int findex)							//returns an element of soundbufvector -- a pointer to a soundbuffer
-=======
-/*sf::SoundBuffer* getSoundBufPointer(int findex)							//returns an element of soundBufVector -- a pointer to a soundBuffer
->>>>>>> bfaa9cd1ffab085fdf4d781e2ba8fca10a50c9a3
 {
 
 	return soundBufVector[findex];
 
-<<<<<<< HEAD
+
 }
 
 
@@ -215,6 +198,4 @@ sf::SoundBuffer* ResourceGroup::getSoundBufPointer(std::string fname)							//re
 
 }
 //----------------------------------------------------------------------------------------------------------------------------***************************
-=======
-}*/
->>>>>>> bfaa9cd1ffab085fdf4d781e2ba8fca10a50c9a3
+

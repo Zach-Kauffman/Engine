@@ -1,115 +1,104 @@
-#include "NameSearchable.h"
+#include "NameSearchable.hpp"
 
 
 //----------------------------------------------------------------------------------------------------------------------------***************************
 //-----------------------------------------PUBLIC-----------------------------------------------------------------------------***************************
 //----------------------------------------------------------------------------------------------------------------------------***************************
 
-<<<<<<< HEAD
 
 
 
-=======
->>>>>>> bfaa9cd1ffab085fdf4d781e2ba8fca10a50c9a3
+
+
 NameSearchable::NameSearchable()
 {
 
 }
 
 
-<<<<<<< HEAD
 
 
-=======
->>>>>>> bfaa9cd1ffab085fdf4d781e2ba8fca10a50c9a3
+
+
 NameSearchable::~NameSearchable()
 {
 
 }
 
-<<<<<<< HEAD
+
 //----------------------------------------------------------------------------------------------------------------------------***************************
 
 
 
-=======
->>>>>>> bfaa9cd1ffab085fdf4d781e2ba8fca10a50c9a3
+
 
 //----------------------------------------------------------------------------------------------------------------------------***************************
 //-----------------------------------------PROTECTED--------------------------------------------------------------------------***************************
 //----------------------------------------------------------------------------------------------------------------------------***************************
 
-<<<<<<< HEAD
+
 
 
 
 std::string NameSearchable::intToString(int finput)		//converts an int to a string using boost
-=======
-std::string NameSearchable::intToString(int finput)		//converts an int to a string using stringstreams
->>>>>>> bfaa9cd1ffab085fdf4d781e2ba8fca10a50c9a3
 {
 	return boost::lexical_cast<std::string>(finput);
 }
 
 
-<<<<<<< HEAD
+
 
 //----------------------------------------------------------------------------------------------------------------------------***************************
 
 
 
-=======
->>>>>>> bfaa9cd1ffab085fdf4d781e2ba8fca10a50c9a3
+
 int NameSearchable::ntoi(std::string fname)				//accesses the nameMap to get the int associated with the name (assumes the amount of name maps is 1)
 {
 	return ntoi(fname, 0);								//assumes the index is 0
 }
 
 
-<<<<<<< HEAD
 
-=======
->>>>>>> bfaa9cd1ffab085fdf4d781e2ba8fca10a50c9a3
+
+
 int NameSearchable::ntoi(std::string fname, int findex)	//accesses the nameMap to get the int associated with the name
 {
 	return nameMapVector[findex][fname];				//returns the int associated with the name of the "findexth" vector (for instance, textures as oppesd to fonts)			
 
 }
 
-<<<<<<< HEAD
+
 
 
 //----------------------------------------------------------------------------------------------------------------------------***************************
 
 
 
-=======
->>>>>>> bfaa9cd1ffab085fdf4d781e2ba8fca10a50c9a3
+
 void NameSearchable::setVectorSize(int fsize)			//resizes the vector of name maps -- typically used only once
 {
 	nameMapVector.resize(fsize);						//resize it
 }
 
 
-<<<<<<< HEAD
+
 
 //----------------------------------------------------------------------------------------------------------------------------***************************
 
 
 //--1
-=======
->>>>>>> bfaa9cd1ffab085fdf4d781e2ba8fca10a50c9a3
+
 void  NameSearchable::addName(int fintname, int fend)	//adds an int 'name' (used for general creation of things) and an index, assuming the vector index is 0 
 {
 	addName(fintname, 0, fend);							//assumes the vector index is 0
 }
 
 
-<<<<<<< HEAD
+
 
 //--2
-=======
->>>>>>> bfaa9cd1ffab085fdf4d781e2ba8fca10a50c9a3
+
 void  NameSearchable::addName(int fintname, int findex, int fend)		//adds an int 'name', a desired index, and a vector index
 {
 	std::string tmpString = "Unnamed" + intToString(fintname) + ".";	//make a name out of the int (23 -> "Unnamed23.") the '.' is to prevent multiple copies 
@@ -120,22 +109,19 @@ void  NameSearchable::addName(int fintname, int findex, int fend)		//adds an int
 }
 
 
-<<<<<<< HEAD
+
 
 //--3
-=======
->>>>>>> bfaa9cd1ffab085fdf4d781e2ba8fca10a50c9a3
+
 void NameSearchable::addName(std::string fname, int fend)				//adds a name and a desired index to map to, assuming the vector index is 0 
 {
 	addName(fname, 0, fend);											//assume the vector index is 0
 }
 
 
-<<<<<<< HEAD
+
 
 //--4
-=======
->>>>>>> bfaa9cd1ffab085fdf4d781e2ba8fca10a50c9a3
 void NameSearchable::addName(std::string fname, int findex, int fend)	//the BIG one -- adds a name, an index to correspond to, and a vector index
 {
 	bool sameName = true;								//true if there may be a duplicate already
