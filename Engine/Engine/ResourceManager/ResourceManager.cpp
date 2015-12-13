@@ -25,17 +25,20 @@ void ResourceManager::addFilesFromDirectory(std::string directory)
 {
 
   std::vector<std::string> files;
-
-  for ( boost::filesystem::directory_iterator it( boost::filesystem::initial_path() );
-        it != boost::filesystem::directory_iterator(); ++it )
+  boost::filesystem::path dir(directory);
+  if (boost::filesystem::exists(dir))
   {
+	  for (boost::filesystem::directory_iterator it(boost::filesystem::initial_path());
+		  it != boost::filesystem::directory_iterator(); ++it)
+	  {
 
-    if ( boost::filesystem::is_regular_file( it->status() ))
-    {
-      files.push_back( it->path().filename().string() );
-    }
+		  if (boost::filesystem::is_regular_file(it->status()))
+		  {
+			  files.push_back(it->path().filename().string());
+		  }
 
 
+	  }
   }
 
   for (int i = 0; i < files.size(); i++)

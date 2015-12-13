@@ -69,6 +69,7 @@ int main(int, char*[])
 	testRM.addFilesFromDirectory(directoryToResources + "TestPngs");
 
 
+
 	BOOST_LOG_SEV(slg, DEBUG) << "Exiting soon";
 	while (true){}
 	return 0;
