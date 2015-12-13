@@ -35,19 +35,19 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="INIReader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Logger.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="NameSearchable\NameSearchable.h">
+    <ClInclude Include="ResourceManager\ResourceManager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ResourceManager\ResourceGroup.h">
+    <ClInclude Include="ResourceManager\ResourceGroup.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ResourceManager\ResourceManager.h">
+    <ClInclude Include="NameSearchable\NameSearchable.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="INIReader.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
