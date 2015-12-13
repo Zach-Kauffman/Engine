@@ -1,6 +1,11 @@
+<<<<<<< HEAD
 #include "Logger.h"
 #include "INIReader.h"
 #include "ResourceManager/ResourceManager.h"
+=======
+#include "Logger.hpp"
+#include "INIReader.hpp"
+>>>>>>> 0c29a83bf8b532bf0810145e00def402b1020b19
 
 
 void logging_function()
@@ -11,7 +16,7 @@ void logging_function()
 
 	INIReader reader("config.ini");
 	
-	int one, two, three;
+	int one = 5, two = 1, three = 3;
 	std::map<std::string, int*> variables;
 	variables["Beans.Ehhh"] = &one;
 	variables["Beans.Meh"] = &two;
