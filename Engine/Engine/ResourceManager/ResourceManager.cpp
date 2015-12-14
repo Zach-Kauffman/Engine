@@ -16,31 +16,83 @@ ResourceManager::ResourceManager()											//Constructor
 
 //----------------------------------------------------------------------------------------------------------------------------***************************
 
-void ResourceManager::addFilesFromDirectory(std::string directory)
+
+void ResourceManager::addFilesFromTree(const std::string& directory)
 {
 
-  std::vector<std::string> files;
-  boost::filesystem::path dir(directory);
-  if (boost::filesystem::exists(dir))
-  {
-	  for (boost::filesystem::directory_iterator it(boost::filesystem::initial_path());
-		  it != boost::filesystem::directory_iterator(); ++it)
-	  {
+	std::vector<std::string> files;														//the files to be added
+	boost::filesystem::path dir(directory);												//make a new path of the directory
 
-		  if (boost::filesystem::is_regular_file(it->status()))
-		  {
-			  files.push_back(it->path().filename().string());
-		  }
+	if (boost::filesystem::exists(dir) && boost::filesystem::is_directory(dir))			//if the directory is valid
+	{
+		for (boost::filesystem::directory_iterator it(dir);								//go through the directory
+			it != boost::filesystem::directory_iterator(); ++it)
+		{
+
+			if (boost::filesystem::is_regular_file(it->status()))					
+			{
+				files.push_back(it->path().filename().string());						//if a file is a regular file, add it to files
+			}
+			else if (boost::filesystem::is_directory(it->status()))
+			{
+				addFilesFromTree(directory + "\\" + it->path().filename().string());	//if a "file" is actually a folder, recurse
+																						//using that folder as the directory
+			}
+
+		}
+
+		for (int i = 0; i < files.size(); i++)
+		{
+
+			BOOST_LOG(resourceManagerLogger, DEBUG) << "Adding File:" << files[i];	
+
+			addFile(directory + "\\" + files[i], getFileName(files[i]));				//go through files, adding them
+
+		}
+
+	}
+	else
+	{
+		BOOST_LOG(resourceManagerLogger, ERROR) << "Directory " << dir << " is either not a directory or nonexistant.";
+	}
+}
 
 
-	  }
-  }
+void ResourceManager::addFilesFromDirectory(const std::string& directory)
+{
+	
+	std::vector<std::string> files;													//the files to be added
+	boost::filesystem::path dir(directory);											//make a new path of the directory
 
-  for (int i = 0; i < files.size(); i++)
-  {
-	  std::cout << files[i] << std::endl;
-	  //BOOST_LOG(resourceManagerLogger, DEBUG) << files[i];
-  }
+	if (boost::filesystem::exists(dir) && boost::filesystem::is_directory(dir))		//if the directory is valid
+	{
+		for (boost::filesystem::directory_iterator it(dir);							//go throught the directory
+			it != boost::filesystem::directory_iterator(); ++it)
+		{
+
+			if (boost::filesystem::is_regular_file(it->status()))					
+			{
+				files.push_back(it->path().filename().string());					//if a file is a regular file, add it to files
+			}
+
+		}
+
+		for (int i = 0; i < files.size(); i++)
+		{
+
+			BOOST_LOG(resourceManagerLogger, DEBUG) << "Adding File:" << files[i];	
+
+			addFile(directory + "\\" + files[i], getFileName(files[i]));			//go through files, adding them
+
+		}
+
+	}
+	else
+	{
+		BOOST_LOG(resourceManagerLogger, ERROR) << "Directory " << dir << " is either not a directory or nonexistant.";
+	}
+
+
 }
 
 
@@ -50,36 +102,7 @@ void ResourceManager::addFilesFromDirectory(std::string directory)
 
 void ResourceManager::addFile(std::string fileName, std::string name)		//adds a generic file
 {
-
-
-
-	std::string reverseExt = "";											//will be a reversed file extension
-	std::string ext = "";													//will be the actual file extension
-
-	for (int i = fileName.size() - 1; i >= 0; i--)							/*cycles from the back of the file name
-																			and records the reversed file extension*/
-	{
-		if (fileName[i] == '.')												//goes to the dot
-		{
-			break;
-		}
-		else
-		{
-			reverseExt += fileName[i];										//otherwise, record the letter -- will be backwards when done in succession
-		}
-	}
-
-
-	for (int i = reverseExt.size() - 1; i >= 0; i--)						//reverses the file extension
-	{
-		ext += reverseExt[i];
-	}
-
-
-
-	//---------------------------------------------
-	//Now we interpret the file extension.
-	//----------------------------------------------
+	std::string ext = getExtension(fileName);								//get the extension
 
 	if (ext == "ttf")														//.ttf is a font
 	{
@@ -112,7 +135,7 @@ void ResourceManager::addFile(std::string fileName, std::string name)		//adds a 
 		addName(name, SoundBuf_Names);
 	}
 
-
+	std::cout << fileName << ", " << name << std::endl;
 }
 
 
@@ -187,13 +210,13 @@ void ResourceManager::addFonttoResourceGroup(std::string rsName, std::string fon
 }
 
 
-void ResourceManager::addSoundBuftoResourceGroup(std::string rsName, std::string sbName)					//adds a SoundBuf to a ResourceGroup by name
+void ResourceManager::addSoundBuftoResourceGroup(std::string rsName, std::string sbName)	//adds a SoundBuf to a ResourceGroup by name
 {
 	resourceGroups[ntoi(rsName, ResourceGroup_Names)].addSoundBuf(getSoundBufPointerByName(sbName));
 }
 
 
-ResourceGroup* ResourceManager::getResourceGroupByName(std::string fname)					//retrives a resourceGroup by name
+ResourceGroup* ResourceManager::getResourceGroupByName(std::string fname)				//retrives a resourceGroup by name
 {
 
 	return &resourceGroups[ntoi(fname, ResourceGroup_Names)];							//returns the resource set with the desired name
@@ -208,6 +231,63 @@ ResourceGroup* ResourceManager::getResourceGroupByName(std::string fname)					//
 //----------------------------------------------------------------------------------------------------------------------------***************************
 //-----------------------------------------PRIVATE----------------------------------------------------------------------------***************************
 //----------------------------------------------------------------------------------------------------------------------------***************************
+
+
+
+void ResourceManager::swapChars(char& a, char& b)			//swaps the values of two chars
+{
+	char c = a;
+	a = b;
+	b = c;
+}
+
+std::string ResourceManager::reverseString(std::string str)	//reverses a string
+{
+	unsigned int halfLength = str.size() / 2;
+	unsigned int siz = str.size() - 1;
+	for (int i = 0; i < halfLength; i++)
+	{
+		swapChars(str[i], str[siz - i]);					//essentially just swaps each pair of chars that are equidistant from the center
+	}
+
+	return str;
+}
+
+
+std::string ResourceManager::getExtension(const std::string& fpath)			//returns the extension of a file
+{
+	std::string reverseExt = "";											//will be a reversed file extension
+
+	for (int i = fpath.size() - 1; ((i >= 0) && (fpath[i] != '.')); i--)	/*cycles from the back of the file name and records the reversed 
+																			file extension (goes to the '.' or the beginning)*/
+	{
+		reverseExt += fpath[i];												//record the letter -- will be backwards when done in succession
+	}
+
+	return reverseString(reverseExt);										//simply reverse the string and return it
+}
+
+
+std::string ResourceManager::getFileName(const std::string& fpath)
+{
+	std::string revName = "";												//the reversed file name
+	bool record = false;													//whether to record the char or not
+
+	for (int i = fpath.size() - 1; ((i >= 0) && (fpath[i] != '\\')); i--)	//reads the path from the back, stops if it hits the beginning or a [\]
+	{
+		if (!record && fpath[i] == '.')										
+		{
+			record = true;													//once it's past the extension, it starts recording
+		}
+		else if (record)
+		{
+			revName += fpath[i];											//records the name, letter by letter in reverse.
+		}
+	}
+
+	return reverseString(revName);											//reverse the string and return it
+}
+
 
 
 void ResourceManager::addTexture(std::string fileName)									//private function; adds a Texture to the TextureVector

@@ -22,7 +22,9 @@ public:
 	ResourceManager();														//Constructor
 
 
-	void addFilesFromDirectory(std::string directory);
+	void addFilesFromTree(const std::string& directory);
+
+	void addFilesFromDirectory(const std::string& directory);
 
 	void addFile(std::string fileName, std::string name);					//Adds a generic file
 
@@ -42,14 +44,17 @@ public:
 	void addFonttoResourceGroup(std::string rsName, std::string fontName);		//adds a Font to a ResourceGroup
 	void addSoundBuftoResourceGroup(std::string rsName, std::string sbName);
 	
-	ResourceGroup* getResourceGroupByName(std::string fname); 
+	ResourceGroup* getResourceGroupByName(std::string fname);
 	
 
 
 private:
 
+	void swapChars(char& a, char& b);
+	std::string reverseString(std::string str);
 
-
+	std::string getExtension(const std::string& fpath);
+	std::string getFileName(const std::string& fpath);
 
 	void addTexture(std::string fileName);									//adds a Texture
 	void addFont(std::string fileName);										//adds a Font

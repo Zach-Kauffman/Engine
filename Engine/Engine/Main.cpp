@@ -1,11 +1,8 @@
-<<<<<<< HEAD
-#include "Logger.h"
-#include "INIReader.h"
-#include "ResourceManager/ResourceManager.h"
-=======
+
 #include "Logger.hpp"
 #include "INIReader.hpp"
->>>>>>> 0c29a83bf8b532bf0810145e00def402b1020b19
+#include "ResourceManager/ResourceManager.hpp"
+
 
 
 void logging_function()
@@ -71,11 +68,11 @@ int main(int, char*[])
 
 	std::string directoryToResources = "C:\\Users\\Riley\\Documents\\Visual Studio 2013\\Projects\\Engine\\Engine\\Engine\\Resources\\";
 	ResourceManager testRM;
-	testRM.addFilesFromDirectory(directoryToResources + "TestPngs");
+	testRM.addFilesFromTree(directoryToResources + "TestPngs");
 
 
 
 	BOOST_LOG_SEV(slg, DEBUG) << "Exiting soon";
-	while (true){}
+	//while (true){}
 	return 0;
 }
