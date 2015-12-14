@@ -1,5 +1,5 @@
 #include "Logger.hpp"
-#include "INIReader.hpp"
+#include "INIParser.hpp"
 
 
 void logging_function()
@@ -8,21 +8,23 @@ void logging_function()
 	//BOOST_LOG_SCOPED_THREAD_ATTR("Timeline", attrs::timer()));							<<--- adds timer to logs in all nested scopes
 	//severity_logger.add_attribute("Tag", attrs::constant<std::string>("<yourstring>"));	<<--- adds tag attribute in brackets ex. [<yourstring>]
 
-	INIReader reader("config.ini");
-	
+	INIParser reader("config.ini");
+
 	int one = 5, two = 1, three = 3;
 	std::map<std::string, int*> variables;
 	variables["Beans.Ehhh"] = &one;
 	variables["Beans.Meh"] = &two;
 	variables["Beans.Heh"] = &three;
-
 	
-	
+	reader.writeValue<int>("Eugene.cookies", 7);	//Adds header called "eugene" with an attribute called "cookies" which has a value of 7
+	reader.writeMap<int>(variables);
 	reader.readWriteMap<int>(variables);
 	auto slg = logger::getSLogger();
 	slg.add_attribute("Scope", attrs::named_scope());
-	BOOST_LOG_SEV(slg, DEBUG) << "This is the first value as a string. " << reader.readValue<std::string>("Beans.Smoky");
+	//BOOST_LOG_SEV(slg, DEBUG) << "This is the first value as a string. " << reader.readValue<std::string>("Beans.Smoky");
 	BOOST_LOG_SEV(slg, ERROR) << "Array values as int. " << one << " + " << two;
+
+	BOOST_LOG_SEV(slg, ERROR) << "Eugene's cookies: " << reader.readValue<std::string>("Eugene.cookies");
 
 	BOOST_LOG_SCOPED_THREAD_ATTR("Timeline", attrs::timer());
 

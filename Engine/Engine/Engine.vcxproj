@@ -11,12 +11,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="INIReader.cpp" />
+    <ClCompile Include="INIParser.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="INIReader.hpp" />
+    <ClInclude Include="INIParser.hpp" />
     <ClInclude Include="Logger.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
