@@ -61,8 +61,7 @@ public:
 
 		for (it i = values.begin(); i != values.end(); i++)
 		{
-			tree.put(i->first, values[i->first]);
-			write_ini("config.ini", tree);
+			writeValue(i->first, *values[i->first]);
 		}
 	}
 
