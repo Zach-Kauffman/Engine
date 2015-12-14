@@ -10,7 +10,7 @@ void logging_function()
 
 	INIParser reader("config.ini");
 
-	int one = 5, two = 1, three = 3;
+	int one, two = 1, three = 3;
 	std::map<std::string, int*> variables;
 	variables["Beans.Ehhh"] = &one;
 	variables["Beans.Meh"] = &two;
@@ -35,25 +35,7 @@ void logging_function()
 	BOOST_LOG_SEV(slg, INFO) << "Here goes the tagged record";
 }
 
-// The operator puts a human-friendly representation of the severity level to the stream
-std::ostream& operator<< (std::ostream& strm, severity_level level)
-{
-	static const char* strings[] =
-	{
-		"debug",
-		"info",
-		"warning",
-		"error",
-		"fatal"
-	};
 
-	if (static_cast< std::size_t >(level) < sizeof(strings) / sizeof(*strings))
-		strm << strings[level];
-	else
-		strm << static_cast< int >(level);
-
-	return strm;
-}
 
 int main(int, char*[])
 {
