@@ -6,12 +6,12 @@
 #include <string.h>
 #include <vector>
 
-class INIReader
+class INIParser
 {
 public:
-	INIReader();
-	~INIReader();
-	INIReader(const std::string& INIPath);
+	INIParser();
+	~INIParser();
+	INIParser(const std::string& INIPath);
 
 	void init();
 	void setFilePath(const std::string& INIPath);
@@ -30,16 +30,18 @@ public:
 		{
 			BOOST_LOG_SEV(logger, INFO) << "Value \"" << key << "\" not loaded from INI file " << filePath;
 
-			return NULL;	//return NULL value
+			return NULL; //returns null if string cannot be read
 		}
 	}
 
 	template<class T>
-	void writeValue(const std::string& header, const std::string& section, const std::string& value) //writes value to ini file
+	void writeValue(const std::string& header, T value) //writes value to ini file
 	{
-		tree.put(header + "." + section, value);
+		tree.put(header, value);
 		write_ini("config.ini", tree);
 	}
+
+	
 
 	template<class T>
 	std::vector<T> readVector(const std::vector<std::string> &keyNames)	//reads vector of strings and returns vector of matching values as loaded from ini value
@@ -50,6 +52,18 @@ public:
 			toReturn.push_back(readValue<T>(keyNames[i])); //get and push back value
 		}
 		return toReturn;
+	}
+
+	template<class T>
+	void writeMap(std::map <std::string, T*>& values)
+	{
+		typedef std::map<std::string, T*>::iterator it;
+
+		for (it i = values.begin(); i != values.end(); i++)
+		{
+			tree.put(i->first, values[i->first]);
+			write_ini("config.ini", tree);
+		}
 	}
 
 	template<class T>

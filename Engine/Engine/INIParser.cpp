@@ -1,24 +1,24 @@
-#include "INIHandler.hpp"
+#include "INIParser.hpp"
 
 
-INIReader::INIReader(){ init(); }			//default constructor
+INIParser::INIParser(){ init(); }			//default constructor
 
-INIReader::~INIReader(){}					//default destructor
+INIParser::~INIParser(){}					//default destructor
 
-INIReader::INIReader(const std::string& INIPath)	//overloaded constructor with filepath
+INIParser::INIParser(const std::string& INIPath)	//overloaded constructor with filepath
 {
 	setFilePath(INIPath);
 	init();
 }
 
-void INIReader::init()
+void INIParser::init()
 {
 	setFilePath("");
 	logger = logger::getSLogger();
 	BOOST_LOG_SEV(logger, INFO) << "INIHandler Initialization Completed";
 }
 
-void INIReader::setFilePath(const std::string& INIPath)
+void INIParser::setFilePath(const std::string& INIPath)
 {
 	if (INIPath != "")	//if there is no string input, only reload the file
 	{

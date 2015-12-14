@@ -21,7 +21,7 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="INIHandler.cpp">
+    <ClCompile Include="INIParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -29,7 +29,7 @@
     <ClInclude Include="Logger.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="INIHandler.hpp">
+    <ClInclude Include="INIParser.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
