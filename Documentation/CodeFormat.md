@@ -9,20 +9,20 @@
 
 ## Example Of Good Code Formatting
 
-```
-class AnimalHabitat
-{
-	public:
-		AnimalHabitat();
-		~AnimalHabitat();
-		void eat();
-		int getFoodLevel();
-		void setFoodLevel(const int& newLevel)
 
-	protected:
-		int foodLevel;
-		
-};
+	class AnimalHabitat
+	{
+		public:
+			AnimalHabitat();
+			~AnimalHabitat();
+			void eat();
+			int getFoodLevel();
+			void setFoodLevel(const int& newLevel)
+
+		protected:
+			int foodLevel;
+			
+	};
 
 # Coding Practice
 
@@ -43,5 +43,8 @@ class AnimalHabitat
 
 #Commenting
 
-1. Put comments
+1. Put comments!
 2. Comments should be given after every non-standard function definition in header. (Standard functions include default constructors and set/get member variables)
+3. In general, for loops should be commented on their first line indicating what is being iterated and why
+4. Go back and comment your code if you think you missed something
+5. Concise is the name of the game
