@@ -55,11 +55,11 @@ public:
 	}
 
 	template<class T>
-	void writeMap(std::map <std::string, T*>& values)
+	void writeMap(std::map <std::string, T*>& values)	//writes all keys and their corresponding values from a map
 	{
 		typedef std::map<std::string, T*>::iterator it;
 
-		for (it i = values.begin(); i != values.end(); i++)
+		for (it i = values.begin(); i != values.end(); i++)	//iterates through map and calls writeValue() function for every key
 		{
 			writeValue(i->first, *values[i->first]);
 		}

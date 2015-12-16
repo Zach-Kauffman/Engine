@@ -17,7 +17,7 @@ void logging_function()
 	variables["Beans.Heh"] = &three;
 	
 	reader.writeValue<int>("Eugene.cookies", 7);	//Adds header called "eugene" with an attribute called "cookies" which has a value of 7
-	reader.writeMap<int>(variables);
+	reader.writeMap<int>(variables);				//writeMap() test
 	reader.readWriteMap<int>(variables);
 	auto slg = logger::getSLogger();
 	slg.add_attribute("Scope", attrs::named_scope());

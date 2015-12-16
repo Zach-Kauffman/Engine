@@ -15,7 +15,7 @@ void INIParser::init()
 {
 	setFilePath("");
 	logger = logger::getSLogger();
-	BOOST_LOG_SEV(logger, INFO) << "INIHandler Initialization Completed";
+	BOOST_LOG_SEV(logger, INFO) << "INIParser Initialization Completed";
 }
 
 void INIParser::setFilePath(const std::string& INIPath)
@@ -23,7 +23,7 @@ void INIParser::setFilePath(const std::string& INIPath)
 	if (INIPath != "")	//if there is no string input, only reload the file
 	{
 		filePath = INIPath;
-		BOOST_LOG_SEV(logger, DEBUG) << "INIHandler path set to " << filePath;
+		BOOST_LOG_SEV(logger, DEBUG) << "INIParser path set to " << filePath;
 	}
 	
 	try	//attempt to load from file
