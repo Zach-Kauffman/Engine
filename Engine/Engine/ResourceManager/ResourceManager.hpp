@@ -9,6 +9,7 @@
 class ResourceManager : public NameSearchable								/*This class will basically hold all textures, fonts, and soundBufs.*/
 {																			/*Part of this is unimpressive -- IT DOES NOT CURRENTLY
 																			load all files from a directory.*/
+	//typedef const std::string& crstring;
 
 /*---------------------------------------------------------------------------------------------------------
 
@@ -23,28 +24,40 @@ public:
 
 
 	void addFilesFromTree(const std::string& directory);
+	void addFilesFromTreeWithExt(const std::string& directory, const std::string& ext);
 
 	void addFilesFromDirectory(const std::string& directory);
+	void addFilesFromDirectoryWithExt(const std::string& directory, const std::string& ext);
 
-	void addFile(std::string fileName, std::string name);					//Adds a generic file
+	void addFilesResourceGroupFromDirectory(const std::string& directory);
+	void addFilesResourceGroupFromDirectory(const std::string& directory, const std::string& RGName);
 
-
-
-	sf::Texture* getTexturePointerByName(std::string name);					//retrieves a pointer to a texture
-	sf::Font* getFontPointerByName(std::string name);						//Retrieves a pointer to a font
-	sf::SoundBuffer* getSoundBufPointerByName(std::string name);
+	void addFile(const std::string& fileName, const std::string& name);					//Adds a generic file
 
 
 
-	void addEmptyResourceGroup(std::string name);								//sets a new empty resourceGroup to ResourceGroup
-	void addResourceGroup(ResourceGroup fResourceGroup, std::string name);		//sets a currently filled resourceGroup to ResourceGroup
+	sf::Texture* getTexturePointerByName(const std::string& name);					//retrieves a pointer to a texture
+	sf::Font* getFontPointerByName( const std::string& name);						//Retrieves a pointer to a font
+	sf::SoundBuffer* getSoundBufPointerByName(const std::string& name);
 
 
-	void addTexturetoResourceGroup(std::string rsName, std::string texName);	//adds a Texture to a ResourceGroup
-	void addFonttoResourceGroup(std::string rsName, std::string fontName);		//adds a Font to a ResourceGroup
-	void addSoundBuftoResourceGroup(std::string rsName, std::string sbName);
+
+	void addEmptyResourceGroup(const std::string& name);								//sets a new empty resourceGroup to ResourceGroup
+	void addResourceGroup(ResourceGroup fResourceGroup, const std::string& name);		//sets a currently filled resourceGroup to ResourceGroup
+
+	void addResourcetoResourceGroup(const std::string& rsName, const std::string& fileName, const std::string& ext);
+	void addResourcetoResourceGroup(const std::string& rsName, const std::string& fileName, std::string ext, const std::string& desName);
+
+	void addTexturetoResourceGroup(const std::string& rsName, const std::string& texName);
+	void addTexturetoResourceGroup(const std::string& rsName, const std::string& texName, const std::string& desName);
+
+	void addFonttoResourceGroup(const std::string& rsName, const std::string& fontName);
+	void addFonttoResourceGroup(const std::string& rsName, const std::string& fontName, const std::string& desName);	
+
+	void addSoundBuftoResourceGroup(const std::string& rsName, const std::string& sbName);
+	void addSoundBuftoResourceGroup(const std::string& rsName, const std::string& sbName, const std::string& desName);
 	
-	ResourceGroup* getResourceGroupByName(std::string fname);
+	ResourceGroup* getResourceGroupByName(const std::string& fname);
 	
 
 
@@ -55,10 +68,17 @@ private:
 
 	std::string getExtension(const std::string& fpath);
 	std::string getFileName(const std::string& fpath);
+	std::string getDirectoryName(const std::string& fpath);
 
-	void addTexture(std::string fileName);									//adds a Texture
-	void addFont(std::string fileName);										//adds a Font
-	void addSoundBuf(std::string fileName);									//adds a SoundBuf
+
+	void fillFileNameVectorFromTree(const std::string& directory, std::vector<const std::string>& namevec);
+	void fillFileNameVectorFromDirectory(const std::string& directory, std::vector<const std::string>& namevec);
+	
+
+
+	void addTexture(const std::string& fileName);									//adds a Texture
+	void addFont(const std::string& fileName);										//adds a Font
+	void addSoundBuf(const std::string& fileName);									//adds a SoundBuf
 
 
 

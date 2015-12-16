@@ -66,9 +66,9 @@ int main(int, char*[])
 	
 
 
-	std::string directoryToResources = "C:\\Users\\Riley\\Documents\\Visual Studio 2013\\Projects\\Engine\\Engine\\Engine\\Resources\\";
+	std::string directoryToResources = boost::filesystem::current_path().string() + "\\Resources\\";
 	ResourceManager testRM;
-	testRM.addFilesFromTree(directoryToResources + "TestPngs");
+	testRM.addFilesResourceGroupFromDirectory(directoryToResources + "TestResources");
 
 
 
