@@ -10,29 +10,28 @@ void logging_function()
 
 	INIParser reader("config.ini");
 
-	int one, two = 1, three = 3;
+	int one =3, two = 1, three = 3;
+	reader.setSection("Beans");
 	std::map<std::string, int*> variables;
-	variables["Beans.Ehhh"] = &one;
-	variables["Beans.Meh"] = &two;
-	variables["Beans.Heh"] = &three;
-	
+	variables["Ehhh"] = &one;
+	variables["Meh"] = &two;
+	variables["Heh"] = &three;
+	std::string testing = "test";
+	reader.readValue<std::string>("string", testing);
+	reader.readMap<int>(variables);
+
+	reader.setSection("");
 	reader.writeValue<int>("Eugene.cookies", 7);	//Adds header called "eugene" with an attribute called "cookies" which has a value of 7
-	reader.writeMap<int>(variables);
-	reader.readWriteMap<int>(variables);
+
 	auto slg = logger::getSLogger();
 	slg.add_attribute("Scope", attrs::named_scope());
+	int cookies = 1;
+	reader.readValue<int>("Eugene.cookies", cookies);
 	//BOOST_LOG_SEV(slg, DEBUG) << "This is the first value as a string. " << reader.readValue<std::string>("Beans.Smoky");
 	BOOST_LOG_SEV(slg, ERROR) << "Array values as int. " << one << " + " << two;
+	BOOST_LOG_SEV(slg, INFO) << "This is a string: " << testing;
+	BOOST_LOG_SEV(slg, ERROR) << "Eugene's cookies: " << cookies;
 
-	BOOST_LOG_SEV(slg, ERROR) << "Eugene's cookies: " << reader.readValue<std::string>("Eugene.cookies");
-
-	BOOST_LOG_SCOPED_THREAD_ATTR("Timeline", attrs::timer());
-
-	BOOST_LOG_SEV(slg, INFO) << "Starting to time nested functions";
-
-	BOOST_LOG_SEV(slg, INFO) << "Stopping to time nested functions";
-
-	BOOST_LOG_SEV(slg, INFO) << "Here goes the tagged record";
 }
 
 

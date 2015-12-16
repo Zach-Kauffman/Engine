@@ -22,9 +22,9 @@ public:
 	{
 		for (int i = 0; i < vec.size(); i++)
 		{
-			if (toCopy)
+			if (toCopy[i])
 			{
-				value = toCopy;
+				vec[i] = toCopy[i];
 			};
 		}
 	}
@@ -39,20 +39,18 @@ public:
 	}
 
 	template<class T>
-	T readValue(const std::string& key)	//takes a string and return its value loaded from INI
+	void readValue(const std::string& key, T& var)	//takes a string and return its value loaded from INI
 	{
 		//tree.get would throw ptree_bad_path (ptree_error) on nonexistent value
 		boost::optional<T> op = tree.get_optional<T>(assemblePath(key)); //returns uninitialized boost::optional object if value != exist
 
 		if (op)
 		{
-			return *op;
+			var = *op;
 		}
 		else
 		{
 			BOOST_LOG_SEV(logger, INFO) << "Value not loaded from INI file \"" << filePath << "\": Section=\"" << sectionName << "\" Key=\"" << key << "\"";
-
-			return NULL; //returns null if string cannot be read
 		}
 	}
 
@@ -69,7 +67,7 @@ public:
 		std::vector<T> toReturn;
 		for (int i = 0; i < keyNames.size(); i++)
 		{
-			toReturn.push_back(readValue<T>(keyNames[i])); //get and push back value --- (NOT ASSEMBLING PATH HERE BECAUSE IT IS DONE IN readValue()
+			toReturn.push_back(readValue<T>(keyNames[i])); //get and push back value --- (NOT ASSEMBLING PATH HERE BECAUSE IT IS DONE IN readValue())
 		}
 		nullCopyVector(toReturn, endVector);
 	}
@@ -91,16 +89,12 @@ public:
 		typedef std::map<std::string, T*>::iterator it;		//construct iterator for map object
 		for (it i= valMap.begin(); i != valMap.end(); i++)	//iterate through map
 		{
-			T val = readValue<T>(i->first);		//read value and place it in the map
-			if (val)							
-			{
-				*valMap[i->first] = val;		//set value only if something was actually read
-			}
+			readValue<T>(i->first, *valMap[i->first]);		//read value and place it in the map --- (NOT ASSEMBLING PATH HERE BECAUSE IT IS DONE IN readValue())
 		}
 	}
 
 private:
-	std::string assemblePath(const std::string& key);	//concatenates section and key values
+	std::string assemblePath(const std::string& key);	//if section exists concatenate it with the key value
 
 	boost::property_tree::ptree tree;				//boost class that handles ini parsing
 	std::string filePath;							//file to read from
