@@ -1,5 +1,4 @@
-#include "NameSearchable.h"
-
+#include "NameSearchable.hpp"
 
 //----------------------------------------------------------------------------------------------------------------------------***************************
 //-----------------------------------------PUBLIC-----------------------------------------------------------------------------***************************
@@ -9,7 +8,6 @@ NameSearchable::NameSearchable()
 {
 
 }
-
 
 NameSearchable::~NameSearchable()
 {
@@ -21,72 +19,80 @@ NameSearchable::~NameSearchable()
 //-----------------------------------------PROTECTED--------------------------------------------------------------------------***************************
 //----------------------------------------------------------------------------------------------------------------------------***************************
 
-std::string NameSearchable::intToString(int finput)		//converts an int to a string using stringstreams
+std::string NameSearchable::intToString(int finput)		//converts an int to a string using boost
 {
-	return boost::lexical_cast<std::string>(finput);
+	return boost::lexical_cast<std::string>(finput);	//boost does these things, thank god
 }
 
 
-int NameSearchable::ntoi(std::string fname)				//accesses the nameMap to get the int associated with the name (assumes the amount of name maps is 1)
+
+int NameSearchable::ntoi(const std::string& name)	//accesses the nameMap to get the int associated with the name (assumes the amount of name maps is 1)
+													//(Name-to-Index)
 {
-	return ntoi(fname, 0);								//assumes the index is 0
+	return ntoi(name, 0);							//assumes the index is 0
+}
+
+int NameSearchable::ntoi(const std::string& name, const int& vecIndex)	//accesses the nameMap to get the int associated with the name
+{
+	return nameMapVector[vecIndex][name];								//returns the int associated with the name of
+																		//the "vecIndexth" vector (for instance, textures as oppesd to fonts)			
+
 }
 
 
-int NameSearchable::ntoi(std::string fname, int findex)	//accesses the nameMap to get the int associated with the name
-{
-	return nameMapVector[findex][fname];				//returns the int associated with the name of the "findexth" vector (for instance, textures as oppesd to fonts)			
 
-}
-
-void NameSearchable::setVectorSize(int fsize)			//resizes the vector of name maps -- typically used only once
+void NameSearchable::setVectorSize(const int& size)	//resizes the vector of name maps -- typically used only once
 {
-	nameMapVector.resize(fsize);						//resize it
+	nameMapVector.resize(size);						//resize it
 }
 
 
-void  NameSearchable::addName(int fintname, int fend)	//adds an int 'name' (used for general creation of things) and an index, assuming the vector index is 0 
+
+void  NameSearchable::addName(const int& intName, const int& mapIndex)	//adds an int 'name' (used for general creation of things) and an
+																		//index, assuming the vector index is 0 
 {
-	addName(fintname, 0, fend);							//assumes the vector index is 0
+	addName(intName, 0, mapIndex);										//assumes the vector index is 0
 }
 
-
-void  NameSearchable::addName(int fintname, int findex, int fend)		//adds an int 'name', a desired index, and a vector index
+void  NameSearchable::addName(const int& intName, const int& vecIndex, const int& mapIndex)	
+																		//adds an int 'name', a vector index, and a desired index
 {
-	std::string tmpString = "Unnamed" + intToString(fintname) + ".";	//make a name out of the int (23 -> "Unnamed23.") the '.' is to prevent multiple copies 
-																		//from having confusing names (e.g. add 2 then 2 again, you get "Unnamed2." and "Unnamed2.2"
-																		//rather than "Unnamed2" and "Unnamed22"
+	std::string tmpString = "Unnamed" + intToString(intName) + ".";		//make a name out of the int (23 -> "Unnamed23.") The '.' is to
+																		//prevent multiple copies from having confusing names 
+																		//(e.g. add 2 then 2 again, you get "Unnamed2." and "Unnamed2.2"
+																		//rather than "Unnamed2" and "Unnamed22")
 
-	addName(tmpString, findex, fend);									//then add the name using the string-ified int
+	addName(tmpString, vecIndex, mapIndex);								//then add the name using the string-ified int
 }
 
-
-void NameSearchable::addName(std::string fname, int fend)				//adds a name and a desired index to map to, assuming the vector index is 0 
+void NameSearchable::addName(const std::string& name, const int& mapIndex)	//adds a name and a desired index to map to, assuming the vector index is 0 
 {
-	addName(fname, 0, fend);											//assume the vector index is 0
+	addName(name, 0, mapIndex);												//assume the vector index is 0
 }
 
-
-void NameSearchable::addName(std::string fname, int findex, int fend)	//the BIG one -- adds a name, an index to correspond to, and a vector index
+void NameSearchable::addName(std::string name, const int& vecIndex, const int& mapIndex)	
+														//the BIG one -- adds a name, an index to correspond to, and a vector index
 {
 	bool sameName = true;								//true if there may be a duplicate already
 	bool firstDuplicate = true;							//true if the duplicate found was the first duplicate
 
 	while (sameName == true)							//go through, finding duplicates
 	{
-		if (nameMapVector[findex].count(fname) == 1)
+		if (nameMapVector[vecIndex].count(name) == 1)
 		{
 			if (firstDuplicate == true)
 			{
-				fname += "2";							/*if there exists a "RedTexture" already, and you try to add another one,
-														it will become "RedTexture2"		*/
+				name += "2";							//if there exists a "RedTexture" already, and you try to add another one,
+														//it will become "RedTexture2"
 				firstDuplicate = false;
 			}
 			else
 			{
-				fname[fname.size() - 1]++;				/*if there exists a "RedTexture" and a "RedTexture2" already, and you try to add another "RedTexture",
-														it will become "RedTexture3"		*/
+				name[name.size() - 1]++;				//if there exists a "RedTexture" and a "RedTexture2" already,
+														//and you try to add another "RedTexture",it will become "RedTexture3"		
+														
 			}
+
 		}
 		else
 		{
@@ -94,5 +100,5 @@ void NameSearchable::addName(std::string fname, int findex, int fend)	//the BIG 
 		}
 	}
 
-	nameMapVector[findex][fname] = fend;				//then add the altered (or not) name
+	nameMapVector[vecIndex][name] = mapIndex;			//then add the altered name
 }

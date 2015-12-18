@@ -1,5 +1,8 @@
-#include "Logger.h"
-#include "INIReader.h"
+
+#include "Logger.hpp"
+#include "INIReader.hpp"
+#include "ResourceManager/ResourceManager.hpp"
+
 
 
 void logging_function()
@@ -10,7 +13,7 @@ void logging_function()
 
 	INIReader reader("config.ini");
 	
-	int one, two, three;
+	int one = 5, two = 1, three = 3;
 	std::map<std::string, int*> variables;
 	variables["Beans.Ehhh"] = &one;
 	variables["Beans.Meh"] = &two;
@@ -60,6 +63,15 @@ int main(int, char*[])
 	logger::setSeverityLevel(DEBUG);
 	logging_function();
 	auto slg = logger::getSLogger();
+	
+
+
+	std::string directoryToResources = boost::filesystem::current_path().string() + "\\Resources\\";
+	ResourceManager testRM;
+	testRM.addFilesResourceGroupFromDirectory(directoryToResources + "TestResources");
+
+
+
 	BOOST_LOG_SEV(slg, DEBUG) << "Exiting soon";
 	//while (true){}
 	return 0;
