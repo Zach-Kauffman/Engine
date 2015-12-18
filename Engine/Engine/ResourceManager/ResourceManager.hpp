@@ -5,12 +5,10 @@
 #include "boost/filesystem/fstream.hpp" 
 
 
-
 class ResourceManager : public NameSearchable								//This class will basically hold all textures, fonts, and soundBufs.
 {																
 	//typedef const std::string& crstring;									//possible typedef to make code visually prettier -- turns "const std::string&"
 																			//into "crstring"
-
 public:
 
 	ResourceManager();														//Constructor
@@ -28,16 +26,13 @@ public:
 																										//from a directory
 
 
-
 	void addFilesResourceGroupFromDirectory(const std::string& directory);								//adds files from a directory and makes a resource
 																										//group out of them (name of RG is invented)
 
 	void addFilesResourceGroupFromDirectory(const std::string& directory, const std::string& RGName);	//adds files from a directory and makes a resource
 																										//group out of them (name of RG is specified)
 
-
 	void addFile(const std::string& fileName, const std::string& name);				//adds a generic file
-
 
 
 
@@ -46,7 +41,6 @@ public:
 	sf::Font* getFontPointerByName(const std::string& name);						//retrieves a pointer to a font
 
 	sf::SoundBuffer* getSoundBufferPointerByName(const std::string& name);			//retrieves a pointer to a soundBuffer
-
 
 
 
@@ -84,18 +78,20 @@ public:
 																							//adds a soundbuffer to a resourceGroup (specified name)
 	
 
-
 	ResourceGroup* getResourceGroupByName(const std::string& fname);						//returns a pointer to a resourceGroup
-	
 
 
 private:
 
 	void swapChars(char& a, char& b);						//swaps the values of two chars
+
 	std::string reverseString(std::string str);				//returns the reverse of the string entered
 
+
 	std::string getExtension(const std::string& fpath);		//returns the extension name ("REDTEXTURE.png" -> "png" [note not ".png"])
+
 	std::string getFileName(const std::string& fpath);		//returns the file name ("DIRECTORY\\REDTEXTURE.png" -> "REDTEXTURE")
+
 	std::string getDirectoryName(const std::string& fpath);	//returns the directory name ("DIRECTORY_1\\DIRECTORY_2" -> "DIRECTORY_2")
 
 
@@ -104,13 +100,13 @@ private:
 
 	void fillFileNameVectorFromDirectory(const std::string& directory, std::vector<const std::string>& namevec);
 															//fills a vector of strings with all files from a directory
-	
 
 
 	void addTexture(const std::string& fileName);			//adds a Texture
-	void addFont(const std::string& fileName);				//adds a Font
-	void addSoundBuffer(const std::string& fileName);		//adds a SoundBuffer
 
+	void addFont(const std::string& fileName);				//adds a Font
+
+	void addSoundBuffer(const std::string& fileName);		//adds a SoundBuffer
 
 
 
@@ -121,16 +117,13 @@ private:
 	std::vector<const sf::SoundBuffer> soundBufferVector;	//vector of soundBuffers
 
 
-
 	std::vector<ResourceGroup> resourceGroups;				//presets for graphical elements that may look the same
 
 
-	
 	const enum nameVectorIndeces {Texture_Names = 0, Font_Names = 1, SoundBuffer_Names = 2, ResourceGroup_Names = 3}; 
 															//enum for accessing vectors more intuitively
 
 	src::severity_logger<severity_level> resourceManagerLogger;
 															//logger for reporting errors, warnings, debug messages, etc.
-	
 };
 

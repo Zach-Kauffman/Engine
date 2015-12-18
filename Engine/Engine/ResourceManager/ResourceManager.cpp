@@ -1,6 +1,5 @@
 #include "ResourceManager.hpp"
 
-
 //----------------------------------------------------------------------------------------------------------------------------***************************
 //-----------------------------------------PUBLIC-----------------------------------------------------------------------------***************************
 //----------------------------------------------------------------------------------------------------------------------------***************************
@@ -13,17 +12,16 @@ ResourceManager::ResourceManager()						//Constructor
 	resourceManagerLogger = logger::getSLogger();		//setup the logger
 }
 
-
 ResourceManager::~ResourceManager()						//destructor
 {
 
 }
 
 
+
 void ResourceManager::addFilesFromTree(const std::string& directory)
 {
 	std::vector<const std::string> files;			//make a vector of files
-
 	fillFileNameVectorFromTree(directory, files);	//fill it
 
 	if (!files.size())
@@ -43,13 +41,13 @@ void ResourceManager::addFilesFromTree(const std::string& directory)
 
 }
 
-
 void ResourceManager::addFilesFromTreeWithExt(const std::string& directory, const std::string& ext)
 {
 
 	bool extensionFound = false;
 	std::vector<const std::string> files;
 	fillFileNameVectorFromTree(directory, files);
+
 	if (!files.size())
 	{
 		BOOST_LOG(resourceManagerLogger, WARNING) << "Tree " << directory << " did not produce any files.";
@@ -76,9 +74,6 @@ void ResourceManager::addFilesFromTreeWithExt(const std::string& directory, cons
 	}
 }
 
-
-
-
 void ResourceManager::addFilesFromDirectory(const std::string& directory)
 {
 	std::vector<const std::string> files;				//make a vector of filenames
@@ -99,12 +94,12 @@ void ResourceManager::addFilesFromDirectory(const std::string& directory)
 	}
 }
 
-
 void ResourceManager::addFilesFromDirectoryWithExt(const std::string& directory, const std::string& ext)
 {
 	bool extensionFound = false;
 	std::vector<const std::string> files;
 	fillFileNameVectorFromDirectory(directory, files);
+
 	if (!files.size())
 	{
 		BOOST_LOG(resourceManagerLogger, WARNING) << "Directory " << directory << " did not produce any files.";
@@ -131,7 +126,6 @@ void ResourceManager::addFilesFromDirectoryWithExt(const std::string& directory,
 	}
 }
 
-
 void ResourceManager::addFilesResourceGroupFromDirectory(const std::string& directory)
 {
 	std::vector<const std::string> files;
@@ -151,7 +145,6 @@ void ResourceManager::addFilesResourceGroupFromDirectory(const std::string& dire
 		}
 	}
 
-
 	std::string directoryName = getDirectoryName(directory);
 	addEmptyResourceGroup(directoryName);				//make an empty resourceGroup with the name of the directory
 
@@ -162,7 +155,6 @@ void ResourceManager::addFilesResourceGroupFromDirectory(const std::string& dire
 	}
 
 }
-
 
 void ResourceManager::addFilesResourceGroupFromDirectory(const std::string& directory, const std::string& RGName)
 {
@@ -205,9 +197,6 @@ void ResourceManager::addFile(const std::string& fileName, const std::string& na
 
 		addName(name, Font_Names, fontVector.size() - 1);			//add the name
 	}
-
-
-
 	else if (	ext == "png" || 
 				ext == "jpg" || 
 				ext == "jpeg" ||	
@@ -217,8 +206,6 @@ void ResourceManager::addFile(const std::string& fileName, const std::string& na
 
 		addName(name, Texture_Names, textureVector.size() - 1);		//add the name
 	}
-
-
 	else if (	ext == "wav" ||
 				ext == "aif" ||
 				ext == "mp3" ||
@@ -248,7 +235,6 @@ sf::Font* ResourceManager::getFontPointerByName(const std::string& name)
 
 }
 
-
 sf::SoundBuffer* ResourceManager::getSoundBufferPointerByName(const std::string& name)
 {
 
@@ -267,7 +253,6 @@ void ResourceManager::addEmptyResourceGroup(const std::string& name)		//adds an 
 	addName(name, ResourceGroup_Names, resourceGroups.size() - 1);			//add the name
 }
 
-
 void ResourceManager::addResourceGroup(ResourceGroup fResourceGroup, const std::string& name)		
 																			//adds an already created resourceGroup and name it
 {
@@ -277,6 +262,7 @@ void ResourceManager::addResourceGroup(ResourceGroup fResourceGroup, const std::
 	addName(name, ResourceGroup_Names, resourceGroups.size() - 1);			//add the name
 	
 }
+
 
 
 void ResourceManager::addResourcetoResourceGroup(const std::string& rsName, const std::string& fileName, const std::string& ext)
@@ -306,9 +292,6 @@ void ResourceManager::addResourcetoResourceGroup(const std::string& rsName, cons
 			addFonttoResourceGroup(rsName, fileName, desName);
 		}
 	}
-
-
-
 	else if (ext == "png" ||
 		ext == "jpg" ||
 		ext == "jpeg" ||
@@ -323,8 +306,6 @@ void ResourceManager::addResourcetoResourceGroup(const std::string& rsName, cons
 			addTexturetoResourceGroup(rsName, fileName, desName);
 		}
 	}
-
-
 	else if (ext == "wav" ||
 		ext == "aif" ||
 		ext == "mp3" ||
@@ -341,9 +322,7 @@ void ResourceManager::addResourcetoResourceGroup(const std::string& rsName, cons
 			addSoundBuffertoResourceGroup(rsName, fileName, desName);
 		}
 	}
-	resourceGroups;
 }
-
 
 void ResourceManager::addTexturetoResourceGroup(const std::string& rsName, const std::string& texName)	//adds a Texture to a ResourceGroup by name
 {
@@ -358,8 +337,6 @@ void ResourceManager::addTexturetoResourceGroup(const std::string& rsName, const
 																										//add the texture with the name
 }
 
-
-
 void ResourceManager::addFonttoResourceGroup(const std::string& rsName, const std::string& fontName)
 {
 	resourceGroups[ntoi(rsName, ResourceGroup_Names)].addFont(getFontPointerByName(fontName));
@@ -369,7 +346,6 @@ void ResourceManager::addFonttoResourceGroup(const std::string& rsName, const st
 {
 	resourceGroups[ntoi(rsName, ResourceGroup_Names)].addFont(getFontPointerByName(fontName), desName);
 }
-
 
 void ResourceManager::addSoundBuffertoResourceGroup(const std::string& rsName, const std::string& sbName)
 {
@@ -390,12 +366,9 @@ ResourceGroup* ResourceManager::getResourceGroupByName(const std::string& name)
 	
 }
 
-
 //----------------------------------------------------------------------------------------------------------------------------***************************
 //-----------------------------------------PRIVATE----------------------------------------------------------------------------***************************
 //----------------------------------------------------------------------------------------------------------------------------***************************
-
-
 
 void ResourceManager::swapChars(char& a, char& b)				//swaps the values of two chars
 {
@@ -403,7 +376,6 @@ void ResourceManager::swapChars(char& a, char& b)				//swaps the values of two c
 	a = b;
 	b = c;
 }
-
 
 std::string ResourceManager::reverseString(std::string str)		//reverses a string
 {
@@ -419,8 +391,6 @@ std::string ResourceManager::reverseString(std::string str)		//reverses a string
 
 
 
-
-
 std::string ResourceManager::getExtension(const std::string& fpath)			//returns the extension of a file
 {
 	std::string reverseExt = "";											//will be a reversed file extension
@@ -433,8 +403,6 @@ std::string ResourceManager::getExtension(const std::string& fpath)			//returns 
 
 	return reverseString(reverseExt);										//simply reverse the string and return it
 }
-
-
 
 std::string ResourceManager::getFileName(const std::string& fpath)
 {
@@ -456,8 +424,6 @@ std::string ResourceManager::getFileName(const std::string& fpath)
 	return reverseString(revName);											//reverse the string and return it
 }
 
-
-
 std::string ResourceManager::getDirectoryName(const std::string& fpath)		//kind of same as getFileName -- just assumes no extension
 {
 	std::string revName = "";
@@ -469,7 +435,6 @@ std::string ResourceManager::getDirectoryName(const std::string& fpath)		//kind 
 
 	return reverseString(revName);
 }
-
 
 
 
@@ -503,7 +468,6 @@ void ResourceManager::fillFileNameVectorFromTree(const std::string& directory, s
 	}
 }
 
-
 void ResourceManager::fillFileNameVectorFromDirectory(const std::string& directory, std::vector<const std::string>& namevec)
 {
 
@@ -531,6 +495,7 @@ void ResourceManager::fillFileNameVectorFromDirectory(const std::string& directo
 }
 
 
+
 void ResourceManager::addTexture(const std::string& fileName)
 {
 	sf::Texture texture;										//make a temporary texture
@@ -545,7 +510,6 @@ void ResourceManager::addTexture(const std::string& fileName)
 
 }
 
-
 void ResourceManager::addFont(const std::string& fileName)
 {
 	sf::Font font;
@@ -559,7 +523,6 @@ void ResourceManager::addFont(const std::string& fileName)
 	fontVector.push_back(font);
 }
 
-
 void ResourceManager::addSoundBuffer(const std::string& fileName)
 {
 
@@ -572,5 +535,3 @@ void ResourceManager::addSoundBuffer(const std::string& fileName)
 	soundBufferVector.push_back(buffer);
 
 }
-
-

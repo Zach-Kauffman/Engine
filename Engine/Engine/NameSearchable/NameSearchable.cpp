@@ -1,24 +1,13 @@
 #include "NameSearchable.hpp"
 
-
 //----------------------------------------------------------------------------------------------------------------------------***************************
 //-----------------------------------------PUBLIC-----------------------------------------------------------------------------***************************
 //----------------------------------------------------------------------------------------------------------------------------***************************
-
-
-
-
-
 
 NameSearchable::NameSearchable()
 {
 
 }
-
-
-
-
-
 
 NameSearchable::~NameSearchable()
 {
@@ -27,18 +16,8 @@ NameSearchable::~NameSearchable()
 
 
 //----------------------------------------------------------------------------------------------------------------------------***************************
-
-
-
-
-
-//----------------------------------------------------------------------------------------------------------------------------***************************
 //-----------------------------------------PROTECTED--------------------------------------------------------------------------***************************
 //----------------------------------------------------------------------------------------------------------------------------***************************
-
-
-
-
 
 std::string NameSearchable::intToString(int finput)		//converts an int to a string using boost
 {
@@ -47,21 +26,11 @@ std::string NameSearchable::intToString(int finput)		//converts an int to a stri
 
 
 
-
-//----------------------------------------------------------------------------------------------------------------------------***************************
-
-
-
-
 int NameSearchable::ntoi(const std::string& name)	//accesses the nameMap to get the int associated with the name (assumes the amount of name maps is 1)
 													//(Name-to-Index)
 {
 	return ntoi(name, 0);							//assumes the index is 0
 }
-
-
-
-
 
 int NameSearchable::ntoi(const std::string& name, const int& vecIndex)	//accesses the nameMap to get the int associated with the name
 {
@@ -72,12 +41,6 @@ int NameSearchable::ntoi(const std::string& name, const int& vecIndex)	//accesse
 
 
 
-
-//----------------------------------------------------------------------------------------------------------------------------***************************
-
-
-
-
 void NameSearchable::setVectorSize(const int& size)	//resizes the vector of name maps -- typically used only once
 {
 	nameMapVector.resize(size);						//resize it
@@ -85,22 +48,11 @@ void NameSearchable::setVectorSize(const int& size)	//resizes the vector of name
 
 
 
-
-//----------------------------------------------------------------------------------------------------------------------------***************************
-
-
-//--1
-
 void  NameSearchable::addName(const int& intName, const int& mapIndex)	//adds an int 'name' (used for general creation of things) and an
 																		//index, assuming the vector index is 0 
 {
 	addName(intName, 0, mapIndex);										//assumes the vector index is 0
 }
-
-
-
-
-//--2
 
 void  NameSearchable::addName(const int& intName, const int& vecIndex, const int& mapIndex)	
 																		//adds an int 'name', a vector index, and a desired index
@@ -113,20 +65,10 @@ void  NameSearchable::addName(const int& intName, const int& vecIndex, const int
 	addName(tmpString, vecIndex, mapIndex);								//then add the name using the string-ified int
 }
 
-
-
-
-//--3
-
 void NameSearchable::addName(const std::string& name, const int& mapIndex)	//adds a name and a desired index to map to, assuming the vector index is 0 
 {
 	addName(name, 0, mapIndex);												//assume the vector index is 0
 }
-
-
-
-
-//--4
 
 void NameSearchable::addName(std::string name, const int& vecIndex, const int& mapIndex)	
 														//the BIG one -- adds a name, an index to correspond to, and a vector index

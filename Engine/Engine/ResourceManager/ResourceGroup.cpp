@@ -5,13 +5,10 @@
 //----------------------------------------------------------------------------------------------------------------------------***************************
 
 
-
-
 ResourceGroup::ResourceGroup()	
 {
 	setVectorSize(3);		//set name map number to 3; texture, fint, soundbuffer
 }
-
 
 ResourceGroup::~ResourceGroup()
 {
@@ -37,8 +34,6 @@ void ResourceGroup::addTexture(sf::Texture * const & ftexture, const std::string
 
 }
 
-
-
 void ResourceGroup::addFont(sf::Font * const & ffont)	
 {
 
@@ -55,8 +50,6 @@ void ResourceGroup::addFont(sf::Font * const & ffont, const std::string& fname)
 
 
 }
-
-
 
 void ResourceGroup::addSoundBuffer(sf::SoundBuffer * const & fsoundbuf)
 {
@@ -92,8 +85,6 @@ const sf::Texture* ResourceGroup::getTexturePointer(const std::string& name)
 
 }
 
-
-
 const sf::Font* ResourceGroup::getFontPointer(const int& index)
 {
 
@@ -106,8 +97,6 @@ const sf::Font* ResourceGroup::getFontPointer(const std::string& name)
 	return fontVector[ntoi(name, Texture_Vector)];
 
 }
-
-
 
 const sf::SoundBuffer* ResourceGroup::getSoundBufferPointer(const int& index)
 {

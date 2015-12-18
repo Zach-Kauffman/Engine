@@ -3,17 +3,8 @@
 #include <SFML/Audio.hpp>
 #include "../Namesearchable/NameSearchable.hpp"
 
-
-
 class ResourceGroup : public NameSearchable								//essentially just a group of Textures, Fonts, and soundBuffers
 {
-
-/*---------------------------------------------------------------------------------------------------------
-
-NOTES: SoundBuffer doesnt work yet, lots of other commented functions will probably not be used
-
-----------------------------------------------------------------------------------------------------------*/
-
 
 public:
 
@@ -44,9 +35,6 @@ public:
 	std::vector<const sf::SoundBuffer*> getSoundBufferVector();					//returns the entire SoundBufVector
 
 
-
-
-
 	const sf::Texture* getTexturePointer(const int& index);							//returns an element of textureVector
 
 	const sf::Texture* getTexturePointer(const std::string& name);					//returns an element of textureVector
@@ -65,13 +53,11 @@ public:
 
 private:
 
-
 	std::vector<const sf::Texture*> textureVector;							//vector of Textures
 
 	std::vector<const sf::Font*> fontVector;									//vector of Fonts
 
 	std::vector<const sf::SoundBuffer*> soundBufferVector;						//vector of SoundBuffers
-
 
 
 	const enum VectorNames { Texture_Vector = 0, Font_Vector = 1, SoundBuffer_Vector = 2 };
