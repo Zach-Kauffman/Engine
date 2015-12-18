@@ -1,11 +1,11 @@
 # What is the purpose of INIParser?
 
 INIParser handles the reading and writing .ini files. It can handle any data type or _maps_, as well as vectors of any given data type. 
-.ini files allow us to transfer data (variables) from from file to file without using excessive #include statements.
+The nice thing about .ini files is that they allow us to transfer data (variables) from from file to file without using excessive #include statements.
 
 # How do I use INIParser?
 
-### 1. MAKE SURE THAT INIParser::hpp IS INCLUDED!
+### 1. MAKE SURE THAT INIParser.hpp IS INCLUDED!
 
 ### 2. Declare a new INIParser class with the file path to your file (optional)
 
@@ -66,7 +66,7 @@ You can also define a map and pass writeMap() your map and nothing else, as show
 	
 **RESULT**:
 
-	A map has been written to a .ini file.
+	myCookies has been written to a .ini file and may be read using readMap()
 
 ###	 If you would like to **READ** a vector:
 
@@ -78,4 +78,4 @@ Set your vector equal to INIParser::readVector(const std::vector< std::string > 
 	
 **RESULT**:
 
-	CookieJar now contains all Cookies listed in listOfCookies.
+	CookieJar now contains all Cookies listed in listOfCookies
