@@ -7,44 +7,39 @@
 
 
 
-ResourceGroup::ResourceGroup()												//Constructor is empty	
+ResourceGroup::ResourceGroup()	
 {
-	setVectorSize(3);
+	setVectorSize(3);		//set name map number to 3; texture, fint, soundbuffer
 }
 
 
-
-//----------------------------------------------------------------------------------------------------------------------------***************************
-
-
-
-
-
-void ResourceGroup::addTexture(sf::Texture* ftexture)						//add a pointer to a texture to textureVector
+ResourceGroup::~ResourceGroup()
 {
-
-	textureVector.push_back(ftexture);
-	addName(textureVector.size() - 1, Texture_Vector, textureVector.size() - 1);
 
 }
 
 
 
-
-
-void ResourceGroup::addTexture(sf::Texture* ftexture, std::string fname)						//add a pointer to a texture to textureVector
+void ResourceGroup::addTexture(sf::Texture * const & ftexture)
 {
 
-	textureVector.push_back(ftexture);
-	addName(fname, Texture_Vector, textureVector.size() - 1);
+	textureVector.push_back(ftexture);												//add texture
+
+	addName(textureVector.size() - 1, Texture_Vector, textureVector.size() - 1);	//add "int name"
+
+}
+
+void ResourceGroup::addTexture(sf::Texture * const & ftexture, const std::string& fname)
+{
+
+	textureVector.push_back(ftexture);												//add texture
+	addName(fname, Texture_Vector, textureVector.size() - 1);						//add name
 
 }
 
 
 
-
-
-void ResourceGroup::addFont(sf::Font* ffont)								//add a pointer to a font to fontVector
+void ResourceGroup::addFont(sf::Font * const & ffont)	
 {
 
 	fontVector.push_back(ffont);
@@ -52,11 +47,7 @@ void ResourceGroup::addFont(sf::Font* ffont)								//add a pointer to a font to
 
 }
 
-
-
-
-
-void ResourceGroup::addFont(sf::Font* ffont, std::string fname)								//add a pointer to a font to fontVector
+void ResourceGroup::addFont(sf::Font * const & ffont, const std::string& fname)
 {
 
 	fontVector.push_back(ffont);
@@ -67,135 +58,68 @@ void ResourceGroup::addFont(sf::Font* ffont, std::string fname)								//add a p
 
 
 
-
-//----------------------------------------------------------------------------------------------------------------------------***************************
-
-
-
-void ResourceGroup::addSoundBuf(sf::SoundBuffer* fsoundbuf)						//add a pointer to a soundBuf to soundBufVector
+void ResourceGroup::addSoundBuffer(sf::SoundBuffer * const & fsoundbuf)
 {
 
-	soundBufVector.push_back(fsoundbuf);
-	addName(soundBufVector.size() - 1, SoundBuf_Vector, soundBufVector.size() - 1);
+	soundBufferVector.push_back(fsoundbuf);
+	addName(soundBufferVector.size() - 1, SoundBuffer_Vector, soundBufferVector.size() - 1);
+
+
+}
+
+void ResourceGroup::addSoundBuffer(sf::SoundBuffer * const & fsoundbuf, const std::string& fname)
+{
+
+	soundBufferVector.push_back(fsoundbuf);
+	addName(fname, SoundBuffer_Vector, soundBufferVector.size() - 1);
 
 
 }
 
 
 
-
-void ResourceGroup::addSoundBuf(sf::SoundBuffer* fsoundbuf, std::string fname)						//add a pointer to a soundBuf to soundBufVector
+const sf::Texture* ResourceGroup::getTexturePointer(const int& index)
 {
 
-	soundBufVector.push_back(fsoundbuf);
-	addName(fname, SoundBuf_Vector, soundBufVector.size() - 1);
-
+	return textureVector[index];						//returns the const texture pointer at spot index
 
 }
 
-//----------------------------------------------------------------------------------------------------------------------------***************************
-
-
-
-std::vector<sf::Texture*> ResourceGroup::getTextureVector()					//returns the entire textureVector; probably not going to use
+const sf::Texture* ResourceGroup::getTexturePointer(const std::string& name)
 {
 
-	return textureVector;
+	return textureVector[ntoi(name, Texture_Vector)];	//returns the const texture pointer by name
 
 }
 
 
 
-
-//----------------------------------------------------------------------------------------------------------------------------***************************
-
-
-
-
-std::vector<sf::Font*> ResourceGroup::getFontVector()						//returns the entire fontVector; probably not going to use
+const sf::Font* ResourceGroup::getFontPointer(const int& index)
 {
 
-	return fontVector;
+	return fontVector[index];
+
+}
+
+const sf::Font* ResourceGroup::getFontPointer(const std::string& name)
+{
+	return fontVector[ntoi(name, Texture_Vector)];
 
 }
 
 
 
-
-//----------------------------------------------------------------------------------------------------------------------------***************************
-
-
-
-std::vector<sf::SoundBuffer*> ResourceGroup::getSoundBufVector()			//returns the entire soundBufVector; probably not going to use
-
+const sf::SoundBuffer* ResourceGroup::getSoundBufferPointer(const int& index)
 {
 
-	return soundBufVector;
-
-}
-
-
-
-
-//----------------------------------------------------------------------------------------------------------------------------***************************
-
-
-
-
-sf::Texture* ResourceGroup::getTexturePointer(int findex)					//returns an element of textureVector -- a pointer to a texture
-{
-
-	return textureVector[findex];
-
-}
-
-
-
-
-
-sf::Texture* ResourceGroup::getTexturePointer(std::string fname)					//returns an element of textureVector -- a pointer to a texture
-{
-
-	return textureVector[ntoi(fname, Texture_Vector)];
-
-}
-
-
-sf::Font* ResourceGroup::getFontPointer(int findex)							//returns an element of fontVector -- a pointer to a font
-{
-
-	return fontVector[findex];
-
-}
-
-
-sf::Font* ResourceGroup::getFontPointer(std::string fname)							//returns an element of fontVector -- a pointer to a font
-{
-
-	return fontVector[ntoi(fname, Texture_Vector)];
-
-}
-
-
-
-//----------------------------------------------------------------------------------------------------------------------------***************************
-
-
-sf::SoundBuffer* ResourceGroup::getSoundBufPointer(int findex)							//returns an element of soundbufvector -- a pointer to a soundbuffer
-{
-
-	return soundBufVector[findex];
+	return soundBufferVector[index];
 
 
 }
 
-
-
-sf::SoundBuffer* ResourceGroup::getSoundBufPointer(std::string fname)							//returns an element of soundbufvector -- a pointer to a soundbuffer
+const sf::SoundBuffer* ResourceGroup::getSoundBufferPointer(const std::string& name)							//returns an element of soundbufvector -- a pointer to a soundbuffer
 {
 
-	return soundBufVector[ntoi(fname, SoundBuf_Vector)];
+	return soundBufferVector[ntoi(name, SoundBuffer_Vector)];
 
 }
-//----------------------------------------------------------------------------------------------------------------------------***************************
-

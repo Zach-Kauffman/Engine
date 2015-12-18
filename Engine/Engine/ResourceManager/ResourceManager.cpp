@@ -341,6 +341,7 @@ void ResourceManager::addResourcetoResourceGroup(const std::string& rsName, cons
 			addSoundBuffertoResourceGroup(rsName, fileName, desName);
 		}
 	}
+	resourceGroups;
 }
 
 
@@ -372,12 +373,12 @@ void ResourceManager::addFonttoResourceGroup(const std::string& rsName, const st
 
 void ResourceManager::addSoundBuffertoResourceGroup(const std::string& rsName, const std::string& sbName)
 {
-	resourceGroups[ntoi(rsName, ResourceGroup_Names)].addSoundBuf(getSoundBufferPointerByName(sbName));
+	resourceGroups[ntoi(rsName, ResourceGroup_Names)].addSoundBuffer(getSoundBufferPointerByName(sbName));
 }
 
 void ResourceManager::addSoundBuffertoResourceGroup(const std::string& rsName, const std::string& sbName, const std::string& desName)
 {
-	resourceGroups[ntoi(rsName, ResourceGroup_Names)].addSoundBuf(getSoundBufferPointerByName(sbName), desName);
+	resourceGroups[ntoi(rsName, ResourceGroup_Names)].addSoundBuffer(getSoundBufferPointerByName(sbName), desName);
 }
 
 

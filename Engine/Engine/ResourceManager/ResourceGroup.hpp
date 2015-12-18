@@ -18,61 +18,62 @@ NOTES: SoundBuffer doesnt work yet, lots of other commented functions will proba
 public:
 
 	ResourceGroup();													//Constructor -- empty
+	~ResourceGroup();
 
-	void addTexture(sf::Texture* ftexture);								//adds a texture
+	void addTexture(sf::Texture * const & ftexture);								//adds a texture
 
-	void addTexture(sf::Texture* ftexture, std::string fname);			//adds a texture
-
-
-	void addFont(sf::Font* ffont);										//adds a font
-
-	void addFont(sf::Font* ffont, std::string name);					//adds a font
+	void addTexture(sf::Texture * const & ftexture, const std::string& name);			//adds a texture
 
 
-	void addSoundBuf(sf::SoundBuffer* fsoundbuf);						//adds a soundBuf
+	void addFont(sf::Font* const & ffont);										//adds a font
 
-	void addSoundBuf(sf::SoundBuffer* fsoundbuf, std::string name);		//adds a soundBuf
-
-
+	void addFont(sf::Font* const & ffont, const std::string& name);					//adds a font
 
 
-	std::vector<sf::Texture*> getTextureVector();						//returns the entire textureVector
+	void addSoundBuffer(sf::SoundBuffer * const & fsoundbuf);						//adds a soundBuf
 
-	std::vector<sf::Font*> getFontVector();								//returns the entire fontVector
-
-	std::vector<sf::SoundBuffer*> getSoundBufVector();					//returns the entire SoundBufVector
+	void addSoundBuffer(sf::SoundBuffer * const & fsoundbuf, const std::string& name);		//adds a soundBuf
 
 
 
 
+	std::vector<const sf::Texture*> getTextureVector();						//returns the entire textureVector
 
-	sf::Texture* getTexturePointer(int findex);							//returns an element of textureVector
+	std::vector<const sf::Font*> getFontVector();								//returns the entire fontVector
 
-	sf::Texture* getTexturePointer(std::string name);					//returns an element of textureVector
-
-
-	sf::Font* getFontPointer(int findex);								//returns an element of fontVector
-
-	sf::Font* getFontPointer(std::string name);							//returns an element of fontVector
+	std::vector<const sf::SoundBuffer*> getSoundBufferVector();					//returns the entire SoundBufVector
 
 
-	sf::SoundBuffer* getSoundBufPointer(int findex);					//returns an element of soundBufVector
 
-	sf::SoundBuffer* getSoundBufPointer(std::string findex);					//returns an element of soundBufVector
+
+
+	const sf::Texture* getTexturePointer(const int& index);							//returns an element of textureVector
+
+	const sf::Texture* getTexturePointer(const std::string& name);					//returns an element of textureVector
+
+
+	const sf::Font* getFontPointer(const int& index);								//returns an element of fontVector
+
+	const sf::Font* getFontPointer(const std::string& name);							//returns an element of fontVector
+
+
+	const sf::SoundBuffer* getSoundBufferPointer(const int& findex);					//returns an element of soundBufVector
+
+	const sf::SoundBuffer* getSoundBufferPointer(const std::string& findex);					//returns an element of soundBufVector
 
 
 
 private:
 
 
-	std::vector<sf::Texture*> textureVector;							//vector of Textures
+	std::vector<const sf::Texture*> textureVector;							//vector of Textures
 
-	std::vector<sf::Font*> fontVector;									//vector of Fonts
+	std::vector<const sf::Font*> fontVector;									//vector of Fonts
 
-	std::vector<sf::SoundBuffer*> soundBufVector;						//vector of SoundBuffers
+	std::vector<const sf::SoundBuffer*> soundBufferVector;						//vector of SoundBuffers
 
 
 
-	enum VectorNames { Texture_Vector = 0, Font_Vector = 1, SoundBuf_Vector = 2 };
+	const enum VectorNames { Texture_Vector = 0, Font_Vector = 1, SoundBuffer_Vector = 2 };
 };
 

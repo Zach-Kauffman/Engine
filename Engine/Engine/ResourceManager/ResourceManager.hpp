@@ -126,7 +126,7 @@ private:
 
 
 	
-	enum nameVectorIndeces {Texture_Names = 0, Font_Names = 1, SoundBuffer_Names = 2, ResourceGroup_Names = 3}; 
+	const enum nameVectorIndeces {Texture_Names = 0, Font_Names = 1, SoundBuffer_Names = 2, ResourceGroup_Names = 3}; 
 															//enum for accessing vectors more intuitively
 
 	src::severity_logger<severity_level> resourceManagerLogger;
