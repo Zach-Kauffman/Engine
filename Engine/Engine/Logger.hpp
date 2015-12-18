@@ -19,6 +19,7 @@
 #include <boost/log/attributes/scoped_attribute.hpp>
 #include <boost/log/utility/setup/common_attributes.hpp>
 
+
 //reserved namespaces
 namespace logging = boost::log;
 namespace src = boost::log::sources;

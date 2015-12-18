@@ -1,5 +1,7 @@
+
 #include "Logger.hpp"
-#include "INIParser.hpp"
+#include "INIReader.hpp"
+#include "ResourceManager/ResourceManager.hpp"
 
 
 void logging_function()
@@ -62,6 +64,15 @@ int main(int, char*[])
 	logger::setSeverityLevel(DEBUG);
 	logging_function();
 	auto slg = logger::getSLogger();
+	
+
+
+	std::string directoryToResources = boost::filesystem::current_path().string() + "\\Resources\\";
+	ResourceManager testRM;
+	testRM.addFilesResourceGroupFromDirectory(directoryToResources + "TestResources");
+
+
+
 	BOOST_LOG_SEV(slg, DEBUG) << "Exiting soon";
 	//while (true){}
 	return 0;
