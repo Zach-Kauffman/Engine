@@ -1,9 +1,13 @@
 #pragma once
-#define RUN_TESTS
+
+#include "Defines.hpp"	//global #defines
+
 #define RUN_ALL
 #ifdef RUN_TESTS
 
 #include "Logger.hpp"
+#include <string>
+#include <vector>
 
 namespace testing
 {

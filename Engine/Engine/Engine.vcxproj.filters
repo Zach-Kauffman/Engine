@@ -62,5 +62,8 @@
     <ClInclude Include="UnitTester.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Defines.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

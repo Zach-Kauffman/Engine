@@ -1,11 +1,11 @@
-#define RUN_TESTS
+#include "Defines.hpp"	//global #defines
 
 #ifndef RUN_TESTS
 
 #include "Logger.hpp"
-#include "INIReader.hpp"
+#include "INIParser.hpp"
 #include "ResourceManager/ResourceManager.hpp"
-
+#include "Utilities.hpp"
 
 void logging_function()
 {
@@ -46,14 +46,14 @@ int main(int, char*[])
 
 	logger::init();
 	logger::setSeverityLevel(DEBUG);
-	logging_function();
+	//logging_function();
 	auto slg = logger::getSLogger();
-	
 
-
-	std::string directoryToResources = boost::filesystem::current_path().string() + "\\Resources\\";
-	ResourceManager testRM;
-	testRM.addFilesResourceGroupFromDirectory(directoryToResources + "TestResources");
+	util::splitStrAtSubstr("One.Two.Three", ".");
+	util::reverseString("aaaaa");
+	//std::string directoryToResources = boost::filesystem::current_path().string() + "\\Resources\\";
+	//ResourceManager testRM;
+	//testRM.addFilesResourceGroupFromDirectory(directoryToResources + "TestResources");
 
 
 
@@ -64,10 +64,12 @@ int main(int, char*[])
 
 #endif
 
+
 #ifdef RUN_TESTS
 
-#include "UnitTester.hpp"
+
 #include "Logger.hpp"
+#include "UnitTester.hpp"
 
 
 #define TEST_ALL
@@ -82,6 +84,8 @@ int main(int, char*[])
 
 	testing::UnitTester testObject;
 	testObject.runTests();
+
+	BOOST_LOG_SEV(slg, INFO) << "Unit test completed...";
 }
 
 #endif
