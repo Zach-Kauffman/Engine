@@ -1,0 +1,50 @@
+#include "Utilities.hpp"
+
+using namespace util;
+
+void swapChars(char& a, char& b)
+{
+	char tmp = a;
+	a = b;
+	b = tmp;
+}
+
+std::string reverseString(const std::string& str)
+{
+	std::stack<char> string;
+
+	for (int i = 0; i < str.size(); i++)	//push all chars into stack
+	{
+		string.push(str[i]);
+	}
+
+	std::string toReturn = "";	//initialize empty string
+	
+	for (int i = 0; i < string.size(); i++)	//store then pop back values in reverse order
+	{
+		toReturn += string.top();
+		string.pop();
+	}
+
+	return toReturn;
+}
+
+
+std::vector<std::string> splitStrAtSubstr(const std::string& str, const std::string& split)
+{
+	int lastHit = 0; //stores location of last split
+	std::vector<std::string> splits;
+	const int size = splits.size();
+	for (int i = 0; i < str.size(); i++)	//iterate through string
+	{
+		if (str.substr(i, i + split.size()) == split)	//once the split is found
+		{
+			splits.push_back(str.substr(lastHit, i));	//add the section before the split
+			i += split.size();							//move i to the end of the split
+			lastHit = i;								//the current i is the character after the split
+		}
+	}
+	splits.push_back(str.substr(lastHit, str.size()));	//push back any characters after the final split
+
+	return splits;	//return vector containing all splits
+}

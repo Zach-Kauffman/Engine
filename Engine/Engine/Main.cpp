@@ -1,3 +1,6 @@
+#define RUN_TESTS
+
+#ifndef RUN_TESTS
 
 #include "Logger.hpp"
 #include "INIReader.hpp"
@@ -58,3 +61,27 @@ int main(int, char*[])
 	//while (true){}
 	return 0;
 }
+
+#endif
+
+#ifdef RUN_TESTS
+
+#include "UnitTester.hpp"
+#include "Logger.hpp"
+
+
+#define TEST_ALL
+
+int main(int, char*[])
+{
+	logger::init();
+	logger::setSeverityLevel(INFO);
+	auto slg = logger::getSLogger();
+
+	BOOST_LOG_SEV(slg, INFO) << "Starting Unit Tests...";
+
+	testing::UnitTester testObject;
+	testObject.runTests();
+}
+
+#endif

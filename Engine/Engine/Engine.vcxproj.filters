@@ -30,6 +30,15 @@
     <ClCompile Include="NameSearchable\NameSearchable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="INIParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitTester.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ResourceManager\ResourceManager.hpp">
@@ -41,10 +50,16 @@
     <ClInclude Include="NameSearchable\NameSearchable.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="INIReader.hpp">
+    <ClInclude Include="INIParser.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="INIParser.hpp">
+    <ClInclude Include="Logger.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitTester.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

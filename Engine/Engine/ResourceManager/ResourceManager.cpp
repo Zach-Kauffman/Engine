@@ -19,7 +19,7 @@ ResourceManager::~ResourceManager()						//destructor
 
 
 
-void ResourceManager::addFilesFromTree(const std::string& directory)
+void ResourceManager::loadFileTree(const std::string& directory)
 {
 	std::vector<const std::string> files;			//make a vector of files
 	fillFileNameVectorFromTree(directory, files);	//fill it
@@ -34,14 +34,14 @@ void ResourceManager::addFilesFromTree(const std::string& directory)
 		for (unsigned int i = 0; i < files.size(); i++)
 		{
 			BOOST_LOG(resourceManagerLogger, DEBUG) << "Adding File: " << getFileName(files[i]) << " (" << files[i] << ")";
-			addFile(files[i], getFileName(files[i]));
+			loadFile(files[i], getFileName(files[i]));
 													//otherwise, add the file and give a debug message
 		}
 	}
 
 }
 
-void ResourceManager::addFilesFromTreeWithExt(const std::string& directory, const std::string& ext)
+void ResourceManager::loadFileTree(const std::string& directory, const std::string& ext)
 {
 
 	bool extensionFound = false;
@@ -60,7 +60,7 @@ void ResourceManager::addFilesFromTreeWithExt(const std::string& directory, cons
 													//treats "png" and ".png" as the extension the same
 			{
 				BOOST_LOG(resourceManagerLogger, DEBUG) << "Adding File: " << getFileName(files[i]) << " (" << files[i] << ")";
-				addFile(files[i], getFileName(files[i]));
+				loadFile(files[i], getFileName(files[i]));
 				extensionFound = true;
 													//if the extension matched, add the file
 			}
@@ -74,7 +74,7 @@ void ResourceManager::addFilesFromTreeWithExt(const std::string& directory, cons
 	}
 }
 
-void ResourceManager::addFilesFromDirectory(const std::string& directory)
+void ResourceManager::loadFileDirectory(const std::string& directory)
 {
 	std::vector<const std::string> files;				//make a vector of filenames
 	fillFileNameVectorFromDirectory(directory, files);	//fill it
@@ -88,13 +88,13 @@ void ResourceManager::addFilesFromDirectory(const std::string& directory)
 		for (unsigned int i = 0; i < files.size(); i++)
 		{
 			BOOST_LOG(resourceManagerLogger, DEBUG) << "Adding File: " << getFileName(files[i]) << " (" << files[i] << ")";
-			addFile(files[i], getFileName(files[i]));
+			loadFile(files[i], getFileName(files[i]));
 														//add the files
 		}
 	}
 }
 
-void ResourceManager::addFilesFromDirectoryWithExt(const std::string& directory, const std::string& ext)
+void ResourceManager::loadFileDirectory(const std::string& directory, const std::string& ext)
 {
 	bool extensionFound = false;
 	std::vector<const std::string> files;
@@ -112,7 +112,7 @@ void ResourceManager::addFilesFromDirectoryWithExt(const std::string& directory,
 														//treats "png" and ".png" the same
 			{
 				BOOST_LOG(resourceManagerLogger, DEBUG) << "Adding File: " << getFileName(files[i]) << " (" << files[i] << ")";
-				addFile(files[i], getFileName(files[i]));
+				loadFile(files[i], getFileName(files[i]));
 				extensionFound = true;
 														//if the extension matches, add the file
 			}
@@ -141,7 +141,7 @@ void ResourceManager::addFilesResourceGroupFromDirectory(const std::string& dire
 		for (unsigned int i = 0; i < files.size(); i++)
 		{
 			BOOST_LOG(resourceManagerLogger, DEBUG) << "Adding File: " << getFileName(files[i]) << " (" << files[i] << ")";
-			addFile(files[i], getFileName(files[i]));
+			loadFile(files[i], getFileName(files[i]));
 		}
 	}
 
@@ -170,7 +170,7 @@ void ResourceManager::addFilesResourceGroupFromDirectory(const std::string& dire
 		for (unsigned int i = 0; i < files.size(); i++)
 		{
 			BOOST_LOG(resourceManagerLogger, DEBUG) << "Adding File: " << getFileName(files[i]) << " (" << files[i] << ")";
-			addFile(files[i], getFileName(files[i]));
+			loadFile(files[i], getFileName(files[i]));
 		}
 	}
 
@@ -187,7 +187,7 @@ void ResourceManager::addFilesResourceGroupFromDirectory(const std::string& dire
 
 
 
-void ResourceManager::addFile(const std::string& fileName, const std::string& name)
+void ResourceManager::loadFile(const std::string& fileName, const std::string& name)
 {
 	std::string ext = getExtension(fileName);						//get the extension
 
@@ -387,6 +387,8 @@ std::string ResourceManager::reverseString(std::string str)		//reverses a string
 	}
 
 	return str;
+
+	
 }
 
 

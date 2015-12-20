@@ -14,15 +14,15 @@ public:
 	ResourceManager();														//Constructor
 	~ResourceManager();														//Destructor
 
-	void addFilesFromTree(const std::string& directory);												//loads all files from a directory tree
+	void loadFileTree(const std::string& directory);												//loads all files from a directory tree
 
-	void addFilesFromTreeWithExt(const std::string& directory, const std::string& ext);					//loads all files of the same specified
+	void loadFileTree(const std::string& directory, const std::string& ext);					//loads all files of the same specified
 																										//extension from a directory tree
 
 
-	void addFilesFromDirectory(const std::string& directory);											//loads all files from a directory
+	void loadFileDirectory(const std::string& directory);											//loads all files from a directory
 
-	void addFilesFromDirectoryWithExt(const std::string& directory, const std::string& ext);			//loads all files of the same specified extension
+	void loadFileDirectory(const std::string& directory, const std::string& ext);			//loads all files of the same specified extension
 																										//from a directory
 
 
@@ -32,7 +32,7 @@ public:
 	void addFilesResourceGroupFromDirectory(const std::string& directory, const std::string& RGName);	//adds files from a directory and makes a resource
 																										//group out of them (name of RG is specified)
 
-	void addFile(const std::string& fileName, const std::string& name);				//adds a generic file
+	void loadFile(const std::string& fileName, const std::string& name);				//adds a generic file
 
 
 

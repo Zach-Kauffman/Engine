@@ -17,6 +17,8 @@
     <ClCompile Include="NameSearchable\NameSearchable.cpp" />
     <ClCompile Include="ResourceManager\ResourceGroup.cpp" />
     <ClCompile Include="ResourceManager\ResourceManager.cpp" />
+    <ClCompile Include="UnitTester.cpp" />
+    <ClCompile Include="Utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="INIParser.hpp" />
@@ -24,6 +26,8 @@
     <ClInclude Include="NameSearchable\NameSearchable.hpp" />
     <ClInclude Include="ResourceManager\ResourceGroup.hpp" />
     <ClInclude Include="ResourceManager\ResourceManager.hpp" />
+    <ClInclude Include="UnitTester.hpp" />
+    <ClInclude Include="Utilities.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{E4773390-6C05-47C2-AEAE-C779CFC9B10F}</ProjectGuid>
