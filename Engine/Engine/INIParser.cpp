@@ -14,6 +14,7 @@ INIParser::INIParser(const std::string& INIPath)	//overloaded constructor with f
 void INIParser::init()
 {
 	setFilePath("");
+	sectionName = "";
 	logger = logger::getSLogger();
 	BOOST_LOG_SEV(logger, INFO) << "INIParser Initialization Completed";
 }
@@ -36,5 +37,22 @@ void INIParser::setFilePath(const std::string& INIPath)
 		exit(0); //exit with error
 	}
 	
+}
+
+void INIParser::setSection(const std::string& newSection)
+{
+	sectionName = newSection;
+}
+
+std::string INIParser::assemblePath(const std::string& key)
+{
+	if (sectionName == "")
+	{
+		return key;						//return key if there is not section name
+	}
+	else
+	{
+		return sectionName + "." + key;	//concatenate section name and key with period
+	}
 }
 
