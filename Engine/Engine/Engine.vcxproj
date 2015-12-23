@@ -15,6 +15,9 @@
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="NameSearchable\NameSearchable.cpp" />
+    <ClCompile Include="Object.cpp" />
+    <ClCompile Include="ObjectGroup.cpp" />
+    <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="ResourceManager\ResourceGroup.cpp" />
     <ClCompile Include="ResourceManager\ResourceManager.cpp" />
     <ClCompile Include="UnitTester.cpp" />
@@ -25,6 +28,9 @@
     <ClInclude Include="INIParser.hpp" />
     <ClInclude Include="Logger.hpp" />
     <ClInclude Include="NameSearchable\NameSearchable.hpp" />
+    <ClInclude Include="Object.hpp" />
+    <ClInclude Include="ObjectGroup.hpp" />
+    <ClInclude Include="ObjectManager.hpp" />
     <ClInclude Include="ResourceManager\ResourceGroup.hpp" />
     <ClInclude Include="ResourceManager\ResourceManager.hpp" />
     <ClInclude Include="UnitTester.hpp" />
