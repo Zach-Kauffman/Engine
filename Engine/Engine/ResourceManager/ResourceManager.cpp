@@ -217,10 +217,12 @@ void ResourceManager::loadFile(const std::string& fileName, const std::string& n
 
 		addName(name, SoundBuffer_Names);
 	}
+
 	else
 	{
 		BOOST_LOG_SEV(resourceManagerLogger, ERROR) << "Could not load file with extension " << ext << " extension type not supported";
 	}
+
 }
 
 
