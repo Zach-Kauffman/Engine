@@ -217,6 +217,8 @@ void ResourceManager::addFile(const std::string& fileName, const std::string& na
 
 		addName(name, SoundBuffer_Names);
 	}
+
+	nameMapVector[Texture_Names];
 }
 
 

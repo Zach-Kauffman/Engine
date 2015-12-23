@@ -1,6 +1,6 @@
 
 #include "Logger.hpp"
-#include "INIReader.hpp"
+#include "INIParser.hpp"
 #include "ResourceManager/ResourceManager.hpp"
 
 
@@ -24,6 +24,11 @@ void logging_function()
 
 	reader.setSection("");
 	reader.writeValue<int>("Eugene.cookies", 7);	//Adds header called "eugene" with an attribute called "cookies" which has a value of 7
+
+	reader.writeMap<int>(variables);				//writeMap() test
+	reader.readMap<int>(variables);
+
+
 
 	auto slg = logger::getSLogger();
 	slg.add_attribute("Scope", attrs::named_scope());
@@ -52,6 +57,9 @@ int main(int, char*[])
 	ResourceManager testRM;
 	testRM.addFilesResourceGroupFromDirectory(directoryToResources + "TestResources");
 
+	for (int i = 0; i < 40; i++){
+		testRM.addFile(directoryToResources + "TestResources\\ModernArtBlue.png", "ModernArtBlueTest");
+	}
 
 
 	BOOST_LOG_SEV(slg, DEBUG) << "Exiting soon";
