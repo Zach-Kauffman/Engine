@@ -381,7 +381,7 @@ ResourceGroup* ResourceManager::getResourceGroupByName(const std::string& name)
 std::string ResourceManager::getExtension(const std::string& fpath)			//returns the extension of a file
 {
 	std::vector<std::string> returned = util::splitStrAtSubstr(fpath, ".");		//split string at "." and return the last string in the split vector
-	return "potato"; // returned[returned.size() - 1];
+	return returned[returned.size() - 1];
 }
 
 std::string ResourceManager::getFileName(const std::string& fpath)	
