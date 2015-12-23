@@ -51,9 +51,9 @@ int main(int, char*[])
 
 	util::splitStrAtSubstr("One.Two.Three", ".");
 	util::reverseString("aaaaa");
-	//std::string directoryToResources = boost::filesystem::current_path().string() + "\\Resources\\";
-	//ResourceManager testRM;
-	//testRM.addFilesResourceGroupFromDirectory(directoryToResources + "TestResources");
+	std::string directoryToResources = boost::filesystem::current_path().string() + "\\Resources\\";
+	ResourceManager testRM;
+	testRM.addFilesResourceGroupFromDirectory(directoryToResources + "TestResources");
 
 
 

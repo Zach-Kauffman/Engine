@@ -87,7 +87,7 @@ void testing::UnitTester::resourceGroup()
 
 void testing::UnitTester::resourceManager()
 {
-
+	
 }
 
 void testing::UnitTester::INIParser()

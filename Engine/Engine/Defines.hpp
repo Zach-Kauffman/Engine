@@ -1,5 +1,5 @@
-#define RUN_TESTS
-#define TEST_ALL
+//#define RUN_TESTS
+//#define TEST_ALL
 //#define TEST_UTILITIES
 //#define TEST_LOGGING
 //#define TEST_RESOURCE_GROUP

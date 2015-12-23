@@ -15,7 +15,7 @@ namespace util
 	std::vector<std::string> splitStrAtSubstr(const std::string& str, const std::string& split);	//splits string into parts seperated by "split"
 
 	template<class T>
-	void nullCopyVector(const std::vector<T>& toCopy, const std::vector<T>& vec)	//only copies non-null values from vector
+	void nullCopyVector(const std::vector<T>& toCopy, std::vector<T>& vec)	//only copies non-null values from vector
 	{
 		for (int i = 0; i < vec.size(); i++)
 		{
@@ -27,7 +27,7 @@ namespace util
 	}
 
 	template<class T>
-	void nullCopyValue(const T& toCopy, const T& value)	//only copies a non-null value
+	void nullCopyValue(const T& toCopy, T& value)	//only copies a non-null value
 	{
 		if (toCopy)
 		{
