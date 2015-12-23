@@ -1,6 +1,6 @@
 
 #include "Logger.hpp"
-#include "INIReader.hpp"
+#include "INIParser.hpp"
 #include "ResourceManager/ResourceManager.hpp"
 
 
