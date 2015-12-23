@@ -1,6 +1,11 @@
-#include "Logger.h"
-#include "INIReader.h"
+#include "Defines.hpp"	//global #defines
 
+#ifndef RUN_TESTS
+
+#include "Logger.hpp"
+#include "INIParser.hpp"
+#include "ResourceManager/ResourceManager.hpp"
+#include "Utilities.hpp"
 
 void logging_function()
 {
@@ -8,59 +13,79 @@ void logging_function()
 	//BOOST_LOG_SCOPED_THREAD_ATTR("Timeline", attrs::timer()));							<<--- adds timer to logs in all nested scopes
 	//severity_logger.add_attribute("Tag", attrs::constant<std::string>("<yourstring>"));	<<--- adds tag attribute in brackets ex. [<yourstring>]
 
-	INIReader reader("config.ini");
-	
-	int one, two, three;
-	std::map<std::string, int*> variables;
-	variables["Beans.Ehhh"] = &one;
-	variables["Beans.Meh"] = &two;
-	variables["Beans.Heh"] = &three;
+	INIParser reader("config.ini");
 
-	
-	
-	reader.readWriteMap<int>(variables);
+	int one =3, two = 1, three = 3;
+	reader.setSection("Beans");
+	std::map<std::string, int*> variables;
+	variables["Ehhh"] = &one;
+	variables["Meh"] = &two;
+	variables["Heh"] = &three;
+	std::string testing = "test";
+	reader.readValue<std::string>("string", testing);
+	reader.readMap<int>(variables);
+
+	reader.setSection("");
+	reader.writeValue<int>("Eugene.cookies", 7);	//Adds header called "eugene" with an attribute called "cookies" which has a value of 7
+
 	auto slg = logger::getSLogger();
 	slg.add_attribute("Scope", attrs::named_scope());
-	BOOST_LOG_SEV(slg, DEBUG) << "This is the first value as a string. " << reader.readValue<std::string>("Beans.Smoky");
+	int cookies = 1;
+	reader.readValue<int>("Eugene.cookies", cookies);
+	//BOOST_LOG_SEV(slg, DEBUG) << "This is the first value as a string. " << reader.readValue<std::string>("Beans.Smoky");
 	BOOST_LOG_SEV(slg, ERROR) << "Array values as int. " << one << " + " << two;
+	BOOST_LOG_SEV(slg, INFO) << "This is a string: " << testing;
+	BOOST_LOG_SEV(slg, ERROR) << "Eugene's cookies: " << cookies;
 
-	BOOST_LOG_SCOPED_THREAD_ATTR("Timeline", attrs::timer());
-
-	BOOST_LOG_SEV(slg, INFO) << "Starting to time nested functions";
-
-	BOOST_LOG_SEV(slg, INFO) << "Stopping to time nested functions";
-
-	BOOST_LOG_SEV(slg, INFO) << "Here goes the tagged record";
 }
 
-// The operator puts a human-friendly representation of the severity level to the stream
-std::ostream& operator<< (std::ostream& strm, severity_level level)
-{
-	static const char* strings[] =
-	{
-		"debug",
-		"info",
-		"warning",
-		"error",
-		"fatal"
-	};
 
-	if (static_cast< std::size_t >(level) < sizeof(strings) / sizeof(*strings))
-		strm << strings[level];
-	else
-		strm << static_cast< int >(level);
-
-	return strm;
-}
 
 int main(int, char*[])
 {
 
 	logger::init();
 	logger::setSeverityLevel(DEBUG);
-	logging_function();
+	//logging_function();
 	auto slg = logger::getSLogger();
+
+	util::splitStrAtSubstr("One.Two.Three", ".");
+	util::reverseString("aaaaa");
+	std::string directoryToResources = boost::filesystem::current_path().string() + "\\Resources\\";
+	ResourceManager testRM;
+	testRM.addFilesResourceGroupFromDirectory(directoryToResources + "TestResources");
+
+
+
 	BOOST_LOG_SEV(slg, DEBUG) << "Exiting soon";
 	//while (true){}
 	return 0;
 }
+
+#endif
+
+
+#ifdef RUN_TESTS
+
+
+#include "Logger.hpp"
+#include "UnitTester.hpp"
+
+
+#define TEST_ALL
+
+int main(int, char*[])
+{
+	logger::init();
+	logger::setSeverityLevel(INFO);
+	auto slg = logger::getSLogger();
+
+	BOOST_LOG_SEV(slg, INFO) << "Starting Unit Tests...";
+
+	testing::UnitTester testObject;
+	testObject.runTests();
+
+	BOOST_LOG_SEV(slg, INFO) << "Unit test completed...";
+}
+
+#endif
