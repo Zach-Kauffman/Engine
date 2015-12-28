@@ -13,6 +13,8 @@ namespace util
 	std::string reverseString(const std::string& str);	//stack based implementation of string inversion
 
 	std::vector<std::string> splitStrAtSubstr(const std::string& str, const std::string& split);	//splits string into parts seperated by "split"
+	
+	std::string vecToStr(const std::vector<std::string>& vec, const std::string& between );		//compiles vector into single string
 
 	template<class T>
 	void nullCopyVector(const std::vector<T>& toCopy, std::vector<T>& vec)	//only copies non-null values from vector
@@ -34,6 +36,7 @@ namespace util
 			value = toCopy;
 		}
 	}
+	
 }
 
 

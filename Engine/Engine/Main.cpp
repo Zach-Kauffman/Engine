@@ -49,11 +49,11 @@ int main(int, char*[])
 	//logging_function();
 	auto slg = logger::getSLogger();
 
-	util::splitStrAtSubstr("One.Two.Three", ".");
-	util::reverseString("aaaaa");
-	std::string directoryToResources = boost::filesystem::current_path().string() + "\\Resources\\";
-	ResourceManager testRM;
-	testRM.addFilesResourceGroupFromDirectory(directoryToResources + "TestResources");
+	//util::splitStrAtSubstr("One.Two.Three", ".");
+	//util::reverseString("aaaaa");
+	//std::string directoryToResources = boost::filesystem::current_path().string() + "\\Resources\\";
+	//ResourceManager testRM;
+	//testRM.addFilesResourceGroupFromDirectory(directoryToResources + "TestResources");
 
 
 
@@ -70,7 +70,7 @@ int main(int, char*[])
 
 #include "Logger.hpp"
 #include "UnitTester.hpp"
-
+#include "Utilities.hpp"
 
 #define TEST_ALL
 
