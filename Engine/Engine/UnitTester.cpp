@@ -71,9 +71,9 @@ void UnitTester::utilities()
 	std::vector<std::string> in1 = {"One", "Two", "Three"}; std::string in12 = "."; std::string out1 = "One.Two.Three";
 	std::vector<std::string> in2 = {"Hello", "World"}; std::string in22 = " To The "; std::string out2 = "Hello To The World";
 	std::string out3 = "OneTwoThree";
-	if (util::vecToStr(in1, in12) != out1){ BOOST_LOG_SEV(testLogger, ERROR) << "Input to util::vecToString failed.  IN: {One, Two, Three}, \".\""; }
-	if (util::vecToStr(in2, in22) != out2) { BOOST_LOG_SEV(testLogger, ERROR) << "Input to util::vecToStrin faile. IN: {Hello, World}, \" To The \""; }
-	if (util::vecToStr(in2, "") != out3) { BOOST_LOG_SEV(testLogger, ERROR) << "Input to util::vecToString filed. IN: {One, Two, Three}, NOTHING"; }
+	if (util::vecToStr(in1, in12) != out1){ BOOST_LOG_SEV(testLogger, ERROR) << "Input to util::vecToStr failed.  IN: {One, Two, Three}, \".\""; }
+	if (util::vecToStr(in2, in22) != out2) { BOOST_LOG_SEV(testLogger, ERROR) << "Input to util::vecToStr faile. IN: {Hello, World}, \" To The \""; }
+	if (util::vecToStr(in1, "") != out3) { BOOST_LOG_SEV(testLogger, ERROR) << "Input to util::vecToStr filed. IN: {One, Two, Three}, NOTHING"; }
 
 	/*
 	BOOST_LOG_SEV(testLogger, INFO) << "Now testing: void nullCopyVector(const std::vector<T>& toCopy, const std::vector<T>& vec);";
