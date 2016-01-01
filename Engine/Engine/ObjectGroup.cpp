@@ -23,22 +23,32 @@ void ObjectGroup::setLoggerObject(logSharedPtr logger)
 
 void ObjectGroup::addObject(boost::shared_ptr<Object>& newObject, const std::string& path)
 {
-	std::vector<std::string> pathVec = util::splitStrAtSubstr(path, ".");
-	
-	for (int i = 0; i < pathVec.size(); i++)
-	{
-		if (nameMapVector[1].find(pathVec[1]) != nameMapVector[1].end())	//if the group allready exists
-		{
+	ObjectGroup* group;	//group which object will be added to 
 
-		}
-		else
+	if (path != "")
+	{
+		std::vector<std::string> pathVec = util::splitStrAtSubstr(path, ".");
+
+		for (int i = 0; i < pathVec.size(); i++)	//make sure the path exists
 		{
-			ObjectGroup emptyGroup;						//create new group to add
-			addObjectGroup(emptyGroup, pathVec[i]);		//add group
+			if (nameMapVector[0].find(pathVec[i]) != nameMapVector[0].end())	//if the group allready exists
+			{
+
+			}
+			else
+			{
+				addObjectGroup(pathVec[i]);		//add group
+			}
 		}
+		group = getObjectGroup(path);	//get the object group from the path just verified/created 
 	}
-	objects.push_back(newObject);
-	
+	else
+	{
+		group = this;	//otherwise, the object should be added to this instance of ObjectGroup
+	}
+
+
+	group->objects.push_back(newObject);	//add the object
 }
 
 void ObjectGroup::removeObject(const std::string& path)
@@ -69,14 +79,16 @@ void ObjectGroup::removeObject(const boost::shared_ptr<Object>& objectPtr)
 boost::shared_ptr<Object> ObjectGroup::getObject(const std::string& path)
 {
 	std::vector<std::string> pathVec = util::splitStrAtSubstr(path, ".");
-	int ID = std::stoi(*pathVec.end());	//convert ID string to int
-	pathVec.erase(pathVec.end());		//get rid of the id remove the ID from the vector
+	int ID = std::stoi(*(pathVec.end()-1));	//convert ID string to int
+	pathVec.erase(pathVec.end()-1);			//get rid of the id remove the ID from the vector
 
 	return getObjectGroup(util::vecToStr(pathVec, "."))->getObject(ID);	//retrieves object group from reconstructed string and return objPtr
 }
 
 boost::shared_ptr<Object> ObjectGroup::getObject(const int& ID)	//quick binary search
 {
+	forceObjectSort();
+
 	if (objects.size() == 0)
 	{
 		//error and return null
@@ -120,6 +132,14 @@ void ObjectGroup::addObjectGroup(const ObjectGroup& newGroup, const std::string&
 	addName(name, 1, groups.size() - 1);
 }
 
+void ObjectGroup::addObjectGroup(const std::string& name)
+{
+	ObjectGroup tmp;					//temporary group object
+	tmp.setLoggerObject(groupLogger);	//assign this logger to new group
+	groups.push_back(tmp);				//add new group to list of all groups
+	addName(name, 0, groups.size() - 1);//index by name
+}
+
 void ObjectGroup::deleteObjectGroup(const std::string& path)
 {
 	std::vector<std::string> pathVec = util::splitStrAtSubstr(path, ".");	//split path into 
@@ -136,11 +156,8 @@ void ObjectGroup::deleteObjectGroup(const std::string& path)
 	
 }
 
-
-ObjectGroup* ObjectGroup::getObjectGroup(const std::string& path)
+ObjectGroup* ObjectGroup::getObjectGroup(const std::vector<std::string>& pathVec)
 {
-	std::vector<std::string> pathVec = util::splitStrAtSubstr(path, ".");	//parses "path" to individual objects
-
 	ObjectGroup* tmpGroup = this;
 	for (int i = 0; i < pathVec.size() - 1; i++)	//increments until second-to-last spot since the ID is the last
 	{
@@ -148,6 +165,30 @@ ObjectGroup* ObjectGroup::getObjectGroup(const std::string& path)
 	}
 
 	return tmpGroup;
+}
+
+ObjectGroup* ObjectGroup::getObjectGroup(const std::string& path)
+{
+	std::vector<std::string> pathVec = util::splitStrAtSubstr(path, ".");	//parses "path" to individual directories
+
+	return getObjectGroup(pathVec);
+}
+
+
+
+void ObjectGroup::forceObjectSort()	//could be more efficient but really shouldn't be called too much
+{
+	int currentInsert = 0;
+
+	//insertion sort
+	for (unsigned int i = 0; i < objects.size(); i++)	//iterate through objects starting on second
+	{
+		currentInsert = 0;
+		while (i > 0 && objects[i - 1]->getID() > objects[i]->getID())	//while the place i-1 is higher than place i
+		{
+			iter_swap(objects.begin() + i - 1, objects.begin() + i);	//swap places
+		}
+	}
 }
 
 //PROTECTED FUNCTIONS

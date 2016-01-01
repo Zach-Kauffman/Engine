@@ -33,7 +33,7 @@ namespace objects
 
 
 		//object vector manipulation functions
-		void addObject(boost::shared_ptr<Object>& newObject, const std::string& path="");									//adds object to objects vector
+		void addObject(boost::shared_ptr<Object>& newObject, const std::string& path="");	//adds object to objects vector inserted in sorted location
 		void removeObject(const std::string& path);						//simply removes object from "objects" vector or from any location in tree
 		void removeObject(const int& ID);								//removes object by ID
 		void removeObject(const boost::shared_ptr<Object>& objectPtr);	//deletes object by searching for specific pointer
@@ -41,13 +41,17 @@ namespace objects
 		boost::shared_ptr<Object> getObject(const std::string& path);	//returns pointer to specified object, "path" includes ID
 		boost::shared_ptr<Object> getObject(const int& ID);			//overloaded for index only, supports arrays
 
-
 		//ObjectGroup vector manipulation functions
 		void addObjectGroup(const ObjectGroup& newGroup, const std::string& name);	//adds new group to "groups" vector
+		void addObjectGroup(const std::string& name);
+
 		void deleteObjectGroup(const std::string& groupName);						//physically deallocates specified objectGroup from memory
 
-		ObjectGroup* getObjectGroup(const std::string& path);						//get specified objectgroup ptr
+		ObjectGroup* getObjectGroup(const std::vector<std::string>& pathVec);		//get specified objectgroup ptr
+		ObjectGroup* getObjectGroup(const std::string& path);						
 
+
+		void forceObjectSort();		//essentially checks sorting of objects by ID by sorting everything again using insertion sort
 
 	protected:
 		template<class T>
@@ -60,11 +64,13 @@ namespace objects
 			}
 		}
 
-		std::vector<boost::shared_ptr<Object>> objects;		//flexible safe pointers to objects
+		std::vector<boost::shared_ptr<Object>> objects;		//flexible safe pointers to objects --- should stay sorted from least to greatest
 		std::vector<ObjectGroup> groups;					//nesting object group vector this is named using name searchable
 
 		//SHOULD OBJECT GROUP HAVE ITS OWN REAL LOGGER?
 		logSharedPtr groupLogger;	//local pointer to logger contained in ObjectManager 
+
+		bool sorted;	//true if the object vector has been sorted by ID else false
 	};
 }
 

@@ -6,6 +6,9 @@
 #include "INIParser.hpp"
 #include "ResourceManager/ResourceManager.hpp"
 #include "Utilities.hpp"
+#include "ObjectManager.hpp"
+#include "TestObject.hpp"
+#include "Object.hpp"
 
 void logging_function()
 {
@@ -49,6 +52,22 @@ int main(int, char*[])
 	//logging_function();
 	auto slg = logger::getSLogger();
 
+	objects::ObjectManager OhMan;
+	util::Downcaster<objects::Object> dc;
+
+	boost::shared_ptr<objects::Object> tmp(new objects::TestObject);
+	tmp->setID(OhMan.nextID());
+
+	
+	OhMan.addObject(tmp, "Test.Update");
+
+	auto testObject = dc.downcast(OhMan.getObject("Test.Update.1"));
+	
+	for (unsigned int i = 0; i < 100; i++)
+	{
+		testObject->update();
+		BOOST_LOG_SEV(slg, INFO) << testObject->getCounter();
+	}
 	//util::splitStrAtSubstr("One.Two.Three", ".");
 	//util::reverseString("aaaaa");
 	//std::string directoryToResources = boost::filesystem::current_path().string() + "\\Resources\\";

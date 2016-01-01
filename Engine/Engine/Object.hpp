@@ -5,6 +5,7 @@
 
 //project includes
 #include "Utilities.hpp"
+#include "INIParser.hpp"	//this will be used in load/write
 
 namespace objects
 {
@@ -29,7 +30,7 @@ namespace objects
 		virtual void load() = 0;	//defined in children to load from (INI?) file
 		virtual void write() = 0;	//defined in children to write to (INI?) file
 
-	private:
+	protected:
 		int ID;				//unique ID for this instance of object
 		bool isActive;		//wether or not the object will be drawn/updated etc
 	};

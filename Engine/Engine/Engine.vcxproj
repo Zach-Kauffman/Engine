@@ -21,6 +21,7 @@
     <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="ResourceManager\ResourceGroup.cpp" />
     <ClCompile Include="ResourceManager\ResourceManager.cpp" />
+    <ClCompile Include="TestObject.cpp" />
     <ClCompile Include="UnitTester.cpp" />
     <ClCompile Include="Utilities.cpp" />
   </ItemGroup>
@@ -37,6 +38,9 @@
     <ClInclude Include="ResourceManager\ResourceManager.hpp" />
     <ClInclude Include="UnitTester.hpp" />
     <ClInclude Include="Utilities.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TestObject.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{E4773390-6C05-47C2-AEAE-C779CFC9B10F}</ProjectGuid>
