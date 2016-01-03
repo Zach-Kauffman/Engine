@@ -34,11 +34,8 @@ void ResourceManager::loadFileTree(const std::string& directory)
 		for (unsigned int i = 0; i < files.size(); i++)
 		{
 			BOOST_LOG_SEV(resourceManagerLogger, DEBUG) << "Adding File: " << getFileName(files[i]) << " (" << files[i] << ")";
-<<<<<<< HEAD
-			addFile(files[i], getFileName(files[i]));
-=======
 			loadFile(files[i], getFileName(files[i]));
->>>>>>> c8f777960beaf404a018dd546a4592269ecfeb82
+
 													//otherwise, add the file and give a debug message
 		}
 	}
@@ -64,11 +61,8 @@ void ResourceManager::loadFileTree(const std::string& directory, const std::stri
 													//treats "png" and ".png" as the extension the same
 			{
 				BOOST_LOG_SEV(resourceManagerLogger, DEBUG) << "Adding File: " << getFileName(files[i]) << " (" << files[i] << ")";
-<<<<<<< HEAD
-				addFile(files[i], getFileName(files[i]));
-=======
 				loadFile(files[i], getFileName(files[i]));
->>>>>>> c8f777960beaf404a018dd546a4592269ecfeb82
+
 				extensionFound = true;
 													//if the extension matched, add the file
 			}
@@ -96,11 +90,9 @@ void ResourceManager::loadFileDirectory(const std::string& directory)
 		for (unsigned int i = 0; i < files.size(); i++)
 		{
 			BOOST_LOG_SEV(resourceManagerLogger, DEBUG) << "Adding File: " << getFileName(files[i]) << " (" << files[i] << ")";
-<<<<<<< HEAD
-			addFile(files[i], getFileName(files[i]));
-=======
+
 			loadFile(files[i], getFileName(files[i]));
->>>>>>> c8f777960beaf404a018dd546a4592269ecfeb82
+
 														//add the files
 		}
 	}
@@ -124,11 +116,7 @@ void ResourceManager::loadFileDirectory(const std::string& directory, const std:
 														//treats "png" and ".png" the same
 			{
 				BOOST_LOG_SEV(resourceManagerLogger, DEBUG) << "Adding File: " << getFileName(files[i]) << " (" << files[i] << ")";
-<<<<<<< HEAD
-				addFile(files[i], getFileName(files[i]));
-=======
 				loadFile(files[i], getFileName(files[i]));
->>>>>>> c8f777960beaf404a018dd546a4592269ecfeb82
 				extensionFound = true;
 														//if the extension matches, add the file
 			}
@@ -157,11 +145,8 @@ void ResourceManager::addFilesResourceGroupFromDirectory(const std::string& dire
 		for (unsigned int i = 0; i < files.size(); i++)
 		{
 			BOOST_LOG_SEV(resourceManagerLogger, DEBUG) << "Adding File: " << getFileName(files[i]) << " (" << files[i] << ")";
-<<<<<<< HEAD
-			addFile(files[i], getFileName(files[i]));
-=======
 			loadFile(files[i], getFileName(files[i]));
->>>>>>> c8f777960beaf404a018dd546a4592269ecfeb82
+
 		}
 	}
 
@@ -190,11 +175,7 @@ void ResourceManager::addFilesResourceGroupFromDirectory(const std::string& dire
 		for (unsigned int i = 0; i < files.size(); i++)
 		{
 			BOOST_LOG_SEV(resourceManagerLogger, DEBUG) << "Adding File: " << getFileName(files[i]) << " (" << files[i] << ")";
-<<<<<<< HEAD
-			addFile(files[i], getFileName(files[i]));
-=======
 			loadFile(files[i], getFileName(files[i]));	//files i is a directory path
->>>>>>> c8f777960beaf404a018dd546a4592269ecfeb82
 		}
 	}
 

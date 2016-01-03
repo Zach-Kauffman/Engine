@@ -40,18 +40,18 @@ LayerManager::~LayerManager()
 
 void LayerManager::addEmptyLayer()
 {
-	Layer emptyLayer;
-	layers.push_back(emptyLayer);				//makes and adds a new, empty Layer
+	boost::shared_ptr<Layer> emptyLayer(new Layer);
+	layers.push_back(emptyLayer);								//makes and adds a new, empty Layer
 }
 
-void LayerManager::addLayer(Layer newLayer)
+void LayerManager::addLayer(boost::shared_ptr<Layer> newLayer)
 {
-	layers.push_back(newLayer);					//adds an existant Layer
+	layers.push_back(newLayer);		//adds an existant Layer
 }
 
 void LayerManager::setLayerAmount(const int& amt)
 {
-	layers.resize(amt);							//resize the Layer vector to the desired size
+	layers.resize(amt);											//resize the Layer vector to the desired size
 }
 
 
@@ -60,7 +60,7 @@ void LayerManager::setScrollSpeed(const sf::Vector2f& speed, const int& index)
 {
 	if (index >= 0 && index < layers.size())
 	{
-		layers[index].setScrollSpeed(speed);	//if the index is valid, set the scrollSpeed
+		layers[index]->setScrollSpeed(speed);	//if the index is valid, set the scrollSpeed
 
 		if (speed.x < 0 || speed.x > 1 || speed.y < 0 || speed.y > 1)
 		{
@@ -79,20 +79,20 @@ void LayerManager::setScrollSpeed(const sf::Vector2f& speed, const int& index)
 
 void LayerManager::setAllScrollSpeeds(const std::vector<const sf::Vector2f>& scrollSpeeds)
 {
-	int ss_siz = scrollSpeeds.size() - 1;							//(size of scrollSpeeds) - 1
+	unsigned int ss_siz = scrollSpeeds.size() - 1;					//(size of scrollSpeeds) - 1
 
 	bool oddSpeed = false;											//if there is a speed < 0 or a speed > 1 or not
 	
 
-	for (int i = 0; i < layers.size(); i++)
+	for (unsigned int i = 0; i < layers.size(); i++)
 	{
 
-		const sf::Vector2f tmpSpeed = scrollSpeeds[imin(i, ss_siz)];
+		const sf::Vector2f tmpSpeed = scrollSpeeds[util::uimin(i, ss_siz)];
 																	//record the speed of the corresponding scrollSpeed value
 																	//If the scrollSpeed vec is too small for some reason, the last element will
 																	//be reused
 
-		layers[i].setScrollSpeed(tmpSpeed);							//set the scrollSpeed of a layer to its previously determined matching speed
+		layers[i]->setScrollSpeed(tmpSpeed);							//set the scrollSpeed of a layer to its previously determined matching speed
 
 		if (!oddSpeed)
 		{
@@ -118,9 +118,9 @@ void LayerManager::setAllScrollSpeeds(const std::vector<const sf::Vector2f>& scr
 
 
 
-Layer* LayerManager::getLayerPointer(const int& index)
+boost::shared_ptr<Layer> LayerManager::getLayerPointer(const int& index)
 {
-	return &layers[index];											//return the memory location of the desired layer
+	return 	layers[index];											//return the memory location of the desired layer
 }
 
 
@@ -140,11 +140,11 @@ void LayerManager::draw(sf::RenderWindow& window)
 	for (unsigned int i = layers.size(); i > 0; --i)					//draw in reverse order -- makes intuitive sense: the first layer in the vector
 																		//is the forwardmost layer, not backmost
 	{
-		const sf::Texture& tmpTex = layers[i].getTexture();				//get the texture from the layer
+		const sf::Texture& tmpTex = layers[i]->getTexture();				//get the texture from the layer
 
 		sf::Sprite tmpSprite(tmpTex);									//set a sprite's texture as it
 
-		tmpSprite.move(layers[i].getScrollSpeed().x * distance.x, layers[i].getScrollSpeed().y * distance.y);
+		tmpSprite.move(layers[i]->getScrollSpeed().x * distance.x, layers[i]->getScrollSpeed().y * distance.y);
 																		//move the sprite a portion of the distance to the old point where the portion
 																		//is the scroll speed
 
@@ -162,29 +162,4 @@ void LayerManager::basicSetup()
 {
 	oldReferencePointValue = sf::Vector2f(0, 0);	//start the oldReferencePoint value at (0,0)
 	layerManagerLogger = logger::getSLogger();		//setup the logger
-}
-
-//the following should go in util:
-int LayerManager::imax(int& a, int& b)
-{
-	if (a > b)
-	{
-		return a;
-	}
-	else
-	{
-		return b;
-	}
-}
-
-int LayerManager::imin(int& a, int& b)
-{
-	if (a < b)
-	{
-		return a;
-	}
-	else
-	{
-		return b;
-	}
 }

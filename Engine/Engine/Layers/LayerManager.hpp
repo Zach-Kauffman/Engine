@@ -2,6 +2,7 @@
 #include "Layer.hpp"
 #include "../Logger.hpp"
 #include <vector>
+#include "../Utilities.hpp"
 
 
 class LayerManager										//holds and manages layers of graphics -- useful for parallax
@@ -22,7 +23,7 @@ public:
 
 	void addEmptyLayer();								//adds a new, empty layer
 
-	void addLayer(Layer newLayer);						//adds an existant layer
+	void addLayer(boost::shared_ptr<Layer> newLayer);	//adds an existant layer
 
 	void setLayerAmount(const int& amt);				//sets the amount of layers -- ideally used once only
 
@@ -33,7 +34,8 @@ public:
 	void setAllScrollSpeeds(const std::vector<const sf::Vector2f>& scrollSpeeds);
 														//set the scroll speed of all layers; should start with 1 and descend
 
-	Layer* getLayerPointer(const int& index);			//gets a pointer to a layer
+	boost::shared_ptr<Layer> getLayerPointer(const int& index);			
+														//gets a shared pointer to a layer
 
 
 	void setReferencePoint(sf::Vector2f& refPoint);		//sets the point that the layers will center on
@@ -48,9 +50,7 @@ private:
 	void basicSetup();									//setup called in every constructor
 
 
-	int imax(int& a, int& b);							//finds the greater of two ints
-
-	int imin(int& a, int& b);							//finds the lesser of two ints
+	
 
 
 	sf::Vector2f* referencePoint;						//The point the LayerManager is centered on
@@ -58,7 +58,8 @@ private:
 	sf::Vector2f oldReferencePointValue;				//the position of the reference point in the previous frame 
 
 
-	std::vector<Layer> layers;							//vector of Layers
+	std::vector<boost::shared_ptr<Layer>> layers;		//vector of shared pointers to Layers -- has to be dynamically stored
+														//because renderTexture is Noncopyable
 
 
 	src::severity_logger<severity_level> layerManagerLogger;
