@@ -26,14 +26,14 @@ void ResourceManager::addFilesFromTree(const std::string& directory)
 
 	if (!files.size())
 	{
-		BOOST_LOG(resourceManagerLogger, WARNING) << "Tree " << directory << " did not produce any files";
+		BOOST_LOG_SEV(resourceManagerLogger, WARNING) << "Tree " << directory << " did not produce any files";
 													//Log a warning if files is empty
 	}
 	else
 	{
 		for (unsigned int i = 0; i < files.size(); i++)
 		{
-			BOOST_LOG(resourceManagerLogger, DEBUG) << "Adding File: " << getFileName(files[i]) << " (" << files[i] << ")";
+			BOOST_LOG_SEV(resourceManagerLogger, DEBUG) << "Adding File: " << getFileName(files[i]) << " (" << files[i] << ")";
 			addFile(files[i], getFileName(files[i]));
 													//otherwise, add the file and give a debug message
 		}
@@ -50,7 +50,7 @@ void ResourceManager::addFilesFromTreeWithExt(const std::string& directory, cons
 
 	if (!files.size())
 	{
-		BOOST_LOG(resourceManagerLogger, WARNING) << "Tree " << directory << " did not produce any files.";
+		BOOST_LOG_SEV(resourceManagerLogger, WARNING) << "Tree " << directory << " did not produce any files.";
 	}
 	else
 	{
@@ -59,7 +59,7 @@ void ResourceManager::addFilesFromTreeWithExt(const std::string& directory, cons
 			if ((getExtension(files[i]) == ext) || (("." + getExtension(files[i])) == ext))		
 													//treats "png" and ".png" as the extension the same
 			{
-				BOOST_LOG(resourceManagerLogger, DEBUG) << "Adding File: " << getFileName(files[i]) << " (" << files[i] << ")";
+				BOOST_LOG_SEV(resourceManagerLogger, DEBUG) << "Adding File: " << getFileName(files[i]) << " (" << files[i] << ")";
 				addFile(files[i], getFileName(files[i]));
 				extensionFound = true;
 													//if the extension matched, add the file
@@ -68,7 +68,7 @@ void ResourceManager::addFilesFromTreeWithExt(const std::string& directory, cons
 
 		if (!extensionFound)
 		{
-			BOOST_LOG(resourceManagerLogger, WARNING) << "No files with extension " << ext << " was found in directory tree " << directory;
+			BOOST_LOG_SEV(resourceManagerLogger, WARNING) << "No files with extension " << ext << " was found in directory tree " << directory;
 													//if no files with that extension were found in the tree, logs a warning message
 		}
 	}
@@ -81,13 +81,13 @@ void ResourceManager::addFilesFromDirectory(const std::string& directory)
 
 	if (!files.size())
 	{
-		BOOST_LOG(resourceManagerLogger, WARNING) << "Directory " << directory << " did not produce any files; maybe should have been a load from tree?";
+		BOOST_LOG_SEV(resourceManagerLogger, WARNING) << "Directory " << directory << " did not produce any files; maybe should have been a load from tree?";
 	}
 	else
 	{
 		for (unsigned int i = 0; i < files.size(); i++)
 		{
-			BOOST_LOG(resourceManagerLogger, DEBUG) << "Adding File: " << getFileName(files[i]) << " (" << files[i] << ")";
+			BOOST_LOG_SEV(resourceManagerLogger, DEBUG) << "Adding File: " << getFileName(files[i]) << " (" << files[i] << ")";
 			addFile(files[i], getFileName(files[i]));
 														//add the files
 		}
@@ -102,7 +102,7 @@ void ResourceManager::addFilesFromDirectoryWithExt(const std::string& directory,
 
 	if (!files.size())
 	{
-		BOOST_LOG(resourceManagerLogger, WARNING) << "Directory " << directory << " did not produce any files.";
+		BOOST_LOG_SEV(resourceManagerLogger, WARNING) << "Directory " << directory << " did not produce any files.";
 	}
 	else
 	{
@@ -111,7 +111,7 @@ void ResourceManager::addFilesFromDirectoryWithExt(const std::string& directory,
 			if ((getExtension(files[i]) == ext) || (("." + getExtension(files[i])) == ext))
 														//treats "png" and ".png" the same
 			{
-				BOOST_LOG(resourceManagerLogger, DEBUG) << "Adding File: " << getFileName(files[i]) << " (" << files[i] << ")";
+				BOOST_LOG_SEV(resourceManagerLogger, DEBUG) << "Adding File: " << getFileName(files[i]) << " (" << files[i] << ")";
 				addFile(files[i], getFileName(files[i]));
 				extensionFound = true;
 														//if the extension matches, add the file
@@ -120,7 +120,7 @@ void ResourceManager::addFilesFromDirectoryWithExt(const std::string& directory,
 
 		if (!extensionFound)
 		{
-			BOOST_LOG(resourceManagerLogger, WARNING) << "No files with extension " << ext << " was found in directory " << directory;
+			BOOST_LOG_SEV(resourceManagerLogger, WARNING) << "No files with extension " << ext << " was found in directory " << directory;
 														//give a warning if no files with that extension was found in the directory
 		}
 	}
@@ -134,13 +134,13 @@ void ResourceManager::addFilesResourceGroupFromDirectory(const std::string& dire
 
 	if (!files.size())
 	{
-		BOOST_LOG(resourceManagerLogger, WARNING) << "Directory " << directory << " did not produce any files; maybe should have been a load from tree?";
+		BOOST_LOG_SEV(resourceManagerLogger, WARNING) << "Directory " << directory << " did not produce any files; maybe should have been a load from tree?";
 	}
 	else
 	{
 		for (unsigned int i = 0; i < files.size(); i++)
 		{
-			BOOST_LOG(resourceManagerLogger, DEBUG) << "Adding File: " << getFileName(files[i]) << " (" << files[i] << ")";
+			BOOST_LOG_SEV(resourceManagerLogger, DEBUG) << "Adding File: " << getFileName(files[i]) << " (" << files[i] << ")";
 			addFile(files[i], getFileName(files[i]));
 		}
 	}
@@ -163,13 +163,13 @@ void ResourceManager::addFilesResourceGroupFromDirectory(const std::string& dire
 
 	if (!files.size())
 	{
-		BOOST_LOG(resourceManagerLogger, WARNING) << "Directory " << directory << " did not produce any files; maybe should have been a load from tree?";
+		BOOST_LOG_SEV(resourceManagerLogger, WARNING) << "Directory " << directory << " did not produce any files; maybe should have been a load from tree?";
 	}
 	else
 	{
 		for (unsigned int i = 0; i < files.size(); i++)
 		{
-			BOOST_LOG(resourceManagerLogger, DEBUG) << "Adding File: " << getFileName(files[i]) << " (" << files[i] << ")";
+			BOOST_LOG_SEV(resourceManagerLogger, DEBUG) << "Adding File: " << getFileName(files[i]) << " (" << files[i] << ")";
 			addFile(files[i], getFileName(files[i]));
 		}
 	}
@@ -464,7 +464,7 @@ void ResourceManager::fillFileNameVectorFromTree(const std::string& directory, s
 	}
 	else
 	{
-		BOOST_LOG(resourceManagerLogger, ERROR) << "Directory " << dir << " is either not a directory or nonexistant";
+		BOOST_LOG_SEV(resourceManagerLogger, ERROR) << "Directory " << dir << " is either not a directory or nonexistant";
 	}
 }
 
@@ -489,7 +489,7 @@ void ResourceManager::fillFileNameVectorFromDirectory(const std::string& directo
 	}
 	else
 	{
-		BOOST_LOG(resourceManagerLogger, ERROR) << "Directory " << dir << " is either not a directory or nonexistent";
+		BOOST_LOG_SEV(resourceManagerLogger, ERROR) << "Directory " << dir << " is either not a directory or nonexistent";
 	}
 
 }
@@ -502,7 +502,7 @@ void ResourceManager::addTexture(const std::string& fileName)
 
 	if (!texture.loadFromFile(fileName))						//try to make it load from the file
 	{
-		BOOST_LOG(resourceManagerLogger, ERROR) << fileName << " (Texture) failed to load.";				
+		BOOST_LOG_SEV(resourceManagerLogger, ERROR) << fileName << " (Texture) failed to load.";				
 																// if it doesn't, there is an error
 	}
 
@@ -516,7 +516,7 @@ void ResourceManager::addFont(const std::string& fileName)
 
 	if (!font.loadFromFile(fileName))
 	{
-		BOOST_LOG(resourceManagerLogger, ERROR) << fileName << " (Font) failed to load.";			
+		BOOST_LOG_SEV(resourceManagerLogger, ERROR) << fileName << " (Font) failed to load.";			
 
 	}
 
@@ -530,7 +530,7 @@ void ResourceManager::addSoundBuffer(const std::string& fileName)
 
 	if (!buffer.loadFromFile(fileName))
 	{
-		BOOST_LOG(resourceManagerLogger, ERROR) << fileName << " (SoundBuffer) failed to load.";
+		BOOST_LOG_SEV(resourceManagerLogger, ERROR) << fileName << " (SoundBuffer) failed to load.";
 	}
 	soundBufferVector.push_back(buffer);
 
