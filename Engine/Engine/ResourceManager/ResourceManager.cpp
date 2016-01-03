@@ -19,7 +19,7 @@ ResourceManager::~ResourceManager()						//destructor
 
 
 
-void ResourceManager::addFilesFromTree(const std::string& directory)
+void ResourceManager::loadFileTree(const std::string& directory)
 {
 	std::vector<const std::string> files;			//make a vector of files
 	fillFileNameVectorFromTree(directory, files);	//fill it
@@ -34,14 +34,18 @@ void ResourceManager::addFilesFromTree(const std::string& directory)
 		for (unsigned int i = 0; i < files.size(); i++)
 		{
 			BOOST_LOG_SEV(resourceManagerLogger, DEBUG) << "Adding File: " << getFileName(files[i]) << " (" << files[i] << ")";
+<<<<<<< HEAD
 			addFile(files[i], getFileName(files[i]));
+=======
+			loadFile(files[i], getFileName(files[i]));
+>>>>>>> c8f777960beaf404a018dd546a4592269ecfeb82
 													//otherwise, add the file and give a debug message
 		}
 	}
 
 }
 
-void ResourceManager::addFilesFromTreeWithExt(const std::string& directory, const std::string& ext)
+void ResourceManager::loadFileTree(const std::string& directory, const std::string& ext)
 {
 
 	bool extensionFound = false;
@@ -60,7 +64,11 @@ void ResourceManager::addFilesFromTreeWithExt(const std::string& directory, cons
 													//treats "png" and ".png" as the extension the same
 			{
 				BOOST_LOG_SEV(resourceManagerLogger, DEBUG) << "Adding File: " << getFileName(files[i]) << " (" << files[i] << ")";
+<<<<<<< HEAD
 				addFile(files[i], getFileName(files[i]));
+=======
+				loadFile(files[i], getFileName(files[i]));
+>>>>>>> c8f777960beaf404a018dd546a4592269ecfeb82
 				extensionFound = true;
 													//if the extension matched, add the file
 			}
@@ -74,7 +82,7 @@ void ResourceManager::addFilesFromTreeWithExt(const std::string& directory, cons
 	}
 }
 
-void ResourceManager::addFilesFromDirectory(const std::string& directory)
+void ResourceManager::loadFileDirectory(const std::string& directory)
 {
 	std::vector<const std::string> files;				//make a vector of filenames
 	fillFileNameVectorFromDirectory(directory, files);	//fill it
@@ -88,13 +96,17 @@ void ResourceManager::addFilesFromDirectory(const std::string& directory)
 		for (unsigned int i = 0; i < files.size(); i++)
 		{
 			BOOST_LOG_SEV(resourceManagerLogger, DEBUG) << "Adding File: " << getFileName(files[i]) << " (" << files[i] << ")";
+<<<<<<< HEAD
 			addFile(files[i], getFileName(files[i]));
+=======
+			loadFile(files[i], getFileName(files[i]));
+>>>>>>> c8f777960beaf404a018dd546a4592269ecfeb82
 														//add the files
 		}
 	}
 }
 
-void ResourceManager::addFilesFromDirectoryWithExt(const std::string& directory, const std::string& ext)
+void ResourceManager::loadFileDirectory(const std::string& directory, const std::string& ext)
 {
 	bool extensionFound = false;
 	std::vector<const std::string> files;
@@ -112,7 +124,11 @@ void ResourceManager::addFilesFromDirectoryWithExt(const std::string& directory,
 														//treats "png" and ".png" the same
 			{
 				BOOST_LOG_SEV(resourceManagerLogger, DEBUG) << "Adding File: " << getFileName(files[i]) << " (" << files[i] << ")";
+<<<<<<< HEAD
 				addFile(files[i], getFileName(files[i]));
+=======
+				loadFile(files[i], getFileName(files[i]));
+>>>>>>> c8f777960beaf404a018dd546a4592269ecfeb82
 				extensionFound = true;
 														//if the extension matches, add the file
 			}
@@ -141,7 +157,11 @@ void ResourceManager::addFilesResourceGroupFromDirectory(const std::string& dire
 		for (unsigned int i = 0; i < files.size(); i++)
 		{
 			BOOST_LOG_SEV(resourceManagerLogger, DEBUG) << "Adding File: " << getFileName(files[i]) << " (" << files[i] << ")";
+<<<<<<< HEAD
 			addFile(files[i], getFileName(files[i]));
+=======
+			loadFile(files[i], getFileName(files[i]));
+>>>>>>> c8f777960beaf404a018dd546a4592269ecfeb82
 		}
 	}
 
@@ -170,7 +190,11 @@ void ResourceManager::addFilesResourceGroupFromDirectory(const std::string& dire
 		for (unsigned int i = 0; i < files.size(); i++)
 		{
 			BOOST_LOG_SEV(resourceManagerLogger, DEBUG) << "Adding File: " << getFileName(files[i]) << " (" << files[i] << ")";
+<<<<<<< HEAD
 			addFile(files[i], getFileName(files[i]));
+=======
+			loadFile(files[i], getFileName(files[i]));	//files i is a directory path
+>>>>>>> c8f777960beaf404a018dd546a4592269ecfeb82
 		}
 	}
 
@@ -187,7 +211,7 @@ void ResourceManager::addFilesResourceGroupFromDirectory(const std::string& dire
 
 
 
-void ResourceManager::addFile(const std::string& fileName, const std::string& name)
+void ResourceManager::loadFile(const std::string& fileName, const std::string& name)
 {
 	std::string ext = getExtension(fileName);						//get the extension
 
@@ -217,6 +241,12 @@ void ResourceManager::addFile(const std::string& fileName, const std::string& na
 
 		addName(name, SoundBuffer_Names);
 	}
+
+	else
+	{
+		BOOST_LOG_SEV(resourceManagerLogger, ERROR) << "Could not load file with extension " << ext << " extension type not supported";
+	}
+
 }
 
 
@@ -322,6 +352,10 @@ void ResourceManager::addResourcetoResourceGroup(const std::string& rsName, cons
 			addSoundBuffertoResourceGroup(rsName, fileName, desName);
 		}
 	}
+	else
+	{
+		BOOST_LOG_SEV(resourceManagerLogger, ERROR) << "Could not add file to resource group \"" << ext << "\"extension type not supported";
+	}
 }
 
 void ResourceManager::addTexturetoResourceGroup(const std::string& rsName, const std::string& texName)	//adds a Texture to a ResourceGroup by name
@@ -370,70 +404,23 @@ ResourceGroup* ResourceManager::getResourceGroupByName(const std::string& name)
 //-----------------------------------------PRIVATE----------------------------------------------------------------------------***************************
 //----------------------------------------------------------------------------------------------------------------------------***************************
 
-void ResourceManager::swapChars(char& a, char& b)				//swaps the values of two chars
-{
-	char c = a;
-	a = b;
-	b = c;
-}
-
-std::string ResourceManager::reverseString(std::string str)		//reverses a string
-{
-	unsigned int halfLength = str.size() / 2;
-	unsigned int siz = str.size() - 1;
-	for (unsigned int i = 0; i < halfLength; i++)
-	{
-		swapChars(str[i], str[siz - i]);						//essentially just swaps each pair of chars that are equidistant from the center
-	}
-
-	return str;
-}
-
-
-
 std::string ResourceManager::getExtension(const std::string& fpath)			//returns the extension of a file
 {
-	std::string reverseExt = "";											//will be a reversed file extension
-
-	for (int i = fpath.size() - 1; ((i >= 0) && (fpath[i] != '.')); i--)	/*cycles from the back of the file name and records the reversed 
-																			file extension (goes to the '.' or the beginning)*/
-	{
-		reverseExt += fpath[i];												//record the letter -- will be backwards when done in succession
-	}
-
-	return reverseString(reverseExt);										//simply reverse the string and return it
+	std::vector<std::string> returned = util::splitStrAtSubstr(fpath, ".");		//split string at "." and return the last string in the split vector
+	return returned[returned.size() - 1];
 }
 
-std::string ResourceManager::getFileName(const std::string& fpath)
+std::string ResourceManager::getFileName(const std::string& fpath)	
 {
-	std::string revName = "";												//the reversed file name
-	bool record = false;													//whether to record the char or not
-
-	for (int i = fpath.size() - 1; ((i >= 0) && (fpath[i] != '\\')); i--)	//reads the path from the back, stops if it hits the beginning or a [\]
-	{
-		if (!record && fpath[i] == '.')										
-		{
-			record = true;													//once it's past the extension, it starts recording
-		}
-		else if (record)
-		{
-			revName += fpath[i];											//records the name, letter by letter in reverse.
-		}
-	}
-
-	return reverseString(revName);											//reverse the string and return it
+	std::vector<std::string> fileName = util::splitStrAtSubstr(fpath, "\\");
+	std::vector<std::string> returned = util::splitStrAtSubstr(fileName[fileName.size() - 1], ".");
+	return returned[0];
 }
 
 std::string ResourceManager::getDirectoryName(const std::string& fpath)		//kind of same as getFileName -- just assumes no extension
 {
-	std::string revName = "";
-
-	for (int i = fpath.size() - 1; ((i >= 0) && (fpath[i] != '\\')); i--)	//reads the path from the back, stops if it hits the beginning or a "\"
-	{
-		revName += fpath[i];												//records the name, letter by letter in reverse.
-	}
-
-	return reverseString(revName);
+	std::vector<std::string> returned = util::splitStrAtSubstr(fpath, "\\");		//splits at slashes
+	return returned[returned.size() - 1];
 }
 
 

@@ -1,8 +1,11 @@
+#include "Defines.hpp"	//global #defines
+
+#ifndef RUN_TESTS
 
 #include "Logger.hpp"
 #include "INIParser.hpp"
 #include "ResourceManager/ResourceManager.hpp"
-
+#include "Utilities.hpp"
 
 void logging_function()
 {
@@ -25,6 +28,11 @@ void logging_function()
 	reader.setSection("");
 	reader.writeValue<int>("Eugene.cookies", 7);	//Adds header called "eugene" with an attribute called "cookies" which has a value of 7
 
+	reader.writeMap<int>(variables);				//writeMap() test
+	reader.readMap<int>(variables);
+
+
+
 	auto slg = logger::getSLogger();
 	slg.add_attribute("Scope", attrs::named_scope());
 	int cookies = 1;
@@ -43,18 +51,49 @@ int main(int, char*[])
 
 	logger::init();
 	logger::setSeverityLevel(DEBUG);
-	logging_function();
+	//logging_function();
 	auto slg = logger::getSLogger();
-	
 
-
+	util::splitStrAtSubstr("One.Two.Three", ".");
+	util::reverseString("aaaaa");
 	std::string directoryToResources = boost::filesystem::current_path().string() + "\\Resources\\";
 	ResourceManager testRM;
 	testRM.addFilesResourceGroupFromDirectory(directoryToResources + "TestResources");
 
+	for (int i = 0; i < 40; i++){
+		testRM.addFile(directoryToResources + "TestResources\\ModernArtBlue.png", "ModernArtBlueTest");
+	}
 
 
 	BOOST_LOG_SEV(slg, DEBUG) << "Exiting soon";
 	//while (true){}
 	return 0;
 }
+
+#endif
+
+
+#ifdef RUN_TESTS
+
+
+#include "Logger.hpp"
+#include "UnitTester.hpp"
+
+
+#define TEST_ALL
+
+int main(int, char*[])
+{
+	logger::init();
+	logger::setSeverityLevel(INFO);
+	auto slg = logger::getSLogger();
+
+	BOOST_LOG_SEV(slg, INFO) << "Starting Unit Tests...";
+
+	testing::UnitTester testObject;
+	testObject.runTests();
+
+	BOOST_LOG_SEV(slg, INFO) << "Unit test completed...";
+}
+
+#endif

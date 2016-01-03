@@ -5,6 +5,7 @@
 #include <boost\property_tree\ptree.hpp>
 #include <string.h>
 #include <vector>
+#include "Utilities.hpp"
 
 class INIParser
 {
@@ -17,26 +18,7 @@ public:
 	void setFilePath(const std::string& INIPath);
 	void setSection(const std::string& newSection);
 
-	template<class T>
-	void nullCopyVector(const std::vector<T>& toCopy, const std::vector<T>& vec)	//only copies non-null values from vector
-	{
-		for (int i = 0; i < vec.size(); i++)
-		{
-			if (toCopy[i])
-			{
-				vec[i] = toCopy[i];
-			};
-		}
-	}
 
-	template<class T>
-	void nullCopyValue(const T& toCopy, const T& value)	//only copies a non-null value
-	{
-		if (toCopy)
-		{
-			value = toCopy;
-		}
-	}
 
 	template<class T>
 	void readValue(const std::string& key, T& var)	//takes a string and return its value loaded from INI
@@ -69,15 +51,16 @@ public:
 		{
 			toReturn.push_back(readValue<T>(keyNames[i])); //get and push back value --- (NOT ASSEMBLING PATH HERE BECAUSE IT IS DONE IN readValue())
 		}
-		nullCopyVector(toReturn, endVector);
+		util::nullCopyVector(toReturn, endVector);
+
 	}
 
 	template<class T>
-	void writeMap(std::map <std::string, T*>& values)
+	void writeMap(std::map <std::string, T*>& values)	//writes all keys and their corresponding values from a map
 	{
 		typedef std::map<std::string, T*>::iterator it;
 
-		for (it i = values.begin(); i != values.end(); i++)
+		for (it i = values.begin(); i != values.end(); i++)	//iterates through map and calls writeValue() function for every key
 		{
 			writeValue(i->first, *values[i->first]);	
 		}

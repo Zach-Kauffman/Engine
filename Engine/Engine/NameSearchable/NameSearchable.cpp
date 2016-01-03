@@ -73,6 +73,9 @@ void NameSearchable::addName(const std::string& name, const int& mapIndex)	//add
 void NameSearchable::addName(std::string name, const int& vecIndex, const int& mapIndex)	
 														//the BIG one -- adds a name, an index to correspond to, and a vector index
 {
+	name += "1";
+	int size = name.size();
+	int endNumber = 1;
 	bool sameName = true;								//true if there may be a duplicate already
 	bool firstDuplicate = true;							//true if the duplicate found was the first duplicate
 
@@ -80,19 +83,10 @@ void NameSearchable::addName(std::string name, const int& vecIndex, const int& m
 	{
 		if (nameMapVector[vecIndex].count(name) == 1)
 		{
-			if (firstDuplicate == true)
-			{
-				name += "2";							//if there exists a "RedTexture" already, and you try to add another one,
-														//it will become "RedTexture2"
-				firstDuplicate = false;
-			}
-			else
-			{
-				name[name.size() - 1]++;				//if there exists a "RedTexture" and a "RedTexture2" already,
-														//and you try to add another "RedTexture",it will become "RedTexture3"		
-														
-			}
-
+			endNumber = boost::lexical_cast<int> (name.substr(size - 1, name.size()));				//if there exists a "RedTexture" and a "RedTexture2" already,
+			endNumber++;									//and you try to add another "RedTexture",it will become "RedTexture3"		
+			name = name.substr(0, size - 1);
+			name += intToString(endNumber);
 		}
 		else
 		{
