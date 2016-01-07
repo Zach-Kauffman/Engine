@@ -34,7 +34,7 @@ private:
 														//.5 scroll speed will scroll half as quickly as a layer with 1 scroll speed; a layer with 0
 														//scroll speed will be stationary.
 
-	double[4] scrollBounds;								//does not work yet,
+	double scrollBounds[4];								//does not work yet,
 														//the purpose is that a layer should not be able to scroll forever. see http://imgur.com/SzH03Ju for a lack of scroll bounds.
 
 	bool scrollBounded;									//true if the layer has active scrolling bounds

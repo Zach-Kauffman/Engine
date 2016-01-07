@@ -29,12 +29,12 @@ sf::Vector2f Layer::getScrollSpeed()
 
 
 
-void setScrollBound(const double& nsBound, const unsigned int& index)
+void Layer::setScrollBound(const double& nsBound, const unsigned int& index)
 {
 	scrollBounds[index] = nsBound;
 }
 
-void setAllScrollBounds(const double(&nsBound)[4])	//might not be correct syntax
+void Layer::setAllScrollBounds(const double(&nsBound)[4])	//might not be correct syntax
 {
 	for (unsigned int i = 0; i < 4; i++)
 	{
@@ -42,19 +42,19 @@ void setAllScrollBounds(const double(&nsBound)[4])	//might not be correct syntax
 	}
 }
 
-double getScrollBound(const unsigned int& index)
+double Layer::getScrollBound(const unsigned int& index)
 {
 	return scrollBounds[index];
 }
 
 
 
-void setScrollBoundedness(const bool& nscrollBounded)
+void Layer::setScrollBoundedness(const bool& nscrollBounded)
 {
 	scrollBounded = nscrollBounded;
 }
 
-bool getScrollBoundedness()
+bool Layer::getScrollBoundedness()
 {
 	return scrollBounded;
 }
