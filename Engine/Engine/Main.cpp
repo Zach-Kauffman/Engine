@@ -61,7 +61,7 @@ int main(int, char*[])
 	testRM.addFilesResourceGroupFromDirectory(directoryToResources + "TestResources");
 
 	for (int i = 0; i < 40; i++){
-		testRM.addFile(directoryToResources + "TestResources\\ModernArtBlue.png", "ModernArtBlueTest");
+		testRM.loadFile(directoryToResources + "TestResources\\ModernArtBlue.png", "ModernArtBlueTest");
 	}
 
 
