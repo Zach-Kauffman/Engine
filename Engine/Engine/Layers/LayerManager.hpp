@@ -27,11 +27,11 @@ public:
 
 	void setLayerAmount(const int& amt);				//sets the amount of layers -- ideally used once only
 
-	void setScrollSpeed(const sf::Vector2f& speed, const int& index);
+	void setScrollSpeeds(const sf::Vector2f& speed, const int& index);
 														//set the scroll speed of a particular layer
 
 
-	void setAllScrollSpeeds(const std::vector<const sf::Vector2f>& scrollSpeeds);
+	void setScrollSpeeds(std::vector<const sf::Vector2f> scrollSpeeds);
 														//set the scroll speed of all layers; should start with 1 and descend
 
 	boost::shared_ptr<Layer> getLayerPointer(const int& index);			
@@ -43,13 +43,33 @@ public:
 
 	void draw(sf::RenderWindow& window);				//draws all of the layers
 
+
 	
+	void setScrollBounds(const double& nsBound, const unsigned int& boundIndex, const unsigned int& layerIndex);
+
+	void setScrollBounds(std::vector<const double> nsBound, const unsigned int& layerIndex);
+
+	void setScrollBounds(std::vector<std::vector<const double>> nsBoundVec);
+
+
+	void setWindowDimensions(const sf::Vector2f& newDimens, const unsigned int& layerIndex);
+
+	void setWindowDimensions(std::vector<const sf::Vector2f> newDimensVec);
+
 
 private:
 
 	void basicSetup();									//setup called in every constructor
 
-
+	template<class T> 
+	void resizeToMatchLayer(std::vector<T>& vec, const std::string& name)
+	{
+		if (vec.size() != layers.size())
+		{
+			BOOST_LOG_SEV(layerManagerLogger, WARNING) << "The amount of input " << name << " does not match the amount of layers. It was resized to match.";
+			vec.resize(layers.size())
+		}
+	}
 	
 
 

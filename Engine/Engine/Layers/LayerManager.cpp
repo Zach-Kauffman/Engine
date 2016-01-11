@@ -56,7 +56,7 @@ void LayerManager::setLayerAmount(const int& amt)
 
 
 
-void LayerManager::setScrollSpeed(const sf::Vector2f& speed, const int& index)
+void LayerManager::setScrollSpeeds(const sf::Vector2f& speed, const int& index)
 {
 	if (index >= 0 && index < layers.size())
 	{
@@ -77,20 +77,17 @@ void LayerManager::setScrollSpeed(const sf::Vector2f& speed, const int& index)
 
 
 
-void LayerManager::setAllScrollSpeeds(const std::vector<const sf::Vector2f>& scrollSpeeds)
+void LayerManager::setScrollSpeeds(std::vector<const sf::Vector2f> scrollSpeeds)
 {
-	unsigned int ss_siz = scrollSpeeds.size() - 1;					//(size of scrollSpeeds) - 1
 
-	bool oddSpeed = false;											//if there is a speed < 0 or a speed > 1 or not
+	bool oddSpeed = false;												//if there is a speed < 0 or a speed > 1 or not
 	
+	resizeToMatchLayer(scrollSpeeds, "ScrollSpeeds");					//resizes the vector to have the same number of elements as the vector of layers. It also logs a warning
 
 	for (unsigned int i = 0; i < layers.size(); i++)
 	{
 
-		const sf::Vector2f tmpSpeed = scrollSpeeds[util::uimin(i, ss_siz)];
-																	//record the speed of the corresponding scrollSpeed value
-																	//If the scrollSpeed vec is too small for some reason, the last element will
-																	//be reused
+		const sf::Vector2f tmpSpeed = scrollSpeeds[i];					//record the speed of the corresponding scrollSpeed value
 
 		layers[i]->setScrollSpeed(tmpSpeed);							//set the scrollSpeed of a layer to its previously determined matching speed
 
@@ -104,11 +101,7 @@ void LayerManager::setAllScrollSpeeds(const std::vector<const sf::Vector2f>& scr
 		
 	}
 
-	if (ss_siz + 1 != layers.size())
-	{
-		BOOST_LOG_SEV(layerManagerLogger, WARNING) << "The amount of input scrollSpeeds does not match the amount of layers.";
-																	//if the scrollSpeed Vector had a different size than the layers vector, log a warning
-	}
+
 	if (oddSpeed)
 	{
 		BOOST_LOG_SEV(layerManagerLogger, WARNING) << "An odd scrollSpeed was detected. It was either < 0 or > 1. It will still work, however.";
@@ -153,6 +146,45 @@ void LayerManager::draw(sf::RenderWindow& window)
 
 	oldReferencePointValue = *referencePoint;							//update the oldReferencePointValue
 
+}
+
+
+
+void LayerManager::setScrollBounds(const double& nsBound, const unsigned int& boundIndex, const unsigned int& layerIndex)
+{
+	layers[layerIndex]->setScrollBounds(nsBound, boundIndex);
+}
+
+void LayerManager::setScrollBounds(std::vector<const double> nsBound, const unsigned int& layerIndex)
+{
+	layers[layerIndex]->setScrollBounds(nsBound);
+}
+
+void LayerManager::setScrollBounds(std::vector<std::vector<const double>> nsBoundVec)
+{
+
+	resizeToMatchLayer(nsBoundVec, "ScrollBounds");
+
+	for (int i = 0; i < layers.size(); i++)
+	{
+		layers[i]->setAllScrollBounds(nsBoundVec[i]);
+	}
+}
+
+
+void LayerManager::setWindowDimensions(const sf::Vector2f& newDimens, const unsigned int& layerIndex)
+{
+	layers[layerIndex]->setWindowDimesions(newDimens);
+}
+
+void LayerManager::setWindowDimensions(std::vector<const sf::Vector2f> newDimensVec)
+{
+	resizeToMatchLayer(newDimensVec, "WindowDimensions");
+
+	for (int i = 0; i < layers.size(); i++)
+	{
+		layers[i]->setWindowDimesions(newDimensVec[i]);
+	}
 }
 
 

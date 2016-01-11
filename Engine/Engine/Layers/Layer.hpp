@@ -14,11 +14,13 @@ public:
 
 	sf::Vector2f getScrollSpeed();						//get scroll speed
 
-	void setScrollBound(const double& nsBound, const unsigned int& index);
+
+
+	void setScrollBounds(const double& nsBound, const unsigned int& index);
 														//sets a specific scrollBound
 
 
-	void setAllScrollBounds(const double(&nsBound)[4]);	//set all scrollBounds
+	void setScrollBounds(std::vector<const double> nsBound);	//set all scrollBounds
 
 	double getScrollBound(const unsigned int& index);	//gets a scroll bound by index
 
@@ -26,6 +28,13 @@ public:
 	void setScrollBoundedness(const bool& nscrollBounded);
 
 	bool getScrollBoundedness();
+
+
+	void setWindowDimesions(const sf::Vector2f& newDimens);
+
+	sf::Vector2f getWindowDimensions();
+
+
 
 
 private:
@@ -37,7 +46,13 @@ private:
 	double scrollBounds[4];								//does not work yet,
 														//the purpose is that a layer should not be able to scroll forever. see http://imgur.com/SzH03Ju for a lack of scroll bounds.
 
-	bool scrollBounded;									//true if the layer has active scrolling bounds
+	bool scrollBounded;									//true if the layer has active scrolling bounds.
+
+	sf::Vector2f windowDimensions;						//the dimensions of the graphical display of the layer.
+
+	
+
+	
 
 	//enum boundPositions { Top = 0, Left, Bottom, Right };
 };
