@@ -42,6 +42,8 @@ void logging_function()
 	BOOST_LOG_SEV(slg, INFO) << "This is a string: " << testing;
 	BOOST_LOG_SEV(slg, ERROR) << "Eugene's cookies: " << cookies;
 
+	
+
 }
 
 
@@ -60,10 +62,11 @@ int main(int, char*[])
 	ResourceManager testRM;
 	testRM.addFilesResourceGroupFromDirectory(directoryToResources + "TestResources");
 
+	logger::log(slg, ERROR, true, "Im dumb");
 
 	BOOST_LOG_SEV(slg, DEBUG) << "Exiting soon";
 	//while (true){}
-	return 0;
+	//return 0;
 }
 
 #endif

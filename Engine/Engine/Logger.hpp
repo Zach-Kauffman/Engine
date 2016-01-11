@@ -59,6 +59,8 @@ namespace logger
 	//initialization function
 	void init();
 
+	void log(src::severity_logger<severity_level>, severity_level, bool, std::string);
+
 }
 
 

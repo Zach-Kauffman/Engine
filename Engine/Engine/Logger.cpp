@@ -63,3 +63,11 @@ void logger::init()
 	logging::add_common_attributes();
 	logging::core::get()->add_global_attribute("Scope", attrs::named_scope());
 }
+
+void logger::log(src::severity_logger<severity_level> slg, severity_level level, bool console, std::string message)
+{
+	BOOST_LOG_SEV(slg, level) << message;
+
+	if (console)
+		std::cout << message << std::endl;
+}
