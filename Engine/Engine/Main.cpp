@@ -79,6 +79,12 @@ int main(int, char*[])
 	ResourceManager testRM;
 	testRM.addFilesResourceGroupFromDirectory(directoryToResources + "TestResources");
 
+
+	for (int i = 0; i < 40; i++){
+		testRM.loadFile(directoryToResources + "TestResources\\ModernArtBlue.png", "ModernArtBlueTest");
+	}
+
+
 	BOOST_LOG_SEV(slg, DEBUG) << "Exiting soon";
 
 	std::cin.ignore();

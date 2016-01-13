@@ -55,3 +55,80 @@ std::vector<std::string> util::splitStrAtSubstr(const std::string& str, const st
 
 	return splits;	//return vector containing all splits
 }
+
+
+//mins, maxes, bounds
+int imax(int& a, int& b)
+{
+	return ((a > b) ? a : b);
+}
+
+int imin(int& a, int& b)
+{
+	return ((a < b) ? a : b);
+}
+
+void ibound(int& a, const int& b, const int& c)
+{
+	if (b > c)
+	{
+		if (a > b){ a = b; }
+		else if (a < c){ a = c; }
+	}
+	else
+	{
+		if (a > c){ a = c; }
+		else if (a < b) { a = b; }
+	}
+}
+
+
+
+double dmax(double& a, double& b)
+{
+	return ((a > b) ? a : b);
+}
+
+double dmin(double& a, double& b)
+{
+	return ((a < b) ? a : b);
+}
+
+void dbound(double& a, const double& b, const double& c)
+{
+	if (b > c)
+	{
+		if (a > b){ a = b; }
+		else if (a < c){ a = c; }
+	}
+	else
+	{
+		if (a > c){ a = c; }
+		else if (a < b) { a = b; }
+	}
+}
+
+
+unsigned int uimax(unsigned int& a, unsigned int& b)
+{
+	return ((a > b) ? a : b);
+}
+
+unsigned int uimin(unsigned int& a, unsigned int& b)
+{
+	return ((a < b) ? a : b);
+}
+
+void uibound(unsigned int& a, const unsigned int& b, const unsigned int& c)
+{
+	if (b > c)
+	{
+		if (a > b){ a = b; }
+		else if (a < c){ a = c; }
+	}
+	else
+	{
+		if (a > c){ a = c; }
+		else if (a < b) { a = b; }
+	}
+}

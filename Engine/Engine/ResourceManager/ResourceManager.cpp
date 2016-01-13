@@ -35,6 +35,7 @@ void ResourceManager::loadFileTree(const std::string& directory)
 		{
 			BOOST_LOG_SEV(resourceManagerLogger, DEBUG) << "Adding File: " << getFileName(files[i]) << " (" << files[i] << ")";
 			loadFile(files[i], getFileName(files[i]));
+
 													//otherwise, add the file and give a debug message
 		}
 	}
@@ -61,6 +62,7 @@ void ResourceManager::loadFileTree(const std::string& directory, const std::stri
 			{
 				BOOST_LOG_SEV(resourceManagerLogger, DEBUG) << "Adding File: " << getFileName(files[i]) << " (" << files[i] << ")";
 				loadFile(files[i], getFileName(files[i]));
+
 				extensionFound = true;
 													//if the extension matched, add the file
 			}
@@ -88,7 +90,9 @@ void ResourceManager::loadFileDirectory(const std::string& directory)
 		for (unsigned int i = 0; i < files.size(); i++)
 		{
 			BOOST_LOG_SEV(resourceManagerLogger, DEBUG) << "Adding File: " << getFileName(files[i]) << " (" << files[i] << ")";
+
 			loadFile(files[i], getFileName(files[i]));
+
 														//add the files
 		}
 	}
@@ -142,6 +146,7 @@ void ResourceManager::addFilesResourceGroupFromDirectory(const std::string& dire
 		{
 			BOOST_LOG_SEV(resourceManagerLogger, DEBUG) << "Adding File: " << getFileName(files[i]) << " (" << files[i] << ")";
 			loadFile(files[i], getFileName(files[i]));
+
 		}
 	}
 
