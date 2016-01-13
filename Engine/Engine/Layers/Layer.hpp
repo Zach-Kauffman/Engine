@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "../Utilities.hpp"
 
 class Layer : public sf::RenderTexture					//Layer is a RenderTexture that can have parallax added to it; it is a "small" class
 														//because it is a light wrapper of RenderTexture
@@ -35,9 +36,16 @@ public:
 	sf::Vector2f getWindowDimensions();
 
 
+	void setInitTracking(const sf::Vector2f& inTracking);
+
+	sf::Vector2f getScrollDistance(const sf::Vector2f& scrollDist);
+
+
 
 
 private:
+
+	sf::Vector2f boundScrollTracker();
 
 	sf::Vector2f scrollSpeed;							//the fraction of the "normal" scroll speed at which a layer will scroll; a layer with
 														//.5 scroll speed will scroll half as quickly as a layer with 1 scroll speed; a layer with 0
@@ -50,10 +58,10 @@ private:
 
 	sf::Vector2f windowDimensions;						//the dimensions of the graphical display of the layer.
 
-	
+	sf::Vector2f scrollTracker;							//keeps track of the scrolling
 
 	
 
-	//enum boundPositions { Top = 0, Left, Bottom, Right };
+	enum boundPositions { Top = 0, Left, Bottom, Right };
 };
 

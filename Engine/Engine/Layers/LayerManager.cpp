@@ -133,11 +133,11 @@ void LayerManager::draw(sf::RenderWindow& window)
 	for (unsigned int i = layers.size(); i > 0; --i)					//draw in reverse order -- makes intuitive sense: the first layer in the vector
 																		//is the forwardmost layer, not backmost
 	{
-		const sf::Texture& tmpTex = layers[i]->getTexture();				//get the texture from the layer
+		const sf::Texture& tmpTex = layers[i]->getTexture();			//get the texture from the layer
 
 		sf::Sprite tmpSprite(tmpTex);									//set a sprite's texture as it
 
-		tmpSprite.move(layers[i]->getScrollSpeed().x * distance.x, layers[i]->getScrollSpeed().y * distance.y);
+		tmpSprite.move(layers[i]->getScrollDistance(distance));
 																		//move the sprite a portion of the distance to the old point where the portion
 																		//is the scroll speed
 
@@ -167,7 +167,7 @@ void LayerManager::setScrollBounds(std::vector<std::vector<const double>> nsBoun
 
 	for (int i = 0; i < layers.size(); i++)
 	{
-		layers[i]->setAllScrollBounds(nsBoundVec[i]);
+		layers[i]->setScrollBounds(nsBoundVec[i]);
 	}
 }
 

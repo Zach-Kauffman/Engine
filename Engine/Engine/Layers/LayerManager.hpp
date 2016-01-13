@@ -67,7 +67,7 @@ private:
 		if (vec.size() != layers.size())
 		{
 			BOOST_LOG_SEV(layerManagerLogger, WARNING) << "The amount of input " << name << " does not match the amount of layers. It was resized to match.";
-			vec.resize(layers.size())
+			vec.resize(layers.size());
 		}
 	}
 	
