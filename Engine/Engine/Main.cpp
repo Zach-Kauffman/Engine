@@ -82,8 +82,7 @@ int main(int, char*[])
 	BOOST_LOG_SEV(slg, DEBUG) << "Exiting soon";
 
 	std::cin.ignore();
-	//Sleep(2000);
-	//while (true){}
+	
 	return 0;
 }
 
