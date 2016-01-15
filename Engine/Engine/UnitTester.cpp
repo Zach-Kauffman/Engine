@@ -49,6 +49,9 @@ void testing::UnitTester::utilities()
 	util::swapChars(a, b);
 	if (a != 'b' || b != 'a') { BOOST_LOG_SEV(testLogger, ERROR) << "Input to util::swapChars failed."; }
 
+	BOOST_LOG_SEV(testLogger, INFO) << "Now testing: std::string util::intToString(int finput);";
+	if(util::intToString(5) != "5"){ BOOST_LOG_SEV(testLogger, ERROR) << "Input to util::intToString failed."; }
+
 	BOOST_LOG_SEV(testLogger, INFO) << "Now testing: std::string util::reverseString(const std::string& str);";
 	if (util::reverseString("myString") != "gnirtSym") { BOOST_LOG_SEV(testLogger, ERROR) << "Input to util::reverseString failed.  IN: \"myString\""; }
 	if (util::reverseString("MYSTRING ") != " GNIRTSYM") { BOOST_LOG_SEV(testLogger, ERROR) << "Input to util::reverseString failed.  IN: \"MYSTRING \""; }

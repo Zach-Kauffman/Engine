@@ -4,11 +4,13 @@
 #include <string>
 #include <stack>
 #include <vector>
-
+#include "Logger.hpp"
 
 namespace util
 {
 	void swapChars(char& a, char& b);	//flips two chars
+
+	std::string intToString(int finput); //converts an int to a string
 
 	std::string reverseString(const std::string& str);	//stack based implementation of string inversion
 

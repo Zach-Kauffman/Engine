@@ -2,10 +2,12 @@
 
 #ifndef RUN_TESTS
 
+
 #include "Logger.hpp"
 #include "INIParser.hpp"
 #include "ResourceManager/ResourceManager.hpp"
 #include "Utilities.hpp"
+#include <boost/core/null_deleter.hpp>
 
 void logging_function()
 {
@@ -42,6 +44,8 @@ void logging_function()
 	BOOST_LOG_SEV(slg, INFO) << "This is a string: " << testing;
 	BOOST_LOG_SEV(slg, ERROR) << "Eugene's cookies: " << cookies;
 
+	
+
 }
 
 
@@ -54,11 +58,27 @@ int main(int, char*[])
 	//logging_function();
 	auto slg = logger::getSLogger();
 
+	typedef sinks::synchronous_sink< sinks::text_ostream_backend > text_sink;
+	boost::shared_ptr< text_sink > sink = boost::make_shared< text_sink >();
+
+	// Add a stream to write log to
+	sink->locked_backend()->add_stream(
+		boost::make_shared< std::ofstream >("sample.log"));
+
+	// Register the sink in the logging core
+	logging::core::get()->add_sink(sink);
+
+#ifdef LOG_CONSOLE
+	boost::shared_ptr< std::ostream > stream(&std::clog, boost::null_deleter());
+	sink->locked_backend()->add_stream(stream);
+#endif
+
 	util::splitStrAtSubstr("One.Two.Three", ".");
 	util::reverseString("aaaaa");
 	std::string directoryToResources = boost::filesystem::current_path().string() + "\\Resources\\";
 	ResourceManager testRM;
 	testRM.addFilesResourceGroupFromDirectory(directoryToResources + "TestResources");
+
 
 	for (int i = 0; i < 40; i++){
 		testRM.loadFile(directoryToResources + "TestResources\\ModernArtBlue.png", "ModernArtBlueTest");
@@ -66,7 +86,9 @@ int main(int, char*[])
 
 
 	BOOST_LOG_SEV(slg, DEBUG) << "Exiting soon";
-	//while (true){}
+
+	std::cin.ignore();
+	
 	return 0;
 }
 

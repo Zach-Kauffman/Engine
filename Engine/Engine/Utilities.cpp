@@ -9,6 +9,11 @@ void util::swapChars(char& a, char& b)
 	b = tmp;
 }
 
+std::string util::intToString(int finput)		//converts an int to a string using boost
+{
+	return boost::lexical_cast<std::string>(finput);	//boost does these things, thank god
+}
+
 std::string util::reverseString(const std::string& str)
 {
 	std::stack<char> string;
