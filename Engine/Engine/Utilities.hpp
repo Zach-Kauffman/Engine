@@ -18,7 +18,7 @@ namespace util
 
 	std::string vecToStr(const std::vector<std::string>& vec, const std::string& between);	//compiles vector into single string
 
-	inline void swapChars(char& a, char& b)
+	inline void swapChars(char& a, char& b);
 
 	int imax(int& a, int& b);								//finds the greater of two ints
 	int imin(int& a, int& b);								//finds the lesser of two ints
@@ -36,7 +36,7 @@ namespace util
 															//bounds an unsigned int between two other unsigned ints
 
 	template<class T>
-	void nullCopyVector(const std::vector<T>& toCopy, std::vector<T>& vec)	//only copies non-null values from vector
+	void nullCopyVector(const std::vector<T>& toCopy, std::vector<T>& vec);	//only copies non-null values from vector
 	/*
 	{
 		char tmp = a;
