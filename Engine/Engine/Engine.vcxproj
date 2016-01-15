@@ -13,6 +13,8 @@
   <ItemGroup>
     <ClCompile Include="Downcast.cpp" />
     <ClCompile Include="INIParser.cpp" />
+    <ClCompile Include="Layers\Layer.cpp" />
+    <ClCompile Include="Layers\LayerManager.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="NameSearchable\NameSearchable.cpp" />
@@ -29,6 +31,8 @@
     <ClInclude Include="Defines.hpp" />
     <ClInclude Include="Downcast.hpp" />
     <ClInclude Include="INIParser.hpp" />
+    <ClInclude Include="Layers\Layer.hpp" />
+    <ClInclude Include="Layers\LayerManager.hpp" />
     <ClInclude Include="Logger.hpp" />
     <ClInclude Include="NameSearchable\NameSearchable.hpp" />
     <ClInclude Include="Object.hpp" />
