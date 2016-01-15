@@ -31,9 +31,6 @@ public:
 	bool getScrollBoundedness();
 
 
-	void setWindowDimesions(const sf::Vector2f& newDimens);
-
-	sf::Vector2f getWindowDimensions();
 
 
 	void setInitTracking(const sf::Vector2f& inTracking);
@@ -56,7 +53,6 @@ private:
 
 	bool scrollBounded;									//true if the layer has active scrolling bounds.
 
-	sf::Vector2f windowDimensions;						//the dimensions of the graphical display of the layer.
 
 	sf::Vector2f scrollTracker;							//keeps track of the scrolling
 

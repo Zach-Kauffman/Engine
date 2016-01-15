@@ -52,9 +52,6 @@ public:
 	void setScrollBounds(std::vector<std::vector<const double>> nsBoundVec);
 
 
-	void setWindowDimensions(const sf::Vector2f& newDimens, const unsigned int& layerIndex);
-
-	void setWindowDimensions(std::vector<const sf::Vector2f> newDimensVec);
 
 
 private:

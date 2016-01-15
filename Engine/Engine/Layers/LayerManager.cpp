@@ -172,22 +172,6 @@ void LayerManager::setScrollBounds(std::vector<std::vector<const double>> nsBoun
 }
 
 
-void LayerManager::setWindowDimensions(const sf::Vector2f& newDimens, const unsigned int& layerIndex)
-{
-	layers[layerIndex]->setWindowDimesions(newDimens);
-}
-
-void LayerManager::setWindowDimensions(std::vector<const sf::Vector2f> newDimensVec)
-{
-	resizeToMatchLayer(newDimensVec, "WindowDimensions");
-
-	for (int i = 0; i < layers.size(); i++)
-	{
-		layers[i]->setWindowDimesions(newDimensVec[i]);
-	}
-}
-
-
 // private
 
 void LayerManager::basicSetup()

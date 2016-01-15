@@ -1,9 +1,5 @@
 #include "Layer.hpp"
 
-//---------------------------
-//Not much to see here
-//---------------------------
-
 
 //public
 
@@ -65,16 +61,6 @@ bool Layer::getScrollBoundedness()
 	return scrollBounded;
 }
 
-
-void Layer::setWindowDimesions(const sf::Vector2f& newDimens)
-{
-	windowDimensions = newDimens;
-}
-
-sf::Vector2f Layer::getWindowDimensions()
-{
-	return windowDimensions;
-}
 
 void Layer::setInitTracking(const sf::Vector2f& inTracking)
 {
