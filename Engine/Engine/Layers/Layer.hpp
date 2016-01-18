@@ -83,6 +83,8 @@ private:
 
 	sf::Vector2f scrollTracker;							//keeps track of the scrolling
 
+	sf::Vector2f oldScrollTracker;
+
 	
 
 

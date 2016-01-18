@@ -87,6 +87,36 @@ namespace util
 	}
 
 
+
+
+	inline float fmax(float& a, float& b)
+	{
+		return ((a > b) ? a : b);
+	}
+
+	inline float fmin(float& a, float& b)
+	{
+		return ((a < b) ? a : b);
+	}
+
+	inline void fbound(float& a, const float& b, const float& c)
+	{
+		if (b > c)
+		{
+			if (a > b){ a = b; }
+			else if (a < c){ a = c; }
+		}
+		else
+		{
+			if (a > c){ a = c; }
+			else if (a < b) { a = b; }
+		}
+	}
+
+
+
+
+
 	inline unsigned int uimax(unsigned int& a, unsigned int& b)
 	{
 		return ((a > b) ? a : b);
