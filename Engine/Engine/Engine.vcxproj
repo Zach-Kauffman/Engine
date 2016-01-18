@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Downcast.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="INIParser.cpp" />
     <ClCompile Include="Layers\Layer.cpp" />
     <ClCompile Include="Layers\LayerManager.cpp" />
@@ -30,6 +31,7 @@
   <ItemGroup>
     <ClInclude Include="Defines.hpp" />
     <ClInclude Include="Downcast.hpp" />
+    <ClInclude Include="Game.hpp" />
     <ClInclude Include="INIParser.hpp" />
     <ClInclude Include="Layers\Layer.hpp" />
     <ClInclude Include="Layers\LayerManager.hpp" />
