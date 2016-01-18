@@ -7,6 +7,7 @@ Layer::Layer()
 {
 	scrollBounded = false;				//by default, scrollBoundedness is false
 	scrollTracker = sf::Vector2f(0, 0);	//the scrollTracker starts at (0,0)
+	oldScrollTracker = scrollTracker;
 }
 
 Layer::~Layer()
@@ -138,7 +139,6 @@ sf::Vector2f Layer::getScrollDistance(const sf::Vector2f& scrollDist)
 {
 	//keep track of the scrolling 
 
-	const sf::Vector2f oldTrackVal = scrollTracker;
 
 	sf::Vector2f dist;
 	dist.x = scrollSpeed.x * scrollDist.x;
@@ -150,15 +150,28 @@ sf::Vector2f Layer::getScrollDistance(const sf::Vector2f& scrollDist)
 
 	
 	//then return the difference between the bounded scrolltracking value and the old scrolltracking value
-	const sf::Vector2f corDist = getCorrectiveDistance();		//get the corrective distance that will align the layer to the bounds
+	
 	if (scrollBounded)
 	{
-		moveCorners(corDist);									//apply the displacement
-		scrollTracker += corDist;
+		const sf::Vector2f corDist = getCorrectiveDistance();						//get the corrective distance that will align the layer to the bounds 
 
+		const sf::Vector2f retTmp = (scrollTracker - oldScrollTracker + corDist);	//should be 0 if the scrollTracker was out of bounds last time
+
+		oldScrollTracker = scrollTracker + corDist;
+
+		return retTmp;
 
 	}
-	return (scrollTracker - oldTrackVal);
+	else
+	{
+		const sf::Vector2f retTmp = (scrollTracker - oldScrollTracker);
+
+		oldScrollTracker = scrollTracker;
+
+		return retTmp;
+		
+	}
+	
 }
 
 
