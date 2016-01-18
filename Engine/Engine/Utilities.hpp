@@ -8,7 +8,7 @@
 
 namespace util
 {
-
+	/*
 	void swapChars(char& a, char& b);
 
 	std::string reverseString(const std::string& str);	//stack based string flipper
@@ -34,14 +34,81 @@ namespace util
 	unsigned int uimin(unsigned int& a, unsigned int& b);	//finds the greater of two nsigned ints
 	void uibound(unsigned int& a, const unsigned int& b, const unsigned int& c);
 															//bounds an unsigned int between two other unsigned ints
-
-	template<class T>
-	void nullCopyVector(const std::vector<T>& toCopy, std::vector<T>& vec);	//only copies non-null values from vector
-	/*
+	*/
+	//mins, maxes, bounds
+	inline int imax(int& a, int& b)
 	{
-		char tmp = a;
-		a = b;
-		b = tmp;
+		return ((a > b) ? a : b);
+	}
+
+	inline int imin(int& a, int& b)
+	{
+		return ((a < b) ? a : b);
+	}
+
+	inline void ibound(int& a, const int& b, const int& c)
+	{
+		if (b > c)
+		{
+			if (a > b){ a = b; }
+			else if (a < c){ a = c; }
+		}
+		else
+		{
+			if (a > c){ a = c; }
+			else if (a < b) { a = b; }
+		}
+	}
+
+
+
+	inline double dmax(double& a, double& b)
+	{
+		return ((a > b) ? a : b);
+	}
+
+	inline double dmin(double& a, double& b)
+	{
+		return ((a < b) ? a : b);
+	}
+
+	inline void dbound(double& a, const double& b, const double& c)
+	{
+		if (b > c)
+		{
+			if (a > b){ a = b; }
+			else if (a < c){ a = c; }
+		}
+		else
+		{
+			if (a > c){ a = c; }
+			else if (a < b) { a = b; }
+		}
+	}
+
+
+	inline unsigned int uimax(unsigned int& a, unsigned int& b)
+	{
+		return ((a > b) ? a : b);
+	}
+
+	inline unsigned int uimin(unsigned int& a, unsigned int& b)
+	{
+		return ((a < b) ? a : b);
+	}
+
+	inline void uibound(unsigned int& a, const unsigned int& b, const unsigned int& c)
+	{
+		if (b > c)
+		{
+			if (a > b){ a = b; }
+			else if (a < c){ a = c; }
+		}
+		else
+		{
+			if (a > c){ a = c; }
+			else if (a < b) { a = b; }
+		}
 	}
 
 	inline std::string reverseString(const std::string& str)
@@ -104,7 +171,7 @@ namespace util
 		{
 			value = toCopy;
 		}
-	};
+	}
 
 	template<class T>
 	inline void nullCopyVector(const std::vector<T>& toCopy, std::vector<T>& vec)	//only copies non-null values from vector
@@ -116,8 +183,7 @@ namespace util
 				vec[i] = toCopy[i];
 			};
 		}
-	};
-	*/
+	}
 }
 
 

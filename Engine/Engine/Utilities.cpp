@@ -1,7 +1,7 @@
 #include "Utilities.hpp"
 
 using namespace util;
-
+/*
 void swapChars(char& a, char& b)
 {
 	char tmp = a;
@@ -137,3 +137,4 @@ void uibound(unsigned int& a, const unsigned int& b, const unsigned int& c)
 		else if (a < b) { a = b; }
 	}
 }
+*/

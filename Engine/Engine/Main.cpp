@@ -9,6 +9,7 @@
 #include "ObjectManager.hpp"
 #include "TestObject.hpp"
 #include "Object.hpp"
+#include "Game.hpp"
 
 void logging_function()
 {
@@ -73,6 +74,10 @@ int main(int, char*[])
 		testObject->update();
 		BOOST_LOG_SEV(slg, INFO) << testObject->getCounter();
 	}
+
+	Game theGame;
+	theGame.initialize("gameConfig.ini", "dkfaj", "lakdfja", 0);
+	theGame.begin();
 	//util::splitStrAtSubstr("One.Two.Three", ".");
 	//util::reverseString("aaaaa");
 	//std::string directoryToResources = boost::filesystem::current_path().string() + "\\Resources\\";
