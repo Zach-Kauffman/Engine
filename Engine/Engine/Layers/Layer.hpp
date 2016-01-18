@@ -32,6 +32,29 @@ public:
 
 
 
+	void setExtremeCorners(const sf::Vector2f& fTLCorner, const sf::Vector2f& fBRCorner);
+
+	void setExtremeCornersAlt(const sf::Vector2f& fBLCorner, const sf::Vector2f& fTRCorner);
+
+	void setTopLeftCorner(const sf::Vector2f& fTLCorner);
+
+	void setBottomRightCorner(const sf::Vector2f& fBRCorner);
+
+	void setBottomLeftCorner(const sf::Vector2f& fBLCorner);
+
+	void setTopRightCorner(const sf::Vector2f& fTRCorner);
+
+
+
+
+	float getMinWindowX();
+	float getMaxWindowX();
+	float getMinWindowY();
+	float getMaxWindowY();
+
+	std::pair<sf::Vector2f, sf::Vector2f> getWindowCorners();
+
+
 
 	void setInitTracking(const sf::Vector2f& inTracking);
 
@@ -40,9 +63,13 @@ public:
 
 
 
+
+
 private:
 
-	sf::Vector2f boundScrollTracker();
+	void moveCorners(const sf::Vector2f& dist);
+
+	sf::Vector2f getCorrectiveDistance();
 
 	sf::Vector2f scrollSpeed;							//the fraction of the "normal" scroll speed at which a layer will scroll; a layer with
 														//.5 scroll speed will scroll half as quickly as a layer with 1 scroll speed; a layer with 0
@@ -57,6 +84,11 @@ private:
 	sf::Vector2f scrollTracker;							//keeps track of the scrolling
 
 	
+
+
+	sf::Vector2f TLCorner;
+
+	sf::Vector2f BRCorner;
 
 	enum boundPositions { Top = 0, Left, Bottom, Right };
 };

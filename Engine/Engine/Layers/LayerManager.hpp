@@ -52,6 +52,9 @@ public:
 	void setScrollBounds(std::vector<std::vector<const double>> nsBoundVec);
 
 
+	void setWindowCorners(const sf::Vector2f& fTLCorner, const sf::Vector2f& fBRCorner, const unsigned int& layerIndex);
+
+	void setWindowCorners(std::vector<std::pair<const sf::Vector2f, const sf::Vector2f>> windowCornerVec);
 
 
 private:

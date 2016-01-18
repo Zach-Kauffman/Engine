@@ -165,12 +165,27 @@ void LayerManager::setScrollBounds(std::vector<std::vector<const double>> nsBoun
 
 	resizeToMatchLayer(nsBoundVec, "ScrollBounds");
 
-	for (int i = 0; i < layers.size(); i++)
+	for (unsigned int i = 0; i < layers.size(); i++)
 	{
 		layers[i]->setScrollBounds(nsBoundVec[i]);
 	}
 }
 
+
+void LayerManager::setWindowCorners(const sf::Vector2f& fTLCorner, const sf::Vector2f& fBRCorner, const unsigned int& layerIndex)
+{
+	layers[layerIndex]->setExtremeCorners(fTLCorner, fBRCorner);
+}
+
+void LayerManager::setWindowCorners(std::vector<std::pair<const sf::Vector2f, const sf::Vector2f>> windowCornerVec)
+{
+	resizeToMatchLayer(windowCornerVec, "WindowCorners");
+
+	for (unsigned int i = 0; i < layers.size(); i++)
+	{
+		layers[i]->setExtremeCorners(windowCornerVec[i].first, windowCornerVec[i].second);
+	}
+}
 
 // private
 
