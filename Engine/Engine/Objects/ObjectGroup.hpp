@@ -9,8 +9,8 @@
 
 //project includes
 #include "Object.hpp"
-#include "NameSearchable\NameSearchable.hpp"
-#include "Utilities.hpp"
+#include "..\NameSearchable\NameSearchable.hpp"
+#include "..\Utility\Utilities.hpp"
 
 //This class is a way to organize various groups of objects, for example 
 //you may want a group to hold all physics objects and then subgroups for collidables, movables etc

@@ -4,8 +4,8 @@
 #include "SFML/Graphics.hpp"
 
 //project includes
-#include "Utilities.hpp"
-#include "INIParser.hpp"	//this will be used in load/write
+#include "..\Utility\Utilities.hpp"
+#include "..\Utility\INIParser.hpp"	//this will be used in load/write
 
 namespace objects
 {

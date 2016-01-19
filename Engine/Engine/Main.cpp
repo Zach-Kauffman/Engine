@@ -2,13 +2,13 @@
 
 #ifndef RUN_TESTS
 
-#include "Logger.hpp"
-#include "INIParser.hpp"
+#include "Utility/Logger.hpp"
+#include "Utility/INIParser.hpp"
 #include "ResourceManager/ResourceManager.hpp"
-#include "Utilities.hpp"
-#include "ObjectManager.hpp"
+#include "Utility/Utilities.hpp"
+#include "Objects/ObjectManager.hpp"
 #include "TestObject.hpp"
-#include "Object.hpp"
+#include "Objects/Object.hpp"
 #include "Game.hpp"
 
 void logging_function()

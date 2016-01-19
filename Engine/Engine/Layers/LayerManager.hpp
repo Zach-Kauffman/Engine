@@ -1,8 +1,8 @@
 #pragma once
 #include "Layer.hpp"
-#include "../Logger.hpp"
+#include "../Utility/Logger.hpp"
 #include <vector>
-#include "../Utilities.hpp"
+#include "../Utility/Utilities.hpp"
 
 
 class LayerManager										//holds and manages layers of graphics -- useful for parallax

@@ -4,9 +4,9 @@
 #include "boost\shared_ptr.hpp"
 
 //project includes
-#include "Logger.hpp"
+#include "..\Utility\Logger.hpp"
 #include "ObjectGroup.hpp"
-#include "Downcast.hpp"
+#include "..\Utility\Downcast.hpp"
 
 namespace objects
 {

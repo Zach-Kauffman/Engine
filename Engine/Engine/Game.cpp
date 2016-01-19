@@ -14,6 +14,9 @@ void Game::initialize(const std::string& configFile, const std::string& mapFile,
 
 	windowPtr = boost::shared_ptr<sf::RenderWindow>(new sf::RenderWindow(sf::VideoMode(renderSize.x, renderSize.y), windowName));
 	
+	//load Resources
+	//load Objects
+	//load Map
 
 	//thats all for now folks
 
@@ -51,7 +54,10 @@ void Game::draw()
 
 void Game::update()
 {
-
+	//for each layer
+		//get draw bounds for layer
+		//remove out of bound objects
+		//add new in-bound objects
 }
 
 void Game::loadGameConfig(const std::string& configFile)
@@ -70,16 +76,17 @@ void Game::loadGameConfig(const std::string& configFile)
 
 void Game::loadResources()
 {
-
+	//load basic game resources
 }
 
 void Game::loadObjects()
 {
-
+	//initialize base object types
 }
 
 void Game::loadMap()
 {
+	//load and initialize layers
 
 }
 

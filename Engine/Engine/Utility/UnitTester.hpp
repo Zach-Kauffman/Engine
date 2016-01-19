@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Defines.hpp"	//global #defines
+#include "../Defines.hpp"	//global #defines
 
 #define RUN_ALL
 #ifdef RUN_TESTS

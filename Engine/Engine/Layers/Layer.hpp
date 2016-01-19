@@ -1,6 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "../Utilities.hpp"
+#include "..\Utility\Utilities.hpp"
 
 class Layer : public sf::RenderTexture					//Layer is a RenderTexture that can have parallax added to it; it is a "small" class
 														//because it is a light wrapper of RenderTexture
