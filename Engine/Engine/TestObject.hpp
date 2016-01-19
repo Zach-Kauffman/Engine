@@ -1,7 +1,7 @@
 #pragma once
 
 //include base class
-#include "Object.hpp"	//gets most dependencies from here. Should they be locally #included?
+#include "Objects/Object.hpp"	//gets most dependencies from here. Should they be locally #included?
 
 
 namespace objects

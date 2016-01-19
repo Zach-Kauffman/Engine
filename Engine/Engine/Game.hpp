@@ -10,14 +10,14 @@
 	#include "Defines.hpp"
 
 	//basic management classes
-	#include "ObjectManager.hpp"
+	#include "Objects\ObjectManager.hpp"
 	#include "Layers\LayerManager.hpp"
 	#include "ResourceManager\ResourceManager.hpp"
 
 	//utility classes
-	#include "Utilities.hpp"
-	#include "INIParser.hpp"
-	#include "Logger.hpp"
+	#include "Utility/Utilities.hpp"
+	#include "Utility/INIParser.hpp"
+	#include "Utility/Logger.hpp"
 
 class Game
 {

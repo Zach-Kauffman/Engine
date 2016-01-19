@@ -3,7 +3,7 @@
 #include <boost/algorithm/string/case_conv.hpp>
 #include "boost/filesystem/operations.hpp"
 #include "boost/filesystem/fstream.hpp" 
-#include "../Utilities.hpp"
+#include "..\Utility\Utilities.hpp"
 
 
 class ResourceManager : public NameSearchable								//This class will basically hold all textures, fonts, and soundBufs.
