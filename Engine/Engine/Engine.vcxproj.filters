@@ -72,6 +72,9 @@
     <ClInclude Include="Defines.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="TestObject.hpp" />
+    <ClInclude Include="Utility\XMLParser.hpp">
+      <Filter>Utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Utility\Downcast.cpp">
@@ -116,5 +119,8 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="TestObject.cpp" />
+    <ClCompile Include="Utility\XMLParser.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
