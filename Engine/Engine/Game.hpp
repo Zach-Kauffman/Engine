@@ -15,9 +15,10 @@
 	#include "ResourceManager\ResourceManager.hpp"
 
 	//utility classes
-	#include "Utility/Utilities.hpp"
-	#include "Utility/INIParser.hpp"
-	#include "Utility/Logger.hpp"
+	#include "Utility\Utilities.hpp"
+	#include "Utility\INIParser.hpp"
+	#include "Utility\Logger.hpp"
+	#include "Utility\XMLParser.hpp"
 
 class Game
 {
@@ -25,8 +26,8 @@ public:
 	Game();
 	~Game();
 
-	void initialize(const std::string& configFile, const std::string& mapFile, const std::string& saveFile, const bool& doLoadScreen);	//initializes the game and begins loading of objects
-	void begin();																						//fgvr
+	void initialize(const std::string& cfgFile, const std::string& resFile, const std::string& objFile, const std::string& mpFile, const std::string& save, const bool& doLoadScreen);	//initializes the game and begins loading of objects
+	void begin();			//starts sfml main loop
 
 private:
 
@@ -37,6 +38,12 @@ private:
 	void loadResources();	//loads all textures, shaders, etc
 	void loadObjects();		//initializes object base types
 	void loadMap();			//loads basic map information
+
+	std::string configFile;
+	std::string resourceFile;
+	std::string objectFile;
+	std::string mapFile;
+	std::string saveFile;
 
 
 	boost::shared_ptr<sf::RenderWindow> windowPtr;

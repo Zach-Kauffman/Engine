@@ -8,15 +8,23 @@ Game::Game(){}
 
 Game::~Game(){}
 
-void Game::initialize(const std::string& configFile, const std::string& mapFile, const std::string& saveFile, const bool& doLoadScreen)
+void Game::initialize(const std::string& cfgFile, const std::string& resFile, const std::string& objFile, const std::string& mpFile, const std::string& save, const bool& doLoadScreen)
 {
+	configFile = cfgFile; resourceFile = resFile; objectFile = objFile; mapFile = mpFile; saveFile = save;
 	loadGameConfig(configFile);
 
 	windowPtr = boost::shared_ptr<sf::RenderWindow>(new sf::RenderWindow(sf::VideoMode(renderSize.x, renderSize.y), windowName));
 	
-	//load Resources
-	//load Objects
-	//load Map
+	if (maxFPS > 0)
+	{
+		windowPtr.get()->setFramerateLimit(maxFPS);	//initial FPS limit
+	}
+	
+	loadResources();	//loads texture sounds, etc
+		
+	loadObjects();		//creates object prototypes
+	
+	loadMap();			//displays correct objects
 
 	//thats all for now folks
 
@@ -76,6 +84,25 @@ void Game::loadGameConfig(const std::string& configFile)
 
 void Game::loadResources()
 {
+	XMLParser parser(resourceFile);
+	
+	xmlTree<std::string> groupTree;
+	groupTree.branch("resource");
+
+	groupTree.trees["resource"].tags["path"] = "";	//path to resource
+	groupTree.trees["resource"].tags["name"] = "";	//storage name of resource
+
+
+	parser.setWorkingPath("resources");
+
+	parser.readTree<std::string>(groupTree);
+
+	for (unsigned int ii = 0; ii < groupTree.output[0].size(); ii++)
+	{
+		recMan.loadFile(groupTree.output[0][ii], "ModernArtBlue")
+	}
+
+	
 	//load basic game resources
 }
 
