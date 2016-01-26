@@ -1,0 +1,12 @@
+<map>
+	<object>
+		<type>TestObject</type>
+		<position x="300" y="500"></position>
+		<texture>ModernArtOne</texture>
+	</object>
+	<object>
+		<type>TestObject</type>
+		<position x="700" y="200"></position>
+		<texture>ModernArtTwo</texture>
+	</object>
+</map>

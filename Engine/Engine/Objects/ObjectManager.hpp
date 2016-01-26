@@ -26,7 +26,30 @@ namespace objects
 
 		int nextID(); //returns the next ID to be issued;
 
+		boost::shared_ptr<Object> getPrototype(const std::string& type);
+
+		template<class T>
+		void addPrototype(const std::string& type)
+		{
+			if (prototypes.find(type) != prototypes.end())	//if the object is found
+			{
+				//give an error because it cannot be added
+				BOOST_LOG_SEV(*groupLogger, ERROR) << "Object (type = " << type << " ) was not added to prototype list: an object with that key was found";
+			}
+			else
+			{
+				prototypes[type] = &createInstance<T>;	//define
+			}
+		}
 	private:
+		template<class T>
+		boost::shared_ptr<Object> createInstance() 
+		{
+			return boost::make_shared<Object>(new T());
+		}
+
+		std::map<std::string, boost::shared_ptr<Object>(*)()> prototypes;
+
 		src::severity_logger<severity_level> objectLogger;				//real logger object -- passed to all objectGroups
 
 		int currentID;

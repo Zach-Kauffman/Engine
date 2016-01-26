@@ -25,7 +25,8 @@ namespace objects
 		void draw(sf::RenderTexture& renderTarget);
 		void update();
 
-		void load(boost::property_tree::ptree propertyTree, ResourceGroup& resources);	//loads instances object properties based on subtree
+		//void load(boost::property_tree::ptree propertyTree, ResourceGroup& resources);	//loads instances object properties based on subtree
+		void load(const std::string&, const int&, const int&, ResourceManager&);
 		void write();
 
 

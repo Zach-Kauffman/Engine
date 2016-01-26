@@ -8,7 +8,7 @@ TestObject::~TestObject(){}
 
 void TestObject::draw(sf::RenderTexture& renderTarget)
 {
-	renderTarget.draw(testTex);
+	renderTarget.draw(texCoords, testTex);
 }
 
 void TestObject::update()
@@ -16,16 +16,21 @@ void TestObject::update()
 
 }
 
-void TestObject::load(boost::property_tree::ptree& propertyTree, const ResourceGroup& resources)
+//void TestObject::load(boost::property_tree::ptree& propertyTree, ResourceManager& resources)
+void TestObject::load(const std::string& tex, const int& x, const int &y, ResourceManager& resources)
 {
+	/*
 	XMLParser parser;
-	parser.readValue<float>("Position.<xmlattr> x", position.x, propertyTree);
-	parser.readValue<float>("Position.<xmlattr> y", position.y, propertyTree);
+	parser.readValue<float>("position.<xmlattr>.x", position.x, propertyTree);
+	parser.readValue<float>("position.<xmlattr>.y", position.y, propertyTree);
 
 	std::string textureName;
 	parser.readValue<std::string>("texture", textureName, propertyTree);
-
-	testTex = resources.getTexturePointer(textureName);
+	*/
+	position.x = x;
+	position.y = y;
+	testTex = resources.getTexturePointerByName(tex);
+	
 	sf::Vector2f texSize = (sf::Vector2f)testTex->getSize();
 
 	texCoords = sf::VertexArray(sf::Quads, 4); 

@@ -7,6 +7,8 @@
 #include "..\Utility\Utilities.hpp"
 #include "..\Utility\INIParser.hpp"	//this will be used in load/write
 
+#include "..\ResourceManager\ResourceManager.hpp";
+
 namespace objects
 {
 	class Object	//virtual class template for basic Object type
@@ -27,7 +29,7 @@ namespace objects
 		virtual void draw(sf::RenderTexture& renderTarget) = 0;		//renders object to given sf::RenderTexture&
 		virtual void update() = 0;
 
-		virtual void load() = 0;	//defined in children to load from (INI?) file
+		virtual void load(const std::string&, const int&, const int&, ResourceManager&) = 0;	//defined in children to load from (INI?) file
 		virtual void write() = 0;	//defined in children to write to (INI?) file
 
 	protected:

@@ -57,7 +57,7 @@ void Game::begin()
 
 void Game::draw()
 {
-
+	objMan->
 }
 
 void Game::update()
@@ -84,6 +84,8 @@ void Game::loadGameConfig(const std::string& configFile)
 
 void Game::loadResources()
 {
+	//recMan.addEmptyResourceGroup("objects");
+
 	XMLParser parser(resourceFile);
 	
 	xmlTree<std::string> groupTree;
@@ -109,12 +111,30 @@ void Game::loadResources()
 
 void Game::loadObjects()
 {
-	//initialize base object types
+	objMan.addPrototype<objects::TestObject>("TestObject");
 }
 
 void Game::loadMap()
 {
-	//load and initialize layers
+	XMLParser parser(mapFile);
+
+	xmlTree<std::string> groupTree;
+	groupTree.branch("map");
+
+	auto& tags = groupTree.trees["map"].tags;
+	std::string type = tags["type"] = "";
+	std::string x = tags["position.<xmlattr>.x"] = "";
+	std::string y = tags["position.<xmlattr>.y"] = "";
+	std::string tex = tags["texture"] = "";
+
+	auto& output = groupTree.trees["map"].output;
+	for (unsigned int ii = 0; ii < output.size(); ii++)
+	{
+		auto tmp = objMan.getObject("");
+		tmp.get()->load(tex, stoi(x), stoi(y), recMan);
+		tmp.get()->setID(objMan.nextID());
+		objMan.addObject(tmp, "Layers.Layer1");
+	}
 
 }
 
