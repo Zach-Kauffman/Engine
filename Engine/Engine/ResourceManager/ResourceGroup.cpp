@@ -69,6 +69,19 @@ void ResourceGroup::addSoundBuffer(sf::SoundBuffer * const & fsoundbuf, const st
 
 }
 
+void ResourceGroup::addShader(sf::Shader * const & fshader)
+{
+	shaderVector.push_back(fshader);
+	addName(shaderVector.size() - 1, Shader_Vector, shaderVector.size() - 1);
+}
+
+void ResourceGroup::addShader(sf::Shader * const & fshader, const std::string& fname)
+{
+	shaderVector.push_back(fshader);
+	addName(fname, Shader_Vector, shaderVector.size() - 1);
+}
+
+
 
 
 const sf::Texture* ResourceGroup::getTexturePointer(const int& index)
@@ -94,6 +107,7 @@ const sf::Font* ResourceGroup::getFontPointer(const int& index)
 
 const sf::Font* ResourceGroup::getFontPointer(const std::string& name)
 {
+
 	return fontVector[ntoi(name, Texture_Vector)];
 
 }
@@ -103,7 +117,6 @@ const sf::SoundBuffer* ResourceGroup::getSoundBufferPointer(const int& index)
 
 	return soundBufferVector[index];
 
-
 }
 
 const sf::SoundBuffer* ResourceGroup::getSoundBufferPointer(const std::string& name)							//returns an element of soundbufvector -- a pointer to a soundbuffer
@@ -112,3 +125,19 @@ const sf::SoundBuffer* ResourceGroup::getSoundBufferPointer(const std::string& n
 	return soundBufferVector[ntoi(name, SoundBuffer_Vector)];
 
 }
+
+const sf::Shader* ResourceGroup::getShaderPointer(const int& index)
+{
+
+	return shaderVector[index];
+
+}
+
+const sf::Shader* ResourceGroup::getShaderPointer(const std::string& name)
+{
+
+	return shaderVector[ntoi(name, Shader_Vector)];
+
+}
+
+
