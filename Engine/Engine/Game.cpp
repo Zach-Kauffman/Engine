@@ -87,19 +87,20 @@ void Game::loadResources()
 	XMLParser parser(resourceFile);
 	
 	xmlTree<std::string> groupTree;
-	groupTree.branch("resource");
+	groupTree.branch("resources");
 
-	groupTree.trees["resource"].tags["path"] = "";	//path to resource
-	groupTree.trees["resource"].tags["name"] = "";	//storage name of resource
+	groupTree.trees["resources"].tags["path"] = "";	//path to resource
+	groupTree.trees["resources"].tags["name"] = "";	//storage name of resource
 
 
-	parser.setWorkingPath("resources");
+	//parser.setWorkingPath("resources");
 
 	parser.readTree<std::string>(groupTree);
 
-	for (unsigned int ii = 0; ii < groupTree.output[0].size(); ii++)
+	auto &output = groupTree.trees["resources"].output;
+	for (unsigned int ii = 0; ii < output.size(); ii++)
 	{
-		recMan.loadFile(groupTree.output[0][ii], "ModernArtBlue")
+		recMan.loadFile(output[ii][1], output[ii][0]);
 	}
 
 	

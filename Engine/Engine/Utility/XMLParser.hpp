@@ -3,6 +3,7 @@
 //boost includes
 #include <boost/property_tree/xml_parser.hpp>
 #include <boost/property_tree/ptree.hpp>
+#include <boost/foreach.hpp>
 
 //project includes
 #include "Logger.hpp"
@@ -45,10 +46,10 @@ public:
 	void writeFile(const std::string& XMLPath);	//overloaded for names other than default
 
 	template<class T>
-	void readValue(const std::string& path, T& var)
+	void readValue(const std::string& path, T& var, boost::property_tree::ptree currentTree)
 	{
 		//tree.get would throw ptree_bad_path (ptree_error) on nonexistent value
-		boost::optional<T> op = subTree.get_optional<T>(path); //returns uninitialized boost::optional object if value != exist
+		boost::optional<T> op = currentTree.get_optional<T>(path); //returns uninitialized boost::optional object if value != exist
 
 		if (op)
 		{
@@ -61,37 +62,47 @@ public:
 	}
 
 	template<class T>
+	void readValue(const std::string& path, T& var)		//overloaded for default this.subTree
+	{
+		readValue(path, var, subTree);
+	}
+
+	template<class T>
 	void writeValue(const std::string& path, T& var)
 	{
 		tree.put(assemblePath(path), var);
 	}
 
 	template<class T>
-	void readTree(xmlTree<T>& data, boost::property_tree::ptree currentTree= subTree)
+	void readTree(xmlTree<T>& data, boost::property_tree::ptree& currentTree)
 	{
-		std::map<std::string, xmlTree<T>>::iterator treeIt;
-		for (treeIt = data.trees.begin(); treeIt != data.trees.end(); treeIt++)	//iterate through all children
-		{
-			BOOST_FOREACH(boost::property_tree::ptree::value_type &v, subTree.get_child(treeIt->first)
-			{
 
-			}
+
 			std::vector<T> output;	//vector to hold read tag values
 			std::map<std::string, T>::iterator tagIt;
-			for (tagIt = treeIt->second.tags.begin(); tagIt != treeIt->second.tags.end(); tagIt++)	//iterate through tags in children
+			for (tagIt = data.tags.begin(); tagIt != data.tags.end(); tagIt++)	//iterate through tags in children
 			{
-				T val = 0;
-				readValue(tagIt->first, val);	//reading value from tag
+				T val;
+				readValue<T>(tagIt->first, val, currentTree);	//reading value from tag
 				output.push_back(val);
 			}
-			treeIt->second.output.push_back(output);	//add tag data to output vector
+			data.output.push_back(output);	//add tag data to output vector
 
-			std::map<std::string, xmlTree<T>>::iterator it;
-			for (it = treeIt->second.trees.begin(); it != data.trees.end(); it++)	//iterate through list of trees in this layer and recursively read them
+		std::map<std::string, xmlTree<T>>::iterator treeIt;
+
+		for (treeIt = data.trees.begin(); treeIt != data.trees.end(); treeIt++)	//iterate through all children
+		{
+			BOOST_FOREACH(boost::property_tree::ptree::value_type &v, subTree.get_child(treeIt->first))
 			{
-				readTree<T>(it->second);
+				readTree<T>(treeIt->second, v.second);
 			}
 		}
+	}
+
+	template<class T>
+	void readTree(xmlTree<T>& data)
+	{
+		readTree(data, subTree);
 	}
 
 	boost::property_tree::ptree getSubTree(const std::string& path);		//gets specified subtree from tree and stores it for later use.

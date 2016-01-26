@@ -1,8 +1,17 @@
 #pragma once
 
-//include base class
-#include "Objects/Object.hpp"	//gets most dependencies from here. Should they be locally #included?
+//project includes
+	//include base class
+	#include "Objects/Object.hpp"	//gets most dependencies from here. Should they be locally #included?
 
+	//XML parser
+	#include "Utility/XMLParser.hpp"
+	
+	//resource maanger
+	#include "ResourceManager/ResourceManager.hpp"
+
+//SFML includes
+#include <SFML/Graphics.hpp>
 
 namespace objects
 {
@@ -16,15 +25,16 @@ namespace objects
 		void draw(sf::RenderTexture& renderTarget);
 		void update();
 
-		void load();	//still need interface for controlling file names
+		void load(boost::property_tree::ptree propertyTree, ResourceGroup& resources);	//loads instances object properties based on subtree
 		void write();
 
-		void uFunc();	//function not defined in base to test downcasting
-		int getCounter();
+
 	private:
-		int attributeOne;
-		float attributeTwo;
-		std::string nameOne, nameTwo, nameThree;
-		int counter;	//counter for testing update()
+		int ID;
+
+		const sf::Texture* testTex;
+		sf::VertexArray texCoords;
+
+		sf::Vector2f position;
 	};
 }
