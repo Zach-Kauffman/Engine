@@ -2,12 +2,17 @@
 
 #include "../Defines.hpp"	//global #defines
 
-#define RUN_ALL
 #ifdef RUN_TESTS
 
 #include "Logger.hpp"
 #include <string>
 #include <vector>
+
+#include "Utilities.hpp"
+#include "Logger.hpp"
+#include "..\ResourceManager\ResourceGroup.hpp"
+#include "INIParser.hpp"
+
 
 namespace testing
 {

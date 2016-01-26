@@ -100,9 +100,9 @@ int main(int, char*[])
 #ifdef RUN_TESTS
 
 
-#include "Logger.hpp"
-#include "UnitTester.hpp"
-#include "Utilities.hpp"
+#include "Utility\Logger.hpp"
+#include "Utility\UnitTester.hpp"
+#include "Utility\Utilities.hpp"
 
 #define TEST_ALL
 

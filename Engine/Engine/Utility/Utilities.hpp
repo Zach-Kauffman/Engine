@@ -9,7 +9,7 @@
 namespace util
 {
 	/*
-	void swapChars(char& a, char& b);
+	
 
 	std::string reverseString(const std::string& str);	//stack based string flipper
 
@@ -36,6 +36,14 @@ namespace util
 															//bounds an unsigned int between two other unsigned ints
 	*/
 	//mins, maxes, bounds
+
+	inline void swapChars(char& a, char& b)
+	{
+		char temp = a;
+		a = b;
+		b = temp;
+	}
+
 	inline int imax(int& a, int& b)
 	{
 		return ((a > b) ? a : b);
