@@ -42,7 +42,7 @@ void testing::UnitTester::runTests()
 
 void testing::UnitTester::utilities()
 {
-
+	//asdf
 
 	BOOST_LOG_SEV(testLogger, INFO) << "Now testing: void util::swapChars(char& a, char& b);";
 	char a = 'a', b = 'b';
