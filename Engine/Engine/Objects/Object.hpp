@@ -9,6 +9,8 @@
 
 #include "..\ResourceManager\ResourceManager.hpp";
 
+#include "..\Layers\Layer.hpp"
+
 namespace objects
 {
 	class Object	//virtual class template for basic Object type
@@ -26,7 +28,7 @@ namespace objects
 
 
 		//base virtual functions
-		virtual void draw(sf::RenderTexture& renderTarget) = 0;		//renders object to given sf::RenderTexture&
+		virtual void draw(Layer& renderTarget) = 0;		//renders object to given sf::RenderTexture&
 		virtual void update() = 0;
 
 		virtual void load(const std::string&, const int&, const int&, ResourceManager&) = 0;	//defined in children to load from (INI?) file

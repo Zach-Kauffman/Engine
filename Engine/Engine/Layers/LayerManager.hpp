@@ -20,8 +20,9 @@ public:
 
 	~LayerManager();									//nothing in destructor
 
+	void updateWindowSize(const sf::Vector2u size);						//updates dimensions of
 
-	void addEmptyLayer();								//adds a new, empty layer
+	void addLayer();								//adds a new, empty layer
 
 	void addLayer(boost::shared_ptr<Layer> newLayer);	//adds an existant layer
 

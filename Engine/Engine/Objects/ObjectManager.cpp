@@ -29,7 +29,7 @@ boost::shared_ptr<Object> ObjectManager::getPrototype(const std::string& type)
 	{
 		BOOST_LOG_SEV(*groupLogger, WARNING) << "String to Object lookup (type = " << type << " ) failed. Type does not exist in lookup table. Returning null...";
 
-		return boost::shared_ptr<objects::Object>();	//return null ptr -- error handling in recieving functions
+		return boost::make_shared<objects::Object>();	//return null ptr -- error handling in recieving functions
 
 	}
 }

@@ -8,6 +8,7 @@ Layer::Layer()
 	scrollBounded = false;				//by default, scrollBoundedness is false
 	scrollTracker = sf::Vector2f(0, 0);	//the scrollTracker starts at (0,0)
 	oldScrollTracker = scrollTracker;
+	scrollSpeed = sf::Vector2f(1, 1);
 }
 
 Layer::~Layer()

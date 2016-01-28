@@ -10,6 +10,9 @@
 	//resource maanger
 	#include "ResourceManager/ResourceManager.hpp"
 
+	//layer
+	#include "Layers/Layer.hpp"
+
 //SFML includes
 #include <SFML/Graphics.hpp>
 
@@ -22,7 +25,7 @@ namespace objects
 		TestObject();
 		~TestObject();
 
-		void draw(sf::RenderTexture& renderTarget);
+		void draw(Layer& renderTarget);
 		void update();
 
 		//void load(boost::property_tree::ptree propertyTree, ResourceGroup& resources);	//loads instances object properties based on subtree

@@ -2,6 +2,7 @@
 
 //boost stuff
 #include "boost\shared_ptr.hpp"
+#include "boost\function.hpp"
 
 //project includes
 #include "..\Utility\Logger.hpp"
@@ -14,6 +15,7 @@ namespace objects
 		//most stuff from ObjectGroup
 	{
 	public:
+		typedef boost::function<boost::shared_ptr<Object>(void)> func;
 		ObjectManager();
 		~ObjectManager();
 
@@ -45,10 +47,32 @@ namespace objects
 		template<class T>
 		boost::shared_ptr<Object> createInstance() 
 		{
-			return boost::make_shared<Object>(new T());
+			return boost::make_shared<Object>();
 		}
 
-		std::map<std::string, boost::shared_ptr<Object>(*)()> prototypes;
+		template<class T>
+		boost::shared_ptr<T> makeObject()
+		{
+			return boost::make_shared<T>();
+		}
+
+		boost::shared_ptr<objects::Object> stringToObject(const std::string& type)
+		{
+			if (type == "testObject")
+			{
+				return makeObject<objects::TestObject>();	//create and return (uninitialized?) object prototype
+			}
+			else    //if the string matches none of the cases the type must not exist
+			{
+				auto slg = logger::getSLogger();
+				BOOST_LOG_SEV(slg, WARNING) << "String to Object lookup (type = " << type << " ) failed. Type does not exist. Returning null...";
+
+				return boost::shared_ptr<objects::Object>();	//return null ptr -- error handling in recieving functions
+
+			}
+		}
+
+		std::map<std::string, boost::shared_ptr<Object>(ObjectManager::*makeObject)()> prototypes;
 
 		src::severity_logger<severity_level> objectLogger;				//real logger object -- passed to all objectGroups
 
@@ -56,25 +80,6 @@ namespace objects
 	};
 }
 
-boost::shared_ptr<objects::Object> stringToObject(const std::string& type)
-{
-	if(type == "testObject")
-	{
-		return makeObject<objects::TestObject>();	//create and return (uninitialized?) object prototype
-	}
-	else    //if the string matches none of the cases the type must not exist
-	{
-		auto slg = logger::getSLogger();
-		BOOST_LOG_SEV(slg, WARNING) << "String to Object lookup (type = " << type << " ) failed. Type does not exist. Returning null...";
 
-		return boost::shared_ptr<objects::Object>();	//return null ptr -- error handling in recieving functions
-		
-	}
-}
 
-template<class T> 
-boost::shared_ptr<T> makeObject()
-{
-	return boost::shared_ptr<objects::Object> tmp(new T);
-}
 

@@ -28,19 +28,29 @@ LayerManager::LayerManager(sf::Vector2f& refPoint, const int& amt)
 	basicSetup();
 	setLayerAmount(amt);
 	setReferencePoint(refPoint);
+	
 }
 
 //---done
 
 LayerManager::~LayerManager()
 {
+
 }
 
 
-
-void LayerManager::addEmptyLayer()
+void LayerManager::updateWindowSize(const sf::Vector2u size)
+{
+	std::vector<const double> bounds = { 0, 0, (double)size.x, (double)size.y };
+	for (unsigned int i = 0; i < layers.size(); i++)
+	{
+		setScrollBounds(bounds, i);
+	}
+}
+void LayerManager::addLayer()
 {
 	boost::shared_ptr<Layer> emptyLayer(new Layer);
+
 	layers.push_back(emptyLayer);								//makes and adds a new, empty Layer
 }
 

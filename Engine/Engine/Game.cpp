@@ -57,11 +57,12 @@ void Game::begin()
 
 void Game::draw()
 {
-	objMan->
+	objMan.getObject("Layers.Layer1.1").get()->draw(*layMan.getLayerPointer(0));
 }
 
 void Game::update()
 {
+	
 	//for each layer
 		//get draw bounds for layer
 		//remove out of bound objects
@@ -135,6 +136,11 @@ void Game::loadMap()
 		tmp.get()->setID(objMan.nextID());
 		objMan.addObject(tmp, "Layers.Layer1");
 	}
+
+	layMan.addLayer();
+	layMan.setScrollSpeeds(sf::Vector2f(1, 1), 0);
+	layMan.getLayerPointer(0);
+	layMan.updateWindowSize(windowPtr.get()->getSize());
 
 }
 

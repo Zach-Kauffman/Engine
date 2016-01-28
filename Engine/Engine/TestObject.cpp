@@ -6,7 +6,7 @@ TestObject::TestObject(){}
 
 TestObject::~TestObject(){}
 
-void TestObject::draw(sf::RenderTexture& renderTarget)
+void TestObject::draw(Layer& renderTarget)
 {
 	renderTarget.draw(texCoords, testTex);
 }
