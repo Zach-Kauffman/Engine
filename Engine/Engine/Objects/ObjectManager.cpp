@@ -23,13 +23,14 @@ boost::shared_ptr<Object> ObjectManager::getPrototype(const std::string& type)
 {
 	if (prototypes.find(type) != prototypes.end())	//if the value exists in the map
 	{
-		return prototypes[type]();
+		boost::shared_ptr<Object> tmp(prototypes[type]());	//turns raw pointer into shared_ptr
+		return tmp;
 	}
 	else    //if the string matches no key value the type must not exist
 	{
 		BOOST_LOG_SEV(*groupLogger, WARNING) << "String to Object lookup (type = " << type << " ) failed. Type does not exist in lookup table. Returning null...";
-
-		return boost::make_shared<objects::Object>();	//return null ptr -- error handling in recieving functions
+		boost::shared_ptr<objects::Object> nullPtr;
+		return nullPtr;	//return null ptr -- error handling in recieving functions
 
 	}
 }

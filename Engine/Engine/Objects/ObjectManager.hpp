@@ -9,13 +9,15 @@
 #include "ObjectGroup.hpp"
 #include "..\Utility\Downcast.hpp"
 
+
+
 namespace objects
 {
 	class ObjectManager : public ObjectGroup
 		//most stuff from ObjectGroup
 	{
 	public:
-		typedef boost::function<boost::shared_ptr<Object>(void)> func;
+
 		ObjectManager();
 		~ObjectManager();
 
@@ -40,39 +42,19 @@ namespace objects
 			}
 			else
 			{
-				prototypes[type] = &createInstance<T>;	//define
+				prototypes[type] = &instancePrototype<T>;	//define
 			}
 		}
 	private:
-		template<class T>
-		boost::shared_ptr<Object> createInstance() 
+		template<class derived>
+		Object* instancePrototype()		//return raw pointer to child of Object
 		{
-			return boost::make_shared<Object>();
+			return new derived();
 		}
 
-		template<class T>
-		boost::shared_ptr<T> makeObject()
-		{
-			return boost::make_shared<T>();
-		}
 
-		boost::shared_ptr<objects::Object> stringToObject(const std::string& type)
-		{
-			if (type == "testObject")
-			{
-				return makeObject<objects::TestObject>();	//create and return (uninitialized?) object prototype
-			}
-			else    //if the string matches none of the cases the type must not exist
-			{
-				auto slg = logger::getSLogger();
-				BOOST_LOG_SEV(slg, WARNING) << "String to Object lookup (type = " << type << " ) failed. Type does not exist. Returning null...";
-
-				return boost::shared_ptr<objects::Object>();	//return null ptr -- error handling in recieving functions
-
-			}
-		}
-
-		std::map<std::string, boost::shared_ptr<Object>(ObjectManager::*makeObject)()> prototypes;
+		std::map<std::string, Object*(*)()> prototypes;
+		//boost::shared_ptr<Object>(ObjectManager::*makeObject)()
 
 		src::severity_logger<severity_level> objectLogger;				//real logger object -- passed to all objectGroups
 
