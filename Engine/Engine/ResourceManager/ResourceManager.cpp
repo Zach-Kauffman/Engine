@@ -130,7 +130,7 @@ void ResourceManager::loadFileDirectory(const std::string& directory, const std:
 	}
 }
 
-void ResourceManager::addFilesResourceGroupFromDirectory(const std::string& directory)
+void ResourceManager::loadFileDirectoryRG(const std::string& directory)
 {
 	std::vector<const std::string> files;
 	fillFileNameVectorFromDirectory(directory, files);
@@ -161,7 +161,7 @@ void ResourceManager::addFilesResourceGroupFromDirectory(const std::string& dire
 
 }
 
-void ResourceManager::addFilesResourceGroupFromDirectory(const std::string& directory, const std::string& RGName)
+void ResourceManager::loadFileDirectoryRG(const std::string& directory, const std::string& RGName)
 {
 	std::vector<const std::string> files;
 	fillFileNameVectorFromDirectory(directory, files);
@@ -198,29 +198,33 @@ void ResourceManager::loadFile(const std::string& fileName, const std::string& n
 
 	if (ext == "ttf")												//.ttf is a font
 	{
-		addFont(fileName);											//add the font
-
-		addName(name, Font_Names, fontVector.size() - 1);			//add the name
+		if (addFont(fileName))											//add the font, if it works
+		{
+			addName(name, Font_Names, fontVector.size() - 1);			//add the name
+		}
+					
 	}
 	else if (	ext == "png" || 
 				ext == "jpg" || 
 				ext == "jpeg" ||	
 				ext == "bmp")										//these extensions are textures
 	{
-		addTexture(fileName);										//add the texture
-
-		addName(name, Texture_Names, textureVector.size() - 1);		//add the name
+		if (addTexture(fileName))										//add the texture
+		{
+			addName(name, Texture_Names, textureVector.size() - 1);		//add the name
+		}
 	}
-	else if (	ext == "wav" ||
-				ext == "aif" ||
-				ext == "mp3" ||
-				ext == "mp2" ||
-				ext == "ogg" ||
-				ext == "raw")										//these are soundBuffers
+	else if (ext == "wav" ||
+		ext == "aif" ||
+		ext == "mp3" ||
+		ext == "mp2" ||
+		ext == "ogg" ||
+		ext == "raw")										//these are soundBuffers
 	{
-		addSoundBuffer(fileName);
-
-		addName(name, SoundBuffer_Names);
+		if (addSoundBuffer(fileName))
+		{
+			addName(name, SoundBuffer_Names);
+		}	
 	}
 
 	else
@@ -232,21 +236,21 @@ void ResourceManager::loadFile(const std::string& fileName, const std::string& n
 
 
 
-sf::Texture* ResourceManager::getTexturePointerByName(const std::string& name)	
+sf::Texture* ResourceManager::getTexture(const std::string& name)	
 {
 
 	return &textureVector[ntoi(name, Texture_Names)];				//return the texture with the desired name  
 
 }
 
-sf::Font* ResourceManager::getFontPointerByName(const std::string& name)
+sf::Font* ResourceManager::getFont(const std::string& name)
 {
 
 	return &fontVector[ntoi(name, Font_Names)];					//return the desired font
 
 }
 
-sf::SoundBuffer* ResourceManager::getSoundBufferPointerByName(const std::string& name)
+sf::SoundBuffer* ResourceManager::getSoundBuffer(const std::string& name)
 {
 
 	return &soundBufferVector[ntoi(name, SoundBuffer_Names)];		//set it to the font with the desired name
@@ -264,24 +268,13 @@ void ResourceManager::addEmptyResourceGroup(const std::string& name)		//adds an 
 	addName(name, ResourceGroup_Names, resourceGroups.size() - 1);			//add the name
 }
 
-void ResourceManager::addResourceGroup(ResourceGroup fResourceGroup, const std::string& name)		
-																			//adds an already created resourceGroup and name it
-{
 
-	resourceGroups.push_back(fResourceGroup);								//add the resourceGroup
-
-	addName(name, ResourceGroup_Names, resourceGroups.size() - 1);			//add the name
-	
-}
-
-
-
-void ResourceManager::addResourcetoResourceGroup(const std::string& rsName, const std::string& fileName, const std::string& ext)
+void ResourceManager::addResourceRG(const std::string& rsName, const std::string& fileName, const std::string& ext)
 {
 	addResourcetoResourceGroup(rsName, fileName, ext, "NO_NAME");			//adds the resource without any name
 }
 
-void ResourceManager::addResourcetoResourceGroup(const std::string& rsName, const std::string& fileName, std::string ext, const std::string& desName)
+void ResourceManager::addResourceRG(const std::string& rsName, const std::string& fileName, std::string ext, const std::string& desName)
 {
 	bool nodesname = (desName == "NO_NAME");	//if the name was "NO_NAME" we dont add the name
 
@@ -339,35 +332,35 @@ void ResourceManager::addResourcetoResourceGroup(const std::string& rsName, cons
 	}
 }
 
-void ResourceManager::addTexturetoResourceGroup(const std::string& rsName, const std::string& texName)	//adds a Texture to a ResourceGroup by name
+void ResourceManager::addTextureRG(const std::string& rsName, const std::string& texName)	//adds a Texture to a ResourceGroup by name
 {
 	
 	resourceGroups[ntoi(rsName, ResourceGroup_Names)].addTexture(getTexturePointerByName(texName));
 																										//literally just add the texture without a name
 }
 
-void ResourceManager::addTexturetoResourceGroup(const std::string& rsName, const std::string& texName, const std::string& desName)
+void ResourceManager::addTextureRG(const std::string& rsName, const std::string& texName, const std::string& desName)
 {
 	resourceGroups[ntoi(rsName, ResourceGroup_Names)].addTexture(getTexturePointerByName(texName), desName);
 																										//add the texture with the name
 }
 
-void ResourceManager::addFonttoResourceGroup(const std::string& rsName, const std::string& fontName)
+void ResourceManager::addFontRG(const std::string& rsName, const std::string& fontName)
 {
 	resourceGroups[ntoi(rsName, ResourceGroup_Names)].addFont(getFontPointerByName(fontName));
 }
 
-void ResourceManager::addFonttoResourceGroup(const std::string& rsName, const std::string& fontName, const std::string& desName)
+void ResourceManager::addFontRG(const std::string& rsName, const std::string& fontName, const std::string& desName)
 {
 	resourceGroups[ntoi(rsName, ResourceGroup_Names)].addFont(getFontPointerByName(fontName), desName);
 }
 
-void ResourceManager::addSoundBuffertoResourceGroup(const std::string& rsName, const std::string& sbName)
+void ResourceManager::addSoundBufferRG(const std::string& rsName, const std::string& sbName)
 {
 	resourceGroups[ntoi(rsName, ResourceGroup_Names)].addSoundBuffer(getSoundBufferPointerByName(sbName));
 }
 
-void ResourceManager::addSoundBuffertoResourceGroup(const std::string& rsName, const std::string& sbName, const std::string& desName)
+void ResourceManager::addSoundBufferRG(const std::string& rsName, const std::string& sbName, const std::string& desName)
 {
 	resourceGroups[ntoi(rsName, ResourceGroup_Names)].addSoundBuffer(getSoundBufferPointerByName(sbName), desName);
 }
@@ -464,7 +457,7 @@ void ResourceManager::fillFileNameVectorFromDirectory(const std::string& directo
 
 
 
-void ResourceManager::addTexture(const std::string& fileName)
+bool ResourceManager::addTexture(const std::string& fileName)
 {
 	sf::Texture texture;										//make a temporary texture
 
@@ -472,26 +465,36 @@ void ResourceManager::addTexture(const std::string& fileName)
 	{
 		BOOST_LOG_SEV(resourceManagerLogger, ERROR) << fileName << " (Texture) failed to load.";				
 																// if it doesn't, there is an error
+		return false;
+	}
+	else
+	{
+		textureVector.push_back(texture);							//add the texture
+		return true;
 	}
 
-	textureVector.push_back(texture);							//add the texture
 
 }
 
-void ResourceManager::addFont(const std::string& fileName)
+bool ResourceManager::addFont(const std::string& fileName)
 {
 	sf::Font font;
 
 	if (!font.loadFromFile(fileName))
 	{
-		BOOST_LOG_SEV(resourceManagerLogger, ERROR) << fileName << " (Font) failed to load.";			
-
+		BOOST_LOG_SEV(resourceManagerLogger, ERROR) << fileName << " (Font) failed to load.";
+		return false;
+	}
+	else
+	{
+		fontVector.push_back(font);						//add the texture
+		return true;
 	}
 
-	fontVector.push_back(font);
+
 }
 
-void ResourceManager::addSoundBuffer(const std::string& fileName)
+bool ResourceManager::addSoundBuffer(const std::string& fileName)
 {
 
 	sf::SoundBuffer buffer;
@@ -499,7 +502,13 @@ void ResourceManager::addSoundBuffer(const std::string& fileName)
 	if (!buffer.loadFromFile(fileName))
 	{
 		BOOST_LOG_SEV(resourceManagerLogger, ERROR) << fileName << " (SoundBuffer) failed to load.";
+			return false;
 	}
-	soundBufferVector.push_back(buffer);
+	else
+	{
+		soundBufferVector.push_back(buffer);						//add the texture
+		return true;
+	}
+	
 
 }

@@ -26,15 +26,6 @@ public:
 	void addSoundBuffer(sf::SoundBuffer* const & fsoundbuf, const std::string& name);		//adds a soundBuf
 
 
-
-
-	std::vector<const sf::Texture*> getTextureVector();						//returns the entire textureVector
-
-	std::vector<const sf::Font*> getFontVector();								//returns the entire fontVector
-
-	std::vector<const sf::SoundBuffer*> getSoundBufferVector();					//returns the entire SoundBufVector
-
-
 	const sf::Texture* getTexturePointer(const int& index);							//returns an element of textureVector
 
 	const sf::Texture* getTexturePointer(const std::string& name);					//returns an element of textureVector
