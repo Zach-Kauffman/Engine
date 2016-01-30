@@ -47,6 +47,7 @@ void LayerManager::updateWindowSize(const sf::Vector2u size)
 		setScrollBounds(bounds, i);
 	}
 }
+
 void LayerManager::addLayer()
 {
 	boost::shared_ptr<Layer> emptyLayer(new Layer);

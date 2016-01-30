@@ -23,7 +23,7 @@ boost::shared_ptr<Object> ObjectManager::getPrototype(const std::string& type)
 {
 	if (prototypes.find(type) != prototypes.end())	//if the value exists in the map
 	{
-		boost::shared_ptr<Object> tmp(prototypes[type]());	//turns raw pointer into shared_ptr
+		boost::shared_ptr<Object> tmp((this->*prototypes[type])());	//turns raw pointer into shared_ptr
 		return tmp;
 	}
 	else    //if the string matches no key value the type must not exist

@@ -79,7 +79,7 @@ void ObjectGroup::removeObject(const boost::shared_ptr<Object>& objectPtr)
 boost::shared_ptr<Object> ObjectGroup::getObject(const std::string& path)
 {
 	std::vector<std::string> pathVec = util::splitStrAtSubstr(path, ".");
-	int ID = std::stoi(*(pathVec.end()-1));	//convert ID string to int
+	int ID = boost::lexical_cast<int, std::string>(pathVec[pathVec.size()-1]);	//convert ID string to int
 	pathVec.erase(pathVec.end()-1);			//get rid of the id remove the ID from the vector
 
 	return getObjectGroup(util::vecToStr(pathVec, "."))->getObject(ID);	//retrieves object group from reconstructed string and return objPtr

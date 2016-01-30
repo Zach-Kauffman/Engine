@@ -42,7 +42,7 @@ namespace objects
 			}
 			else
 			{
-				prototypes[type] = &instancePrototype<T>;	//define
+				prototypes[type] = &ObjectManager::instancePrototype<T>;	//define
 			}
 		}
 	private:
@@ -53,7 +53,7 @@ namespace objects
 		}
 
 
-		std::map<std::string, Object*(*)()> prototypes;
+		std::map<std::string, Object*(ObjectManager::*)()> prototypes;
 		//boost::shared_ptr<Object>(ObjectManager::*makeObject)()
 
 		src::severity_logger<severity_level> objectLogger;				//real logger object -- passed to all objectGroups

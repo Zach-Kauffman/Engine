@@ -39,6 +39,8 @@ private:
 	void loadObjects();		//initializes object base types
 	void loadMap();			//loads basic map information
 
+	void updateMap();		//finds new bounds and adds/removes objects
+
 	std::string configFile;
 	std::string resourceFile;
 	std::string objectFile;
@@ -54,6 +56,8 @@ private:
 	std::string windowName;		//name of the window
 	sf::Vector2i renderSize;	//resolution of game
 	int maxFPS;					//fps cap - 0 would mean uncapped
+
+	sf::Vector2f tmpCenter;
 
 	
 };

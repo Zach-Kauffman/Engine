@@ -58,6 +58,8 @@ void Game::begin()
 void Game::draw()
 {
 	objMan.getObject("Layers.Layer1.1").get()->draw(*layMan.getLayerPointer(0));
+	sf::Sprite texture(layMan.getLayerPointer(0).get()->getTexture());
+	windowPtr.get()->draw(texture);
 }
 
 void Game::update()
@@ -123,24 +125,33 @@ void Game::loadMap()
 	groupTree.branch("map");
 
 	auto& tags = groupTree.trees["map"].tags;
-	std::string type = tags["type"] = "";
-	std::string x = tags["position.<xmlattr>.x"] = "";
-	std::string y = tags["position.<xmlattr>.y"] = "";
-	std::string tex = tags["texture"] = "";
+	tags["type"] = "";
+	tags["position.<xmlattr>.x"] = "";
+	tags["position.<xmlattr>.y"] = "";
+	tags["texture"] = "";
 
+	parser.readTree<std::string>(groupTree);
 	auto& output = groupTree.trees["map"].output;
-	for (unsigned int ii = 0; ii < output.size(); ii++)
-	{
-		auto tmp = objMan.getObject("");
-		tmp.get()->load(tex, stoi(x), stoi(y), recMan);
+
+	std::string type = output[0][3];
+	std::string x = output[0][0];
+	std::string y = output[0][1];
+	std::string tex = output[0][2];
+
+	//for (unsigned int ii = 0; ii < output.size(); ii++)
+	//{
+		auto tmp = objMan.getPrototype(type);
+		tmp.get()->load(tex, boost::lexical_cast<int, std::string>(x), boost::lexical_cast<int, std::string>(y), recMan);
 		tmp.get()->setID(objMan.nextID());
 		objMan.addObject(tmp, "Layers.Layer1");
-	}
+	//}
 
 	layMan.addLayer();
 	layMan.setScrollSpeeds(sf::Vector2f(1, 1), 0);
 	layMan.getLayerPointer(0);
 	layMan.updateWindowSize(windowPtr.get()->getSize());
+	tmpCenter = sf::Vector2f(500, 500);
+	layMan.setReferencePoint(tmpCenter);
 
 }
 
