@@ -99,19 +99,19 @@ void UnitTester::utilities()
 	util::dbound(dthree, dtwo, done);
 	if(dthree != 2.2){ BOOST_LOG_SEV(testLogger, ERROR) << "Input to util::dbound failed."; }
 
-	float fone = 1.11;
-	float ftwo = 2.22;
-	float fthree = 3.33;
+	float fone = 1.1;
+	float ftwo = 2.2;
+	float fthree = 3.3;
 
 	BOOST_LOG_SEV(testLogger, INFO) << "Now testing: float util::fmax(float& a, float& b);";
-	if(util::fmax(fone, ftwo) != 2.22){ BOOST_LOG_SEV(testLogger, ERROR) << "Input to util::fmax failed."; }
+	if(util::fmax(fone, ftwo) != 2.2){ BOOST_LOG_SEV(testLogger, ERROR) << "Input to util::fmax failed."; }
 
 	BOOST_LOG_SEV(testLogger, INFO) << "Now testing: float util::fmin(float& a, float& b);";
-	if(util::fmin(fone, ftwo) != 1.11){ BOOST_LOG_SEV(testLogger, ERROR) << "Input to util::fmin failed."; }
+	if(util::fmin(fone, ftwo) != 1.1){ BOOST_LOG_SEV(testLogger, ERROR) << "Input to util::fmin failed."; }
 
 	BOOST_LOG_SEV(testLogger, INFO) << "Now testing: void util::fbound(float& a, const float& b, const float& c)";
 	util::fbound(fthree, ftwo, fone);
-	if(fthree != 2.22){ BOOST_LOG_SEV(testLogger, ERROR) << "Input to util::fbound failed."; }
+	if(fthree != 2.2){ BOOST_LOG_SEV(testLogger, ERROR) << "Input to util::fbound failed."; }
 
 	unsigned int uone = 1;
 	unsigned int utwo = 2;
@@ -132,12 +132,7 @@ void UnitTester::utilities()
 	float pie;
 	util::nullCopyValue<float>(copy, pie);
 	if(pie != copy){ BOOST_LOG_SEV(testLogger, ERROR) << "Input to util::nullCopyValue failed."; }
-
-	///hello
-
-
-
-	/*
+	
 	BOOST_LOG_SEV(testLogger, INFO) << "Now testing: void nullCopyVector(const std::vector<T>& toCopy, const std::vector<T>& vec);";
 	int nullInt = NULL;
 	std::vector<int> mixedVec = { 4, nullInt, 5, nullInt, 124 };
@@ -145,7 +140,7 @@ void UnitTester::utilities()
 	std::vector<int> expectedVec = { 4, 4, 5, 5, 124 };
 	util::nullCopyVector<int>(mixedVec, startingVec);
 	if (startingVec != expectedVec) { BOOST_LOG_SEV(testLogger, ERROR) << "Input to util::nullCopyVector failed. IN: {4, nullInt, 5, nullInt, 124}, {3, 5, 8, 5, 1265}"; }
-	*/
+	
 }
 
 void UnitTester::logging()
