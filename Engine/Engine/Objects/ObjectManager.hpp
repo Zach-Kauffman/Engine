@@ -10,7 +10,6 @@
 #include "..\Utility\Downcast.hpp"
 
 
-
 namespace objects
 {
 	class ObjectManager : public ObjectGroup

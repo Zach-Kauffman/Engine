@@ -57,7 +57,10 @@ void Game::begin()
 
 void Game::draw()
 {
-	objMan.getObject("Layers.Layer1.1").get()->draw(*layMan.getLayerPointer(0));
+	boost::function<void(objects::Object&)> draw = boost::bind(&objects::Object::draw, _1, boost::ref(*layMan.getLayerPointer(0)));
+	objMan.callFunction<boost::function<void(objects::Object&)> >("Layers.Layer1", draw);
+	//objMan.getObject("Layers.Layer1.1").get()->draw(*layMan.getLayerPointer(0));
+	//objMan.getObject("Layers.Layer1.2").get()->draw(*layMan.getLayerPointer(0));
 	layMan.draw(*windowPtr.get());
 }
 
@@ -113,6 +116,7 @@ void Game::loadMap()
 {
 	XMLParser parser(mapFile);
 
+	/*
 	xmlTree<std::string> groupTree;
 	groupTree.branch("map");
 
@@ -135,6 +139,24 @@ void Game::loadMap()
 	tmp.get()->load(tex, boost::lexical_cast<int, std::string>(x), boost::lexical_cast<int, std::string>(y), recMan);
 	tmp.get()->setID(objMan.nextID());
 	objMan.addObject(tmp, "Layers.Layer1");
+	*/
+
+	xmlTree<boost::property_tree::ptree> groupTree;
+	groupTree.branch("map");
+
+	parser.getSubTree(groupTree);
+
+	auto& output = groupTree.output;
+
+	for (unsigned int i = 0; i < output[0].size(); i++)
+	{
+		std::string type = "";
+		parser.readValue<std::string>("type", type, output[0][i]);	//read type from tree
+		auto tmp = objMan.getPrototype(type);						//make object of that type
+		tmp->load(output[0][i], recMan);
+		tmp->setID(objMan.nextID());
+		objMan.addObject(tmp, "Layers.Layer1");
+	}
 
 	//setting up the layer manager
 	layMan.setDefaultSize((sf::Vector2f)windowPtr->getSize());	//size of the viewport

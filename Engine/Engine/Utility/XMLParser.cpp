@@ -52,6 +52,32 @@ void XMLParser::setWorkingPath(const std::string& newPath)
 	subTree = getSubTree(newPath);
 }
 
+void XMLParser::getSubTree(xmlTree<boost::property_tree::ptree>& data, boost::property_tree::ptree& currentTree)
+{
+
+	//no tags to read, output will be property trees
+
+	std::map<std::string, xmlTree<boost::property_tree::ptree>>::iterator treeIt;
+
+
+	for (treeIt = data.trees.begin(); treeIt != data.trees.end(); treeIt++)	//iterate through all children
+	{
+		std::vector<boost::property_tree::ptree> output;
+		BOOST_FOREACH(boost::property_tree::ptree::value_type &v, subTree.get_child(treeIt->first))
+		{
+			output.push_back(v.second);
+			getSubTree(treeIt->second, v.second);
+		}
+		data.output.push_back(output);
+	}
+
+}
+
+void XMLParser::getSubTree(xmlTree<boost::property_tree::ptree>& data)
+{
+	getSubTree(data, subTree);	//calls with default argument as the current subtree
+}
+
 boost::property_tree::ptree XMLParser::getSubTree(const std::string& path)		//gets specified subtree from tree and stores it for later use.
 {
 	return tree.get_child(path);

@@ -28,8 +28,7 @@ namespace objects
 		void draw(Layer& renderTarget);
 		void update();
 
-		//void load(boost::property_tree::ptree propertyTree, ResourceGroup& resources);	//loads instances object properties based on subtree
-		void load(const std::string&, const int&, const int&, ResourceManager&);
+		void load(boost::property_tree::ptree& dataTree, ResourceManager& resources);	//loads instances object properties based on subtree
 		void write();
 
 

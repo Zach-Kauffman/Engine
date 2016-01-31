@@ -76,17 +76,15 @@ public:
 	template<class T>
 	void readTree(xmlTree<T>& data, boost::property_tree::ptree& currentTree)
 	{
-
-
-			std::vector<T> output;	//vector to hold read tag values
-			std::map<std::string, T>::iterator tagIt;
-			for (tagIt = data.tags.begin(); tagIt != data.tags.end(); tagIt++)	//iterate through tags in children
-			{
-				T val;
-				readValue<T>(tagIt->first, val, currentTree);	//reading value from tag
-				output.push_back(val);
-			}
-			data.output.push_back(output);	//add tag data to output vector
+		std::vector<T> output;	//vector to hold read tag values
+		std::map<std::string, T>::iterator tagIt;
+		for (tagIt = data.tags.begin(); tagIt != data.tags.end(); tagIt++)	//iterate through tags in children
+		{
+			T val;
+			readValue<T>(tagIt->first, val, currentTree);	//reading value from tag
+			output.push_back(val);
+		}
+		data.output.push_back(output);	//add tag data to output vector
 
 		std::map<std::string, xmlTree<T>>::iterator treeIt;
 
@@ -104,6 +102,10 @@ public:
 	{
 		readTree(data, subTree);
 	}
+
+	void getSubTree(xmlTree<boost::property_tree::ptree>& data, boost::property_tree::ptree& currentTree);	//recursively searches xmlTree for property trees and returns them in  output
+
+	void getSubTree(xmlTree <boost::property_tree::ptree>& data);											//wrapper for default call with private member "subTree"
 
 	boost::property_tree::ptree getSubTree(const std::string& path);		//gets specified subtree from tree and stores it for later use.
 

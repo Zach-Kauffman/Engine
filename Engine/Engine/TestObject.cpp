@@ -16,20 +16,17 @@ void TestObject::update()
 
 }
 
-//void TestObject::load(boost::property_tree::ptree& propertyTree, ResourceManager& resources)
-void TestObject::load(const std::string& tex, const int& x, const int &y, ResourceManager& resources)
+void TestObject::load(boost::property_tree::ptree& dataTree, ResourceManager& resources)
 {
-	/*
+	
 	XMLParser parser;
-	parser.readValue<float>("position.<xmlattr>.x", position.x, propertyTree);
-	parser.readValue<float>("position.<xmlattr>.y", position.y, propertyTree);
+	parser.readValue<float>("position.<xmlattr>.x", position.x, dataTree);	//loading x coord
+	parser.readValue<float>("position.<xmlattr>.y", position.y, dataTree);	//loading y coord
 
+	//loading texture
 	std::string textureName;
-	parser.readValue<std::string>("texture", textureName, propertyTree);
-	*/
-	position.x = x;
-	position.y = y;
-	testTex = resources.getTexturePointerByName(tex);
+	parser.readValue<std::string>("texture", textureName, dataTree);
+	testTex = resources.getTexturePointerByName(textureName);
 	
 	sf::Vector2f texSize = (sf::Vector2f)testTex->getSize();
 

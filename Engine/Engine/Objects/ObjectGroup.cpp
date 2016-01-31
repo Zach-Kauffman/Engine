@@ -93,8 +93,8 @@ boost::shared_ptr<Object> ObjectGroup::getObject(const int& ID)	//quick binary s
 	{
 		//error and return null
 	}
-	int factor = 1;
-	int which = 0;
+	double factor = 1;
+	double which = 0;
 	bool searching = true;
 	bool up = true;
 	while (which >= 0 && which <= objects.size())
@@ -108,19 +108,19 @@ boost::shared_ptr<Object> ObjectGroup::getObject(const int& ID)	//quick binary s
 		{
 			which -= objects.size() / factor;
 		}
-
-		if (ID < objects[which]->getID())
+		which = floor(which);
+		if (ID < objects[(int)which]->getID())
 		{
 			up = false;	//lower
 		}
-		else if (ID > objects[which]->getID())
+		else if (ID > objects[(int)which]->getID())
 		{
 			up = true;	//higher
 			
 		}
 		else	//found the value
 		{
-			return objects[which];
+			return objects[(int)which];
 		}
 	}
 
@@ -173,8 +173,6 @@ ObjectGroup* ObjectGroup::getObjectGroup(const std::string& path)
 
 	return getObjectGroup(pathVec);
 }
-
-
 
 void ObjectGroup::forceObjectSort()	//could be more efficient but really shouldn't be called too much
 {
