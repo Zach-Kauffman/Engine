@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <resources>
-
 	<resource>
 		<path>Resources/TestResources/ModernArtBlue.png</path>
 		<name>ModernArtOne</name>
@@ -17,5 +16,8 @@
 		<path>Resources/TestResources/ModernArtBlue.png</path>
 		<name>ModernArtThree</name>
 	</resource>
-
+	<resource>
+		<path>Resources/TestResources/download.jpg</path>
+		<name>pluto</name>
+	</resource>
 </resources>

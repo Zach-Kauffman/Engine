@@ -86,8 +86,6 @@ void Game::loadGameConfig(const std::string& configFile)
 
 void Game::loadResources()
 {
-	//recMan.addEmptyResourceGroup("objects");
-
 	XMLParser parser(resourceFile);
 	
 	xmlTree<std::string> groupTree;
@@ -96,19 +94,14 @@ void Game::loadResources()
 	groupTree.trees["resources"].tags["path"] = "";	//path to resource
 	groupTree.trees["resources"].tags["name"] = "";	//storage name of resource
 
-
-	//parser.setWorkingPath("resources");
-
-	parser.readTree<std::string>(groupTree);
+	parser.readTree<std::string>(groupTree);		//read data from file and place in output vector
 
 	auto &output = groupTree.trees["resources"].output;
 	for (unsigned int ii = 0; ii < output.size(); ii++)
 	{
-		recMan.loadFile(output[ii][1], output[ii][0]);
+		recMan.loadFile(output[ii][1], output[ii][0]);	//load each resource
 	}
 
-	
-	//load basic game resources
 }
 
 void Game::loadObjects()
@@ -124,7 +117,7 @@ void Game::loadMap()
 	groupTree.branch("map");
 
 	auto& tags = groupTree.trees["map"].tags;
-	tags["type"] = "";
+	tags["type"] = "";							//setting individual attributes to load from xml file
 	tags["position.<xmlattr>.x"] = "";
 	tags["position.<xmlattr>.y"] = "";
 	tags["texture"] = "";
@@ -132,25 +125,25 @@ void Game::loadMap()
 	parser.readTree<std::string>(groupTree);
 	auto& output = groupTree.trees["map"].output;
 
+	//blech hardcoded for now
 	std::string type = output[0][3];
 	std::string x = output[0][0];
 	std::string y = output[0][1];
 	std::string tex = output[0][2];
 
-	//for (unsigned int ii = 0; ii < output.size(); ii++)
-	//{
-		auto tmp = objMan.getPrototype(type);
-		tmp.get()->load(tex, boost::lexical_cast<int, std::string>(x), boost::lexical_cast<int, std::string>(y), recMan);
-		tmp.get()->setID(objMan.nextID());
-		objMan.addObject(tmp, "Layers.Layer1");
-	//}
-	layMan.setDefaultSize((sf::Vector2f)windowPtr->getSize());
-	layMan.addLayer();
-	layMan.setScrollSpeeds(sf::Vector2f(1, 1), 0);
-	layMan.getLayerPointer(0);
-	layMan.updateWindowSize(windowPtr.get()->getSize());
-	tmpCenter = sf::Vector2f(500, 500);
-	layMan.setReferencePoint(tmpCenter);
+	auto tmp = objMan.getPrototype(type);
+	tmp.get()->load(tex, boost::lexical_cast<int, std::string>(x), boost::lexical_cast<int, std::string>(y), recMan);
+	tmp.get()->setID(objMan.nextID());
+	objMan.addObject(tmp, "Layers.Layer1");
+
+	//setting up the layer manager
+	layMan.setDefaultSize((sf::Vector2f)windowPtr->getSize());	//size of the viewport
+	layMan.addLayer();											//creates a single layer
+	layMan.setScrollSpeeds(sf::Vector2f(1, 1), 0);				//this layer should scroll at the same speed as movement		
+	layMan.updateWindowSize(windowPtr.get()->getSize());		//umm idk?
+
+	tmpCenter = sf::Vector2f(500, 500);							//starting point of reference
+	layMan.setReferencePoint(tmpCenter);						//make sure the layers reference the point
 
 }
 

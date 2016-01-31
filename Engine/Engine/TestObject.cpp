@@ -41,10 +41,10 @@ void TestObject::load(const std::string& tex, const int& x, const int &y, Resour
 	texCoords[2].position = sf::Vector2f(position.x + texSize.x / 2, position.y - texSize.y / 2);	//top right
 	texCoords[3].position = sf::Vector2f(position.x - texSize.x / 2, position.y - texSize.y / 2);	//top left
 
-	texCoords[0].texCoords = sf::Vector2f(texSize.x, 0);			//bottom right
-	texCoords[1].texCoords = sf::Vector2f(0, 0);					//bottom left
-	texCoords[2].texCoords = sf::Vector2f(texSize.x, texSize.y);	//top right
-	texCoords[3].texCoords = sf::Vector2f(0, texSize.y);			//top left
+	texCoords[0].texCoords = sf::Vector2f(texSize.x, texSize.y);			//bottom right
+	texCoords[1].texCoords = sf::Vector2f(0, texSize.y);					//bottom left
+	texCoords[2].texCoords = sf::Vector2f(texSize.x, 0);	//top right
+	texCoords[3].texCoords = sf::Vector2f(0, 0);			//top left
 
 }
 
