@@ -89,39 +89,35 @@ boost::shared_ptr<Object> ObjectGroup::getObject(const int& ID)	//quick binary s
 {
 	forceObjectSort();
 
-	if (objects.size() == 0)
+	int position;
+	int comparisonCount = 1;    //count the number of comparisons (optional)
+
+	// To start, find the subscript of the middle position.
+	position = (objects.size()) / 2;
+
+	int lowerbound = 0;
+	int upperbound = objects.size();
+
+	while ((objects[position]->getID() != ID) && (lowerbound <= upperbound))
 	{
-		//error and return null
-	}
-	double factor = 1;
-	double which = 0;
-	bool searching = true;
-	bool up = true;
-	while (which >= 0 && which <= objects.size())
-	{
-		factor *= 2;
-		if (up)
-		{
-			which += objects.size() / factor;
+		comparisonCount++;
+		if (objects[position]->getID() > ID)               // If the number is > key, ..
+		{                                                       // decrease position by one.
+			upperbound = position - 1;
 		}
 		else
-		{
-			which -= objects.size() / factor;
+		{                                                        // Else, increase position by one.
+			lowerbound = position + 1;
 		}
-		which = floor(which);
-		if (ID < objects[(int)which]->getID())
-		{
-			up = false;	//lower
-		}
-		else if (ID > objects[(int)which]->getID())
-		{
-			up = true;	//higher
-			
-		}
-		else	//found the value
-		{
-			return objects[(int)which];
-		}
+		position = (lowerbound + upperbound) / 2;
+	}
+	if (lowerbound <= upperbound)
+	{
+		return objects[position];
+	}
+	else
+	{
+		BOOST_LOG_SEV(*groupLogger, ERROR) << "Object with ID = " << ID << " not found in group.";
 	}
 
 }
