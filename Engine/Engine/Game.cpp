@@ -58,8 +58,7 @@ void Game::begin()
 void Game::draw()
 {
 	objMan.getObject("Layers.Layer1.1").get()->draw(*layMan.getLayerPointer(0));
-	sf::Sprite texture(layMan.getLayerPointer(0).get()->getTexture());
-	windowPtr.get()->draw(texture);
+	layMan.draw(*windowPtr.get());
 }
 
 void Game::update()
@@ -145,7 +144,7 @@ void Game::loadMap()
 		tmp.get()->setID(objMan.nextID());
 		objMan.addObject(tmp, "Layers.Layer1");
 	//}
-
+	layMan.setDefaultSize((sf::Vector2f)windowPtr->getSize());
 	layMan.addLayer();
 	layMan.setScrollSpeeds(sf::Vector2f(1, 1), 0);
 	layMan.getLayerPointer(0);

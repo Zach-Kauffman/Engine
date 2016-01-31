@@ -2,11 +2,11 @@
 	<object>
 		<type>TestObject</type>
 		<position x="300" y="500"></position>
-		<texture>ModernArtOne</texture>
+		<texture>KittyKitty</texture>
 	</object>
 	<object>
 		<type>TestObject</type>
 		<position x="700" y="200"></position>
-		<texture>ModernArtTwo</texture>
+		<texture>KittyKitty</texture>
 	</object>
 </map>

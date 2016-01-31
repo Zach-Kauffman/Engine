@@ -38,6 +38,10 @@ LayerManager::~LayerManager()
 
 }
 
+void LayerManager::setDefaultSize(const sf::Vector2f& size)
+{
+	defaultSize = size;
+}
 
 void LayerManager::updateWindowSize(const sf::Vector2u size)
 {
@@ -52,7 +56,14 @@ void LayerManager::addLayer()
 {
 	boost::shared_ptr<Layer> emptyLayer(new Layer);
 
-	layers.push_back(emptyLayer);								//makes and adds a new, empty Layer
+	if (!emptyLayer->create(defaultSize.x, defaultSize.y))
+	{
+		BOOST_LOG_SEV(layerManagerLogger, WARNING) << "failed to create layer number " << layers.size() + 1;
+	}
+	else
+	{
+		layers.push_back(emptyLayer);                                //makes and adds a new, empty Layer
+	}
 }
 
 void LayerManager::addLayer(boost::shared_ptr<Layer> newLayer)
@@ -141,9 +152,10 @@ void LayerManager::draw(sf::RenderWindow& window)
 
 	sf::Vector2f distance = oldReferencePointValue - *referencePoint;	//distance from the refernce point to where it used to be
 		
-	for (unsigned int i = layers.size(); i > 0; --i)					//draw in reverse order -- makes intuitive sense: the first layer in the vector
+	for (int i = layers.size()-1; i>=0; i--)					//draw in reverse order -- makes intuitive sense: the first layer in the vector
 																		//is the forwardmost layer, not backmost
 	{
+		layers[i]->display();
 		const sf::Texture& tmpTex = layers[i]->getTexture();			//get the texture from the layer
 
 		sf::Sprite tmpSprite(tmpTex);									//set a sprite's texture as it
