@@ -104,14 +104,14 @@ void UnitTester::utilities()
 	float fthree = 3.3;
 
 	BOOST_LOG_SEV(testLogger, INFO) << "Now testing: float util::fmax(float& a, float& b);";
-	if(util::fmax(fone, ftwo) != 2.2){ BOOST_LOG_SEV(testLogger, ERROR) << "Input to util::fmax failed."; }
+	if(util::fmax(fone, ftwo) != ftwo){ BOOST_LOG_SEV(testLogger, ERROR) << "Input to util::fmax failed."; }
 
 	BOOST_LOG_SEV(testLogger, INFO) << "Now testing: float util::fmin(float& a, float& b);";
-	if(util::fmin(fone, ftwo) != 1.1){ BOOST_LOG_SEV(testLogger, ERROR) << "Input to util::fmin failed."; }
+	if(util::fmin(fone, ftwo) != fone){ BOOST_LOG_SEV(testLogger, ERROR) << "Input to util::fmin failed."; }
 
 	BOOST_LOG_SEV(testLogger, INFO) << "Now testing: void util::fbound(float& a, const float& b, const float& c)";
 	util::fbound(fthree, ftwo, fone);
-	if(fthree != 2.2){ BOOST_LOG_SEV(testLogger, ERROR) << "Input to util::fbound failed."; }
+	if(fthree != ftwo){ BOOST_LOG_SEV(testLogger, ERROR) << "Input to util::fbound failed."; }
 
 	unsigned int uone = 1;
 	unsigned int utwo = 2;
