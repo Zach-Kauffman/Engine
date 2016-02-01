@@ -144,18 +144,30 @@ void Game::loadMap()
 	xmlTree<boost::property_tree::ptree> groupTree;
 	groupTree.branch("map");
 
+	groupTree.tags["layer"];
+	groupTree.trees["map"].trees["layer"].tags["object"];
+	groupTree.trees["map"].trees["layer"].trees["layer"];
+
 	parser.getSubTree(groupTree);
 
-	auto& output = groupTree.output;
+	auto& layers = groupTree.output;
+	auto& objects = groupTree.trees["layer"].output;
 
-	for (unsigned int i = 0; i < output[0].size(); i++)
+	for (unsigned int i = 0; i < layers[0].size(); i++)	//for each layer
 	{
-		std::string type = "";
-		parser.readValue<std::string>("type", type, output[0][i]);	//read type from tree
-		auto tmp = objMan.getPrototype(type);						//make object of that type
-		tmp->load(output[0][i], recMan);
-		tmp->setID(objMan.nextID());
-		objMan.addObject(tmp, "Layers.Layer1");
+		//reading layer data
+		std::string layerNumber = "1";	//default is 1
+		parser.readValue<std::string>("<xmlattr>.z", layerNumber, layers[0][i]);
+
+		for (unsigned int objectIt = 0; objectIt < objects.size(); objectIt++)
+		{
+			std::string type = "";
+			parser.readValue<std::string>("type", type, objects[0][i]);	//read type from tree
+			auto tmp = objMan.getPrototype(type);						//make object of that type
+			tmp->load(objects[0][i], recMan);
+			tmp->setID(objMan.nextID());
+			objMan.addObject(tmp, "Layers.Layer" + layerNumber);
+		}
 	}
 
 	//setting up the layer manager

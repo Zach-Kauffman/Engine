@@ -62,13 +62,21 @@ void XMLParser::getSubTree(xmlTree<boost::property_tree::ptree>& data, boost::pr
 
 	for (treeIt = data.trees.begin(); treeIt != data.trees.end(); treeIt++)	//iterate through all children
 	{
-		std::vector<boost::property_tree::ptree> output;
-		BOOST_FOREACH(boost::property_tree::ptree::value_type &v, subTree.get_child(treeIt->first))
+		std::map<std::string, boost::property_tree::ptree>::iterator tagIt;	//tags are used for lowest level elements
+		for (tagIt = data.tags.begin(); tagIt != data.tags.end(); tagIt++)
 		{
-			output.push_back(v.second);
-			getSubTree(treeIt->second, v.second);
+			std::vector<boost::property_tree::ptree> output;
+			BOOST_FOREACH(boost::property_tree::ptree::value_type &v, subTree.get_child(treeIt->first))
+			{
+				if (v.first == tagIt->first)	//if the name of the child found is what its supposed to be
+				{
+					output.push_back(v.second);
+					getSubTree(treeIt->second, v.second);
+				}
+
+			}
+			data.output.push_back(output);
 		}
-		data.output.push_back(output);
 	}
 
 }
