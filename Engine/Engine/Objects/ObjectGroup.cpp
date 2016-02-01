@@ -79,7 +79,7 @@ void ObjectGroup::removeObject(const boost::shared_ptr<Object>& objectPtr)
 boost::shared_ptr<Object> ObjectGroup::getObject(const std::string& path)
 {
 	std::vector<std::string> pathVec = util::splitStrAtSubstr(path, ".");
-	int ID = std::stoi(*(pathVec.end()-1));	//convert ID string to int
+	int ID = boost::lexical_cast<int, std::string>(pathVec[pathVec.size()-1]);	//convert ID string to int
 	pathVec.erase(pathVec.end()-1);			//get rid of the id remove the ID from the vector
 
 	return getObjectGroup(util::vecToStr(pathVec, "."))->getObject(ID);	//retrieves object group from reconstructed string and return objPtr
@@ -89,39 +89,35 @@ boost::shared_ptr<Object> ObjectGroup::getObject(const int& ID)	//quick binary s
 {
 	forceObjectSort();
 
-	if (objects.size() == 0)
+	int position;
+	int comparisonCount = 1;    //count the number of comparisons (optional)
+
+	// To start, find the subscript of the middle position.
+	position = (objects.size()) / 2;
+
+	int lowerbound = 0;
+	int upperbound = objects.size();
+
+	while ((objects[position]->getID() != ID) && (lowerbound <= upperbound))
 	{
-		//error and return null
-	}
-	int factor = 1;
-	int which = 0;
-	bool searching = true;
-	bool up = true;
-	while (which >= 0 && which <= objects.size())
-	{
-		factor *= 2;
-		if (up)
-		{
-			which += objects.size() / factor;
+		comparisonCount++;
+		if (objects[position]->getID() > ID)               // If the number is > key, ..
+		{                                                       // decrease position by one.
+			upperbound = position - 1;
 		}
 		else
-		{
-			which -= objects.size() / factor;
+		{                                                        // Else, increase position by one.
+			lowerbound = position + 1;
 		}
-
-		if (ID < objects[which]->getID())
-		{
-			up = false;	//lower
-		}
-		else if (ID > objects[which]->getID())
-		{
-			up = true;	//higher
-			
-		}
-		else	//found the value
-		{
-			return objects[which];
-		}
+		position = (lowerbound + upperbound) / 2;
+	}
+	if (lowerbound <= upperbound)
+	{
+		return objects[position];
+	}
+	else
+	{
+		BOOST_LOG_SEV(*groupLogger, ERROR) << "Object with ID = " << ID << " not found in group.";
 	}
 
 }
@@ -173,8 +169,6 @@ ObjectGroup* ObjectGroup::getObjectGroup(const std::string& path)
 
 	return getObjectGroup(pathVec);
 }
-
-
 
 void ObjectGroup::forceObjectSort()	//could be more efficient but really shouldn't be called too much
 {

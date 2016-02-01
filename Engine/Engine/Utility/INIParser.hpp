@@ -18,7 +18,8 @@ public:
 	void setFilePath(const std::string& INIPath);
 	void setSection(const std::string& newSection);
 
-
+	void writeFile();								//actually writes property tree to file
+	void writeFile(const std::string& fileName);	//overloaded for specific name
 
 	template<class T>
 	void readValue(const std::string& key, T& var)	//takes a string and return its value loaded from INI
@@ -40,7 +41,7 @@ public:
 	void writeValue(const std::string& key, T value) //writes value to ini file
 	{
 		tree.put(assemblePath(key), value);		//adds value to tree
-		write_ini("config.ini", tree);	//actually writes to INI file
+		//not necessary to call write_ini every time	
 	}
 
 	template<class T>

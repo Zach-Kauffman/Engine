@@ -39,19 +39,34 @@ namespace objects
 		void removeObject(const boost::shared_ptr<Object>& objectPtr);	//deletes object by searching for specific pointer
 
 		boost::shared_ptr<Object> getObject(const std::string& path);	//returns pointer to specified object, "path" includes ID
-		boost::shared_ptr<Object> getObject(const int& ID);			//overloaded for index only, supports arrays
+		boost::shared_ptr<Object> getObject(const int& ID);				//overloaded for index only, supports arrays
 
 		//ObjectGroup vector manipulation functions
 		void addObjectGroup(const ObjectGroup& newGroup, const std::string& name);	//adds new group to "groups" vector
 		void addObjectGroup(const std::string& name);
 
-		void deleteObjectGroup(const std::string& groupName);						//physically deallocates specified objectGroup from memory
+		void deleteObjectGroup(const std::string& groupName);						//deallocates specified objectGroup from memory
 
 		ObjectGroup* getObjectGroup(const std::vector<std::string>& pathVec);		//get specified objectgroup ptr
 		ObjectGroup* getObjectGroup(const std::string& path);						
 
 
 		void forceObjectSort();		//essentially checks sorting of objects by ID by sorting everything again using insertion sort
+
+		template <class T>
+		void callFunction(const std::string& group, T fxn)	//overload which finds correct objectgroup then call callFunctin(fxn)
+		{
+			getObjectGroup(group)->callFunction(fxn);
+		}
+
+		template<class T>
+		void callFunction(T fxn)									//sequentially calls function on all objects in group
+		{
+			for (unsigned int i = 0; i < objects.size(); i++)	//iterate through objects
+			{
+				fxn(*(objects[i].get()));	//calls function
+			}
+		}
 
 	protected:
 		template<class T>
