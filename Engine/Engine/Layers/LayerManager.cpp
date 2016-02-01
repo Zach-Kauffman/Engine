@@ -170,7 +170,7 @@ void LayerManager::draw(sf::RenderWindow& window)
 
 		window.draw(tmpSprite);											//draw the sprite
 
-		layers[i]->clear(sf::Color::Black);
+		layers[i]->clear(sf::Color(0, 0, 0, 0));
 	}
 
 	//oldReferencePointValue = *referencePoint;							//update the oldReferencePointValue

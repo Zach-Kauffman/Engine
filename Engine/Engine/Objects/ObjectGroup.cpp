@@ -23,7 +23,7 @@ void ObjectGroup::setLoggerObject(logSharedPtr logger)
 
 void ObjectGroup::addObject(boost::shared_ptr<Object>& newObject, const std::string& path)
 {
-	ObjectGroup* group;	//group which object will be added to 
+	ObjectGroup* group = this;	//group which object will be added to 
 
 	if (path != "")
 	{
@@ -31,16 +31,17 @@ void ObjectGroup::addObject(boost::shared_ptr<Object>& newObject, const std::str
 
 		for (int i = 0; i < pathVec.size(); i++)	//make sure the path exists
 		{
-			if (nameMapVector[0].find(pathVec[i]) != nameMapVector[0].end())	//if the group allready exists
+			if (group->nameMapVector[0].find(pathVec[i]) != group->nameMapVector[0].end())	//if the group allready exists
 			{
-
+				group = group->getObjectGroup(pathVec[i]);
 			}
 			else
 			{
-				addObjectGroup(pathVec[i]);		//add group
+				group->addObjectGroup(pathVec[i]);		//add group
+				group = group->getObjectGroup(pathVec[i]);
 			}
 		}
-		group = getObjectGroup(path);	//get the object group from the path just verified/created 
+		//group = getObjectGroup(path);	//get the object group from the path just verified/created 
 	}
 	else
 	{
@@ -154,9 +155,10 @@ void ObjectGroup::deleteObjectGroup(const std::string& path)
 ObjectGroup* ObjectGroup::getObjectGroup(const std::vector<std::string>& pathVec)
 {
 	ObjectGroup* tmpGroup = this;
-	for (int i = 0; i < pathVec.size() - 1; i++)	//increments until second-to-last spot since the ID is the last
+	for (int i = 0; i < pathVec.size(); i++)	//increments until second-to-last spot since the ID is the last
 	{
-		tmpGroup = tmpGroup->getObjectGroup(pathVec[i]);	//requests next object group by name and assigns it to temp object
+		int tmpindex = ntoi(pathVec[i]);
+		tmpGroup = &(tmpGroup->groups[tmpindex]);	//requests next object group by name and assigns it to temp object
 	}
 
 	return tmpGroup;
