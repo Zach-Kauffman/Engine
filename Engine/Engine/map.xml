@@ -1,0 +1,27 @@
+<map>
+	<object>
+		<type>TestObject</type>
+		<position x="300" y="500"></position>
+		<texture>ModernArtOne</texture>
+	</object>
+	<object>
+		<type>TestObject</type>
+		<position x="600" y="200"></position>
+		<texture>KittyKitty</texture>
+	</object>
+	<object>
+		<type>TestObject</type>
+		<position x="200" y="600"></position>
+		<texture>pluto</texture>
+	</object>
+	<object>
+		<type>TestObject</type>
+		<position x="600" y="800"></position>
+		<texture>ModernArtTwo</texture>
+	</object>
+		<object>
+		<type>MovingTestObject</type>
+		<position x="500" y="500"></position>
+		<texture>KittyKitty</texture>
+	</object>
+</map>

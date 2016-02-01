@@ -1,8 +1,8 @@
 #pragma once
 #include "Layer.hpp"
-#include "../Logger.hpp"
+#include "../Utility/Logger.hpp"
 #include <vector>
-#include "../Utilities.hpp"
+#include "../Utility/Utilities.hpp"
 
 
 class LayerManager										//holds and manages layers of graphics -- useful for parallax
@@ -20,8 +20,10 @@ public:
 
 	~LayerManager();									//nothing in destructor
 
+	void setDefaultSize(const sf::Vector2f& s);			//sets new default size for window !!!!needs to be loaded from xml!!!
+	void updateWindowSize(const sf::Vector2u size);						//updates dimensions of
 
-	void addEmptyLayer();								//adds a new, empty layer
+	void addLayer();								//adds a new, empty layer
 
 	void addLayer(boost::shared_ptr<Layer> newLayer);	//adds an existant layer
 
@@ -82,7 +84,8 @@ private:
 														//because renderTexture is Noncopyable
 
 
-	src::severity_logger<severity_level> layerManagerLogger;
-														//the logger for layerManager
+	src::severity_logger<severity_level> layerManagerLogger;	//the logger for layerManager
+
+	sf::Vector2f defaultSize;
 };
 

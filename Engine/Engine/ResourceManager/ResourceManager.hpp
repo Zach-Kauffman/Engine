@@ -3,7 +3,7 @@
 #include <boost/algorithm/string/case_conv.hpp>
 #include "boost/filesystem/operations.hpp"
 #include "boost/filesystem/fstream.hpp" 
-#include "../Utilities.hpp"
+#include "..\Utility\Utilities.hpp"
 
 
 class ResourceManager : public NameSearchable								//This class will basically hold all textures, fonts, and soundBufs.
@@ -27,57 +27,59 @@ public:
 																										//from a directory
 
 
-	void loadFileDirectoryRG(const std::string& directory);								//adds files from a directory and makes a resource
+	void addFilesResourceGroupFromDirectory(const std::string& directory);								//adds files from a directory and makes a resource
 																										//group out of them (name of RG is invented)
 
-	void loadFileDirectoryRG(const std::string& directory, const std::string& RGName);	//adds files from a directory and makes a resource
+	void addFilesResourceGroupFromDirectory(const std::string& directory, const std::string& RGName);	//adds files from a directory and makes a resource
 																										//group out of them (name of RG is specified)
 
 	void loadFile(const std::string& fileName, const std::string& name);				//adds a generic file
 
 
 
-	sf::Texture* getTexture(const std::string& name);					//retrieves a pointer to a texture
+	sf::Texture* getTexturePointerByName(const std::string& name);					//retrieves a pointer to a texture
 
-	sf::Font* getFont(const std::string& name);						//retrieves a pointer to a font
+	sf::Font* getFontPointerByName(const std::string& name);						//retrieves a pointer to a font
 
-	sf::SoundBuffer* getSoundBuffer(const std::string& name);			//retrieves a pointer to a soundBuffer
+	sf::SoundBuffer* getSoundBufferPointerByName(const std::string& name);			//retrieves a pointer to a soundBuffer
 
 
 
 	void addEmptyResourceGroup(const std::string& name);									//sets a new empty resourceGroup to ResourceGroups
 
+	void addResourceGroup(ResourceGroup fResourceGroup, const std::string& name);			//sets a currently filled resourceGroup to ResourceGroups
 
 
-	void addResourceRG(const std::string& rsName, const std::string& fileName, const std::string& ext);
+
+	void addResourcetoResourceGroup(const std::string& rsName, const std::string& fileName, const std::string& ext);
 																							//adds a generic resource to a resourceGroup
 																							//(interprets type, no name)
 
-	void addResourceRG(const std::string& rsName, const std::string& fileName, std::string ext, const std::string& desName);
+	void addResourcetoResourceGroup(const std::string& rsName, const std::string& fileName, std::string ext, const std::string& desName);
 																							//adds a generic resource to a resourceGroup
 																							//(interprets type, specified name)
 
 
-	void addTextureRG(const std::string& rsName, const std::string& texName);	//adds a texture to a resourceGroup (no name)
+	void addTexturetoResourceGroup(const std::string& rsName, const std::string& texName);	//adds a texture to a resourceGroup (no name)
 
-	void addTextureRG(const std::string& rsName, const std::string& texName, const std::string& desName);
+	void addTexturetoResourceGroup(const std::string& rsName, const std::string& texName, const std::string& desName);
 																							//adds a texture to a resourceGroup (specified name)
 
 
-	void addFontRG(const std::string& rsName, const std::string& fontName);	//adds a font to a resourceGroup (no name)
+	void addFonttoResourceGroup(const std::string& rsName, const std::string& fontName);	//adds a font to a resourceGroup (no name)
 
-	void addFontRG(const std::string& rsName, const std::string& fontName, const std::string& desName);	
+	void addFonttoResourceGroup(const std::string& rsName, const std::string& fontName, const std::string& desName);	
 																							//adds a font to a resourceGroup (specified name)
 
 
-	void addSoundBufferRG(const std::string& rsName, const std::string& sbName);
+	void addSoundBuffertoResourceGroup(const std::string& rsName, const std::string& sbName);
 																							//adds a soundbuffer to a resourceGroup (no name)
 
-	void addSoundBufferRG(const std::string& rsName, const std::string& sbName, const std::string& desName);
+	void addSoundBuffertoResourceGroup(const std::string& rsName, const std::string& sbName, const std::string& desName);
 																							//adds a soundbuffer to a resourceGroup (specified name)
 	
 
-	ResourceGroup* getResourceGroup(const std::string& fname);						//returns a pointer to a resourceGroup
+	ResourceGroup* getResourceGroupByName(const std::string& fname);						//returns a pointer to a resourceGroup
 
 
 private:
@@ -101,11 +103,11 @@ private:
 															//fills a vector of strings with all files from a directory
 
 
-	bool addTexture(const std::string& fileName);			//adds a Texture
+	void addTexture(const std::string& fileName);			//adds a Texture
 
-	bool addFont(const std::string& fileName);				//adds a Font
+	void addFont(const std::string& fileName);				//adds a Font
 
-	bool addSoundBuffer(const std::string& fileName);		//adds a SoundBuffer
+	void addSoundBuffer(const std::string& fileName);		//adds a SoundBuffer
 
 
 

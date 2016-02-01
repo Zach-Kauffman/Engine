@@ -1,22 +1,37 @@
-#include "TestObject.hpp"
+#include "MovingTestObject.hpp"
 
 using namespace objects;
 
-TestObject::TestObject(){}
+MovingTestObject::MovingTestObject(){}
 
-TestObject::~TestObject(){}
+MovingTestObject::~MovingTestObject(){}
 
-void TestObject::draw(Layer& renderTarget)
+void MovingTestObject::draw(Layer& renderTarget)
 {
 	renderTarget.draw(texCoords, testTex);
 }
 
-void TestObject::update(std::vector<int>& keys)
+void MovingTestObject::update(std::vector<int>& fkeyVec)
 {
-
+	if(std::find(fkeyVec.begin(), fkeyVec.end(), sf::Keyboard::Up) != fkeyVec.end()) 
+	{
+		move(0, -1);
+	}
+	if(std::find(fkeyVec.begin(), fkeyVec.end(), sf::Keyboard::Down) != fkeyVec.end()) 
+	{
+		move(0, 1);
+	}
+	if(std::find(fkeyVec.begin(), fkeyVec.end(), sf::Keyboard::Left) != fkeyVec.end()) 
+	{
+		move(-1, 0);
+	}
+	if(std::find(fkeyVec.begin(), fkeyVec.end(), sf::Keyboard::Right) != fkeyVec.end()) 
+	{
+		move(1, 0);
+	}
 }
 
-void TestObject::load(boost::property_tree::ptree& dataTree, ResourceManager& resources)
+void MovingTestObject::load(boost::property_tree::ptree& dataTree, ResourceManager& resources)
 {
 	
 	XMLParser parser;
@@ -46,8 +61,28 @@ void TestObject::load(boost::property_tree::ptree& dataTree, ResourceManager& re
 
 }
 
-void TestObject::write()
+void MovingTestObject::write()
 {
 	//more INIParser stuff
 }
 
+
+sf::Vector2f* MovingTestObject::getPositionPtr()
+{
+	return &position;
+}
+
+
+void MovingTestObject::move(const sf::Vector2f& dist)
+{
+	position += dist;
+	for (unsigned int i = 0; i < texCoords.getVertexCount(); i++)
+	{
+		texCoords[i].position += dist;
+	}
+}
+
+void MovingTestObject::move(const float& dist_x, const float& dist_y)
+{
+	move(sf::Vector2f(dist_x, dist_y));
+}

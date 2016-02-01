@@ -28,24 +28,48 @@ LayerManager::LayerManager(sf::Vector2f& refPoint, const int& amt)
 	basicSetup();
 	setLayerAmount(amt);
 	setReferencePoint(refPoint);
+	
 }
 
 //---done
 
 LayerManager::~LayerManager()
 {
+
 }
 
+void LayerManager::setDefaultSize(const sf::Vector2f& size)
+{
+	defaultSize = size;
+}
 
+void LayerManager::updateWindowSize(const sf::Vector2u size)
+{
+	std::vector<const double> bounds = { 0, 0, (double)size.x, (double)size.y };
+	for (unsigned int i = 0; i < layers.size(); i++)
+	{
+		setScrollBounds(bounds, i);
+	}
+}
 
-void LayerManager::addEmptyLayer()
+void LayerManager::addLayer()
 {
 	boost::shared_ptr<Layer> emptyLayer(new Layer);
-	layers.push_back(emptyLayer);								//makes and adds a new, empty Layer
+
+	if (!emptyLayer->create(defaultSize.x, defaultSize.y))
+	{
+		BOOST_LOG_SEV(layerManagerLogger, WARNING) << "failed to create layer number " << layers.size() + 1;
+	}
+	else
+	{
+		emptyLayer->clear(sf::Color::Black);
+		layers.push_back(emptyLayer);                                //makes and adds a new, empty Layer
+	}
 }
 
 void LayerManager::addLayer(boost::shared_ptr<Layer> newLayer)
 {
+	newLayer->clear(sf::Color::Black);
 	layers.push_back(newLayer);		//adds an existant Layer
 }
 
@@ -121,6 +145,7 @@ boost::shared_ptr<Layer> LayerManager::getLayerPointer(const int& index)
 void LayerManager::setReferencePoint(sf::Vector2f& refPoint)
 {
 	referencePoint = &refPoint;										//set the reference point
+	oldReferencePointValue = refPoint;
 }
 
 
@@ -130,22 +155,26 @@ void LayerManager::draw(sf::RenderWindow& window)
 
 	sf::Vector2f distance = oldReferencePointValue - *referencePoint;	//distance from the refernce point to where it used to be
 		
-	for (unsigned int i = layers.size(); i > 0; --i)					//draw in reverse order -- makes intuitive sense: the first layer in the vector
+	for (int i = layers.size()-1; i>=0; i--)					//draw in reverse order -- makes intuitive sense: the first layer in the vector
 																		//is the forwardmost layer, not backmost
 	{
+		layers[i]->display();
 		const sf::Texture& tmpTex = layers[i]->getTexture();			//get the texture from the layer
 
 		sf::Sprite tmpSprite(tmpTex);									//set a sprite's texture as it
 
+//		tmpSprite.setPosition(oldReferencePointValue);
 		tmpSprite.move(layers[i]->getScrollDistance(distance));
 																		//move the sprite a portion of the distance to the old point where the portion
 																		//is the scroll speed
 
-		window.draw(tmpSprite);											//draw the sprite					
+		window.draw(tmpSprite);											//draw the sprite
+
+		layers[i]->clear(sf::Color::Black);
 	}
 
-	oldReferencePointValue = *referencePoint;							//update the oldReferencePointValue
-
+	//oldReferencePointValue = *referencePoint;							//update the oldReferencePointValue
+	
 }
 
 

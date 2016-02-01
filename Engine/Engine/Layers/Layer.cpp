@@ -6,8 +6,7 @@
 Layer::Layer()
 {
 	scrollBounded = false;				//by default, scrollBoundedness is false
-	scrollTracker = sf::Vector2f(0, 0);	//the scrollTracker starts at (0,0)
-	oldScrollTracker = scrollTracker;
+	scrollSpeed = sf::Vector2f(1, 1);
 }
 
 Layer::~Layer()
@@ -129,11 +128,11 @@ std::pair<sf::Vector2f, sf::Vector2f> Layer::getWindowCorners()
 
 
 
-
-void Layer::setInitTracking(const sf::Vector2f& inTracking)
-{
-	scrollTracker = inTracking;
-}
+//
+//void Layer::setInitTracking(const sf::Vector2f& inTracking)
+//{
+//	scrollTracker = inTracking;
+//}
 
 sf::Vector2f Layer::getScrollDistance(const sf::Vector2f& scrollDist)
 {
@@ -142,9 +141,9 @@ sf::Vector2f Layer::getScrollDistance(const sf::Vector2f& scrollDist)
 
 	sf::Vector2f dist;
 	dist.x = scrollSpeed.x * scrollDist.x;
-	dist.y = scrollSpeed.x * scrollDist.x;
+	dist.y = scrollSpeed.y * scrollDist.y;
 
-	scrollTracker += dist;
+	//scrollTracker = dist;
 
 	moveCorners(dist);
 
@@ -155,20 +154,18 @@ sf::Vector2f Layer::getScrollDistance(const sf::Vector2f& scrollDist)
 	{
 		const sf::Vector2f corDist = getCorrectiveDistance();						//get the corrective distance that will align the layer to the bounds 
 
-		const sf::Vector2f retTmp = (scrollTracker - oldScrollTracker + corDist);	//should be 0 if the scrollTracker was out of bounds last time
+		moveCorners(corDist);
 
-		oldScrollTracker = scrollTracker + corDist;
+		const sf::Vector2f retTmp = (dist + corDist);	//should be 0 if the scrollTracker was out of bounds last time
+
+		//oldScrollTracker = scrollTracker + corDist;
 
 		return retTmp;
 
 	}
 	else
 	{
-		const sf::Vector2f retTmp = (scrollTracker - oldScrollTracker);
-
-		oldScrollTracker = scrollTracker;
-
-		return retTmp;
+		return dist;
 		
 	}
 	

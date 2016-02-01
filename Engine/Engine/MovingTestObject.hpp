@@ -1,3 +1,4 @@
+
 #pragma once
 
 //project includes
@@ -19,20 +20,24 @@
 namespace objects
 {
 //class for testing ObjectManager/group and so on
-	class TestObject : public Object
+	class MovingTestObject : public Object
 	{
 	public:
-		TestObject();
-		~TestObject();
+		MovingTestObject();
+		~MovingTestObject();
 
 		void draw(Layer& renderTarget);
-		void update(std::vector<int>& keys);
+		void update(std::vector<int>& fkeyVec);
 
 		void load(boost::property_tree::ptree& dataTree, ResourceManager& resources);	//loads instances object properties based on subtree
 		void write();
 
+		sf::Vector2f* getPositionPtr();
+
 
 	private:
+		void move(const sf::Vector2f& dist);
+		void move(const float& dist_x, const float& dist_y);
 		int ID;
 
 		const sf::Texture* testTex;

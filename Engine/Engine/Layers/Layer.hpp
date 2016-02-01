@@ -1,6 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "../Utilities.hpp"
+#include "..\Utility\Utilities.hpp"
 
 class Layer : public sf::RenderTexture					//Layer is a RenderTexture that can have parallax added to it; it is a "small" class
 														//because it is a light wrapper of RenderTexture
@@ -56,7 +56,7 @@ public:
 
 
 
-	void setInitTracking(const sf::Vector2f& inTracking);
+	//void setInitTracking(const sf::Vector2f& inTracking);
 
 	sf::Vector2f getScrollDistance(const sf::Vector2f& scrollDist);
 
@@ -75,17 +75,14 @@ private:
 														//.5 scroll speed will scroll half as quickly as a layer with 1 scroll speed; a layer with 0
 														//scroll speed will be stationary.
 
-	double scrollBounds[4];								//does not work yet,
-														//the purpose is that a layer should not be able to scroll forever. see http://imgur.com/SzH03Ju for a lack of scroll bounds.
+	double scrollBounds[4];								//the purpose is that a layer should not be able to scroll forever. see http://imgur.com/SzH03Ju for a lack of scroll bounds.
 
 	bool scrollBounded;									//true if the layer has active scrolling bounds.
+	bool mapSizeLock;									//true if the layer's scroll bounds should always be equal to map size
 
+	//sf::Vector2f scrollTracker;							//keeps track of the scrolling
 
-	sf::Vector2f scrollTracker;							//keeps track of the scrolling
-
-	sf::Vector2f oldScrollTracker;
-
-	
+	//sf::Vector2f oldScrollTracker;
 
 
 	sf::Vector2f TLCorner;

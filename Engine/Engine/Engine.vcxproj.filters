@@ -13,113 +13,120 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Layers">
+      <UniqueIdentifier>{71e2823f-9c5e-4bd6-aa72-7c7ef8e4fe36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NameSearchable">
+      <UniqueIdentifier>{f874a004-8651-49c3-ba3e-9333dc9bc2c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects">
+      <UniqueIdentifier>{5c113e25-01eb-4c98-b30a-894cc8f98f3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility">
+      <UniqueIdentifier>{fc62544a-f74f-4f6f-8394-a6788ff998b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceManager">
+      <UniqueIdentifier>{5476f018-2d86-4837-bccb-33437b1799a2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Logger.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceManager\ResourceGroup.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceManager\ResourceManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="NameSearchable\NameSearchable.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="INIParser.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Layers\Layer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Layers\LayerManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectGroup.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Object.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Downcast.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TestObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="UnitTester.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Utilities.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Threading\ThreadManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="ResourceManager\ResourceManager.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Utility\Downcast.hpp">
+      <Filter>Utility</Filter>
     </ClInclude>
-    <ClInclude Include="ResourceManager\ResourceGroup.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Utility\INIParser.hpp">
+      <Filter>Utility</Filter>
     </ClInclude>
-    <ClInclude Include="NameSearchable\NameSearchable.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Utility\Logger.hpp">
+      <Filter>Utility</Filter>
     </ClInclude>
-    <ClInclude Include="INIParser.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Utility\UnitTester.hpp">
+      <Filter>Utility</Filter>
     </ClInclude>
-    <ClInclude Include="Logger.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Utility\Utilities.hpp">
+      <Filter>Utility</Filter>
     </ClInclude>
-    <ClInclude Include="Utilities.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Objects\Object.hpp">
+      <Filter>Objects</Filter>
     </ClInclude>
-    <ClInclude Include="UnitTester.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Objects\ObjectGroup.hpp">
+      <Filter>Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Defines.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectManager.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectGroup.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Object.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Downcast.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Objects\ObjectManager.hpp">
+      <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="Layers\Layer.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Layers</Filter>
     </ClInclude>
     <ClInclude Include="Layers\LayerManager.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Layers</Filter>
     </ClInclude>
-    <ClInclude Include="Game.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="NameSearchable\NameSearchable.hpp">
+      <Filter>NameSearchable</Filter>
     </ClInclude>
-    <ClInclude Include="Threading\ThreadManager.hpp">
+    <ClInclude Include="ResourceManager\ResourceManager.hpp">
+      <Filter>ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager\ResourceGroup.hpp">
+      <Filter>ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Defines.hpp" />
+    <ClInclude Include="Game.hpp" />
+    <ClInclude Include="TestObject.hpp" />
+    <ClInclude Include="Utility\XMLParser.hpp">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="MovingTestObject.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="TestObject.hpp">
-      <Filter>Header Files</Filter>
-    </None>
+    <ClCompile Include="Utility\Downcast.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\INIParser.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\Logger.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\UnitTester.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\Utilities.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Object.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\ObjectGroup.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\ObjectManager.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Layers\LayerManager.cpp">
+      <Filter>Layers</Filter>
+    </ClCompile>
+    <ClCompile Include="Layers\Layer.cpp">
+      <Filter>Layers</Filter>
+    </ClCompile>
+    <ClCompile Include="NameSearchable\NameSearchable.cpp">
+      <Filter>NameSearchable</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager\ResourceManager.cpp">
+      <Filter>ResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager\ResourceGroup.cpp">
+      <Filter>ResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="TestObject.cpp" />
+    <ClCompile Include="Utility\XMLParser.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="MovingTestObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
