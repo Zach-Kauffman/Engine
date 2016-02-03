@@ -8,15 +8,23 @@ Game::Game(){}
 
 Game::~Game(){}
 
-void Game::initialize(const std::string& configFile, const std::string& mapFile, const std::string& saveFile, const bool& doLoadScreen)
+void Game::initialize(const std::string& cfgFile, const std::string& resFile, const std::string& objFile, const std::string& mpFile, const std::string& save, const bool& doLoadScreen)
 {
+	configFile = cfgFile; resourceFile = resFile; objectFile = objFile; mapFile = mpFile; saveFile = save;
 	loadGameConfig(configFile);
 
 	windowPtr = boost::shared_ptr<sf::RenderWindow>(new sf::RenderWindow(sf::VideoMode(renderSize.x, renderSize.y), windowName));
 	
-	//load Resources
-	//load Objects
-	//load Map
+	if (maxFPS > 0)
+	{
+		windowPtr.get()->setFramerateLimit(maxFPS);	//initial FPS limit
+	}
+	
+	loadResources();	//loads texture sounds, etc
+		
+	loadObjects();		//creates object prototypes
+	
+	loadMap();			//displays correct objects
 
 	//thats all for now folks
 
@@ -49,11 +57,16 @@ void Game::begin()
 
 void Game::draw()
 {
-
+	boost::function<void(objects::Object&)> draw = boost::bind(&objects::Object::draw, _1, boost::ref(*layMan.getLayerPointer(0)));
+	objMan.callFunction<boost::function<void(objects::Object&)> >("Layers.Layer1", draw);
+	//objMan.getObject("Layers.Layer1.1").get()->draw(*layMan.getLayerPointer(0));
+	//objMan.getObject("Layers.Layer1.2").get()->draw(*layMan.getLayerPointer(0));
+	layMan.draw(*windowPtr.get());
 }
 
 void Game::update()
 {
+	
 	//for each layer
 		//get draw bounds for layer
 		//remove out of bound objects
@@ -76,17 +89,83 @@ void Game::loadGameConfig(const std::string& configFile)
 
 void Game::loadResources()
 {
-	//load basic game resources
+	XMLParser parser(resourceFile);
+	
+	xmlTree<std::string> groupTree;
+	groupTree.branch("resources");
+
+	groupTree.trees["resources"].tags["path"] = "";	//path to resource
+	groupTree.trees["resources"].tags["name"] = "";	//storage name of resource
+
+	parser.readTree<std::string>(groupTree);		//read data from file and place in output vector
+
+	auto &output = groupTree.trees["resources"].output;
+	for (unsigned int ii = 0; ii < output.size(); ii++)
+	{
+		recMan.loadFile(output[ii][1], output[ii][0]);	//load each resource
+	}
+
 }
 
 void Game::loadObjects()
 {
-	//initialize base object types
+	objMan.addPrototype<objects::TestObject>("TestObject");
 }
 
 void Game::loadMap()
 {
-	//load and initialize layers
+	XMLParser parser(mapFile);
+
+	/*
+	xmlTree<std::string> groupTree;
+	groupTree.branch("map");
+
+	auto& tags = groupTree.trees["map"].tags;
+	tags["type"] = "";							//setting individual attributes to load from xml file
+	tags["position.<xmlattr>.x"] = "";
+	tags["position.<xmlattr>.y"] = "";
+	tags["texture"] = "";
+
+	parser.readTree<std::string>(groupTree);
+	auto& output = groupTree.trees["map"].output;
+
+	//blech hardcoded for now
+	std::string type = output[0][3];
+	std::string x = output[0][0];
+	std::string y = output[0][1];
+	std::string tex = output[0][2];
+
+	auto tmp = objMan.getPrototype(type);
+	tmp.get()->load(tex, boost::lexical_cast<int, std::string>(x), boost::lexical_cast<int, std::string>(y), recMan);
+	tmp.get()->setID(objMan.nextID());
+	objMan.addObject(tmp, "Layers.Layer1");
+	*/
+
+	xmlTree<boost::property_tree::ptree> groupTree;
+	groupTree.branch("map");
+
+	parser.getSubTree(groupTree);
+
+	auto& output = groupTree.output;
+
+	for (unsigned int i = 0; i < output[0].size(); i++)
+	{
+		std::string type = "";
+		parser.readValue<std::string>("type", type, output[0][i]);	//read type from tree
+		auto tmp = objMan.getPrototype(type);						//make object of that type
+		tmp->load(output[0][i], recMan);
+		tmp->setID(objMan.nextID());
+		objMan.addObject(tmp, "Layers.Layer1");
+	}
+
+	//setting up the layer manager
+	layMan.setDefaultSize((sf::Vector2f)windowPtr->getSize());	//size of the viewport
+	layMan.addLayer();											//creates a single layer
+	layMan.setScrollSpeeds(sf::Vector2f(1, 1), 0);				//this layer should scroll at the same speed as movement		
+	layMan.updateWindowSize(windowPtr.get()->getSize());		//umm idk?
+
+	tmpCenter = sf::Vector2f(500, 500);							//starting point of reference
+	layMan.setReferencePoint(tmpCenter);						//make sure the layers reference the point
 
 }
 

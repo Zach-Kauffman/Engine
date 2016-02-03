@@ -27,6 +27,7 @@
     <ClInclude Include="Utility\Logger.hpp" />
     <ClInclude Include="Utility\UnitTester.hpp" />
     <ClInclude Include="Utility\Utilities.hpp" />
+    <ClInclude Include="Utility\XMLParser.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
@@ -45,6 +46,7 @@
     <ClCompile Include="Utility\Logger.cpp" />
     <ClCompile Include="Utility\UnitTester.cpp" />
     <ClCompile Include="Utility\Utilities.cpp" />
+    <ClCompile Include="Utility\XMLParser.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{E4773390-6C05-47C2-AEAE-C779CFC9B10F}</ProjectGuid>

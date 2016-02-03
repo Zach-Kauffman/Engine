@@ -1,5 +1,6 @@
 #include "INIParser.hpp"
 
+//PUBLIC FUNCTIONS
 
 INIParser::INIParser(){ init(); }			//default constructor
 
@@ -43,6 +44,18 @@ void INIParser::setSection(const std::string& newSection)
 {
 	sectionName = newSection;
 }
+
+void INIParser::writeFile()	//writes with loaded name by default
+{
+	write_ini(filePath, tree);	//writes ini file
+}
+
+void INIParser::writeFile(const std::string& fileName)	//overloaded for custom name
+{
+	write_ini(fileName, tree);	//writes ini file
+}
+
+//PRIVATE FUNCTIONS
 
 std::string INIParser::assemblePath(const std::string& key)
 {

@@ -10,45 +10,8 @@
 #include "TestObject.hpp"
 #include "Objects/Object.hpp"
 #include "Game.hpp"
-
-void logging_function()
-{
-	//BOOST_LOG_NAMED_SCOPE("INI_Reader_Testing");											<<--- adds specified namespace to logs in all nested scopes
-	//BOOST_LOG_SCOPED_THREAD_ATTR("Timeline", attrs::timer()));							<<--- adds timer to logs in all nested scopes
-	//severity_logger.add_attribute("Tag", attrs::constant<std::string>("<yourstring>"));	<<--- adds tag attribute in brackets ex. [<yourstring>]
-
-	INIParser reader("config.ini");
-
-	int one =3, two = 1, three = 3;
-	reader.setSection("Beans");
-	std::map<std::string, int*> variables;
-	variables["Ehhh"] = &one;
-	variables["Meh"] = &two;
-	variables["Heh"] = &three;
-	std::string testing = "test";
-	reader.readValue<std::string>("string", testing);
-	reader.readMap<int>(variables);
-
-	reader.setSection("");
-	reader.writeValue<int>("Eugene.cookies", 7);	//Adds header called "eugene" with an attribute called "cookies" which has a value of 7
-
-	reader.writeMap<int>(variables);				//writeMap() test
-	reader.readMap<int>(variables);
-
-
-
-	auto slg = logger::getSLogger();
-	slg.add_attribute("Scope", attrs::named_scope());
-	int cookies = 1;
-	reader.readValue<int>("Eugene.cookies", cookies);
-	//BOOST_LOG_SEV(slg, DEBUG) << "This is the first value as a string. " << reader.readValue<std::string>("Beans.Smoky");
-	BOOST_LOG_SEV(slg, ERROR) << "Array values as int. " << one << " + " << two;
-	BOOST_LOG_SEV(slg, INFO) << "This is a string: " << testing;
-	BOOST_LOG_SEV(slg, ERROR) << "Eugene's cookies: " << cookies;
-
-}
-
-
+#include "Utility\XMLParser.hpp"
+#include <iostream>
 
 int main(int, char*[])
 {
@@ -58,6 +21,7 @@ int main(int, char*[])
 	//logging_function();
 	auto slg = logger::getSLogger();
 
+	/*
 	objects::ObjectManager OhMan;
 	util::Downcaster<objects::Object> dc;
 
@@ -74,23 +38,19 @@ int main(int, char*[])
 		testObject->update();
 		BOOST_LOG_SEV(slg, INFO) << testObject->getCounter();
 	}
+	*/
+
+	XMLParser parser("test.xml");
+	int num = 0;
+	parser.readValue<int>("number", num);
+	std::cout << num << std::endl;
+	BOOST_LOG_SEV(slg, INFO) << "The number from XML is: " << num;
 
 	Game theGame;
-	theGame.initialize("gameConfig.ini", "dkfaj", "lakdfja", 0);
-	theGame.begin();
-	//util::splitStrAtSubstr("One.Two.Three", ".");
-	//util::reverseString("aaaaa");
-	//std::string directoryToResources = boost::filesystem::current_path().string() + "\\Resources\\";
-	//ResourceManager testRM;
-	//testRM.addFilesResourceGroupFromDirectory(directoryToResources + "TestResources");
-
-	//for (int i = 0; i < 40; i++){
-	//	testRM.loadFile(directoryToResources + "TestResources\\ModernArtBlue.png", "ModernArtBlueTest");
-	//}
-
+	theGame.initialize("gameConfig.ini", "resources.xml", "objects.xml", "map.xml", "save.xml", 0);
+	theGame.begin();	//starts SFML main loop
 
 	BOOST_LOG_SEV(slg, DEBUG) << "Exiting soon";
-	//while (true){}
 	return 0;
 }
 

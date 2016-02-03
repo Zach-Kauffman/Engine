@@ -79,11 +79,13 @@ void NameSearchable::addName(std::string name, const int& vecIndex, const int& m
 	int endNumber = 1;
 	bool sameName = true;								//true if there may be a duplicate already
 	bool firstDuplicate = true;							//true if the duplicate found was the first duplicate
+	bool duplicateExists = false;
 
 	while (sameName == true)							//go through, finding duplicates
 	{
 		if (nameMapVector[vecIndex].count(name) == 1)
 		{
+			duplicateExists = true;
 			endNumber = boost::lexical_cast<int> (name.substr(size - 1, name.size()));				//if there exists a "RedTexture" and a "RedTexture2" already,
 			endNumber++;									//and you try to add another "RedTexture",it will become "RedTexture3"		
 			name = name.substr(0, size - 1);
@@ -91,6 +93,10 @@ void NameSearchable::addName(std::string name, const int& vecIndex, const int& m
 		}
 		else
 		{
+			if (!duplicateExists)
+			{
+				name.pop_back();
+			}
 			sameName = false;							//if there is no same name, exit the while loop
 		}
 	}
