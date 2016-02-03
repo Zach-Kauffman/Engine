@@ -79,23 +79,31 @@ void Layer::setExtremeCornersAlt(const sf::Vector2f& fBLCorner, const sf::Vector
 void Layer::setTopLeftCorner(const sf::Vector2f& fTLCorner)
 {
 	TLCorner = fTLCorner;
+	initTLCorner = fTLCorner;
 }
 
 void Layer::setBottomRightCorner(const sf::Vector2f& fBRCorner)
 {
 	BRCorner = fBRCorner;
+	initBRCorner = fBRCorner;
 }
 
 void Layer::setBottomLeftCorner(const sf::Vector2f& fBLCorner)
 {
 	TLCorner.x = fBLCorner.x;
+	initTLCorner.x = fBLCorner.x;
+
 	BRCorner.y = fBLCorner.y;
+	initBRCorner.y = fBLCorner.y;
 }
 
 void Layer::setTopRightCorner(const sf::Vector2f& fTRCorner)
 {
 	TLCorner.y = fTRCorner.y;
+	initTLCorner.y = fTRCorner.y;
+
 	BRCorner.x = fTRCorner.x;
+	initBRCorner.x = fTRCorner.x;
 }
 
 
@@ -145,7 +153,7 @@ sf::Vector2f Layer::getScrollDistance(const sf::Vector2f& scrollDist)
 
 	//scrollTracker = dist;
 
-	moveCorners(dist);
+moveCorners(dist);
 
 	
 	//then return the difference between the bounded scrolltracking value and the old scrolltracking value
@@ -173,13 +181,19 @@ sf::Vector2f Layer::getScrollDistance(const sf::Vector2f& scrollDist)
 
 
 
+sf::RenderTexture* Layer::getRenderTexture()
+{
+	return &renderTex;
+}
+
+
 
 //private
 
 void Layer::moveCorners(const sf::Vector2f& dist)
 {
-	TLCorner += dist;
-	BRCorner += dist;
+	TLCorner = initTLCorner + dist;
+	BRCorner = initBRCorner + dist;
 }
 
 sf::Vector2f Layer::getCorrectiveDistance()

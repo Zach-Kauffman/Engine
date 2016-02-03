@@ -56,28 +56,48 @@ void LayerManager::addLayer()
 {
 	boost::shared_ptr<Layer> emptyLayer(new Layer);
 
-	if (!emptyLayer->create(defaultSize.x, defaultSize.y))
+	if (!emptyLayer->getRenderTexture()->create(defaultSize.x, defaultSize.y))
 	{
 		BOOST_LOG_SEV(layerManagerLogger, WARNING) << "failed to create layer number " << layers.size() + 1;
 	}
 	else
 	{
-		emptyLayer->clear(sf::Color::Black);
+		emptyLayer->getRenderTexture()->clear(sf::Color::Black);
 		layers.push_back(emptyLayer);                                //makes and adds a new, empty Layer
 	}
 }
 
 void LayerManager::addLayer(boost::shared_ptr<Layer> newLayer)
 {
-	newLayer->clear(sf::Color::Black);
+	newLayer->getRenderTexture()->clear(sf::Color::Black);
 	layers.push_back(newLayer);		//adds an existant Layer
 }
 
 void LayerManager::setLayerAmount(const int& amt)
 {
-	layers.resize(amt);											//resize the Layer vector to the desired size
+	const int sizDif = amt - layers.size();
+	if (sizDif == 0)
+	{
+		BOOST_LOG_SEV(layerManagerLogger, INFO) << "There already exist " << amt << " layers; setting the number of layers to this is meaningless.";
+	}
+	else if (sizDif < 0)
+	{
+		BOOST_LOG_SEV(layerManagerLogger, WARNING) << "There are more than " << amt << " layers; removing layers is neither reccomended nor allowed; setting the amount of layers failed.";
+	}
+	else
+	{
+		for (unsigned int i = 0; i < amt; i++)
+		{
+			addLayer();
+		}
+	}
+
 }
 
+unsigned int LayerManager::getLayerAmount()
+{
+	return layers.size();
+}
 
 
 void LayerManager::setScrollSpeeds(const sf::Vector2f& speed, const int& index)
@@ -154,23 +174,31 @@ void LayerManager::draw(sf::RenderWindow& window)
 {
 
 	sf::Vector2f distance = oldReferencePointValue - *referencePoint;	//distance from the refernce point to where it used to be
-		
-	for (int i = layers.size()-1; i>=0; i--)					//draw in reverse order -- makes intuitive sense: the first layer in the vector
+	sf::RenderTexture* tmpRenderTex;
+	for (int i = layers.size()-1; i>=0; i--)							//draw in reverse order -- makes intuitive sense: the first layer in the vector
 																		//is the forwardmost layer, not backmost
 	{
-		layers[i]->display();
-		const sf::Texture& tmpTex = layers[i]->getTexture();			//get the texture from the layer
+		tmpRenderTex = layers[i]->getRenderTexture();
 
-		sf::Sprite tmpSprite(tmpTex);									//set a sprite's texture as it
+
+		tmpRenderTex->display();
+		const sf::Texture& tmpTex1 = (tmpRenderTex->getTexture());			//get the texture from the layer
+
+
+		//layers[i]->clear(sf::Color(0, 0, 0, 0));						//clear the layer
+
+
+		sf::Sprite tmpSprite1(tmpTex1);									//set a sprite's texture as it
 
 //		tmpSprite.setPosition(oldReferencePointValue);
-		tmpSprite.move(layers[i]->getScrollDistance(distance));
+		tmpSprite1.move(layers[i]->getScrollDistance(distance));
 																		//move the sprite a portion of the distance to the old point where the portion
 																		//is the scroll speed
 
-		window.draw(tmpSprite);											//draw the sprite
 
-		layers[i]->clear(sf::Color(0, 0, 0, 0));
+		window.draw(tmpSprite1);										//draw the new sprite
+
+		tmpRenderTex->clear(sf::Color(0, 0, 0, 0));
 	}
 
 	//oldReferencePointValue = *referencePoint;							//update the oldReferencePointValue

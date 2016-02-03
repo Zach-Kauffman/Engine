@@ -125,7 +125,7 @@ boost::shared_ptr<Object> ObjectGroup::getObject(const int& ID)	//quick binary s
 void ObjectGroup::addObjectGroup(const ObjectGroup& newGroup, const std::string& name)
 {
 	groups.push_back(newGroup);
-	addName(name, 1, groups.size() - 1);
+	addName(name, 0, groups.size() - 1);
 }
 
 void ObjectGroup::addObjectGroup(const std::string& name)
@@ -155,9 +155,9 @@ void ObjectGroup::deleteObjectGroup(const std::string& path)
 ObjectGroup* ObjectGroup::getObjectGroup(const std::vector<std::string>& pathVec)
 {
 	ObjectGroup* tmpGroup = this;
-	for (int i = 0; i < pathVec.size(); i++)	//increments until second-to-last spot since the ID is the last
+	for (int i = 0; i < pathVec.size(); i++)	//increments until last spot
 	{
-		int tmpindex = ntoi(pathVec[i]);
+		int tmpindex = tmpGroup->ntoi(pathVec[i]);
 		tmpGroup = &(tmpGroup->groups[tmpindex]);	//requests next object group by name and assigns it to temp object
 	}
 

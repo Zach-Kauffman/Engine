@@ -8,7 +8,7 @@ MovingTestObject::~MovingTestObject(){}
 
 void MovingTestObject::draw(Layer& renderTarget)
 {
-	renderTarget.draw(texCoords, testTex);
+	renderTarget.getRenderTexture()->draw(texCoords, testTex);
 }
 
 void MovingTestObject::update(std::vector<int>& fkeyVec)

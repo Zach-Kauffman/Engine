@@ -2,8 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "..\Utility\Utilities.hpp"
 
-class Layer : public sf::RenderTexture					//Layer is a RenderTexture that can have parallax added to it; it is a "small" class
-														//because it is a light wrapper of RenderTexture
+class Layer
 {
 
 public:
@@ -45,8 +44,6 @@ public:
 	void setTopRightCorner(const sf::Vector2f& fTRCorner);
 
 
-
-
 	float getMinWindowX();
 	float getMaxWindowX();
 	float getMinWindowY();
@@ -55,11 +52,11 @@ public:
 	std::pair<sf::Vector2f, sf::Vector2f> getWindowCorners();
 
 
-
-	//void setInitTracking(const sf::Vector2f& inTracking);
-
 	sf::Vector2f getScrollDistance(const sf::Vector2f& scrollDist);
 
+
+
+	sf::RenderTexture* getRenderTexture();
 
 
 
@@ -86,8 +83,15 @@ private:
 
 
 	sf::Vector2f TLCorner;
-
 	sf::Vector2f BRCorner;
+
+	sf::Vector2f initTLCorner;
+	sf::Vector2f initBRCorner;
+	
+
+	sf::RenderTexture renderTex;
+
+	sf::View view;
 
 	enum boundPositions { Top = 0, Left, Bottom, Right };
 };

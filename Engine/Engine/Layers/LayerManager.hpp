@@ -29,6 +29,9 @@ public:
 
 	void setLayerAmount(const int& amt);				//sets the amount of layers -- ideally used once only
 
+	unsigned int getLayerAmount();
+
+
 	void setScrollSpeeds(const sf::Vector2f& speed, const int& index);
 														//set the scroll speed of a particular layer
 
@@ -57,6 +60,7 @@ public:
 	void setWindowCorners(const sf::Vector2f& fTLCorner, const sf::Vector2f& fBRCorner, const unsigned int& layerIndex);
 
 	void setWindowCorners(std::vector<std::pair<const sf::Vector2f, const sf::Vector2f>> windowCornerVec);
+
 
 
 private:
