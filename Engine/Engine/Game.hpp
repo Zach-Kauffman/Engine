@@ -59,5 +59,7 @@ private:
 
 	sf::Vector2f tmpCenter;
 
+	int numLayers;
+
 	
 };

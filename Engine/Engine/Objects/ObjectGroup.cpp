@@ -158,7 +158,7 @@ ObjectGroup* ObjectGroup::getObjectGroup(const std::vector<std::string>& pathVec
 	ObjectGroup* tmpGroup = this;
 	for (int i = 0; i < pathVec.size(); i++)	//increments until second-to-last spot since the ID is the last
 	{
-		tmpGroup = &(tmpGroup->groups[ntoi(pathVec[i])]);	//requests next object group by name and assigns it to temp object
+		tmpGroup = &(tmpGroup->groups[tmpGroup->ntoi(pathVec[i])]);	//requests next object group by name and assigns it to temp object
 	}
 
 	return tmpGroup;
