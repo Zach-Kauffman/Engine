@@ -10,6 +10,10 @@ public:
 	Layer();											//constructor and destructor are empty
 	~Layer();
 
+
+	void create();
+
+
 	void setScrollSpeed(const sf::Vector2f& fspeed);	//set the scrolling speed of the layer; should be pairs of numbers bewtween 0 and 1 inclusive
 
 	sf::Vector2f getScrollSpeed();						//get scroll speed
@@ -51,8 +55,7 @@ public:
 
 	std::pair<sf::Vector2f, sf::Vector2f> getWindowCorners();
 
-
-	sf::Vector2f getScrollDistance(const sf::Vector2f& scrollDist);
+	void interpretViewPos(const sf::Vector2f& scrollDist);
 
 
 
@@ -64,7 +67,8 @@ public:
 
 private:
 
-	void moveCorners(const sf::Vector2f& dist);
+	void moveBoundCorners(const sf::Vector2f& dist);
+	void moveTrackCorners(const sf::Vector2f& dist);
 
 	sf::Vector2f getCorrectiveDistance();
 
@@ -82,11 +86,13 @@ private:
 	//sf::Vector2f oldScrollTracker;
 
 
-	sf::Vector2f TLCorner;
-	sf::Vector2f BRCorner;
+	sf::Vector2f boundTLCorner;
+	sf::Vector2f boundBRCorner;
 
-	sf::Vector2f initTLCorner;
-	sf::Vector2f initBRCorner;
+	sf::Vector2f trackTLCorner;
+	sf::Vector2f trackBRCorner;
+	
+
 	
 
 	sf::RenderTexture renderTex;

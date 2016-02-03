@@ -14,6 +14,22 @@ Layer::~Layer()
 }
 
 
+
+void Layer::create()
+{
+
+	if (!renderTex.create(boundBRCorner.x - boundTLCorner.x, boundBRCorner.y - boundTLCorner.x))
+	{
+
+	}
+
+	renderTex.clear(sf::Color(0, 0, 0, 0));
+	
+	view.setSize(boundBRCorner.x - boundTLCorner.x, boundBRCorner.y - boundTLCorner.x);
+	view.setCenter((boundBRCorner.x + boundTLCorner.x) / 2, (boundBRCorner.y + boundTLCorner.y) / 2);
+
+}
+
 void Layer::setScrollSpeed(const sf::Vector2f& fspeed)
 {
 	scrollSpeed = fspeed;				//set scroll speed
@@ -78,32 +94,32 @@ void Layer::setExtremeCornersAlt(const sf::Vector2f& fBLCorner, const sf::Vector
 
 void Layer::setTopLeftCorner(const sf::Vector2f& fTLCorner)
 {
-	TLCorner = fTLCorner;
-	initTLCorner = fTLCorner;
+	boundTLCorner = fTLCorner;
+	trackTLCorner = fTLCorner;
 }
 
 void Layer::setBottomRightCorner(const sf::Vector2f& fBRCorner)
 {
-	BRCorner = fBRCorner;
-	initBRCorner = fBRCorner;
+	boundBRCorner = fBRCorner;
+	trackBRCorner = fBRCorner;
 }
 
 void Layer::setBottomLeftCorner(const sf::Vector2f& fBLCorner)
 {
-	TLCorner.x = fBLCorner.x;
-	initTLCorner.x = fBLCorner.x;
+	boundTLCorner.x = fBLCorner.x;
+	trackTLCorner.x = fBLCorner.x;
 
-	BRCorner.y = fBLCorner.y;
-	initBRCorner.y = fBLCorner.y;
+	boundBRCorner.y = fBLCorner.y;
+	trackBRCorner.y = fBLCorner.y;
 }
 
 void Layer::setTopRightCorner(const sf::Vector2f& fTRCorner)
 {
-	TLCorner.y = fTRCorner.y;
-	initTLCorner.y = fTRCorner.y;
+	boundTLCorner.y = fTRCorner.y;
+	trackTLCorner.y = fTRCorner.y;
 
-	BRCorner.x = fTRCorner.x;
-	initBRCorner.x = fTRCorner.x;
+	boundBRCorner.x = fTRCorner.x;
+	trackBRCorner.x = fTRCorner.x;
 }
 
 
@@ -111,27 +127,27 @@ void Layer::setTopRightCorner(const sf::Vector2f& fTRCorner)
 
 float Layer::getMinWindowX()
 {
-	return TLCorner.x;
+	return boundTLCorner.x;
 }
 
 float Layer::getMaxWindowX()
 {
-	return BRCorner.x;
+	return boundBRCorner.x;
 }
 
 float Layer::getMinWindowY()
 {
-	return TLCorner.y;
+	return boundTLCorner.y;
 }
 
 float Layer::getMaxWindowY()
 {
-	return BRCorner.y;
+	return boundBRCorner.y;
 }
 
 std::pair<sf::Vector2f, sf::Vector2f> Layer::getWindowCorners()
 {
-	return std::make_pair(TLCorner, BRCorner);
+	return std::make_pair(boundTLCorner, boundBRCorner);
 }
 
 
@@ -141,19 +157,17 @@ std::pair<sf::Vector2f, sf::Vector2f> Layer::getWindowCorners()
 //{
 //	scrollTracker = inTracking;
 //}
-
-sf::Vector2f Layer::getScrollDistance(const sf::Vector2f& scrollDist)
+void Layer::interpretViewPos(const sf::Vector2f& scrollDist)
 {
-	//keep track of the scrolling 
 
 
 	sf::Vector2f dist;
 	dist.x = scrollSpeed.x * scrollDist.x;
 	dist.y = scrollSpeed.y * scrollDist.y;
 
-	//scrollTracker = dist;
 
-moveCorners(dist);
+	moveBoundCorners(dist);
+	moveTrackCorners(dist);
 
 	
 	//then return the difference between the bounded scrolltracking value and the old scrolltracking value
@@ -162,21 +176,17 @@ moveCorners(dist);
 	{
 		const sf::Vector2f corDist = getCorrectiveDistance();						//get the corrective distance that will align the layer to the bounds 
 
-		moveCorners(corDist);
+		moveBoundCorners(corDist);
 
-		const sf::Vector2f retTmp = (dist + corDist);	//should be 0 if the scrollTracker was out of bounds last time
-
-		//oldScrollTracker = scrollTracker + corDist;
-
-		return retTmp;
+		view.move(dist + corDist);
 
 	}
 	else
 	{
-		return dist;
-		
+		view.move(dist);
 	}
 	
+	renderTex.setView(view);
 }
 
 
@@ -190,10 +200,16 @@ sf::RenderTexture* Layer::getRenderTexture()
 
 //private
 
-void Layer::moveCorners(const sf::Vector2f& dist)
+void Layer::moveBoundCorners(const sf::Vector2f& dist)
 {
-	TLCorner = initTLCorner + dist;
-	BRCorner = initBRCorner + dist;
+	boundTLCorner += dist;
+	boundBRCorner += dist;
+}
+
+void Layer::moveTrackCorners(const sf::Vector2f& dist)
+{
+	trackTLCorner += dist;
+	trackBRCorner += dist;
 }
 
 sf::Vector2f Layer::getCorrectiveDistance()
@@ -202,23 +218,24 @@ sf::Vector2f Layer::getCorrectiveDistance()
 
 	//finds the difference in bounds derived from the corners and the desired bounds. If there is no undesired occurrence, it will be 0
 	double xval = 0;
-	if (TLCorner.x < scrollBounds[Left])
+	if (trackTLCorner.x < scrollBounds[Left])
 	{
-		xval = scrollBounds[Left] - TLCorner.x;
+		xval = scrollBounds[Left] - boundTLCorner.x;
 	}
-	else if (BRCorner.x > scrollBounds[Right])
+	else if (trackBRCorner.x > scrollBounds[Right])
 	{
-		xval = scrollBounds[Right] - BRCorner.x;
+		xval = scrollBounds[Right] - boundBRCorner.x;
 	}
 
 	double yval = 0;
-	if (TLCorner.y < scrollBounds[Top])
+
+	if (trackTLCorner.y < scrollBounds[Top])
 	{
-		yval = scrollBounds[Top] - TLCorner.y;
+		yval = scrollBounds[Top] - boundTLCorner.y;
 	}
-	else if (BRCorner.y > scrollBounds[Bottom])
+	else if (trackBRCorner.y > scrollBounds[Bottom])
 	{
-		yval = scrollBounds[Bottom] - BRCorner.y;
+		yval = scrollBounds[Bottom] - boundBRCorner.y;
 	}
 
 

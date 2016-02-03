@@ -226,10 +226,11 @@ void Game::loadMap()
 	//layMan.setReferencePoint(tmpCenter);
 	for (int i = 0; i < 3; i++)
 	{
-		layMan.setScrollBounds( { 0, 10, 800, 1000 }, i);
-		layMan.setWindowCorners( sf::Vector2f(450,450), sf::Vector2f(550,550), i);
+		layMan.setScrollBounds( { 0, 0, 2000, 2000 }, i);
+		layMan.setWindowCorners(sf::Vector2f(0, 0), (sf::Vector2f)windowPtr->getSize(), i);
 		layMan.getLayerPointer(i)->setScrollBoundedness(true);
 	}
+	layMan.createAllLayers();
 
 	
 }

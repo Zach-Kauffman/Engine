@@ -52,41 +52,38 @@ void LayerManager::updateWindowSize(const sf::Vector2u size)
 	}
 }
 
+void  LayerManager::createAllLayers()
+{
+	for (unsigned int i = 0; i < layers.size(); i++)
+	{
+		layers[i]->create();
+	}
+}
+
+
+
+
 void LayerManager::addLayer()
 {
 	boost::shared_ptr<Layer> emptyLayer(new Layer);
-
-	if (!emptyLayer->getRenderTexture()->create(defaultSize.x, defaultSize.y))
-	{
-		BOOST_LOG_SEV(layerManagerLogger, WARNING) << "failed to create layer number " << layers.size() + 1;
-	}
-	else
-	{
-		emptyLayer->getRenderTexture()->clear(sf::Color::Black);
-		layers.push_back(emptyLayer);                                //makes and adds a new, empty Layer
-	}
+	layers.push_back(emptyLayer);                                //makes and adds a new, empty Layer
 }
 
-void LayerManager::addLayer(boost::shared_ptr<Layer> newLayer)
-{
-	newLayer->getRenderTexture()->clear(sf::Color::Black);
-	layers.push_back(newLayer);		//adds an existant Layer
-}
 
 void LayerManager::setLayerAmount(const int& amt)
 {
-	const int sizDif = amt - layers.size();
-	if (sizDif == 0)
+	const unsigned int sizdif = amt - layers.size();
+	if (amt < 0)
 	{
-		BOOST_LOG_SEV(layerManagerLogger, INFO) << "There already exist " << amt << " layers; setting the number of layers to this is meaningless.";
+		BOOST_LOG_SEV(layerManagerLogger, WARNING) << "There are already more than " << amt << " layers; removing layers in neither allowed or recommended; resizing layers failed.";
 	}
-	else if (sizDif < 0)
+	else if (amt == 0)
 	{
-		BOOST_LOG_SEV(layerManagerLogger, WARNING) << "There are more than " << amt << " layers; removing layers is neither reccomended nor allowed; setting the amount of layers failed.";
+		BOOST_LOG_SEV(layerManagerLogger, INFO) << "There are already " << amt << " layers; resizing layers is meaningless.";
 	}
 	else
 	{
-		for (unsigned int i = 0; i < amt; i++)
+		for (unsigned int i = 0; i < sizdif; i++)
 		{
 			addLayer();
 		}
@@ -173,35 +170,31 @@ void LayerManager::setReferencePoint(sf::Vector2f& refPoint)
 void LayerManager::draw(sf::RenderWindow& window)
 {
 
-	sf::Vector2f distance = oldReferencePointValue - *referencePoint;	//distance from the refernce point to where it used to be
+	sf::Vector2f distance = *referencePoint - oldReferencePointValue;	//distance from the refernce point to where it used to be
 	sf::RenderTexture* tmpRenderTex;
 	for (int i = layers.size()-1; i>=0; i--)							//draw in reverse order -- makes intuitive sense: the first layer in the vector
 																		//is the forwardmost layer, not backmost
 	{
+		layers[i]->interpretViewPos(distance);
+
 		tmpRenderTex = layers[i]->getRenderTexture();
 
 
 		tmpRenderTex->display();
-		const sf::Texture& tmpTex1 = (tmpRenderTex->getTexture());			//get the texture from the layer
 
+		const sf::Texture& tmpTex = (tmpRenderTex->getTexture());			//get the texture from the layer
 
-		//layers[i]->clear(sf::Color(0, 0, 0, 0));						//clear the layer
+		sf::Sprite tmpSprite(tmpTex);									//set a sprite's texture as it
 
-
-		sf::Sprite tmpSprite1(tmpTex1);									//set a sprite's texture as it
-
-//		tmpSprite.setPosition(oldReferencePointValue);
-		tmpSprite1.move(layers[i]->getScrollDistance(distance));
 																		//move the sprite a portion of the distance to the old point where the portion
 																		//is the scroll speed
 
-
-		window.draw(tmpSprite1);										//draw the new sprite
+		window.draw(tmpSprite);										//draw the new sprite
 
 		tmpRenderTex->clear(sf::Color(0, 0, 0, 0));
 	}
 
-	//oldReferencePointValue = *referencePoint;							//update the oldReferencePointValue
+	oldReferencePointValue = *referencePoint;							//update the oldReferencePointValue
 	
 }
 
