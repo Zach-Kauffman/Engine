@@ -34,6 +34,10 @@ public:
 	bool getScrollBoundedness();
 
 
+	std::pair<unsigned int, unsigned int> getScrollLock();
+
+	void setScrollLock(const unsigned int& xlock, const unsigned int& ylock);
+
 
 	void setExtremeCorners(const sf::Vector2f& fTLCorner, const sf::Vector2f& fBRCorner);
 
@@ -100,5 +104,13 @@ private:
 	sf::View view;
 
 	enum boundPositions { Top = 0, Left, Bottom, Right };
+
+	
+
+	unsigned int scrollLockX;
+	unsigned int scrollLockY;
+
+	enum lockState {Lockless = 0, Unlocked, Locked};
+
 };
 

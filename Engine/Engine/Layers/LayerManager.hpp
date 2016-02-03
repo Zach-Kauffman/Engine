@@ -20,11 +20,15 @@ public:
 
 	~LayerManager();									//nothing in destructor
 
+
+
 	void setDefaultSize(const sf::Vector2f& s);			//sets new default size for window !!!!needs to be loaded from xml!!!
 
 	void updateWindowSize(const sf::Vector2u size);						//updates dimensions of
 
 	void createAllLayers();
+
+
 
 
 	void addLayer();								//adds a new, empty layer
@@ -34,18 +38,22 @@ public:
 	unsigned int getLayerAmount();
 
 
+
+
 	void setScrollSpeeds(const sf::Vector2f& speed, const int& index);
 														//set the scroll speed of a particular layer
 
-
 	void setScrollSpeeds(std::vector<const sf::Vector2f> scrollSpeeds);
 														//set the scroll speed of all layers; should start with 1 and descend
+
 
 	boost::shared_ptr<Layer> getLayerPointer(const int& index);			
 														//gets a shared pointer to a layer
 
 
+
 	void setReferencePoint(sf::Vector2f& refPoint);		//sets the point that the layers will center on
+
 
 
 	void draw(sf::RenderWindow& window);				//draws all of the layers
@@ -59,15 +67,19 @@ public:
 	void setScrollBounds(std::vector<std::vector<const double>> nsBoundVec);
 
 
+
 	void setWindowCorners(const sf::Vector2f& fTLCorner, const sf::Vector2f& fBRCorner, const unsigned int& layerIndex);
 
 	void setWindowCorners(std::vector<std::pair<const sf::Vector2f, const sf::Vector2f>> windowCornerVec);
 
-
+	void setDepLocking(const bool& b);
 
 private:
 
 	void basicSetup();									//setup called in every constructor
+
+	void lockAll(const char& lockAxis);
+
 
 	template<class T> 
 	void resizeToMatchLayer(std::vector<T>& vec, const std::string& name)
@@ -80,6 +92,9 @@ private:
 	}
 	
 
+	bool dependentScrollLocking;
+
+	sf::Vector2f defaultSize;
 
 	sf::Vector2f* referencePoint;						//The point the LayerManager is centered on
 
@@ -92,6 +107,6 @@ private:
 
 	src::severity_logger<severity_level> layerManagerLogger;	//the logger for layerManager
 
-	sf::Vector2f defaultSize;
+	
 };
 

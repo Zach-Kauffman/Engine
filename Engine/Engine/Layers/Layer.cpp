@@ -7,6 +7,8 @@ Layer::Layer()
 {
 	scrollBounded = false;				//by default, scrollBoundedness is false
 	scrollSpeed = sf::Vector2f(1, 1);
+	scrollLockX = Lockless;
+	scrollLockY = Lockless;
 }
 
 Layer::~Layer()
@@ -70,6 +72,17 @@ double Layer::getScrollBound(const unsigned int& index)
 void Layer::setScrollBoundedness(const bool& nscrollBounded)
 {
 	scrollBounded = nscrollBounded;
+
+	if (nscrollBounded)
+	{
+		scrollLockX = Unlocked;
+		scrollLockY = Unlocked;
+	}
+	else
+	{
+		scrollLockX = Lockless;
+		scrollLockY = Lockless;
+	}
 }
 
 bool Layer::getScrollBoundedness()
@@ -77,6 +90,18 @@ bool Layer::getScrollBoundedness()
 	return scrollBounded;
 }
 
+
+
+std::pair<unsigned int, unsigned int> Layer::getScrollLock()
+{
+	return std::make_pair(scrollLockX, scrollLockY);
+}
+
+void Layer::setScrollLock(const unsigned int& xlock, const unsigned int& ylock)
+{
+	scrollLockX = xlock;
+	scrollLockY = ylock;
+}
 
 
 
@@ -174,9 +199,20 @@ void Layer::interpretViewPos(const sf::Vector2f& scrollDist)
 	
 	if (scrollBounded)
 	{
-		const sf::Vector2f corDist = getCorrectiveDistance();						//get the corrective distance that will align the layer to the bounds 
+		sf::Vector2f corDist = getCorrectiveDistance();						//get the corrective distance that will align the layer to the bounds 
 
 		moveBoundCorners(corDist);
+
+		if (scrollLockX)
+		{
+			dist.x = 0;
+			corDist.x = 0;
+		}
+		if (scrollLockY)
+		{
+			dist.y = 0;
+			corDist.y = 0;
+		}
 
 		view.move(dist + corDist);
 
@@ -221,10 +257,20 @@ sf::Vector2f Layer::getCorrectiveDistance()
 	if (trackTLCorner.x < scrollBounds[Left])
 	{
 		xval = scrollBounds[Left] - boundTLCorner.x;
+
+		if (scrollLockX == Unlocked)
+		{
+			scrollLockX = Locked;
+		}
 	}
 	else if (trackBRCorner.x > scrollBounds[Right])
 	{
 		xval = scrollBounds[Right] - boundBRCorner.x;
+
+		if (scrollLockX == Unlocked)
+		{
+			scrollLockX = Locked;
+		}
 	}
 
 	double yval = 0;
@@ -232,10 +278,20 @@ sf::Vector2f Layer::getCorrectiveDistance()
 	if (trackTLCorner.y < scrollBounds[Top])
 	{
 		yval = scrollBounds[Top] - boundTLCorner.y;
+
+		if (scrollLockY == Unlocked)
+		{
+			scrollLockY = Locked;
+		}
 	}
 	else if (trackBRCorner.y > scrollBounds[Bottom])
 	{
 		yval = scrollBounds[Bottom] - boundBRCorner.y;
+
+		if (scrollLockY == Unlocked)
+		{
+			scrollLockY = Locked;
+		}
 	}
 
 

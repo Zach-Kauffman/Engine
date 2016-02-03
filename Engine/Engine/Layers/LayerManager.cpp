@@ -106,13 +106,13 @@ void LayerManager::setScrollSpeeds(const sf::Vector2f& speed, const int& index)
 		if (speed.x < 0 || speed.x > 1 || speed.y < 0 || speed.y > 1)
 		{
 			BOOST_LOG_SEV(layerManagerLogger, WARNING) << "The desired scroll speed is not between 0 and 1 inclusive. It will still work but will look odd.";
-												//if the speed is not between 0 and 1, log a warning
+			//if the speed is not between 0 and 1, log a warning
 		}
 	}
 	else
 	{
 		BOOST_LOG_SEV(layerManagerLogger, ERROR) << "There do not exist at least " << index + 1 << " layers yet; Accessing spot " << index << " failed.";
-												//if it's a bad index, log an error
+		//if it's a bad index, log an error
 	}
 }
 
@@ -122,7 +122,7 @@ void LayerManager::setScrollSpeeds(std::vector<const sf::Vector2f> scrollSpeeds)
 {
 
 	bool oddSpeed = false;												//if there is a speed < 0 or a speed > 1 or not
-	
+
 	resizeToMatchLayer(scrollSpeeds, "ScrollSpeeds");					//resizes the vector to have the same number of elements as the vector of layers. It also logs a warning
 
 	for (unsigned int i = 0; i < layers.size(); i++)
@@ -139,14 +139,14 @@ void LayerManager::setScrollSpeeds(std::vector<const sf::Vector2f> scrollSpeeds)
 				oddSpeed = true;									//if a speed is < 0 or > 1, record that fact and don't record it again
 			}
 		}
-		
+
 	}
 
 
 	if (oddSpeed)
 	{
 		BOOST_LOG_SEV(layerManagerLogger, WARNING) << "An odd scrollSpeed was detected. It was either < 0 or > 1. It will still work, however.";
-																	//if there was an odd scrollSpeed, log a warning
+		//if there was an odd scrollSpeed, log a warning
 	}
 }
 
@@ -172,10 +172,18 @@ void LayerManager::draw(sf::RenderWindow& window)
 
 	sf::Vector2f distance = *referencePoint - oldReferencePointValue;	//distance from the refernce point to where it used to be
 	sf::RenderTexture* tmpRenderTex;
+
+
+
+
 	for (int i = layers.size()-1; i>=0; i--)							//draw in reverse order -- makes intuitive sense: the first layer in the vector
 																		//is the forwardmost layer, not backmost
 	{
 		layers[i]->interpretViewPos(distance);
+
+
+		
+
 
 		tmpRenderTex = layers[i]->getRenderTexture();
 
@@ -196,6 +204,41 @@ void LayerManager::draw(sf::RenderWindow& window)
 
 	oldReferencePointValue = *referencePoint;							//update the oldReferencePointValue
 	
+
+	if (dependentScrollLocking)
+	{
+		bool doLockX = false;
+		bool doLockY = false;
+		for (unsigned int i = 0; i < layers.size(); i++)
+		{
+			if (layers[i]->getScrollLock().first == 2 && !doLockX)
+			{
+				doLockX = true;
+			}
+
+			if (layers[i]->getScrollLock().second == 2 && !doLockY)
+			{
+				doLockY = false;
+			}
+
+			else if (doLockX && doLockY)
+			{
+				break;
+			}
+		}
+		if (doLockX)
+		{
+			lockAll(0);
+		}
+		if (doLockY)
+		{
+			lockAll(1);
+		}
+
+	}
+
+
+
 }
 
 
@@ -237,10 +280,38 @@ void LayerManager::setWindowCorners(std::vector<std::pair<const sf::Vector2f, co
 	}
 }
 
+void LayerManager::setDepLocking(const bool& b)
+{
+	dependentScrollLocking = b;
+}
+
+
 // private
 
 void LayerManager::basicSetup()
 {
 	oldReferencePointValue = sf::Vector2f(0, 0);	//start the oldReferencePoint value at (0,0)
 	layerManagerLogger = logger::getSLogger();		//setup the logger
+}
+
+void LayerManager::lockAll(const char& lockAxis)
+{
+	if (dependentScrollLocking)
+	{
+		for (unsigned int i = 0; i < layers.size(); i++)
+		{
+			if (layers[i]->getScrollBoundedness())
+			{
+				if (lockAxis == 'x' || lockAxis == 'X' || lockAxis == 0)
+				{
+					layers[i]->setScrollLock(2, 0);
+				}
+				else if (lockAxis == 'y' || lockAxis == 'Y' || lockAxis == 1)
+				{
+					layers[i]->setScrollLock(0, 2);
+				}
+			}
+		}
+	}
+
 }
