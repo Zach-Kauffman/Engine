@@ -45,10 +45,9 @@ void LayerManager::setDefaultSize(const sf::Vector2f& size)
 
 void LayerManager::updateWindowSize(const sf::Vector2u size)
 {
-	std::vector<const double> bounds = { 0, 0, (double)size.x, (double)size.y };
 	for (unsigned int i = 0; i < layers.size(); i++)
 	{
-		setScrollBounds(bounds, i);
+		setCorners(sf::Vector2f(0, 0), sf::Vector2f((float)size.x, (float)size.y), i);
 	}
 }
 

@@ -23,7 +23,6 @@ public:
 	void setScrollBounds(const double& nsBound, const unsigned int& index);
 														//sets a specific scrollBound
 
-
 	void setScrollBounds(std::vector<const double> nsBound);	//set all scrollBounds
 
 	double getScrollBound(const unsigned int& index);	//gets a scroll bound by index
@@ -45,15 +44,9 @@ public:
 
 	void setExtremeCorners(const sf::Vector2f& fTLCorner, const sf::Vector2f& fBRCorner);
 
-	void setExtremeCornersAlt(const sf::Vector2f& fBLCorner, const sf::Vector2f& fTRCorner);
-
 	void setTopLeftCorner(const sf::Vector2f& fTLCorner);
 
 	void setBottomRightCorner(const sf::Vector2f& fBRCorner);
-
-	void setBottomLeftCorner(const sf::Vector2f& fBLCorner);
-
-	void setTopRightCorner(const sf::Vector2f& fTRCorner);
 
 
 	float getMinWindowX();
@@ -63,13 +56,13 @@ public:
 
 	std::pair<sf::Vector2f, sf::Vector2f> getWindowCorners();
 
-	void interpretViewPos(const sf::Vector2f& scrollDist);
+
+
+	void interpretViewPos(const sf::Vector2f& scrollDist);	//moves the view based on a position entered -- this is scrolling
 
 
 
 	sf::RenderTexture* getRenderTexture();
-
-
 
 
 
@@ -78,7 +71,7 @@ private:
 	void moveBoundCorners(const sf::Vector2f& dist);
 	void moveTrackCorners(const sf::Vector2f& dist);
 
-	sf::Vector2f getCorrectiveDistance();
+	sf::Vector2f getCorrectiveDistance();				
 
 	sf::Vector2f scrollSpeed;							//the fraction of the "normal" scroll speed at which a layer will scroll; a layer with
 														//.5 scroll speed will scroll half as quickly as a layer with 1 scroll speed; a layer with 0
@@ -87,35 +80,32 @@ private:
 	double scrollBounds[4];								//the purpose is that a layer should not be able to scroll forever. see http://imgur.com/SzH03Ju for a lack of scroll bounds.
 
 	bool scrollBounded;									//true if the layer has active scrolling bounds.
-	bool mapSizeLock;									//true if the layer's scroll bounds should always be equal to map size
 
+	bool trackLocking;									//true if the layer is independent -- then we care about it's self-identified scroll locks (as opposed to ones we imposed on it)
 
-	bool trackLocking;
-
-	//sf::Vector2f scrollTracker;							//keeps track of the scrolling
+	//sf::Vector2f scrollTracker;						//keeps track of the scrolling
 
 	//sf::Vector2f oldScrollTracker;
 
 
-	sf::Vector2f boundTLCorner;
-	sf::Vector2f boundBRCorner;
+	sf::Vector2f boundTLCorner;							//The top left corner, bounded by the scroll bounds
+	sf::Vector2f boundBRCorner;							//the bottom right corner, bounded
 
-	sf::Vector2f trackTLCorner;
-	sf::Vector2f trackBRCorner;
+	sf::Vector2f trackTLCorner;							//the TL corner if it had ignored all scrollbounds
+	sf::Vector2f trackBRCorner;							//BR corner agnostic of scrollbounds
 	
-
-	
-
-	sf::RenderTexture renderTex;
-
-	sf::View view;
 
 	enum boundPositions { Top = 0, Left, Bottom, Right };
 
+
+	sf::RenderTexture renderTexture;					//the rendertexture of the Layer
+
+	sf::View view;										//the view used by the layer -- responsible for scrolling
+
 	
 
-	unsigned int scrollLockX;
-	unsigned int scrollLockY;
+	unsigned int scrollLockX;							//really a trinary bool -- if the horizontal scrolling is locked or not
+	unsigned int scrollLockY;							//locking on the vertical scrolling
 
 	enum lockState {Lockless = 0, Unlocked, Locked};
 

@@ -26,12 +26,12 @@ public:
 
 	void updateWindowSize(const sf::Vector2u size);						//updates dimensions of
 
-	void createAllLayers();
+	void createLayers();
 
 
 
 
-	void addLayer();								//adds a new, empty layer
+	void addLayer();									//adds a new, empty layer
 
 	void setLayerAmount(const int& amt);				//sets the amount of layers -- ideally used once only
 
@@ -40,14 +40,14 @@ public:
 
 
 
-	void setScrollSpeeds(const sf::Vector2f& speed, const int& index);
+	void setScrollSpeed(const sf::Vector2f& speed, const int& index);
 														//set the scroll speed of a particular layer
 
-	void setScrollSpeeds(std::vector<const sf::Vector2f> scrollSpeeds);
+	void setScrollSpeed(std::vector<const sf::Vector2f> scrollSpeeds);
 														//set the scroll speed of all layers; should start with 1 and descend
 
 
-	boost::shared_ptr<Layer> getLayerPointer(const int& index);			
+	boost::shared_ptr<Layer> getLayerPtr(const int& index);			
 														//gets a shared pointer to a layer
 
 
@@ -60,19 +60,19 @@ public:
 
 
 	
-	void setScrollBounds(const double& nsBound, const unsigned int& boundIndex, const unsigned int& layerIndex);
+	void setScrollBounds(const double& bound, const unsigned int& boundIndex, const unsigned int& layerIndex);
+	
+	void setScrollBounds(std::vector<const double> bounds, const unsigned int& layerIndex);
 
-	void setScrollBounds(std::vector<const double> nsBound, const unsigned int& layerIndex);
-
-	void setScrollBounds(std::vector<std::vector<const double>> nsBoundVec);
+	void setScrollBounds(std::vector<std::vector<const double>> boundVec);
 
 
 
-	void setWindowCorners(const sf::Vector2f& fTLCorner, const sf::Vector2f& fBRCorner, const unsigned int& layerIndex);
+	void setCorners(const sf::Vector2f& TLCorner, const sf::Vector2f& BRCorner, const unsigned int& layerIndex);
 
-	void setWindowCorners(std::vector<std::pair<const sf::Vector2f, const sf::Vector2f>> windowCornerVec);
+	void setCorners(std::vector<std::pair<const sf::Vector2f, const sf::Vector2f>> cornerVec);
 
-	void setDepLocking(const bool& b, const unsigned int& indLay);
+	void setDependentLocking(const bool& b, const unsigned int& indLay);
 
 private:
 
