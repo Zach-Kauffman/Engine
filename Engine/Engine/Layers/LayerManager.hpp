@@ -72,13 +72,16 @@ public:
 
 	void setWindowCorners(std::vector<std::pair<const sf::Vector2f, const sf::Vector2f>> windowCornerVec);
 
-	void setDepLocking(const bool& b);
+	void setDepLocking(const bool& b, const unsigned int& indLay);
 
 private:
 
 	void basicSetup();									//setup called in every constructor
 
 	void lockAll(const char& lockAxis);
+
+	void unlockAll(const char& lockAxis);
+
 
 
 	template<class T> 
@@ -93,6 +96,8 @@ private:
 	
 
 	bool dependentScrollLocking;
+
+	unsigned int indLayer;
 
 	sf::Vector2f defaultSize;
 

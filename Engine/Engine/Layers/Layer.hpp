@@ -7,7 +7,7 @@ class Layer
 
 public:
 
-	Layer();											//constructor and destructor are empty
+	Layer();	
 	~Layer();
 
 
@@ -34,9 +34,13 @@ public:
 	bool getScrollBoundedness();
 
 
+
 	std::pair<unsigned int, unsigned int> getScrollLock();
 
-	void setScrollLock(const unsigned int& xlock, const unsigned int& ylock);
+	void setScrollLock(const unsigned int& lockState, const unsigned char& lockAxis);
+
+	void setTrackLocking(const bool& b);
+
 
 
 	void setExtremeCorners(const sf::Vector2f& fTLCorner, const sf::Vector2f& fBRCorner);
@@ -84,6 +88,9 @@ private:
 
 	bool scrollBounded;									//true if the layer has active scrolling bounds.
 	bool mapSizeLock;									//true if the layer's scroll bounds should always be equal to map size
+
+
+	bool trackLocking;
 
 	//sf::Vector2f scrollTracker;							//keeps track of the scrolling
 

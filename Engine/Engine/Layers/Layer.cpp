@@ -6,9 +6,10 @@
 Layer::Layer()
 {
 	scrollBounded = false;				//by default, scrollBoundedness is false
-	scrollSpeed = sf::Vector2f(1, 1);
-	scrollLockX = Lockless;
+	scrollSpeed = sf::Vector2f(1, 1);	//The scrollspeed is by default (1,1). This means that the layer will scroll at the same speed as the reference point's movement
+	scrollLockX = Lockless;				//both scrollLocks are lockless
 	scrollLockY = Lockless;
+	trackLocking = false;				//trackLocking is false -- only true if all other layers' locking are dependent on this layer
 }
 
 Layer::~Layer()
@@ -17,17 +18,17 @@ Layer::~Layer()
 
 
 
-void Layer::create()
+void Layer::create()					//sets up the Layer -- only call after corners are set
 {
 
-	if (!renderTex.create(boundBRCorner.x - boundTLCorner.x, boundBRCorner.y - boundTLCorner.x))
+	if (!renderTex.create(boundBRCorner.x - boundTLCorner.x, boundBRCorner.y - boundTLCorner.x))		//creates the renderTexture
 	{
 
 	}
 
-	renderTex.clear(sf::Color(0, 0, 0, 0));
+	renderTex.clear(sf::Color(0, 0, 0, 0));																//clears it with transparency
 	
-	view.setSize(boundBRCorner.x - boundTLCorner.x, boundBRCorner.y - boundTLCorner.x);
+	view.setSize(boundBRCorner.x - boundTLCorner.x, boundBRCorner.y - boundTLCorner.x);					//seup the view
 	view.setCenter((boundBRCorner.x + boundTLCorner.x) / 2, (boundBRCorner.y + boundTLCorner.y) / 2);
 
 }
@@ -73,14 +74,14 @@ void Layer::setScrollBoundedness(const bool& nscrollBounded)
 {
 	scrollBounded = nscrollBounded;
 
-	if (nscrollBounded)
+	if (nscrollBounded)				//when the scrollBoundedness is set, the locks change
 	{
-		scrollLockX = Unlocked;
+		scrollLockX = Unlocked;		//if it's scroll bounded, set it to unlocked
 		scrollLockY = Unlocked;
 	}
 	else
 	{
-		scrollLockX = Lockless;
+		scrollLockX = Lockless;		//otherwise it's lockless
 		scrollLockY = Lockless;
 	}
 }
@@ -97,21 +98,36 @@ std::pair<unsigned int, unsigned int> Layer::getScrollLock()
 	return std::make_pair(scrollLockX, scrollLockY);
 }
 
-void Layer::setScrollLock(const unsigned int& xlock, const unsigned int& ylock)
+void Layer::setScrollLock(const unsigned int& lockState, const unsigned char& lockAxis)	//set a single scroll lock -- give it a letter or 0 or 1
 {
-	scrollLockX = xlock;
-	scrollLockY = ylock;
+	if (scrollBounded)
+	{
+		if (lockAxis == 'x' || lockAxis == 'X' || lockAxis == 0)
+		{
+			scrollLockX = lockState;
+		}
+		else if (lockAxis == 'y' || lockAxis == 'Y' || lockAxis == 1)
+		{
+			scrollLockY = lockState;
+		}
+	}
+}
+
+void Layer::setTrackLocking(const bool& b)
+{
+	trackLocking = b;
 }
 
 
 
+//setting corners -- lots of these can be removed
 void Layer::setExtremeCorners(const sf::Vector2f& fTLCorner, const sf::Vector2f& fBRCorner)
 {
 	setTopLeftCorner(fTLCorner);
 	setBottomRightCorner(fBRCorner);
 }
 
-void Layer::setExtremeCornersAlt(const sf::Vector2f& fBLCorner, const sf::Vector2f& fTRCorner)
+void Layer::setExtremeCornersAlt(const sf::Vector2f& fBLCorner, const sf::Vector2f& fTRCorner)	//extremely awkward -- also hard to use
 {
 	setTopRightCorner(fTRCorner);
 	setBottomLeftCorner(fBLCorner);
@@ -149,7 +165,6 @@ void Layer::setTopRightCorner(const sf::Vector2f& fTRCorner)
 
 
 
-
 float Layer::getMinWindowX()
 {
 	return boundTLCorner.x;
@@ -170,6 +185,7 @@ float Layer::getMaxWindowY()
 	return boundBRCorner.y;
 }
 
+
 std::pair<sf::Vector2f, sf::Vector2f> Layer::getWindowCorners()
 {
 	return std::make_pair(boundTLCorner, boundBRCorner);
@@ -177,43 +193,63 @@ std::pair<sf::Vector2f, sf::Vector2f> Layer::getWindowCorners()
 
 
 
-//
-//void Layer::setInitTracking(const sf::Vector2f& inTracking)
-//{
-//	scrollTracker = inTracking;
-//}
-void Layer::interpretViewPos(const sf::Vector2f& scrollDist)
+
+void Layer::interpretViewPos(const sf::Vector2f& scrollDist)	//this interprets a distance and moves the view based on this -- this gives the illusion of scrolling
 {
 
-
+	//make a new distance based on the scrollspeed
 	sf::Vector2f dist;
 	dist.x = scrollSpeed.x * scrollDist.x;
 	dist.y = scrollSpeed.y * scrollDist.y;
 
 
+	// if the layer is not independet (not tracking locking), nullify the distance based on the scrollLocks
+	if (scrollBounded && !trackLocking)
+	{
+		if (scrollLockX == Locked)
+		{
+			dist.x = 0;
+		}
+
+		if (scrollLockY == Locked)
+		{
+			dist.y = 0;
+		}
+	}
+
+
+	//move the bound corners and the track corners
 	moveBoundCorners(dist);
 	moveTrackCorners(dist);
 
 	
-	//then return the difference between the bounded scrolltracking value and the old scrolltracking value
 	
 	if (scrollBounded)
 	{
-		sf::Vector2f corDist = getCorrectiveDistance();						//get the corrective distance that will align the layer to the bounds 
+		sf::Vector2f corDist = getCorrectiveDistance();				//get the corrective distance that will align the layer to the bounds 
+		
 
+
+		//if the layer is dependent, based on the scroll locking, nullify the corrective distance
+		if (!trackLocking)		
+		{
+			if (scrollLockX == Locked)
+			{
+				corDist.x = 0;
+			}
+
+			if (scrollLockY == Locked)
+			{
+				corDist.y = 0;
+			}
+		}
+		
+
+		//move the bound corners back, NOT the track corners -- track corners are for calculations and shouldn't be bounded
 		moveBoundCorners(corDist);
 
-		if (scrollLockX)
-		{
-			dist.x = 0;
-			corDist.x = 0;
-		}
-		if (scrollLockY)
-		{
-			dist.y = 0;
-			corDist.y = 0;
-		}
 
+		//move the view -- this is the scrolling
 		view.move(dist + corDist);
 
 	}
@@ -222,7 +258,8 @@ void Layer::interpretViewPos(const sf::Vector2f& scrollDist)
 		view.move(dist);
 	}
 	
-	renderTex.setView(view);
+
+	renderTex.setView(view); //set the renderTexture to use the view
 }
 
 
@@ -250,28 +287,43 @@ void Layer::moveTrackCorners(const sf::Vector2f& dist)
 
 sf::Vector2f Layer::getCorrectiveDistance()
 {
-	//gets the distance required to align the corners with the scrollBunds
+	//gets the distance required to align the corners with the scrollBounds
 
+	
+	
 	//finds the difference in bounds derived from the corners and the desired bounds. If there is no undesired occurrence, it will be 0
+	
 	double xval = 0;
-	if (trackTLCorner.x < scrollBounds[Left])
-	{
-		xval = scrollBounds[Left] - boundTLCorner.x;
 
-		if (scrollLockX == Unlocked)
+	if (trackTLCorner.x < scrollBounds[Left])			//if the left bound of the layer is beyond the left bound
+	{
+		xval = scrollBounds[Left] - boundTLCorner.x;	//one would have to move it back this distance;
+
+		if (scrollLockX == Unlocked && trackLocking)	//it also was out of bounds, so it's locked if it's independent
 		{
 			scrollLockX = Locked;
 		}
 	}
+
 	else if (trackBRCorner.x > scrollBounds[Right])
 	{
 		xval = scrollBounds[Right] - boundBRCorner.x;
 
-		if (scrollLockX == Unlocked)
+		if (scrollLockX == Unlocked && trackLocking)
 		{
 			scrollLockX = Locked;
 		}
 	}
+
+	else if (trackLocking)
+	{
+		scrollLockX = Unlocked;
+	}
+
+
+
+
+
 
 	double yval = 0;
 
@@ -279,7 +331,7 @@ sf::Vector2f Layer::getCorrectiveDistance()
 	{
 		yval = scrollBounds[Top] - boundTLCorner.y;
 
-		if (scrollLockY == Unlocked)
+		if (scrollLockY == Unlocked && trackLocking)
 		{
 			scrollLockY = Locked;
 		}
@@ -288,10 +340,14 @@ sf::Vector2f Layer::getCorrectiveDistance()
 	{
 		yval = scrollBounds[Bottom] - boundBRCorner.y;
 
-		if (scrollLockY == Unlocked)
+		if (scrollLockY == Unlocked && trackLocking)
 		{
 			scrollLockY = Locked;
 		}
+	}
+	else if (trackLocking)
+	{
+		scrollLockY = Unlocked;
 	}
 
 

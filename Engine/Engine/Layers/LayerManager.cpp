@@ -207,32 +207,23 @@ void LayerManager::draw(sf::RenderWindow& window)
 
 	if (dependentScrollLocking)
 	{
-		bool doLockX = false;
-		bool doLockY = false;
-		for (unsigned int i = 0; i < layers.size(); i++)
-		{
-			if (layers[i]->getScrollLock().first == 2 && !doLockX)
-			{
-				doLockX = true;
-			}
 
-			if (layers[i]->getScrollLock().second == 2 && !doLockY)
-			{
-				doLockY = false;
-			}
-
-			else if (doLockX && doLockY)
-			{
-				break;
-			}
-		}
-		if (doLockX)
+		if (layers[indLayer]->getScrollLock().first == 2)
 		{
 			lockAll(0);
 		}
-		if (doLockY)
+		else
+		{
+			unlockAll(0);
+		}
+
+		if (layers[indLayer]->getScrollLock().second == 2)
 		{
 			lockAll(1);
+		}
+		else
+		{
+			unlockAll(1);
 		}
 
 	}
@@ -280,9 +271,11 @@ void LayerManager::setWindowCorners(std::vector<std::pair<const sf::Vector2f, co
 	}
 }
 
-void LayerManager::setDepLocking(const bool& b)
+void LayerManager::setDepLocking(const bool& b, const unsigned int& indLay)
 {
 	dependentScrollLocking = b;
+	indLayer = indLay;
+	layers[indLayer]->setTrackLocking(true);
 }
 
 
@@ -292,6 +285,8 @@ void LayerManager::basicSetup()
 {
 	oldReferencePointValue = sf::Vector2f(0, 0);	//start the oldReferencePoint value at (0,0)
 	layerManagerLogger = logger::getSLogger();		//setup the logger
+	dependentScrollLocking = false;
+	indLayer = 0;
 }
 
 void LayerManager::lockAll(const char& lockAxis)
@@ -300,7 +295,7 @@ void LayerManager::lockAll(const char& lockAxis)
 	{
 		for (unsigned int i = 0; i < layers.size(); i++)
 		{
-			if (layers[i]->getScrollBoundedness())
+			if (layers[i]->getScrollBoundedness() && i != indLayer)
 			{
 				if (lockAxis == 'x' || lockAxis == 'X' || lockAxis == 0)
 				{
@@ -308,10 +303,31 @@ void LayerManager::lockAll(const char& lockAxis)
 				}
 				else if (lockAxis == 'y' || lockAxis == 'Y' || lockAxis == 1)
 				{
-					layers[i]->setScrollLock(0, 2);
+					layers[i]->setScrollLock(2, 1);
 				}
 			}
 		}
 	}
 
+}
+
+void LayerManager::unlockAll(const char& lockAxis)
+{
+	if (dependentScrollLocking)
+	{
+		for (unsigned int i = 0; i < layers.size(); i++)
+		{
+			if (layers[i]->getScrollBoundedness() && i != indLayer)
+			{
+				if (lockAxis == 'x' || lockAxis == 'X' || lockAxis == 0)
+				{
+					layers[i]->setScrollLock(1, 0);
+				}
+				else if (lockAxis == 'y' || lockAxis == 'Y' || lockAxis == 1)
+				{
+					layers[i]->setScrollLock(1, 1);
+				}
+			}
+		}
+	}
 }
