@@ -24,4 +24,8 @@
 		<path>Resources/TestResources/potato.png</path>
 		<name>potato</name>
 	</resource>
+	<resource>
+		<path>Resources/TestResources/ArrowCross.png</path>
+		<name>ArrowCross</name>
+	</resource>
 </resources>
