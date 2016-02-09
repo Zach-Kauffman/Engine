@@ -94,7 +94,7 @@ void Game::draw()
 
 	for (unsigned int i = 0; i < layerAMT; i++)
 	{
-		draw = boost::bind(&objects::Object::draw, _1, boost::ref(*(layMan.getLayerPointer(i))));
+		draw = boost::bind(&objects::Object::draw, _1, boost::ref(*(layMan.getLayerPtr(i))));
 		objMan.callFunction<boost::function<void(objects::Object&)> >("Layers.Layer" + boost::lexical_cast<std::string>(i + 1), draw);
 	}
 
@@ -213,10 +213,10 @@ void Game::loadMap()
 	}
 
 	//setting up the layer manager
-	layMan.setDefaultSize((sf::Vector2f)windowPtr->getSize());	//size of the viewport
+//	layMan.setDefaultSize((sf::Vector2f)windowPtr->getSize());	//size of the viewport
 	layMan.setLayerAmount(3);
-	layMan.setScrollSpeeds({ sf::Vector2f(1, 1), sf::Vector2f(.4, .7), sf::Vector2f(.1, .1) });			//this layer should scroll at the same speed as movement		
-	layMan.updateWindowSize(windowPtr.get()->getSize());		//umm idk?
+	layMan.setScrollSpeed({ sf::Vector2f(1, 1), sf::Vector2f(.4, .7), sf::Vector2f(.1, .1) });			//this layer should scroll at the same speed as movement		
+//	layMan.updateWindowSize(windowPtr.get()->getSize());		//umm idk?
 
 	tmpCenter = sf::Vector2f(500, 500);							//starting point of reference
 
@@ -226,12 +226,13 @@ void Game::loadMap()
 	//layMan.setReferencePoint(tmpCenter);
 	for (int i = 0; i < 3; i++)
 	{
-		layMan.setScrollBounds( { 0, 0, 4000, 4000 }, i);
-		layMan.setWindowCorners(sf::Vector2f(0, 0), (sf::Vector2f)windowPtr->getSize(), i);
-		layMan.getLayerPointer(i)->setScrollBoundedness(true);
+		layMan.setScrollBounds({ 0, 0, 4000, 4000 }, i);
+		layMan.setCorners(sf::Vector2f(0, 0), (sf::Vector2f)windowPtr->getSize(), i);
+		layMan.getLayerPtr(i)->setScrollBoundedness(true);
 	}
-	layMan.createAllLayers();
-	layMan.setDepLocking(true, 0);
+	
+	layMan.createLayers();
+	layMan.setDependentLocking(true, 0);
 
 	
 }

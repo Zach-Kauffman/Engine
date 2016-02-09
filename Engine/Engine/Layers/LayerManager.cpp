@@ -6,24 +6,24 @@
 
 //constructors---
 
-LayerManager::LayerManager()
+LayerManager::LayerManager()										//basic constructor
 {
 	basicSetup();
 }
 
-LayerManager::LayerManager(const int& amt)
+LayerManager::LayerManager(const int& amt)							//determines amount of layers on construction
 {
 	basicSetup();
 	setLayerAmount(amt);
 }
 
-LayerManager::LayerManager(sf::Vector2f& refPoint)
+LayerManager::LayerManager(sf::Vector2f& refPoint)					//determines reference point on contruction
 {
 	basicSetup();
 	setReferencePoint(refPoint);
 }
 
-LayerManager::LayerManager(sf::Vector2f& refPoint, const int& amt)
+LayerManager::LayerManager(sf::Vector2f& refPoint, const unsigned int& amt)	//conjugation of above two constructors
 {
 	basicSetup();
 	setLayerAmount(amt);
@@ -33,25 +33,21 @@ LayerManager::LayerManager(sf::Vector2f& refPoint, const int& amt)
 
 //---done
 
-LayerManager::~LayerManager()
+LayerManager::~LayerManager()										//empty
 {
 
 }
 
-void LayerManager::setDefaultSize(const sf::Vector2f& size)
-{
-	defaultSize = size;
-}
 
-void LayerManager::updateWindowSize(const sf::Vector2u size)
-{
-	for (unsigned int i = 0; i < layers.size(); i++)
-	{
-		setCorners(sf::Vector2f(0, 0), sf::Vector2f((float)size.x, (float)size.y), i);
-	}
-}
+//void LayerManager::updateWindowSize(const sf::Vector2u size)
+//{
+//	for (unsigned int i = 0; i < layers.size(); i++)
+//	{
+//		setCorners(sf::Vector2f(0, 0), sf::Vector2f((float)size.x, (float)size.y), i);
+//	}
+//}
 
-void  LayerManager::createAllLayers()
+void  LayerManager::createLayers()									//creates all layers -- must call sometime
 {
 	for (unsigned int i = 0; i < layers.size(); i++)
 	{
@@ -62,30 +58,36 @@ void  LayerManager::createAllLayers()
 
 
 
-void LayerManager::addLayer()
+void LayerManager::addLayer()										//adds an empty layer
 {
 	boost::shared_ptr<Layer> emptyLayer(new Layer);
-	layers.push_back(emptyLayer);                                //makes and adds a new, empty Layer
+	layers.push_back(emptyLayer);									//makes and adds a new, empty Layer
 }
 
 
-void LayerManager::setLayerAmount(const int& amt)
+void LayerManager::setLayerAmount(const unsigned int& amt)					//sets the layer amount -- can't remove layers yet
 {
-	const unsigned int sizdif = amt - layers.size();
-	if (amt < 0)
+	const unsigned int sizdif = amt - layers.size();				//size difference in desired amount and layersSize 
+
+	if (sizdif < 0)
 	{
 		BOOST_LOG_SEV(layerManagerLogger, WARNING) << "There are already more than " << amt << " layers; removing layers in neither allowed or recommended; resizing layers failed.";
+																	//if the size difference is negative, log a warning
 	}
-	else if (amt == 0)
+
+	else if (sizdif == 0)
 	{
 		BOOST_LOG_SEV(layerManagerLogger, INFO) << "There are already " << amt << " layers; resizing layers is meaningless.";
+																	//if the size differnece is 0, log info
 	}
+
 	else
 	{
 		for (unsigned int i = 0; i < sizdif; i++)
 		{
 			addLayer();
 		}
+																	//otherwise, add a layer that many times
 	}
 
 }
@@ -96,9 +98,9 @@ unsigned int LayerManager::getLayerAmount()
 }
 
 
-void LayerManager::setScrollSpeeds(const sf::Vector2f& speed, const int& index)
+void LayerManager::setScrollSpeed(const sf::Vector2f& speed, const unsigned int& index)
 {
-	if (index >= 0 && index < layers.size())
+	if (index < layers.size())
 	{
 		layers[index]->setScrollSpeed(speed);	//if the index is valid, set the scrollSpeed
 
@@ -117,12 +119,12 @@ void LayerManager::setScrollSpeeds(const sf::Vector2f& speed, const int& index)
 
 
 
-void LayerManager::setScrollSpeeds(std::vector<const sf::Vector2f> scrollSpeeds)
+void LayerManager::setScrollSpeed(std::vector<const sf::Vector2f> scrollSpeeds)
 {
 
 	bool oddSpeed = false;												//if there is a speed < 0 or a speed > 1 or not
 
-	resizeToMatchLayer(scrollSpeeds, "ScrollSpeeds");					//resizes the vector to have the same number of elements as the vector of layers. It also logs a warning
+	resizeToMatchLayer(scrollSpeeds, "ScrollSpeeds");					//resizes the vector to have the same number of elements as the vector of layers. It also logs a warning sometimes
 
 	for (unsigned int i = 0; i < layers.size(); i++)
 	{
@@ -135,7 +137,7 @@ void LayerManager::setScrollSpeeds(std::vector<const sf::Vector2f> scrollSpeeds)
 		{
 			if (tmpSpeed.x < 0 || tmpSpeed.x  > 1 || tmpSpeed.y < 0 || tmpSpeed.y > 1)
 			{
-				oddSpeed = true;									//if a speed is < 0 or > 1, record that fact and don't record it again
+				oddSpeed = true;										//if a speed is < 0 or > 1, record that fact and don't record it again
 			}
 		}
 
@@ -151,9 +153,18 @@ void LayerManager::setScrollSpeeds(std::vector<const sf::Vector2f> scrollSpeeds)
 
 
 
-boost::shared_ptr<Layer> LayerManager::getLayerPointer(const int& index)
+boost::shared_ptr<Layer> LayerManager::getLayerPtr(const unsigned int& index)
 {
-	return 	layers[index];											//return the memory location of the desired layer
+	if (index < layers.size())
+	{
+		return 	layers[index];											//return the memory location of the desired layer
+	}
+	else
+	{
+		BOOST_LOG_SEV(layerManagerLogger, ERROR) << "Index " << index << "was out of range -- returning first layer instead";
+		return layers[0];
+	}
+	
 }
 
 
@@ -161,7 +172,7 @@ boost::shared_ptr<Layer> LayerManager::getLayerPointer(const int& index)
 void LayerManager::setReferencePoint(sf::Vector2f& refPoint)
 {
 	referencePoint = &refPoint;										//set the reference point
-	oldReferencePointValue = refPoint;
+	oldReferencePointValue = refPoint;								//set the old refernce point value, too
 }
 
 
@@ -169,56 +180,51 @@ void LayerManager::setReferencePoint(sf::Vector2f& refPoint)
 void LayerManager::draw(sf::RenderWindow& window)
 {
 
-	sf::Vector2f distance = *referencePoint - oldReferencePointValue;	//distance from the refernce point to where it used to be
-	sf::RenderTexture* tmpRenderTex;
+	sf::Vector2f distance = *referencePoint - oldReferencePointValue;	//distance from the reference point to where it used to be
 
-
-
+	sf::RenderTexture* tmpRenderTex;									//make a temporary RenderTexture pointer
 
 	for (int i = layers.size()-1; i>=0; i--)							//draw in reverse order -- makes intuitive sense: the first layer in the vector
 																		//is the forwardmost layer, not backmost
 	{
-		layers[i]->interpretViewPos(distance);
+
+		layers[i]->interpretViewPos(distance);							//interpret the view position -- scrolling
 
 
-		
+
+		tmpRenderTex = layers[i]->getRenderTexture();					//set tmpRenderTex to point to the current layer's renderTexture;
+
+			
+		tmpRenderTex->display();										//display it -- necessary to draw anything
 
 
-		tmpRenderTex = layers[i]->getRenderTexture();
-
-
-		tmpRenderTex->display();
-
-		const sf::Texture& tmpTex = (tmpRenderTex->getTexture());			//get the texture from the layer
+		const sf::Texture& tmpTex = (tmpRenderTex->getTexture());		//get the texture from the layer
 
 		sf::Sprite tmpSprite(tmpTex);									//set a sprite's texture as it
 
-																		//move the sprite a portion of the distance to the old point where the portion
-																		//is the scroll speed
+		window.draw(tmpSprite);											//draw the new sprite
 
-		window.draw(tmpSprite);										//draw the new sprite
-
-		tmpRenderTex->clear(sf::Color(0, 0, 0, 0));
+		tmpRenderTex->clear(sf::Color(0, 0, 0, 0));						//clear it to transparent so it can draw again
 	}
 
 	oldReferencePointValue = *referencePoint;							//update the oldReferencePointValue
 	
 
-	if (dependentScrollLocking)
+	if (dependentScrollLocking)											//if there is dependent scroll locking
 	{
 
 		if (layers[indLayer]->getScrollLock().first == 2)
 		{
-			lockAll(0);
+			lockAll(0);													//if the independent layer is x-locked, x-lock all
 		}
 		else
 		{
-			unlockAll(0);
+			unlockAll(0);												//otherwise, x-unlock them
 		}
 
-		if (layers[indLayer]->getScrollLock().second == 2)
+		if (layers[indLayer]->getScrollLock().second == 2)				//same for y
 		{
-			lockAll(1);
+			lockAll(1);												
 		}
 		else
 		{
@@ -228,53 +234,66 @@ void LayerManager::draw(sf::RenderWindow& window)
 	}
 
 
-
 }
 
 
-
-void LayerManager::setScrollBounds(const double& nsBound, const unsigned int& boundIndex, const unsigned int& layerIndex)
+void LayerManager::setScrollBounds(std::vector<const double> bounds, const unsigned int& layerIndex)
+																		//set scroll bounds of a single layer
 {
-	layers[layerIndex]->setScrollBounds(nsBound, boundIndex);
+	layers[layerIndex]->setScrollBounds(bounds);
 }
 
-void LayerManager::setScrollBounds(std::vector<const double> nsBound, const unsigned int& layerIndex)
-{
-	layers[layerIndex]->setScrollBounds(nsBound);
-}
-
-void LayerManager::setScrollBounds(std::vector<std::vector<const double>> nsBoundVec)
+void LayerManager::setScrollBounds(std::vector<std::vector<const double>> boundVec)
+																		//set scroll bounds of all layers
 {
 
-	resizeToMatchLayer(nsBoundVec, "ScrollBounds");
+	resizeToMatchLayer(boundVec, "ScrollBounds");						//resize the bound vector
 
 	for (unsigned int i = 0; i < layers.size(); i++)
 	{
-		layers[i]->setScrollBounds(nsBoundVec[i]);
+		layers[i]->setScrollBounds(boundVec[i]);						//set the vounds
 	}
 }
 
 
-void LayerManager::setWindowCorners(const sf::Vector2f& fTLCorner, const sf::Vector2f& fBRCorner, const unsigned int& layerIndex)
+void LayerManager::setCorners(const sf::Vector2f& fTLCorner, const sf::Vector2f& fBRCorner, const unsigned int& layerIndex)	
+																		//set corners of single layer
 {
-	layers[layerIndex]->setExtremeCorners(fTLCorner, fBRCorner);
-}
-
-void LayerManager::setWindowCorners(std::vector<std::pair<const sf::Vector2f, const sf::Vector2f>> windowCornerVec)
-{
-	resizeToMatchLayer(windowCornerVec, "WindowCorners");
-
-	for (unsigned int i = 0; i < layers.size(); i++)
+	if (layerIndex < layers.size())
 	{
-		layers[i]->setExtremeCorners(windowCornerVec[i].first, windowCornerVec[i].second);
+		layers[layerIndex]->setExtremeCorners(fTLCorner, fBRCorner);	//set the corners if index is good
+	}
+	else
+	{
+		BOOST_LOG_SEV(layerManagerLogger, ERROR) << "Index " << layerIndex << "was out of range -- setting corners failed";
+																		//log an error if index was bad
 	}
 }
 
-void LayerManager::setDepLocking(const bool& b, const unsigned int& indLay)
+void LayerManager::setCorners(std::vector<std::pair<const sf::Vector2f, const sf::Vector2f>> cornerVec)
 {
-	dependentScrollLocking = b;
-	indLayer = indLay;
-	layers[indLayer]->setTrackLocking(true);
+	resizeToMatchLayer(cornerVec, "WindowCorners");				//resize the corner vector
+
+	for (unsigned int i = 0; i < layers.size(); i++)
+	{
+		layers[i]->setExtremeCorners(cornerVec[i].first, cornerVec[i].second);
+																		//set them all
+	}
+}
+
+void LayerManager::setDependentLocking(const bool& b, const unsigned int& indLay)
+{
+	if (indLay < layers.size())
+	{
+		dependentScrollLocking = b;
+		indLayer = indLay;
+		layers[indLayer]->setTrackLocking(true);
+	}
+	else
+	{
+		BOOST_LOG_SEV(layerManagerLogger, ERROR) << "Index " << indLay << "was out of range -- setting dependent locking failed";
+	}
+
 }
 
 
@@ -284,17 +303,17 @@ void LayerManager::basicSetup()
 {
 	oldReferencePointValue = sf::Vector2f(0, 0);	//start the oldReferencePoint value at (0,0)
 	layerManagerLogger = logger::getSLogger();		//setup the logger
-	dependentScrollLocking = false;
-	indLayer = 0;
+	dependentScrollLocking = false;					//set dependent scroll locking to false
+	indLayer = 0;									//indLayer is 0
 }
 
-void LayerManager::lockAll(const char& lockAxis)
+void LayerManager::lockAll(const char& lockAxis)	//locks all dependent layers (x or y)
 {
-	if (dependentScrollLocking)
+	if (dependentScrollLocking)						//only works if dependent scroll locking is enabled
 	{
 		for (unsigned int i = 0; i < layers.size(); i++)
 		{
-			if (layers[i]->getScrollBoundedness() && i != indLayer)
+			if (layers[i]->getScrollBoundedness() && i != indLayer)	//doesn't lock boundless layers or independent layer
 			{
 				if (lockAxis == 'x' || lockAxis == 'X' || lockAxis == 0)
 				{
@@ -304,13 +323,18 @@ void LayerManager::lockAll(const char& lockAxis)
 				{
 					layers[i]->setScrollLock(2, 1);
 				}
+				else
+				{
+					BOOST_LOG_SEV(layerManagerLogger, ERROR) << indLayer << " does not correspond to a locking axis -- locking failed";
+					break;
+				}
 			}
 		}
 	}
 
 }
 
-void LayerManager::unlockAll(const char& lockAxis)
+void LayerManager::unlockAll(const char& lockAxis)	//very similar to lockAll
 {
 	if (dependentScrollLocking)
 	{
@@ -325,6 +349,11 @@ void LayerManager::unlockAll(const char& lockAxis)
 				else if (lockAxis == 'y' || lockAxis == 'Y' || lockAxis == 1)
 				{
 					layers[i]->setScrollLock(1, 1);
+				}
+				else
+				{
+					BOOST_LOG_SEV(layerManagerLogger, ERROR) << indLayer << " does not correspond to a locking axis -- locking failed";
+					break;
 				}
 			}
 		}

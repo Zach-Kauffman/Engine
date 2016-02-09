@@ -21,12 +21,12 @@ Layer::~Layer()
 void Layer::create()					//sets up the Layer -- only call after corners are set
 {
 
-	if (!renderTex.create(boundBRCorner.x - boundTLCorner.x, boundBRCorner.y - boundTLCorner.x))		//creates the renderTexture
+	if (!renderTexture.create(boundBRCorner.x - boundTLCorner.x, boundBRCorner.y - boundTLCorner.x))		//creates the renderTexture
 	{
 
 	}
 
-	renderTex.clear(sf::Color(0, 0, 0, 0));																//clears it with transparency
+	renderTexture.clear(sf::Color(0, 0, 0, 0));															//clears it with transparency
 	
 	view.setSize(boundBRCorner.x - boundTLCorner.x, boundBRCorner.y - boundTLCorner.x);					//seup the view
 	view.setCenter((boundBRCorner.x + boundTLCorner.x) / 2, (boundBRCorner.y + boundTLCorner.y) / 2);
