@@ -1,22 +1,26 @@
 <map>
-	<object>
-		<type>TestObject</type>
-		<position x="300" y="500"></position>
-		<texture>ModernArtOne</texture>
-	</object>
-	<object>
-		<type>TestObject</type>
-		<position x="600" y="200"></position>
-		<texture>KittyKitty</texture>
-	</object>
-	<object>
-		<type>TestObject</type>
-		<position x="200" y="600"></position>
-		<texture>pluto</texture>
-	</object>
-	<object>
-		<type>TestObject</type>
-		<position x="600" y="800"></position>
-		<texture>ModernArtTwo</texture>
-	</object>
+	<layer z="0">
+		<object>
+			<type>TestObject</type>
+			<position x="300" y="500"></position>
+			<texture>ModernArtOne</texture>
+		</object>
+		<object>
+			<type>TestObject</type>
+			<position x="600" y="200"></position>
+			<texture>KittyKitty</texture>
+		</object>
+	</layer>
+	<layer z="1">
+		<object>
+			<type>TestObject</type>
+			<position x="200" y="600"></position>
+			<texture>pluto</texture>
+		</object>
+		<object>
+			<type>TestObject</type>
+			<position x="600" y="800"></position>
+			<texture>ModernArtTwo</texture>
+		</object>
+	</layer>
 </map>
