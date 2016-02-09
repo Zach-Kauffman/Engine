@@ -122,30 +122,33 @@ void Game::loadMap()
 
 	groupTree.trees["map"];
 	groupTree.tags["layer"];
-	groupTree.trees["map"].trees["object"];
+	groupTree.trees["map"].trees[""];
 	groupTree.trees["map"].tags["object"];
+
 
 	parser.getSubTree(groupTree);
 
 	auto& layers = groupTree.output;
-	auto& objects = groupTree.output[0][0].get_child("object");
+	auto& objects = groupTree.trees["map"].output;
 
-	for (unsigned int i = 0; i < layers[0].size(); i++)	//for each layer
+	for (unsigned int layIt = 0; layIt < layers[0].size(); layIt++)	//for each layer
 	{
 		//reading layer data
 		std::string layerNumber = "1";	//default is 1
-		parser.readValue<std::string>("<xmlattr>.z", layerNumber, layers[0][i]);
+		parser.readValue<std::string>("<xmlattr>.z", layerNumber, layers[0][layIt]);
 
-		//xmlTree<boost::property_tree::ptree> objectTree;
-		//for (unsigned int objectIt = 0; objectIt < objects.size(); objectIt++)
-		//{
+		for (int objIt = 0; objIt < objects[layIt].size(); objIt++)		//for every object
+		{
+			//making a new object
 			std::string type = "";
-			parser.readValue<std::string>("type", type, objects);	//read type from tree
+			parser.readValue<std::string>("type", type, objects[layIt][objIt]);	//read type from tree
 			auto tmp = objMan.getPrototype(type);						//make object of that type
-			tmp->load(objects, recMan);
+			tmp->load(objects[layIt][objIt], recMan);
 			tmp->setID(objMan.nextID());
 			objMan.addObject(tmp, "Layers.Layer" + layerNumber);
-		//}*/
+		}
+
+
 	}
 
 	numLayers = layers[0].size();
@@ -153,11 +156,12 @@ void Game::loadMap()
 	//setting up the layer manager
 	layMan.setDefaultSize((sf::Vector2f)windowPtr->getSize());	//size of the viewport
 
-	for (int i = 1; i <= numLayers; i++)
+	for (int i = 1; i <= numLayers; i++)							//adding layers
 	{
 		layMan.addLayer();											//creates a single layer
 		layMan.setScrollSpeeds(sf::Vector2f(1/i, 1/i), i-1);		//decreasing movement ratio the further the layer
 	}
+
 	layMan.updateWindowSize(windowPtr.get()->getSize());		//umm idk?
 	tmpCenter = sf::Vector2f(500, 500);							//starting point of reference
 	layMan.setReferencePoint(tmpCenter);						//make sure the layers reference the point

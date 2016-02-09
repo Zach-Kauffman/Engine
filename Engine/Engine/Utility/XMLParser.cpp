@@ -66,13 +66,13 @@ void XMLParser::getSubTree(xmlTree<boost::property_tree::ptree>& data, boost::pr
 		for (tagIt = data.tags.begin(); tagIt != data.tags.end(); tagIt++)
 		{
 			std::vector<boost::property_tree::ptree> output;
-			BOOST_FOREACH(boost::property_tree::ptree::value_type &v, subTree.get_child(treeIt->first))
+			BOOST_FOREACH(boost::property_tree::ptree::value_type &v, currentTree.get_child(treeIt->first))
 			{
-				//if (v.first == tagIt->first)	//if the name of the child found is what its supposed to be
-				//{
+				if (v.first == tagIt->first)	//if the name of the child found is what its supposed to be
+				{
 					output.push_back(v.second);
 					getSubTree(treeIt->second, v.second);
-				//}
+				}
 
 			}
 			data.output.push_back(output);
