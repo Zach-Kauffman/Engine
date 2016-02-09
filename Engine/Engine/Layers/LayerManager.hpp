@@ -21,8 +21,6 @@ public:
 	~LayerManager();									//nothing in destructor
 
 
-	//void updateWindowSize(const sf::Vector2u size);						//updates dimensions of
-
 	void createLayers();								//creates all the layers -- must call after corners are set
 
 

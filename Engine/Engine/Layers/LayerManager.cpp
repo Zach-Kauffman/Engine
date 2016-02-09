@@ -39,13 +39,6 @@ LayerManager::~LayerManager()										//empty
 }
 
 
-//void LayerManager::updateWindowSize(const sf::Vector2u size)
-//{
-//	for (unsigned int i = 0; i < layers.size(); i++)
-//	{
-//		setCorners(sf::Vector2f(0, 0), sf::Vector2f((float)size.x, (float)size.y), i);
-//	}
-//}
 
 void  LayerManager::createLayers()									//creates all layers -- must call sometime
 {
@@ -65,7 +58,7 @@ void LayerManager::addLayer()										//adds an empty layer
 }
 
 
-void LayerManager::setLayerAmount(const unsigned int& amt)					//sets the layer amount -- can't remove layers yet
+void LayerManager::setLayerAmount(const unsigned int& amt)			//sets the layer amount -- can't remove layers yet
 {
 	const unsigned int sizdif = amt - layers.size();				//size difference in desired amount and layersSize 
 
