@@ -168,11 +168,19 @@ void Game::loadMap()
 	auto& layers = groupTree.output;
 	auto& objects = groupTree.trees["map"].output;
 
+	layMan.setLayerAmount(layers[0].size());
+	numLayers = layMan.getLayerAmount();
+
 	for (unsigned int layIt = 0; layIt < layers[0].size(); layIt++)	//for each layer
 	{
 		//reading layer data
 		std::string layerNumber = "1";	//default is 1
 		parser.readValue<std::string>("<xmlattr>.z", layerNumber, layers[0][layIt]);
+
+		sf::Vector2f scrollSpeed = sf::Vector2f(0, 0);
+		parser.readValue<float>("<xmlattr>.scrollx", scrollSpeed.x, layers[0][layIt]);
+		parser.readValue<float>("<xmlattr>.scrolly", scrollSpeed.y, layers[0][layIt]);
+		layMan.setScrollSpeed(scrollSpeed, layIt);
 
 		for (int objIt = 0; objIt < objects[layIt].size(); objIt++)		//for every object
 		{
@@ -191,8 +199,8 @@ void Game::loadMap()
 
 	//setting up the layer manager
 //	layMan.setDefaultSize((sf::Vector2f)windowPtr->getSize());	//size of the viewport
-	layMan.setLayerAmount(3);
-	layMan.setScrollSpeed({ sf::Vector2f(1, 1), sf::Vector2f(.4, .7), sf::Vector2f(.1, .1) });			//this layer should scroll at the same speed as movement		
+
+//	layMan.setScrollSpeed({ sf::Vector2f(1, 1), sf::Vector2f(.4, .7), sf::Vector2f(.1, .1) });			//this layer should scroll at the same speed as movement		
 //	layMan.updateWindowSize(windowPtr.get()->getSize());		//umm idk?
 
 	tmpCenter = sf::Vector2f(500, 500);							//starting point of reference
@@ -201,9 +209,9 @@ void Game::loadMap()
 	util::Downcaster<objects::Object> tmpDC;
 	layMan.setReferencePoint(*(tmpDC.downcastMTO(objMan.getObject("Layers.Layer0.1"))->getPositionPtr()));						//make sure the layers reference the point
 	//layMan.setReferencePoint(tmpCenter);
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < numLayers; i++)
 	{
-		layMan.setScrollBounds({ 0, 0, 4000, 4000 }, i);
+		layMan.setScrollBounds({ 0, 0, 8000, 8000 }, i);
 		layMan.setCorners(sf::Vector2f(0, 0), (sf::Vector2f)windowPtr->getSize(), i);
 		layMan.getLayerPtr(i)->setScrollBoundedness(true);
 	}
@@ -211,7 +219,7 @@ void Game::loadMap()
 	layMan.createLayers();
 	layMan.setDependentLocking(true, 0);
 
-	numLayers = layMan.getLayerAmount();
+	
 	
 }
 
