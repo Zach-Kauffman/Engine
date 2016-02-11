@@ -33,7 +33,9 @@ void ObjectGroup::addObject(boost::shared_ptr<Object>& newObject, const std::str
 		{
 			if (group->nameMapVector[0].find(pathVec[i]) != group->nameMapVector[0].end())	//if the group allready exists
 			{
-				group = getObjectGroup(pathVec[i]);
+
+				group = group->getObjectGroup(pathVec[i]);
+
 			}
 			else
 			{
@@ -41,7 +43,7 @@ void ObjectGroup::addObject(boost::shared_ptr<Object>& newObject, const std::str
 				group = group->getObjectGroup(pathVec[i]);
 			}
 		}
-		group = getObjectGroup(path);	//get the object group from the path just verified/created 
+		//group = getObjectGroup(path);	//get the object group from the path just verified/created 
 	}
 	else
 	{
@@ -120,13 +122,12 @@ boost::shared_ptr<Object> ObjectGroup::getObject(const int& ID)	//quick binary s
 	{
 		BOOST_LOG_SEV(*groupLogger, ERROR) << "Object with ID = " << ID << " not found in group.";
 	}
-
 }
 
 void ObjectGroup::addObjectGroup(const ObjectGroup& newGroup, const std::string& name)
 {
 	groups.push_back(newGroup);
-	addName(name, 1, groups.size() - 1);
+	addName(name, 0, groups.size() - 1);
 }
 
 void ObjectGroup::addObjectGroup(const std::string& name)
@@ -156,6 +157,7 @@ void ObjectGroup::deleteObjectGroup(const std::string& path)
 ObjectGroup* ObjectGroup::getObjectGroup(const std::vector<std::string>& pathVec)
 {
 	ObjectGroup* tmpGroup = this;
+
 	for (int i = 0; i < pathVec.size(); i++)	//increments until second-to-last spot since the ID is the last
 	{
 		tmpGroup = &(tmpGroup->groups[tmpGroup->ntoi(pathVec[i])]);	//requests next object group by name and assigns it to temp object

@@ -29,7 +29,9 @@ namespace objects
 
 		//base virtual functions
 		virtual void draw(Layer& renderTarget) = 0;		//renders object to given sf::RenderTexture&
-		virtual void update() = 0;
+
+		virtual void update(std::vector<int>& keys) = 0;
+
 
 		virtual void load(boost::property_tree::ptree& dataTree, ResourceManager&) = 0;	//defined in children to load from (INI?) file
 		virtual void write() = 0;	//defined in children to write to (INI?) file
