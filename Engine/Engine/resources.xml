@@ -20,4 +20,8 @@
 		<path>Resources/TestResources/download.jpg</path>
 		<name>pluto</name>
 	</resource>
+	<resource>
+		<path>Resources/TestResources/potato.png</path>
+		<name>potato</name>
+	</resource>
 </resources>
