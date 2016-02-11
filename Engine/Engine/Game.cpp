@@ -34,13 +34,42 @@ void Game::begin()
 {
 	//sfml main loop
 	sf::RenderWindow& window = *windowPtr;
+	window.setKeyRepeatEnabled(false);		//makes it so when a key is hit, only one event is recorded, not nine, or whatever -- ignores holding keys
 	while (window.isOpen())
 	{
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
 			if (event.type == sf::Event::Closed)
+			{
 				window.close();
+			}
+
+			if (event.type == sf::Event::KeyPressed)
+			{
+				for (int i = 0; i < sf::Keyboard::KeyCount; i++)			//KeyCount is the number of Keys; this is intended to check every key
+				{
+					if (event.key.code == (sf::Keyboard::Key)(i))			//trying to typecast int i as a Key enum 
+					{
+						keys.push_back(i);									//add the pressed key index to the keys vector
+				
+					}
+				}
+			}
+			if (event.type == sf::Event::KeyReleased)
+			{
+				for (int i = 0; i < sf::Keyboard::KeyCount; i++)
+				{
+					if (event.key.code == (sf::Keyboard::Key)(i))
+					{
+						keys.erase( remove( keys.begin(), keys.end(), i ), keys.end() );	//removes all released keys from the keys vector
+				
+					}
+				}
+			}
+			
+
+
 		}
 
 		window.clear();
@@ -50,6 +79,8 @@ void Game::begin()
 
 		window.display();
 	}
+
+
 }
 
 
@@ -57,18 +88,23 @@ void Game::begin()
 
 void Game::draw()
 {
+	numLayers = layMan.getLayerAmount();
+
 	for (int i = 0; i < numLayers; i++)	//draw objects to all layers
 	{
-		boost::function<void(objects::Object&)> draw = boost::bind(&objects::Object::draw, _1, boost::ref(*layMan.getLayerPointer(i)));
+		boost::function<void(objects::Object&)> draw = boost::bind(&objects::Object::draw, _1, boost::ref(*layMan.getLayerPtr(i)));
 		objMan.callFunction<boost::function<void(objects::Object&)> >("Layers.Layer" + boost::lexical_cast<std::string>(i), draw);
 	}
 	
 	layMan.draw(*windowPtr.get());	//actually draw layers to window
+
 }
 
 void Game::update()
 {
 	
+	objMan.getObject("Layers.Layer0.1")->update(keys);
+
 	//for each layer
 		//get draw bounds for layer
 		//remove out of bound objects
@@ -112,6 +148,7 @@ void Game::loadResources()
 void Game::loadObjects()
 {
 	objMan.addPrototype<objects::TestObject>("TestObject");
+	objMan.addPrototype<objects::MovingTestObject>("MovingTestObject");
 }
 
 void Game::loadMap()
@@ -151,21 +188,31 @@ void Game::loadMap()
 
 	}
 
-	numLayers = layers[0].size();
 
 	//setting up the layer manager
-	layMan.setDefaultSize((sf::Vector2f)windowPtr->getSize());	//size of the viewport
+//	layMan.setDefaultSize((sf::Vector2f)windowPtr->getSize());	//size of the viewport
+	layMan.setLayerAmount(3);
+	layMan.setScrollSpeed({ sf::Vector2f(1, 1), sf::Vector2f(.4, .7), sf::Vector2f(.1, .1) });			//this layer should scroll at the same speed as movement		
+//	layMan.updateWindowSize(windowPtr.get()->getSize());		//umm idk?
 
-	for (int i = 1; i <= numLayers; i++)							//adding layers
-	{
-		layMan.addLayer();											//creates a single layer
-		layMan.setScrollSpeeds(sf::Vector2f(1/i, 1/i), i-1);		//decreasing movement ratio the further the layer
-	}
-
-	layMan.updateWindowSize(windowPtr.get()->getSize());		//umm idk?
 	tmpCenter = sf::Vector2f(500, 500);							//starting point of reference
-	layMan.setReferencePoint(tmpCenter);						//make sure the layers reference the point
 
+
+	util::Downcaster<objects::Object> tmpDC;
+	layMan.setReferencePoint(*(tmpDC.downcastMTO(objMan.getObject("Layers.Layer0.1"))->getPositionPtr()));						//make sure the layers reference the point
+	//layMan.setReferencePoint(tmpCenter);
+	for (int i = 0; i < 3; i++)
+	{
+		layMan.setScrollBounds({ 0, 0, 4000, 4000 }, i);
+		layMan.setCorners(sf::Vector2f(0, 0), (sf::Vector2f)windowPtr->getSize(), i);
+		layMan.getLayerPtr(i)->setScrollBoundedness(true);
+	}
+	
+	layMan.createLayers();
+	layMan.setDependentLocking(true, 0);
+
+	numLayers = layMan.getLayerAmount();
+	
 }
 
 

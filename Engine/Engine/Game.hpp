@@ -33,7 +33,6 @@ private:
 
 	void draw();			//renders drawables to screen
 	void update();			//calculates physics, item interactions, etc
-
 	void loadGameConfig(const std::string& configFile);	//loads basic game settings
 	void loadResources();	//loads all textures, shaders, etc
 	void loadObjects();		//initializes object base types
@@ -59,7 +58,11 @@ private:
 
 	sf::Vector2f tmpCenter;
 
+
 	int numLayers;
+
+
+	std::vector<int> keys;
 
 	
 };
