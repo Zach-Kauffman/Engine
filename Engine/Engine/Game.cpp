@@ -88,6 +88,8 @@ void Game::begin()
 
 void Game::draw()
 {
+	layMan.setupDraw();										//need to setup draw before objects are drawn
+
 	const unsigned int layerAMT = layMan.getLayerAmount();
 
 	boost::function<void(objects::Object&)> draw;
