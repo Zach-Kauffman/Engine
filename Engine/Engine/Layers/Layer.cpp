@@ -6,6 +6,7 @@
 Layer::Layer()
 {
 	scrollBounded = false;				//by default, scrollBoundedness is false
+
 	scrollSpeed = sf::Vector2f(1, 1);	//The scrollspeed is by default (1,1). This means that the layer will scroll at the same speed as the reference point's movement
 	scrollLockX = Lockless;				//both scrollLocks are lockless
 	scrollLockY = Lockless;

@@ -38,6 +38,14 @@ LayerManager::~LayerManager()										//empty
 
 }
 
+void LayerManager::updateWindowSize(const sf::Vector2u size)
+{
+	std::vector<const double> bounds = { 0, 0, (double)size.x, (double)size.y };
+	for (unsigned int i = 0; i < layers.size(); i++)
+	{
+		setScrollBounds(bounds, i);
+	}
+}
 
 
 void  LayerManager::createLayers()									//creates all layers -- must call sometime
@@ -47,8 +55,6 @@ void  LayerManager::createLayers()									//creates all layers -- must call som
 		layers[i]->create();
 	}
 }
-
-
 
 
 void LayerManager::addLayer()										//adds an empty layer
@@ -171,6 +177,7 @@ void LayerManager::setReferencePoint(sf::Vector2f& refPoint)
 
 void  LayerManager::setupDraw()										//pieces of draw that function better if called before objects are drawn to layers
 {
+
 	sf::Vector2f distance = *referencePoint - oldReferencePointValue;	//distance from the reference point to where it used to be
 
 	for (unsigned int i = 0; i < layers.size(); i++)

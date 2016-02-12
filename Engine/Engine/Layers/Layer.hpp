@@ -81,6 +81,7 @@ private:
 
 	bool scrollBounded;									//true if the layer has active scrolling bounds.
 
+
 	bool trackLocking;									//true if the layer is independent -- then we care about it's self-identified scroll locks (as opposed to ones we imposed on it)
 
 	//sf::Vector2f scrollTracker;						//keeps track of the scrolling
@@ -90,6 +91,7 @@ private:
 
 	sf::Vector2f boundTLCorner;							//The top left corner, bounded by the scroll bounds
 	sf::Vector2f boundBRCorner;							//the bottom right corner, bounded
+
 
 	sf::Vector2f trackTLCorner;							//the TL corner if it had ignored all scrollbounds
 	sf::Vector2f trackBRCorner;							//BR corner agnostic of scrollbounds

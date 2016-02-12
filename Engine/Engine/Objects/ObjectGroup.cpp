@@ -33,7 +33,9 @@ void ObjectGroup::addObject(boost::shared_ptr<Object>& newObject, const std::str
 		{
 			if (group->nameMapVector[0].find(pathVec[i]) != group->nameMapVector[0].end())	//if the group allready exists
 			{
+
 				group = group->getObjectGroup(pathVec[i]);
+
 			}
 			else
 			{
@@ -155,10 +157,10 @@ void ObjectGroup::deleteObjectGroup(const std::string& path)
 ObjectGroup* ObjectGroup::getObjectGroup(const std::vector<std::string>& pathVec)
 {
 	ObjectGroup* tmpGroup = this;
-	for (int i = 0; i < pathVec.size(); i++)	//increments until last spot
+
+	for (int i = 0; i < pathVec.size(); i++)	//increments until second-to-last spot since the ID is the last
 	{
-		int tmpindex = tmpGroup->ntoi(pathVec[i]);
-		tmpGroup = &(tmpGroup->groups[tmpindex]);	//requests next object group by name and assigns it to temp object
+		tmpGroup = &(tmpGroup->groups[tmpGroup->ntoi(pathVec[i])]);	//requests next object group by name and assigns it to temp object
 	}
 
 	return tmpGroup;

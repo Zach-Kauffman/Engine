@@ -56,8 +56,8 @@ namespace objects
 		template <class T>
 		void callFunction(const std::string& group, T fxn)	//overload which finds correct objectgroup then call callFunctin(fxn)
 		{
-			ObjectGroup* tmpgrp = getObjectGroup(group);
-			tmpgrp->callFunction(fxn);
+			getObjectGroup(group)->callFunction(fxn);
+
 		}
 
 		template<class T>

@@ -58,6 +58,11 @@ private:
 
 	sf::Vector2f tmpCenter;
 
+
+	int numLayers;
+
+
 	std::vector<int> keys;
+
 	
 };

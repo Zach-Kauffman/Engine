@@ -26,6 +26,7 @@ namespace objects
 		~TestObject();
 
 		void draw(Layer& renderTarget);
+
 		void update(std::vector<int>& keys);
 
 		void load(boost::property_tree::ptree& dataTree, ResourceManager& resources);	//loads instances object properties based on subtree
@@ -39,5 +40,6 @@ namespace objects
 		sf::VertexArray texCoords;
 
 		sf::Vector2f position;
+		sf::Vector2f size;
 	};
 }
