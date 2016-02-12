@@ -2,26 +2,42 @@
 <resources>
 	<resource>
 		<path>Resources/TestResources/ModernArtBlue.png</path>
-		<name>ModernArtOne</name>
+		<name>ModernArt</name>
 	</resource>
 		<resource>
 		<path>Resources/TestResources/KittyKitty.png</path>
 		<name>KittyKitty</name>
 	</resources>
 	<resource>
-		<path>Resources/TestResources/ModernArtBlue.png</path>
-		<name>ModernArtTwo</name>
+		<path>Resources/TestResources/potato.png</path>
+		<name>potato</name>
 	</resource>
 	<resource>
-		<path>Resources/TestResources/ModernArtBlue.png</path>
-		<name>ModernArtThree</name>
+		<path>Resources/TestResources/acorn.png</path>
+		<name>acorn</name>
 	</resource>
 	<resource>
-		<path>Resources/TestResources/download.jpg</path>
-		<name>pluto</name>
+		<path>Resources/TestResources/sky.png</path>
+		<name>sky</name>
 	</resource>
-		<resource>
+	<resource>
+		<path>Resources/TestResources/squirrel.png</path>
+		<name>squirrel</name>
+	</resource>
+	<resource>
+		<path>Resources/TestResources/grass.png</path>
+		<name>grass</name>
+	</resource>
+	<resource>
 		<path>Resources/TestResources/ArrowCross.png</path>
 		<name>ArrowCross</name>
+	</resource>
+	<resource>
+		<path>Resources/TestResources/darksky.png</path>
+		<name>darksky</name>
+	</resource>
+		<resource>
+		<path>Resources/TestResources/moon.png</path>
+		<name>moon</name>
 	</resource>
 </resources>

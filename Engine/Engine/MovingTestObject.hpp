@@ -44,5 +44,7 @@ namespace objects
 		sf::VertexArray texCoords;
 
 		sf::Vector2f position;
+
+		double counter = 0;
 	};
 }

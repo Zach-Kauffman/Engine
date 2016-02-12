@@ -13,21 +13,29 @@ void MovingTestObject::draw(Layer& renderTarget)
 
 void MovingTestObject::update(std::vector<int>& fkeyVec)
 {
+	//counter++;
+	const float movement = 1;
+	/*if (counter > 1 && counter < 10)
+	{
+		move(movement);
+	}*/
+	
+
 	if(std::find(fkeyVec.begin(), fkeyVec.end(), sf::Keyboard::Up) != fkeyVec.end()) 
 	{
-		move(0, -1);
+		move(0, -movement);
 	}
 	if(std::find(fkeyVec.begin(), fkeyVec.end(), sf::Keyboard::Down) != fkeyVec.end()) 
 	{
-		move(0, 1);
+		move(0, movement);
 	}
 	if(std::find(fkeyVec.begin(), fkeyVec.end(), sf::Keyboard::Left) != fkeyVec.end()) 
 	{
-		move(-1, 0);
+		move(-movement, 0);
 	}
 	if(std::find(fkeyVec.begin(), fkeyVec.end(), sf::Keyboard::Right) != fkeyVec.end()) 
 	{
-		move(1, 0);
+		move(movement, 0);
 	}
 }
 

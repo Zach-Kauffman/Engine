@@ -20,6 +20,8 @@ public:
 
 	~LayerManager();									//nothing in destructor
 
+	void setDefaultSize(const sf::Vector2f& s);			//sets new default size for window !!!!needs to be loaded from xml!!!
+	void updateWindowSize(const sf::Vector2u size);						//updates dimensions of
 
 	void createLayers();								//creates all the layers -- must call after corners are set
 
@@ -68,6 +70,7 @@ public:
 														//make the layers' scroll-locking dependent on a specific layer
 
 
+	void setupDraw();									//setup a draw before objects are drawn each frame
 
 	void draw(sf::RenderWindow& window);				//draws all of the layers
 
@@ -114,6 +117,5 @@ private:
 
 	src::severity_logger<severity_level> layerManagerLogger;	//the logger for layerManager
 
-	
 };
 

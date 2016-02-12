@@ -7,6 +7,7 @@
 #include "../TestObject.hpp"
 #include "../MovingTestObject.hpp"
 
+
 //^^^ those should be combined into group include files ie "Objects.hpp" or this will get annoying
 
 namespace util	//this is a utility class

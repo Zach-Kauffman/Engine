@@ -88,25 +88,26 @@ void Game::begin()
 
 void Game::draw()
 {
-	const unsigned int layerAMT = layMan.getLayerAmount();
 
-	boost::function<void(objects::Object&)> draw;
+	layMan.setupDraw();										//need to setup draw before objects are drawn
 
-	for (unsigned int i = 0; i < layerAMT; i++)
+
+	numLayers = layMan.getLayerAmount();
+
+	for (int i = 0; i < numLayers; i++)	//draw objects to all layers
 	{
-		draw = boost::bind(&objects::Object::draw, _1, boost::ref(*(layMan.getLayerPtr(i))));
-		objMan.callFunction<boost::function<void(objects::Object&)> >("Layers.Layer" + boost::lexical_cast<std::string>(i + 1), draw);
+		boost::function<void(objects::Object&)> draw = boost::bind(&objects::Object::draw, _1, boost::ref(*layMan.getLayerPtr(i)));
+		objMan.callFunction<boost::function<void(objects::Object&)> >("Layers.Layer" + boost::lexical_cast<std::string>(i), draw);
 	}
+	
+	layMan.draw(*windowPtr.get());	//actually draw layers to window
 
-	//objMan.getObject("Layers.Layer1.1").get()->draw(*layMan.getLayerPointer(0));
-	//objMan.getObject("Layers.Layer1.2").get()->draw(*layMan.getLayerPointer(0));
-	layMan.draw(*windowPtr.get());
 }
 
 void Game::update()
 {
-	//tmpCenter.y += 1;
-	objMan.getObject("Layers.Layer1.5")->update(keys);
+	
+	objMan.getObject("Layers.Layer0.1")->update(keys);
 
 	//for each layer
 		//get draw bounds for layer
@@ -158,75 +159,63 @@ void Game::loadMap()
 {
 	XMLParser parser(mapFile);
 
-	/*
-	xmlTree<std::string> groupTree;
-	groupTree.branch("map");
-
-	auto& tags = groupTree.trees["map"].tags;
-	tags["type"] = "";							//setting individual attributes to load from xml file
-	tags["position.<xmlattr>.x"] = "";
-	tags["position.<xmlattr>.y"] = "";
-	tags["texture"] = "";
-
-	parser.readTree<std::string>(groupTree);
-	auto& output = groupTree.trees["map"].output;
-
-	//blech hardcoded for now
-	std::string type = output[0][3];
-	std::string x = output[0][0];
-	std::string y = output[0][1];
-	std::string tex = output[0][2];
-
-	auto tmp = objMan.getPrototype(type);
-	tmp.get()->load(tex, boost::lexical_cast<int, std::string>(x), boost::lexical_cast<int, std::string>(y), recMan);
-	tmp.get()->setID(objMan.nextID());
-	objMan.addObject(tmp, "Layers.Layer1");
-	*/
-
 	xmlTree<boost::property_tree::ptree> groupTree;
-	groupTree.branch("map");
+
+	groupTree.trees["map"];
+	groupTree.tags["layer"];
+	groupTree.trees["map"].trees[""];
+	groupTree.trees["map"].tags["object"];
+
 
 	parser.getSubTree(groupTree);
 
-	auto& output = groupTree.output;
+	auto& layers = groupTree.output;
+	auto& objects = groupTree.trees["map"].output;
 
-	for (unsigned int i = 0; i < output[0].size(); i++)
+	layMan.setLayerAmount(layers[0].size());
+	numLayers = layMan.getLayerAmount();
+
+	for (unsigned int layIt = 0; layIt < layers[0].size(); layIt++)	//for each layer
 	{
-		std::string type = "";
-		parser.readValue<std::string>("type", type, output[0][i]);	//read type from tree
-		auto tmp = objMan.getPrototype(type);						//make object of that type
-		tmp->load(output[0][i], recMan);
-		tmp->setID(objMan.nextID());
-		if (i == 1)
+		//reading layer data
+		std::string layerNumber = "1";	//default is 1
+		parser.readValue<std::string>("<xmlattr>.z", layerNumber, layers[0][layIt]);
+
+		sf::Vector2f scrollSpeed = sf::Vector2f(0, 0);
+		parser.readValue<float>("<xmlattr>.scrollx", scrollSpeed.x, layers[0][layIt]);
+		parser.readValue<float>("<xmlattr>.scrolly", scrollSpeed.y, layers[0][layIt]);
+		layMan.setScrollSpeed(scrollSpeed, layIt);
+
+		for (int objIt = 0; objIt < objects[layIt].size(); objIt++)		//for every object
 		{
-			objMan.addObject(tmp, "Layers.Layer2");
+			//making a new object
+			std::string type = "";
+			parser.readValue<std::string>("type", type, objects[layIt][objIt]);	//read type from tree
+			auto tmp = objMan.getPrototype(type);						//make object of that type
+			tmp->load(objects[layIt][objIt], recMan);
+			tmp->setID(objMan.nextID());
+			objMan.addObject(tmp, "Layers.Layer" + layerNumber);
 		}
-		else if (i == 2)
-		{
-			objMan.addObject(tmp, "Layers.Layer3");
-		}
-		else
-		{
-			objMan.addObject(tmp, "Layers.Layer1");
-		}
-		
+
+
 	}
+
 
 	//setting up the layer manager
 //	layMan.setDefaultSize((sf::Vector2f)windowPtr->getSize());	//size of the viewport
-	layMan.setLayerAmount(3);
-	layMan.setScrollSpeed({ sf::Vector2f(1, 1), sf::Vector2f(.4, .7), sf::Vector2f(.1, .1) });			//this layer should scroll at the same speed as movement		
+
+//	layMan.setScrollSpeed({ sf::Vector2f(1, 1), sf::Vector2f(.4, .7), sf::Vector2f(.1, .1) });			//this layer should scroll at the same speed as movement		
 //	layMan.updateWindowSize(windowPtr.get()->getSize());		//umm idk?
 
 	tmpCenter = sf::Vector2f(500, 500);							//starting point of reference
 
 
 	util::Downcaster<objects::Object> tmpDC;
-	layMan.setReferencePoint(*(tmpDC.downcastMTO(objMan.getObject("Layers.Layer1.5"))->getPositionPtr()));						//make sure the layers reference the point
+	layMan.setReferencePoint(*(tmpDC.downcastMTO(objMan.getObject("Layers.Layer0.1"))->getPositionPtr()));						//make sure the layers reference the point
 	//layMan.setReferencePoint(tmpCenter);
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < numLayers; i++)
 	{
-		layMan.setScrollBounds({ 0, 0, 4000, 4000 }, i);
+		layMan.setScrollBounds({ 0, 0, 8000, 8000 }, i);
 		layMan.setCorners(sf::Vector2f(0, 0), (sf::Vector2f)windowPtr->getSize(), i);
 		layMan.getLayerPtr(i)->setScrollBoundedness(true);
 	}
@@ -234,6 +223,7 @@ void Game::loadMap()
 	layMan.createLayers();
 	layMan.setDependentLocking(true, 0);
 
+	
 	
 }
 
