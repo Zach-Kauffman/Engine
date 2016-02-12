@@ -29,7 +29,7 @@
 			<texture>KittyKitty</texture>
 		</object>
 	</layer>
-	<layer z="3" scrollx="0" scrolly="0">
+	<layer z="3" scrollx=".05" scrolly=".05">
 		<object>
 			<type>TestObject</type>
 			<position x="960" y="540"></position>

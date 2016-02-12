@@ -40,4 +40,9 @@
 		<path>Resources/TestResources/moon.png</path>
 		<name>moon</name>
 	</resource>
+		</resource>
+		<resource>
+		<path>Resources/TestResources/EasterEgg.png</path>
+		<name>egg</name>
+	</resource>
 </resources>
