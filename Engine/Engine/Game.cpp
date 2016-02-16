@@ -102,13 +102,28 @@ void Game::draw()
 
 void Game::update()
 {
-	
+	doChunks();
 	objMan.getObject("Layers.Layer0.1")->update(keys);
 
 	//for each layer
 		//get draw bounds for layer
 		//remove out of bound objects
 		//add new in-bound objects
+}
+
+void Game::doChunks()
+{
+	for (unsigned int layIt = 0; layIt < numLayers; layIt++)	//for each layer
+	{
+		//reading layer data
+		sf::Vector2f TLC = layMan.getLayerPtr(layIt)->getWindowCorners().first;
+		sf::Vector2f BRC = layMan.getLayerPtr(layIt)->getWindowCorners().second;
+
+		TLC = sf::Vector2f(std::floor(TLC.x/chunkSize.x), std::floor(TLC.y/chunkSize.y));
+		BRC = sf::Vector2f(std::ceil(BRC.x / chunkSize.x), std::ceil(BRC.y / chunkSize.y));
+
+
+	}
 }
 
 void Game::loadGameConfig(const std::string& configFile)
@@ -122,6 +137,12 @@ void Game::loadGameConfig(const std::string& configFile)
 	parser.readValue<std::string>("Window_Name", windowName);
 	parser.readValue<int>("Res_X", renderSize.x); parser.readValue<int>("Res_Y", renderSize.y);
 	parser.readValue<int>("FPS_Cap", maxFPS);
+
+	parser.readValue<int>("ChunkSize_X", chunkSize.x);
+	parser.readValue<int>("ChunkSize_Y", chunkSize.y);
+	if (!chunkSize.y || chunkSize.y == 0){ chunkSize.y = chunkSize.x; }
+
+	parser.setSection("Game_Options");
 
 }
 
@@ -155,18 +176,16 @@ void Game::loadMap()
 {
 	XMLParser parser(mapFile);
 
-	xmlTree<boost::property_tree::ptree> groupTree;
-
-	groupTree.trees["map"];
-	groupTree.tags["layer"];
-	groupTree.trees["map"].trees[""];
-	groupTree.trees["map"].tags["object"];
+	mapData.trees["map"];
+	mapData.tags["layer"];
+	mapData.trees["map"].trees[""];
+	mapData.trees["map"].tags["object"];
 
 
-	parser.getSubTree(groupTree);
+	parser.getSubTree(mapData);
 
-	auto& layers = groupTree.output;
-	auto& objects = groupTree.trees["map"].output;
+	auto& layers = mapData.output;
+	auto& objects = mapData.trees["map"].output;
 
 	layMan.setLayerAmount(layers[0].size());
 	numLayers = layMan.getLayerAmount();
@@ -174,13 +193,7 @@ void Game::loadMap()
 	for (unsigned int layIt = 0; layIt < layers[0].size(); layIt++)	//for each layer
 	{
 		//reading layer data
-		std::string layerNumber = "1";	//default is 1
-		parser.readValue<std::string>("<xmlattr>.z", layerNumber, layers[0][layIt]);
-
-		sf::Vector2f scrollSpeed = sf::Vector2f(0, 0);
-		parser.readValue<float>("<xmlattr>.scrollx", scrollSpeed.x, layers[0][layIt]);
-		parser.readValue<float>("<xmlattr>.scrolly", scrollSpeed.y, layers[0][layIt]);
-		layMan.setScrollSpeed(scrollSpeed, layIt);
+		
 
 		for (int objIt = 0; objIt < objects[layIt].size(); objIt++)		//for every object
 		{
@@ -190,7 +203,7 @@ void Game::loadMap()
 			auto tmp = objMan.getPrototype(type);						//make object of that type
 			tmp->load(objects[layIt][objIt], recMan);
 			tmp->setID(objMan.nextID());
-			objMan.addObject(tmp, "Layers.Layer" + layerNumber);
+			objMan.addObject(tmp, "Layers.Layer" + layIt);
 		}
 
 
@@ -198,10 +211,6 @@ void Game::loadMap()
 
 
 	//setting up the layer manager
-//	layMan.setDefaultSize((sf::Vector2f)windowPtr->getSize());	//size of the viewport
-
-//	layMan.setScrollSpeed({ sf::Vector2f(1, 1), sf::Vector2f(.4, .7), sf::Vector2f(.1, .1) });			//this layer should scroll at the same speed as movement		
-//	layMan.updateWindowSize(windowPtr.get()->getSize());		//umm idk?
 
 	tmpCenter = sf::Vector2f(500, 500);							//starting point of reference
 
@@ -211,9 +220,22 @@ void Game::loadMap()
 	//layMan.setReferencePoint(tmpCenter);
 	for (int i = 0; i < numLayers; i++)
 	{
-		layMan.setScrollBounds({ 0, 0, 8000, 8000 }, i);
+		std::string layerNumber = "1";	//default is 1
+		parser.readValue<std::string>("<xmlattr>.z", layerNumber, layers[0][numLayers]);
+
+		sf::Vector2f scrollSpeed = sf::Vector2f(0, 0);
+		parser.readValue<float>("<xmlattr>.scrollx", scrollSpeed.x, layers[0][numLayers]);
+		parser.readValue<float>("<xmlattr>.scrolly", scrollSpeed.y, layers[0][numLayers]);
+		layMan.setScrollSpeed(scrollSpeed, numLayers);
+
+		sf::Vector2f bounds = sf::Vector2f(0, 0);	//default to not moving
+		parser.readValue<float>("<xmlattr>.boundx", bounds.x, layers[0][numLayers]);
+		parser.readValue<float>("<xmlattr>.boundy", bounds.y, layers[0][numLayers]);
+
+		layMan.setScrollBounds({ 0, 0, bounds.x, bounds.y}, i);
 		layMan.setCorners(sf::Vector2f(0, 0), (sf::Vector2f)windowPtr->getSize(), i);
 		layMan.getLayerPtr(i)->setScrollBoundedness(true);
+
 	}
 	
 	layMan.createLayers();

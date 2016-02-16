@@ -33,6 +33,7 @@ private:
 
 	void draw();			//renders drawables to screen
 	void update();			//calculates physics, item interactions, etc
+	void doChunks();		//calculates chunks and deactivates uneeded objects
 	void loadGameConfig(const std::string& configFile);	//loads basic game settings
 	void loadResources();	//loads all textures, shaders, etc
 	void loadObjects();		//initializes object base types
@@ -55,10 +56,11 @@ private:
 	std::string windowName;		//name of the window
 	sf::Vector2i renderSize;	//resolution of game
 	int maxFPS;					//fps cap - 0 would mean uncapped
+	sf::Vector2i chunkSize;
 
 	sf::Vector2f tmpCenter;
 
-
+	xmlTree<boost::property_tree::ptree> mapData;
 	int numLayers;
 
 

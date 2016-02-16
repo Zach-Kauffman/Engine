@@ -54,7 +54,7 @@ public:
 	float getMinWindowY();
 	float getMaxWindowY();
 
-	std::pair<sf::Vector2f, sf::Vector2f> getWindowCorners();
+	std::pair<sf::Vector2f, sf::Vector2f> getWindowCorners();	//first is top left and second is bottom right
 
 
 
