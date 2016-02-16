@@ -6,6 +6,12 @@
 			<size x="0" y="0"></size>
 			<texture>squirrel</texture>
 		</object>
+		<object>
+			<type>TestObject</type>
+			<position x="500" y="700"></position>
+			<size x="0" y="0"></size>
+			<texture>squirrel</texture>
+		</object>
 	</layer>
 	<layer z="1" scrollx="1.4" scrolly="1.4">
 		<object>
@@ -41,6 +47,12 @@
 			<position x="400" y="400"></position>
 			<size x="0" y="0"></size>
 			<texture>moon</texture>
+		</object>
+		<object>
+			<type>TestObject</type>
+			<position x="669" y="420"></position>
+			<size x="0" y="0"></size>
+			<texture>egg</texture>
 		</object>
 
 	</layer>
