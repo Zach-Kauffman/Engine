@@ -13,6 +13,8 @@
   <ItemGroup>
     <ClInclude Include="Defines.hpp" />
     <ClInclude Include="Game.hpp" />
+    <ClInclude Include="Input\KeyboardData.hpp" />
+    <ClInclude Include="Input\MouseData.hpp" />
     <ClInclude Include="Layers\Layer.hpp" />
     <ClInclude Include="Layers\LayerManager.hpp" />
     <ClInclude Include="MovingTestObject.hpp" />
@@ -32,6 +34,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Input\KeyboardData.cpp" />
+    <ClCompile Include="Input\MouseData.cpp" />
     <ClCompile Include="Layers\Layer.cpp" />
     <ClCompile Include="Layers\LayerManager.cpp" />
     <ClCompile Include="Main.cpp" />

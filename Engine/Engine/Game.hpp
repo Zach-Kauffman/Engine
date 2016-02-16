@@ -20,6 +20,8 @@
 	#include "Utility\Logger.hpp"
 	#include "Utility\XMLParser.hpp"
 
+	#include "Input\KeyboardData.hpp"
+
 class Game
 {
 public:
@@ -62,7 +64,7 @@ private:
 	int numLayers;
 
 
-	std::vector<int> keys;
+	KeyboardData keyData;
 
 	
 };

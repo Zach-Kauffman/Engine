@@ -78,6 +78,12 @@
     <ClInclude Include="MovingTestObject.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Input\KeyboardData.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Input\MouseData.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Utility\Downcast.cpp">
@@ -126,6 +132,12 @@
       <Filter>Utility</Filter>
     </ClCompile>
     <ClCompile Include="MovingTestObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\KeyboardData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\MouseData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

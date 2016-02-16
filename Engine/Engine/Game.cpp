@@ -20,11 +20,11 @@ void Game::initialize(const std::string& cfgFile, const std::string& resFile, co
 		windowPtr.get()->setFramerateLimit(maxFPS);	//initial FPS limit
 	}
 	
-	loadResources();	//loads texture sounds, etc
+	//loadResources();	//loads texture sounds, etc
 		
-	loadObjects();		//creates object prototypes
+	//loadObjects();		//creates object prototypes
 	
-	loadMap();			//displays correct objects
+	//loadMap();			//displays correct objects
 
 	//thats all for now folks
 
@@ -51,7 +51,7 @@ void Game::begin()
 				{
 					if (event.key.code == (sf::Keyboard::Key)(i))			//trying to typecast int i as a Key enum 
 					{
-						keys.push_back(i);									//add the pressed key index to the keys vector
+						keyData.keyPressed(i);
 				
 					}
 				}
@@ -62,7 +62,7 @@ void Game::begin()
 				{
 					if (event.key.code == (sf::Keyboard::Key)(i))
 					{
-						keys.erase( remove( keys.begin(), keys.end(), i ), keys.end() );	//removes all released keys from the keys vector
+						keyData.keyReleased(i);
 				
 					}
 				}
@@ -71,13 +71,15 @@ void Game::begin()
 
 
 		}
-
+		
 		window.clear();
 
 		update();
 		draw();
 
 		window.display();
+		
+		keyData.newFrameUpdate();
 	}
 
 
@@ -89,25 +91,25 @@ void Game::begin()
 void Game::draw()
 {
 
-	layMan.setupDraw();										//need to setup draw before objects are drawn
+	//layMan.setupDraw();										//need to setup draw before objects are drawn
 
 
-	numLayers = layMan.getLayerAmount();
+	//numLayers = layMan.getLayerAmount();
 
-	for (int i = 0; i < numLayers; i++)	//draw objects to all layers
-	{
-		boost::function<void(objects::Object&)> draw = boost::bind(&objects::Object::draw, _1, boost::ref(*layMan.getLayerPtr(i)));
-		objMan.callFunction<boost::function<void(objects::Object&)> >("Layers.Layer" + boost::lexical_cast<std::string>(i), draw);
-	}
-	
-	layMan.draw(*windowPtr.get());	//actually draw layers to window
+	//for (int i = 0; i < numLayers; i++)	//draw objects to all layers
+	//{
+	//	boost::function<void(objects::Object&)> draw = boost::bind(&objects::Object::draw, _1, boost::ref(*layMan.getLayerPtr(i)));
+	//	objMan.callFunction<boost::function<void(objects::Object&)> >("Layers.Layer" + boost::lexical_cast<std::string>(i), draw);
+	//}
+	//
+	//layMan.draw(*windowPtr.get());	//actually draw layers to window
 
 }
 
 void Game::update()
 {
 	
-	objMan.getObject("Layers.Layer0.1")->update(keys);
+	//objMan.getObject("Layers.Layer0.1")->update(keys);
 
 	//for each layer
 		//get draw bounds for layer
