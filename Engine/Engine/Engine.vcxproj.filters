@@ -28,6 +28,9 @@
     <Filter Include="ResourceManager">
       <UniqueIdentifier>{5476f018-2d86-4837-bccb-33437b1799a2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MenuStuff">
+      <UniqueIdentifier>{e034048b-f004-47e9-9c4b-1ad4a0b7170e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utility\Downcast.hpp">
@@ -86,6 +89,44 @@
     </ClInclude>
     <ClInclude Include="Input\ControlSet.hpp">
       <Filter>Header Files</Filter>
+    <ClInclude Include="MenuStuff\Menu.h">
+      <Filter>MenuStuff</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Tanks_Game\Tanks_Game_Code\SFMLGame1\MenuToolsInclude.h">
+      <Filter>MenuStuff</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuStuff\BasicButton.h">
+      <Filter>MenuStuff</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuStuff\MenuElement.h">
+      <Filter>MenuStuff</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuStuff\MenuManager.h">
+      <Filter>MenuStuff</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuStuff\MenuSprite.h">
+      <Filter>MenuStuff</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuStuff\MultiMenuSprite.h">
+      <Filter>MenuStuff</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuStuff\MultiTextBox.h">
+      <Filter>MenuStuff</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuStuff\SingleTextBox.h">
+      <Filter>MenuStuff</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuStuff\IncludeMe.h">
+      <Filter>MenuStuff</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuStuff\SFMLbase.h">
+      <Filter>MenuStuff</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuStuff\MouseData.h">
+      <Filter>MenuStuff</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuStuff\MenuBackground.h">
+      <Filter>MenuStuff</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +186,35 @@
     </ClCompile>
     <ClCompile Include="Input\ControlSet.cpp">
       <Filter>Source Files</Filter>
+    <ClCompile Include="MenuStuff\Menu.cpp">
+      <Filter>MenuStuff</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuStuff\BasicButton.cpp">
+      <Filter>MenuStuff</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuStuff\MenuElement.cpp">
+      <Filter>MenuStuff</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuStuff\MenuManager.cpp">
+      <Filter>MenuStuff</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuStuff\MenuSprite.cpp">
+      <Filter>MenuStuff</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuStuff\MultiMenuSprite.cpp">
+      <Filter>MenuStuff</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuStuff\MultiTextBox.cpp">
+      <Filter>MenuStuff</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuStuff\SingleTextBox.cpp">
+      <Filter>MenuStuff</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuStuff\MouseData.cpp">
+      <Filter>MenuStuff</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuStuff\MenuBackground.cpp">
+      <Filter>MenuStuff</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

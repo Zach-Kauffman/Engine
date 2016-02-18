@@ -20,13 +20,13 @@ void Game::initialize(const std::string& cfgFile, const std::string& resFile, co
 		windowPtr.get()->setFramerateLimit(maxFPS);	//initial FPS limit
 	}
 	
-	loadResources();	//loads texture sounds, etc
+	//loadResources();	//loads texture sounds, etc
 		
-	loadObjects();		//creates object prototypes
+	//loadObjects();		//creates object prototypes
 	
-	loadMap();			//displays correct objects
+	//loadMap();			//displays correct objects
 
-//	thats all for now folks
+	//thats all for now folks
 
 }
 
