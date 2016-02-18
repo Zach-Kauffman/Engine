@@ -13,7 +13,7 @@ KeyboardData::~KeyboardData()
 
 void KeyboardData::keyPressed(const unsigned int keyVal)
 {
-	keysHit.push_back(keyVal);
+	keysHit.insert(keyVal);
 }
 
 
@@ -21,7 +21,7 @@ void KeyboardData::keyReleased(const unsigned int keyVal)
 {
 	keysHit.erase(remove(keysHit.begin(), keysHit.end(), keyVal), keysHit.end());
 	keysHeld.erase(remove(keysHit.begin(), keysHit.end(), keyVal), keysHit.end());
-	keysReleased.push_back(keyVal);
+	keysReleased.insert(keyVal);
 }
 
 
@@ -67,7 +67,7 @@ void KeyboardData::newFrameUpdate()
 	for (unsigned int i = 0; i < keysHit.size(); i++)
 	{
 		keysHit.erase(remove(keysHit.begin(), keysHit.end(), i), keysHit.end());
-		keysHeld.push_back(i);
+		keysHeld.insert(i);
 	}
 
 	for (unsigned int i = 0; i < keysReleased.size(); i++)

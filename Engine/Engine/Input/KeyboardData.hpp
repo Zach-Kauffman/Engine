@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <set>
 
 class KeyboardData
 {
@@ -20,8 +21,8 @@ public:
 
 private:
 
-	std::vector<const int> keysHit;
-	std::vector<const int> keysHeld;
-	std::vector<const int> keysReleased;
+	std::set<const int> keysHit;
+	std::set<const int> keysHeld;
+	std::set<const int> keysReleased;
 };
 
