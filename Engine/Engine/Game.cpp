@@ -122,6 +122,15 @@ void Game::doChunks()
 		TLC = sf::Vector2f(std::floor(TLC.x/chunkSize.x), std::floor(TLC.y/chunkSize.y));
 		BRC = sf::Vector2f(std::ceil(BRC.x / chunkSize.x), std::ceil(BRC.y / chunkSize.y));
 
+		for (int width = TLC.x; width < (int)BRC.x; width++)
+		{
+			for (int height = TLC.y; height < (int)BRC.y; height++)
+			{
+				boost::function<void(objects::Object&)> setActive = boost::bind(&objects::Object::setActive, _1, 1);
+				objMan.callFunction<boost::function<void(objects::Object&)> >("Layers.Layer" + boost::lexical_cast<std::string>(layIt)
+					+ "." + boost::lexical_cast<std::string>(width) + "." + boost::lexical_cast<std::string>(height), setActive);
+			}
+		}
 
 	}
 }
@@ -179,13 +188,16 @@ void Game::loadMap()
 	mapData.trees["map"];
 	mapData.tags["layer"];
 	mapData.trees["map"].trees[""];
-	mapData.trees["map"].tags["object"];
+	mapData.trees["map"].tags["chunk"];
+	mapData.trees["map"].trees[""].trees[""];
+	mapData.trees["map"].trees[""].tags["object"];
 
 
 	parser.getSubTree(mapData);
 
 	auto& layers = mapData.output;
-	auto& objects = mapData.trees["map"].output;
+	auto& chunks = mapData.trees["map"].output;
+	auto& objects = mapData.trees["map"].trees[""].output;
 
 	layMan.setLayerAmount(layers[0].size());
 	numLayers = layMan.getLayerAmount();
@@ -195,15 +207,20 @@ void Game::loadMap()
 		//reading layer data
 		
 
-		for (int objIt = 0; objIt < objects[layIt].size(); objIt++)		//for every object
+		for (int chunkIt = 0; chunkIt < objects[layIt].size(); chunkIt++)		//for every object
 		{
-			//making a new object
-			std::string type = "";
-			parser.readValue<std::string>("type", type, objects[layIt][objIt]);	//read type from tree
-			auto tmp = objMan.getPrototype(type);						//make object of that type
-			tmp->load(objects[layIt][objIt], recMan);
-			tmp->setID(objMan.nextID());
-			objMan.addObject(tmp, "Layers.Layer" + layIt);
+			int 
+			for (int objIt = 0; objIt < objects[layIt].size(); objIt++)
+			{
+				//making a new object
+				std::string type = "";
+				parser.readValue<std::string>("type", type, objects[chunkIt][objIt]);	//read type from tree
+				auto tmp = objMan.getPrototype(type);						//make object of that type
+				tmp->load(objects[layIt][objIt], recMan);
+				tmp->setID(objMan.nextID());
+				objMan.addObject(tmp, "Layers.Layer" + layIt);
+			}
+
 		}
 
 
