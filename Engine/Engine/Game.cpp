@@ -35,6 +35,8 @@ void Game::begin()
 	//sfml main loop
 	sf::RenderWindow& window = *windowPtr;
 	window.setKeyRepeatEnabled(false);		//makes it so when a key is hit, only one event is recorded, not nine, or whatever -- ignores holding keys
+	//window.set
+
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -67,7 +69,40 @@ void Game::begin()
 					}
 				}
 			}
+
+			if (event.type == sf::Event::MouseWheelMoved)
+			{
+				mouseData.setScroll(event.mouseWheel.delta);
+			}
+
+			if (event.type == sf::Event::MouseButtonPressed)
+			{
+				if (event.mouseButton.button == sf::Mouse::Right)
+				{
+					mouseData.setRightData(MouseData::Hit);
+				}
+				else if (event.mouseButton.button == sf::Mouse::Left)
+				{
+					mouseData.setLeftData(MouseData::Hit);
+				}
+			}
+
+			if (event.type == sf::Event::MouseButtonReleased)
+			{
+				if (event.mouseButton.button == sf::Mouse::Right)
+				{
+					mouseData.setRightData(MouseData::Released);
+				}
+				else if (event.mouseButton.button == sf::Mouse::Left)
+				{
+					mouseData.setLeftData(MouseData::Released);
+				}
+			}
 			
+			if (event.type == sf::Event::MouseMoved)
+			{
+				mouseData.setPosition(sf::Vector2f(event.mouseMove.x, event.mouseMove.y));
+			}
 
 
 		}

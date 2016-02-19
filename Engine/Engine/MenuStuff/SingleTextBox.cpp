@@ -29,7 +29,7 @@ SingleTextBox::SingleTextBox()
 /*------------------------------------------------------------------------------------
 ------------------------------------constructor2--------------------------------------
 ------------------------------------------------------------------------------------*/
-SingleTextBox::SingleTextBox(sf::Vector2f fposition, sf::Font* ffont, std::string fstring, int ffontsize, double fmaxwidth, sf::Color fcolor)
+SingleTextBox::SingleTextBox(sf::Vector2f fposition, const sf::Font* ffont, std::string fstring, int ffontsize, double fmaxwidth, sf::Color fcolor)
 {
 	requiresMouseData = false;					//same stuff
 
@@ -56,7 +56,7 @@ SingleTextBox::~SingleTextBox()
 /*------------------------------------------------------------------------------------
 ------------------------------------setup---------------------------------------------
 ------------------------------------------------------------------------------------*/
-void SingleTextBox::setup(sf::Vector2f fposition, sf::Font* ffont, std::string fstring, int ffontsize, double fmaxwidth, sf::Color fcolor)
+void SingleTextBox::setup(sf::Vector2f fposition, const sf::Font* ffont, std::string fstring, int ffontsize, double fmaxwidth, sf::Color fcolor)
 {
 
 	position = fposition;						//set position

@@ -245,10 +245,10 @@ void BasicButton::updateButtonState(MouseData& fmousedata)			//*groan* Click log
 {
 
 
-	sf::Vector2f mousePos = sf::Vector2f(fmousedata.getMousePosition().x, fmousedata.getMousePosition().y) - lastDrawPosition;	
-																	//make a new vec2i, mousePos that is the mousePosition from
+	sf::Vector2f mousePos = fmousedata.getPosition() - lastDrawPosition;
+																	//make a new vec2f, mousePos that is the mousePosition from
 																	//the mouseData; only here to shorten and simplify code
-	int leftData = fmousedata.getLeftButtonData();
+	unsigned int leftData = fmousedata.getLeftData();
 
 	/*bool pressedDown = (buttonState == Clicked) || (buttonState == Unheld_Pressed) || (buttonState == Hovered_Pressed) || (buttonState == Held_Pressed);*/
 																	//if any of the above statements were true, pressed down should be true.

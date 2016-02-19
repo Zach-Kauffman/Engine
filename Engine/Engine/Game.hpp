@@ -21,6 +21,9 @@
 	#include "Utility\XMLParser.hpp"
 
 	#include "Input\KeyboardData.hpp"
+	#include "Input\MouseData.hpp"
+
+	#include "MenuStuff\MenuManager.h"
 
 class Game
 {
@@ -65,6 +68,7 @@ private:
 
 
 	KeyboardData keyData;
+	MouseData mouseData;
 
 	
 };

@@ -8,12 +8,12 @@ public:
 
 	SingleTextBox();														//constructor empty
 
-	SingleTextBox(sf::Vector2f fposition, sf::Font* ffont, std::string fstring, int ffontsize, double fmaxwidth, sf::Color fcolor);
+	SingleTextBox(sf::Vector2f fposition, const sf::Font* ffont, std::string fstring, int ffontsize, double fmaxwidth, sf::Color fcolor);
 																			//constructor that actually sets everything
 
 	~SingleTextBox();														//destructor
 		
-	void setup(sf::Vector2f fposition, sf::Font* ffont, std::string fstring, int ffontsize, double fmaxwidth, sf::Color fcolor);
+	void setup(sf::Vector2f fposition, const sf::Font* ffont, std::string fstring, int ffontsize, double fmaxwidth, sf::Color fcolor);
 																			//setup -- must run if empty constructor was used
 
 

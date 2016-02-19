@@ -1,220 +1,72 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="Layers">
-      <UniqueIdentifier>{71e2823f-9c5e-4bd6-aa72-7c7ef8e4fe36}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="NameSearchable">
-      <UniqueIdentifier>{f874a004-8651-49c3-ba3e-9333dc9bc2c4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Objects">
-      <UniqueIdentifier>{5c113e25-01eb-4c98-b30a-894cc8f98f3a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility">
-      <UniqueIdentifier>{fc62544a-f74f-4f6f-8394-a6788ff998b8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ResourceManager">
-      <UniqueIdentifier>{5476f018-2d86-4837-bccb-33437b1799a2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MenuStuff">
-      <UniqueIdentifier>{e034048b-f004-47e9-9c4b-1ad4a0b7170e}</UniqueIdentifier>
-    </Filter>
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Input\ControlSet.cpp" />
+    <ClCompile Include="Input\KeyboardData.cpp" />
+    <ClCompile Include="Input\MouseData.cpp" />
+    <ClCompile Include="Layers\Layer.cpp" />
+    <ClCompile Include="Layers\LayerManager.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MovingTestObject.cpp" />
+    <ClCompile Include="MenuStuff\BasicButton.cpp" />
+    <ClCompile Include="MenuStuff\Menu.cpp" />
+    <ClCompile Include="MenuStuff\MenuBackground.cpp" />
+    <ClCompile Include="MenuStuff\MenuElement.cpp" />
+    <ClCompile Include="MenuStuff\MenuManager.cpp" />
+    <ClCompile Include="MenuStuff\MenuSprite.cpp" />
+    <ClCompile Include="MenuStuff\MultiMenuSprite.cpp" />
+    <ClCompile Include="MenuStuff\MultiTextBox.cpp" />
+    <ClCompile Include="MenuStuff\SingleTextBox.cpp" />
+    <ClCompile Include="NameSearchable\NameSearchable.cpp" />
+    <ClCompile Include="Objects\Object.cpp" />
+    <ClCompile Include="Objects\ObjectGroup.cpp" />
+    <ClCompile Include="Objects\ObjectManager.cpp" />
+    <ClCompile Include="ResourceManager\ResourceGroup.cpp" />
+    <ClCompile Include="ResourceManager\ResourceManager.cpp" />
+    <ClCompile Include="TestObject.cpp" />
+    <ClCompile Include="Utility\Downcast.cpp" />
+    <ClCompile Include="Utility\INIParser.cpp" />
+    <ClCompile Include="Utility\Logger.cpp" />
+    <ClCompile Include="Utility\UnitTester.cpp" />
+    <ClCompile Include="Utility\Utilities.cpp" />
+    <ClCompile Include="Utility\XMLParser.cpp" />
+    <ClCompile Include="MenuStuff\AppSprite.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Utility\Downcast.hpp">
-      <Filter>Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="Utility\INIParser.hpp">
-      <Filter>Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="Utility\Logger.hpp">
-      <Filter>Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="Utility\UnitTester.hpp">
-      <Filter>Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="Utility\Utilities.hpp">
-      <Filter>Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\Object.hpp">
-      <Filter>Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\ObjectGroup.hpp">
-      <Filter>Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\ObjectManager.hpp">
-      <Filter>Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Layers\Layer.hpp">
-      <Filter>Layers</Filter>
-    </ClInclude>
-    <ClInclude Include="Layers\LayerManager.hpp">
-      <Filter>Layers</Filter>
-    </ClInclude>
-    <ClInclude Include="NameSearchable\NameSearchable.hpp">
-      <Filter>NameSearchable</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceManager\ResourceManager.hpp">
-      <Filter>ResourceManager</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceManager\ResourceGroup.hpp">
-      <Filter>ResourceManager</Filter>
-    </ClInclude>
+    <ClInclude Include="..\..\..\Tanks_Game\Tanks_Game_Code\SFMLGame1\MenuToolsInclude.h" />
     <ClInclude Include="Defines.hpp" />
     <ClInclude Include="Game.hpp" />
+    <ClInclude Include="Input\ControlSet.hpp" />
+    <ClInclude Include="Input\KeyboardData.hpp" />
+    <ClInclude Include="Input\MouseData.hpp" />
+    <ClInclude Include="Layers\Layer.hpp" />
+    <ClInclude Include="Layers\LayerManager.hpp" />
+    <ClInclude Include="MovingTestObject.hpp" />
+    <ClInclude Include="MenuStuff\BasicButton.h" />
+    <ClInclude Include="MenuStuff\IncludeMe.h" />
+    <ClInclude Include="MenuStuff\Menu.h" />
+    <ClInclude Include="MenuStuff\MenuBackground.h" />
+    <ClInclude Include="MenuStuff\MenuElement.h" />
+    <ClInclude Include="MenuStuff\MenuManager.h" />
+    <ClInclude Include="MenuStuff\MenuSprite.h" />
+    <ClInclude Include="MenuStuff\MultiMenuSprite.h" />
+    <ClInclude Include="MenuStuff\MultiTextBox.h" />
+    <ClInclude Include="MenuStuff\SFMLbase.h" />
+    <ClInclude Include="MenuStuff\SingleTextBox.h" />
+    <ClInclude Include="NameSearchable\NameSearchable.hpp" />
+    <ClInclude Include="Objects\Object.hpp" />
+    <ClInclude Include="Objects\ObjectGroup.hpp" />
+    <ClInclude Include="Objects\ObjectManager.hpp" />
+    <ClInclude Include="ResourceManager\ResourceGroup.hpp" />
+    <ClInclude Include="ResourceManager\ResourceManager.hpp" />
     <ClInclude Include="TestObject.hpp" />
-    <ClInclude Include="Utility\XMLParser.hpp">
-      <Filter>Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="MovingTestObject.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Input\KeyboardData.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Input\MouseData.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Input\ControlSet.hpp">
-      <Filter>Header Files</Filter>
-    <ClInclude Include="MenuStuff\Menu.h">
-      <Filter>MenuStuff</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Tanks_Game\Tanks_Game_Code\SFMLGame1\MenuToolsInclude.h">
-      <Filter>MenuStuff</Filter>
-    </ClInclude>
-    <ClInclude Include="MenuStuff\BasicButton.h">
-      <Filter>MenuStuff</Filter>
-    </ClInclude>
-    <ClInclude Include="MenuStuff\MenuElement.h">
-      <Filter>MenuStuff</Filter>
-    </ClInclude>
-    <ClInclude Include="MenuStuff\MenuManager.h">
-      <Filter>MenuStuff</Filter>
-    </ClInclude>
-    <ClInclude Include="MenuStuff\MenuSprite.h">
-      <Filter>MenuStuff</Filter>
-    </ClInclude>
-    <ClInclude Include="MenuStuff\MultiMenuSprite.h">
-      <Filter>MenuStuff</Filter>
-    </ClInclude>
-    <ClInclude Include="MenuStuff\MultiTextBox.h">
-      <Filter>MenuStuff</Filter>
-    </ClInclude>
-    <ClInclude Include="MenuStuff\SingleTextBox.h">
-      <Filter>MenuStuff</Filter>
-    </ClInclude>
-    <ClInclude Include="MenuStuff\IncludeMe.h">
-      <Filter>MenuStuff</Filter>
-    </ClInclude>
-    <ClInclude Include="MenuStuff\SFMLbase.h">
-      <Filter>MenuStuff</Filter>
-    </ClInclude>
-    <ClInclude Include="MenuStuff\MouseData.h">
-      <Filter>MenuStuff</Filter>
-    </ClInclude>
-    <ClInclude Include="MenuStuff\MenuBackground.h">
-      <Filter>MenuStuff</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Utility\Downcast.cpp">
-      <Filter>Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="Utility\INIParser.cpp">
-      <Filter>Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="Utility\Logger.cpp">
-      <Filter>Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="Utility\UnitTester.cpp">
-      <Filter>Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="Utility\Utilities.cpp">
-      <Filter>Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\Object.cpp">
-      <Filter>Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\ObjectGroup.cpp">
-      <Filter>Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\ObjectManager.cpp">
-      <Filter>Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="Layers\LayerManager.cpp">
-      <Filter>Layers</Filter>
-    </ClCompile>
-    <ClCompile Include="Layers\Layer.cpp">
-      <Filter>Layers</Filter>
-    </ClCompile>
-    <ClCompile Include="NameSearchable\NameSearchable.cpp">
-      <Filter>NameSearchable</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceManager\ResourceManager.cpp">
-      <Filter>ResourceManager</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceManager\ResourceGroup.cpp">
-      <Filter>ResourceManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="TestObject.cpp" />
-    <ClCompile Include="Utility\XMLParser.cpp">
-      <Filter>Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="MovingTestObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Input\KeyboardData.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Input\MouseData.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Input\ControlSet.cpp">
-      <Filter>Source Files</Filter>
-    <ClCompile Include="MenuStuff\Menu.cpp">
-      <Filter>MenuStuff</Filter>
-    </ClCompile>
-    <ClCompile Include="MenuStuff\BasicButton.cpp">
-      <Filter>MenuStuff</Filter>
-    </ClCompile>
-    <ClCompile Include="MenuStuff\MenuElement.cpp">
-      <Filter>MenuStuff</Filter>
-    </ClCompile>
-    <ClCompile Include="MenuStuff\MenuManager.cpp">
-      <Filter>MenuStuff</Filter>
-    </ClCompile>
-    <ClCompile Include="MenuStuff\MenuSprite.cpp">
-      <Filter>MenuStuff</Filter>
-    </ClCompile>
-    <ClCompile Include="MenuStuff\MultiMenuSprite.cpp">
-      <Filter>MenuStuff</Filter>
-    </ClCompile>
-    <ClCompile Include="MenuStuff\MultiTextBox.cpp">
-      <Filter>MenuStuff</Filter>
-    </ClCompile>
-    <ClCompile Include="MenuStuff\SingleTextBox.cpp">
-      <Filter>MenuStuff</Filter>
-    </ClCompile>
-    <ClCompile Include="MenuStuff\MouseData.cpp">
-      <Filter>MenuStuff</Filter>
-    </ClCompile>
-    <ClCompile Include="MenuStuff\MenuBackground.cpp">
-      <Filter>MenuStuff</Filter>
-    </ClCompile>
+    <ClInclude Include="Utility\Downcast.hpp" />
+    <ClInclude Include="Utility\INIParser.hpp" />
+    <ClInclude Include="Utility\Logger.hpp" />
+    <ClInclude Include="Utility\UnitTester.hpp" />
+    <ClInclude Include="Utility\Utilities.hpp" />
+    <ClInclude Include="Utility\XMLParser.hpp" />
+    <ClInclude Include="MenuStuff\AppSprite.h" />
   </ItemGroup>
 </Project>
