@@ -141,6 +141,7 @@ void Game::loadGameConfig(const std::string& configFile)
 	windowName = "Squirrel Game";
 	renderSize = sf::Vector2i(960, 540);
 	maxFPS = 0;
+	mapSize = sf::Vector2i(5, 5);
 
 	parser.setSection("Render_Options");
 	parser.readValue<std::string>("Window_Name", windowName);
@@ -150,6 +151,11 @@ void Game::loadGameConfig(const std::string& configFile)
 	parser.readValue<int>("ChunkSize_X", chunkSize.x);
 	parser.readValue<int>("ChunkSize_Y", chunkSize.y);
 	if (!chunkSize.y || chunkSize.y == 0){ chunkSize.y = chunkSize.x; }
+
+	parser.readValue<int>("MapSize_X", mapSize.x);
+	parser.readValue<int>("MapSize_Y", mapSize.y);
+
+	renderSize = sf::Vector2i(chunkSize.x * mapSize.x, chunkSize.y * mapSize.y);	//the resolution of the map is just the product of chunk size and map size
 
 	parser.setSection("Game_Options");
 
@@ -209,7 +215,11 @@ void Game::loadMap()
 
 		for (int chunkIt = 0; chunkIt < objects[layIt].size(); chunkIt++)		//for every object
 		{
-			int 
+			int chunkNum = 1;	//converted from scalar to vector to get chunk position on map -- starts at #1
+			parser.readValue<int>("<xmlattr>.index", chunkNum, chunks[layIt][chunkIt]);
+			sf::Vector2i chunk = sf::Vector2i(chunkNum % mapSize.x, chunkNum / mapSize.y);
+
+
 			for (int objIt = 0; objIt < objects[layIt].size(); objIt++)
 			{
 				//making a new object
@@ -218,7 +228,10 @@ void Game::loadMap()
 				auto tmp = objMan.getPrototype(type);						//make object of that type
 				tmp->load(objects[layIt][objIt], recMan);
 				tmp->setID(objMan.nextID());
-				objMan.addObject(tmp, "Layers.Layer" + layIt);
+				std::string pathString = "Layers.Layer" + boost::lexical_cast<std::string>(layIt);
+				pathString += "." + boost::lexical_cast<std::string>(chunk.x);
+				pathString += "." + boost::lexical_cast<std::string>(chunk.y);
+				objMan.addObject(tmp, pathString);	//appends object to appropriate spot in tree
 			}
 
 		}

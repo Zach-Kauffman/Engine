@@ -56,7 +56,9 @@ private:
 	std::string windowName;		//name of the window
 	sf::Vector2i renderSize;	//resolution of game
 	int maxFPS;					//fps cap - 0 would mean uncapped
-	sf::Vector2i chunkSize;
+
+	sf::Vector2i chunkSize;		//size in pixels (for now) of each chunk
+	sf::Vector2i mapSize;		//size in chunks of the map
 
 	sf::Vector2f tmpCenter;
 
