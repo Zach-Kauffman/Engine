@@ -103,7 +103,7 @@ void Game::draw()
 void Game::update()
 {
 	doChunks();
-	objMan.getObject("Layers.Layer0.1")->update(keys);
+	objMan.getObject("Layers.Layer0.1.0.1")->update(keys);
 
 	//for each layer
 		//get draw bounds for layer
@@ -213,7 +213,7 @@ void Game::loadMap()
 		//reading layer data
 		
 
-		for (int chunkIt = 0; chunkIt < objects[layIt].size(); chunkIt++)		//for every object
+		for (int chunkIt = layIt; chunkIt < chunks.size(); chunkIt++)		//for every object
 		{
 			int chunkNum = 1;	//converted from scalar to vector to get chunk position on map -- starts at #1
 			parser.readValue<int>("<xmlattr>.index", chunkNum, chunks[layIt][chunkIt]);
@@ -246,7 +246,7 @@ void Game::loadMap()
 
 
 	util::Downcaster<objects::Object> tmpDC;
-	layMan.setReferencePoint(*(tmpDC.downcastMTO(objMan.getObject("Layers.Layer0.1"))->getPositionPtr()));						//make sure the layers reference the point
+	layMan.setReferencePoint(*(tmpDC.downcastMTO(objMan.getObject("Layers.Layer0.1.0.1"))->getPositionPtr()));						//make sure the layers reference the point
 	//layMan.setReferencePoint(tmpCenter);
 	for (int i = 0; i < numLayers; i++)
 	{
