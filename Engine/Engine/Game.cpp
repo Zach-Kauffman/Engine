@@ -155,7 +155,7 @@ void Game::loadGameConfig(const std::string& configFile)
 	parser.readValue<int>("MapSize_X", mapSize.x);
 	parser.readValue<int>("MapSize_Y", mapSize.y);
 
-	renderSize = sf::Vector2i(chunkSize.x * mapSize.x, chunkSize.y * mapSize.y);	//the resolution of the map is just the product of chunk size and map size
+	mapSizePixel = sf::Vector2i(chunkSize.x * mapSize.x, chunkSize.y * mapSize.y);	//the resolution of the map is just the product of chunk size and map size
 
 	parser.setSection("Game_Options");
 
@@ -213,7 +213,7 @@ void Game::loadMap()
 		//reading layer data
 		
 
-		for (int chunkIt = layIt; chunkIt < chunks.size(); chunkIt++)		//for every object
+		for (int chunkIt = 0; chunkIt < chunks[layIt].size(); chunkIt++)		//for every object
 		{
 			int chunkNum = 1;	//converted from scalar to vector to get chunk position on map -- starts at #1
 			parser.readValue<int>("<xmlattr>.index", chunkNum, chunks[layIt][chunkIt]);
@@ -224,7 +224,7 @@ void Game::loadMap()
 			{
 				//making a new object
 				std::string type = "";
-				parser.readValue<std::string>("type", type, objects[chunkIt][objIt]);	//read type from tree
+				parser.readValue<std::string>("type", type, objects[chunkIt+layIt][objIt]);	//read type from tree
 				auto tmp = objMan.getPrototype(type);						//make object of that type
 				tmp->load(objects[layIt][objIt], recMan);
 				tmp->setID(objMan.nextID());
@@ -251,16 +251,16 @@ void Game::loadMap()
 	for (int i = 0; i < numLayers; i++)
 	{
 		std::string layerNumber = "1";	//default is 1
-		parser.readValue<std::string>("<xmlattr>.z", layerNumber, layers[0][numLayers]);
+		parser.readValue<std::string>("<xmlattr>.z", layerNumber, layers[0][i]);
 
-		sf::Vector2f scrollSpeed = sf::Vector2f(0, 0);
-		parser.readValue<float>("<xmlattr>.scrollx", scrollSpeed.x, layers[0][numLayers]);
-		parser.readValue<float>("<xmlattr>.scrolly", scrollSpeed.y, layers[0][numLayers]);
-		layMan.setScrollSpeed(scrollSpeed, numLayers);
+		sf::Vector2f scrollSpeed = sf::Vector2f(0, 0);	//default to not moving
+		parser.readValue<float>("<xmlattr>.scrollx", scrollSpeed.x, layers[0][i]);
+		parser.readValue<float>("<xmlattr>.scrolly", scrollSpeed.y, layers[0][i]);
+		layMan.setScrollSpeed(scrollSpeed, i);
 
-		sf::Vector2f bounds = sf::Vector2f(0, 0);	//default to not moving
-		parser.readValue<float>("<xmlattr>.boundx", bounds.x, layers[0][numLayers]);
-		parser.readValue<float>("<xmlattr>.boundy", bounds.y, layers[0][numLayers]);
+		sf::Vector2f bounds = sf::Vector2f(0, 0);	//maximum bounds of layer
+		parser.readValue<float>("<xmlattr>.boundx", bounds.x, layers[0][i]);
+		parser.readValue<float>("<xmlattr>.boundy", bounds.y, layers[0][i]);
 
 		layMan.setScrollBounds({ 0, 0, bounds.x, bounds.y}, i);
 		layMan.setCorners(sf::Vector2f(0, 0), (sf::Vector2f)windowPtr->getSize(), i);

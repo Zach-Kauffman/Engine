@@ -59,6 +59,7 @@ private:
 
 	sf::Vector2i chunkSize;		//size in pixels (for now) of each chunk
 	sf::Vector2i mapSize;		//size in chunks of the map
+	sf::Vector2i mapSizePixel;	//map size in pixels
 
 	sf::Vector2f tmpCenter;
 

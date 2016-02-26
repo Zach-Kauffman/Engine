@@ -15,19 +15,19 @@ void MovingTestObject::update(std::vector<int>& fkeyVec)
 {
 	if(std::find(fkeyVec.begin(), fkeyVec.end(), sf::Keyboard::Up) != fkeyVec.end()) 
 	{
-		move(0, -1);
+		move(0, -6);
 	}
 	if(std::find(fkeyVec.begin(), fkeyVec.end(), sf::Keyboard::Down) != fkeyVec.end()) 
 	{
-		move(0, 1);
+		move(0, 6);
 	}
 	if(std::find(fkeyVec.begin(), fkeyVec.end(), sf::Keyboard::Left) != fkeyVec.end()) 
 	{
-		move(-1, 0);
+		move(-6, 0);
 	}
 	if(std::find(fkeyVec.begin(), fkeyVec.end(), sf::Keyboard::Right) != fkeyVec.end()) 
 	{
-		move(1, 0);
+		move(6, 0);
 	}
 }
 

@@ -1,5 +1,5 @@
 <map>
-	<layer z="0" scrollx="1" scrolly="1">
+	<layer z="0" scrollx="1" scrolly="1" boundx = "13920" boundy="8080">
 		<chunk index="1">
 			<object>
 				<type>MovingTestObject</type>
@@ -9,7 +9,7 @@
 			</object>
 		</chunk>
 	</layer>
-	<layer z="1" scrollx="1.4" scrolly="1.4">
+	<layer z="1" scrollx="1.4" scrolly="1.4" boundx = "13920" boundy="8080">
 		<chunk index ="1">
 			<object>
 				<type>TestObject</type>
@@ -25,7 +25,7 @@
 			</object>
 		</chunk>
 	</layer>
-	<layer z="2" scrollx=".3" scrolly=".3">
+	<layer z="2" scrollx=".3" scrolly=".3" boundx = "13920" boundy="2080">
 		<chunk index="1">
 			<object>
 				<type>TestObject</type>
@@ -35,7 +35,7 @@
 			</object>
 		</chunk>
 	</layer>
-	<layer z="3" scrollx=".1" scrolly=".2">
+	<layer z="3" scrollx=".1" scrolly=".2" boundx = "13920" boundy="8080">
 		<chunk index="1">
 			<object>
 				<type>TestObject</type>

@@ -67,6 +67,10 @@ namespace objects
 			{
 				fxn(*(objects[i].get()));	//calls function
 			}
+			for (unsigned int grpIt = 0; grpIt < groups.size(); grpIt++)
+			{
+				groups[grpIt].callFunction(fxn);
+			}
 		}
 
 	protected:
