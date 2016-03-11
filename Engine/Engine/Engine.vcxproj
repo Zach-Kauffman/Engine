@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Defines.hpp" />
+    <ClInclude Include="Editor.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="Layers\Layer.hpp" />
     <ClInclude Include="Layers\LayerManager.hpp" />
@@ -31,6 +32,7 @@
     <ClInclude Include="Utility\XMLParser.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Editor.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Layers\Layer.cpp" />
     <ClCompile Include="Layers\LayerManager.cpp" />

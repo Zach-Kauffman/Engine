@@ -78,6 +78,7 @@
     <ClInclude Include="MovingTestObject.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Editor.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Utility\Downcast.cpp">
@@ -128,5 +129,6 @@
     <ClCompile Include="MovingTestObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Editor.cpp" />
   </ItemGroup>
 </Project>
