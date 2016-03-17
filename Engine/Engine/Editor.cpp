@@ -26,6 +26,8 @@ void Editor::addObject()
 {
 	std::string type = GUI.prompt<std::string>("Enter Object Type: ");	//get that object type
 
+	//check for type validity
+
 	std::map<std::string, std::string> properties = GUI.prompt(objectAttributes[type]);	//prompt for all object attributes
 
 	boost::property_tree::ptree objectRoot;
@@ -36,9 +38,16 @@ void Editor::addObject()
 		objectRoot.put(it->first, it->second);
 	}
 
+	auto tmp = objMan.getPrototype(type);
+	tmp->load(objectRoot, recMan);
+	tmp->setID(objMan.nextID());
 
+	
+	std::string pathString = "Layers.Layer" + GUI.currentLayer();
 
+	//calculate chunk and add here
 
+	objMan.addObject(tmp, pathString);
 	//ask for object type
 	//get the object stuff and display it with dropdowns options in the gui
 	//actually add the object to game with button press
