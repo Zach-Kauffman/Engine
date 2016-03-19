@@ -20,7 +20,7 @@ void Game::initialize(const std::string& cfgFile, const std::string& resFile, co
 		windowPtr.get()->setFramerateLimit(maxFPS);	//initial FPS limit
 	}
 	
-	//loadResources();	//loads texture sounds, etc
+	loadResources();	//loads texture sounds, etc
 		
 	//loadObjects();		//creates object prototypes
 	
@@ -35,8 +35,6 @@ void Game::begin()
 	//sfml main loop
 	sf::RenderWindow& window = *windowPtr;
 	window.setKeyRepeatEnabled(false);		//makes it so when a key is hit, only one event is recorded, not nine, or whatever -- ignores holding keys
-	//window.set
-
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -53,7 +51,7 @@ void Game::begin()
 				{
 					if (event.key.code == (sf::Keyboard::Key)(i))			//trying to typecast int i as a Key enum 
 					{
-						keyData.keyPressed(i);
+						keys.push_back(i);									//add the pressed key index to the keys vector
 				
 					}
 				}
@@ -64,57 +62,22 @@ void Game::begin()
 				{
 					if (event.key.code == (sf::Keyboard::Key)(i))
 					{
-						keyData.keyReleased(i);
+						keys.erase( remove( keys.begin(), keys.end(), i ), keys.end() );	//removes all released keys from the keys vector
 				
 					}
 				}
 			}
-
-			if (event.type == sf::Event::MouseWheelMoved)
-			{
-				mouseData.setScroll(event.mouseWheel.delta);
-			}
-
-			if (event.type == sf::Event::MouseButtonPressed)
-			{
-				if (event.mouseButton.button == sf::Mouse::Right)
-				{
-					mouseData.setRightData(MouseData::Hit);
-				}
-				else if (event.mouseButton.button == sf::Mouse::Left)
-				{
-					mouseData.setLeftData(MouseData::Hit);
-				}
-			}
-
-			if (event.type == sf::Event::MouseButtonReleased)
-			{
-				if (event.mouseButton.button == sf::Mouse::Right)
-				{
-					mouseData.setRightData(MouseData::Released);
-				}
-				else if (event.mouseButton.button == sf::Mouse::Left)
-				{
-					mouseData.setLeftData(MouseData::Released);
-				}
-			}
 			
-			if (event.type == sf::Event::MouseMoved)
-			{
-				mouseData.setPosition(sf::Vector2f(event.mouseMove.x, event.mouseMove.y));
-			}
 
 
 		}
-		
+
 		window.clear();
 
 		update();
 		draw();
 
 		window.display();
-		
-		keyData.newFrameUpdate();
 	}
 
 
@@ -126,25 +89,25 @@ void Game::begin()
 void Game::draw()
 {
 
-	//layMan.setupDraw();										//need to setup draw before objects are drawn
+	layMan.setupDraw();										//need to setup draw before objects are drawn
 
 
-	//numLayers = layMan.getLayerAmount();
+	numLayers = layMan.getLayerAmount();
 
-	//for (int i = 0; i < numLayers; i++)	//draw objects to all layers
-	//{
-	//	boost::function<void(objects::Object&)> draw = boost::bind(&objects::Object::draw, _1, boost::ref(*layMan.getLayerPtr(i)));
-	//	objMan.callFunction<boost::function<void(objects::Object&)> >("Layers.Layer" + boost::lexical_cast<std::string>(i), draw);
-	//}
-	//
-	//layMan.draw(*windowPtr.get());	//actually draw layers to window
+	for (int i = 0; i < numLayers; i++)	//draw objects to all layers
+	{
+		boost::function<void(objects::Object&)> draw = boost::bind(&objects::Object::draw, _1, boost::ref(*layMan.getLayerPtr(i)));
+		objMan.callFunction<boost::function<void(objects::Object&)> >("Layers.Layer" + boost::lexical_cast<std::string>(i), draw);
+	}
+	
+	layMan.draw(*windowPtr.get());	//actually draw layers to window
 
 }
 
 void Game::update()
 {
 	
-	//objMan.getObject("Layers.Layer0.1")->update(keys);
+	objMan.getObject("Layers.Layer0.1")->update(keys);
 
 	//for each layer
 		//get draw bounds for layer
