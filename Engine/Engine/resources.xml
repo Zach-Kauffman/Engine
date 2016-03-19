@@ -36,8 +36,12 @@
 		<path>Resources/TestResources/darksky.png</path>
 		<name>darksky</name>
 	</resource>
-		<resource>
+	<resource>
 		<path>Resources/TestResources/moon.png</path>
 		<name>moon</name>
+	</resource>
+	<resource>
+		<path>Resources/TestResources/EasterEgg.png</path>
+		<name>egg</name>
 	</resource>
 </resources>

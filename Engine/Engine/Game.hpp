@@ -20,6 +20,11 @@
 	#include "Utility\Logger.hpp"
 	#include "Utility\XMLParser.hpp"
 
+	#include "Input\KeyboardData.hpp"
+	#include "Input\MouseData.hpp"
+
+	#include "MenuStuff\MenuManager.h"
+
 class Game
 {
 public:
@@ -62,7 +67,8 @@ private:
 	int numLayers;
 
 
-	std::vector<int> keys;
+	KeyboardData keyData;
+	MouseData mouseData;
 
 	
 };
