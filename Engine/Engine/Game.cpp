@@ -248,7 +248,6 @@ void Game::loadEntryTable()
 {
 	std::vector<std::string> testStr = { "Cat", "Dog", "TestString1", "TestString2" };
 	gui.setup(200, 50, 30, sf::Vector2f(100, 100));
-	gui.setMapKeys(testStr, );
-	gui.fillTableKeys(recMan.getFontPointerByName())
+	gui.setMapKeys(testStr, recMan.getFontPointerByName("times"), recMan.getTexturePointerByName("textbar"), recMan.getTexturePointerByName("guiBG"));
 
 }
