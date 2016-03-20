@@ -44,4 +44,16 @@
 		<path>Resources/TestResources/EasterEgg.png</path>
 		<name>egg</name>
 	</resource>
+	<resource>
+		<path>Resources/GUIResources/TextBar.png</path>
+		<name>textbar</name>
+	</resource>
+	<resource>
+		<path>Resources/GUIResources/GrayTextBoxBackground.png</path>
+		<name>guiBG</name>
+	</resource>
+	<resource>
+		<path>Resources/GUIResources/TimesNewRoman.ttf</path>
+		<name>times</name>
+	</resource>
 </resources>

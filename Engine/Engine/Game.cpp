@@ -28,6 +28,7 @@ void Game::initialize(const std::string& cfgFile, const std::string& resFile, co
 
 	//thats all for now folks
 
+	textData = "";
 }
 
 void Game::begin()
@@ -51,9 +52,13 @@ void Game::begin()
 				{
 					if (event.key.code == (sf::Keyboard::Key)(i))			//trying to typecast int i as a Key enum 
 					{
-						keys.push_back(i);									//add the pressed key index to the keys vector
+						keyData.keyPressed(i);
 				
 					}
+				}
+				if (event.key.code == sf::Keyboard::BackSpace)
+				{
+					textData.erase(textData.size() - 1);
 				}
 			}
 			if (event.type == sf::Event::KeyReleased)
@@ -62,9 +67,18 @@ void Game::begin()
 				{
 					if (event.key.code == (sf::Keyboard::Key)(i))
 					{
-						keys.erase( remove( keys.begin(), keys.end(), i ), keys.end() );	//removes all released keys from the keys vector
-				
+						keyData.keyReleased(i);
+
 					}
+				}
+			}
+
+			if (event.type == sf::Event::TextEntered)
+			{
+				if (event.text.unicode < 128)
+				{
+
+					textData += static_cast<char>(event.text.unicode);
 				}
 			}
 			
@@ -78,6 +92,8 @@ void Game::begin()
 		draw();
 
 		window.display();
+
+		keyData.newFrameUpdate();
 	}
 
 
@@ -228,3 +244,11 @@ void Game::loadMap()
 }
 
 
+void Game::loadEntryTable()
+{
+	std::vector<std::string> testStr = { "Cat", "Dog", "TestString1", "TestString2" };
+	gui.setup(200, 50, 30, sf::Vector2f(100, 100));
+	gui.setMapKeys(testStr, );
+	gui.fillTableKeys(recMan.getFontPointerByName())
+
+}
