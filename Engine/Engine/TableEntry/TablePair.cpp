@@ -30,7 +30,7 @@ void TablePair::setup( sf::Font * const  font, sf::Texture * const barTex, sf::T
 	colonDivider.setFont(*font);
 	colonDivider.setCharacterSize(charsiz);
 	colonDivider.setString("|:|");
-	colonDivider.setPosition(0, spac);
+	colonDivider.setPosition(spac, 0);
 	colonDivider.setColor(sf::Color::Green);
 
 	entryBox.setup(font, barTex, bgTex, sf::Vector2f(2*spac, 0), charsiz);
@@ -44,28 +44,34 @@ void TablePair::setKeyString(const std::string& kstr)
 }
 
 
-std::string TablePair::getInput()
+void TablePair::setEntryString(std::string& estr)
 {
-	return entryBox.getEntryString();
+	entryBox.setEntryString(estr);
 }
 
 
-void TablePair::update(const std::string& curstr, MouseData& mdata)
+//std::string TablePair::getInput()
+//{
+//	return entryBox.getEntryString();
+//}
+
+
+void TablePair::update(const char& typedChar, MouseData& mdata)
 {
-	entryBox.update(curstr, mdata);
+	entryBox.update(typedChar, mdata);
 }
 
 void TablePair::draw(const sf::Vector2f& drawpos, sf::RenderWindow& window)
 {
 	position += drawpos;
 
-	keyString.move(drawpos);
+	keyString.move(position);
 	window.draw(keyString);
-	keyString.move(-drawpos);
+	keyString.move(-position);
 
-	colonDivider.move(drawpos);
+	colonDivider.move(position);
 	window.draw(colonDivider);
-	colonDivider.move(-drawpos);
+	colonDivider.move(-position);
 
 
 	entryBox.draw(position, window);

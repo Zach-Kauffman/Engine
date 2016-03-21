@@ -24,23 +24,39 @@ void EntryTable::setup(const double& xspac, const double& yspac, const unsigned 
 	position = pos;
 }
 
-void EntryTable::setMapKeys(const std::vector<std::string>& keys, sf::Font * const  font, sf::Texture * const barTex, sf::Texture * const bgTex)
+void EntryTable::setMap(std::map<std::string, std::string>& fmap)
 {
-	for (unsigned int i = 0; i < keys.size(); i++)
-	{
-		strMap[keys[i]] = "";
-		tablePairs.push_back(TablePair(font, barTex, bgTex, sf::Vector2f(0, i*ySpacing), charSize, xSpacing));
-		tablePairs[i].setKeyString(keys[i]);
-
+	strMap = &fmap;
+	typedef std::map<std::string, std::string>::iterator it_type;
+	for(it_type iterator = fmap.begin(); iterator != fmap.end(); iterator++) {
+	 // iterator->first = key
+		recordstrs.push_back(iterator->first);
 	}
 }
 
-
-void EntryTable::update(const std::string& curstr, MouseData& mdata)
+void EntryTable::createTable(sf::Font * const  font, sf::Texture * const barTex, sf::Texture * const bgTex)
 {
-	for (unsigned int i = 0; i < strMap.size(); i++)
+	for (unsigned int i = 0; i < recordstrs.size(); i++)
 	{
-		tablePairs[i].update(curstr, mdata);
+		TablePair temp(font, barTex, bgTex, sf::Vector2f(0, i*ySpacing), charSize, xSpacing);
+		tablePairs.push_back(temp);
+		tablePairs[i].setKeyString(recordstrs[i]);
+		tablePairs[i].setEntryString((*strMap)[recordstrs[i]]);
+	}
+
+
+}
+
+
+void EntryTable::update(const char& typedChar, MouseData& mdata)
+{
+	for (unsigned int i = 0; i < tablePairs.size(); i++)
+	{
+		tablePairs[i].update(typedChar, mdata);
+	}
+	for (int i = 0; i < recordstrs.size(); i++)
+	{
+		//std::cout << (*strMap)[recordstrs[i]] << std::endl;
 	}
 }
 
@@ -48,7 +64,7 @@ void EntryTable::draw(const sf::Vector2f& drawpos, sf::RenderWindow& window)
 {
 	position += drawpos;
 
-	for (unsigned int i = 0; i < strMap.size(); i++)
+	for (unsigned int i = 0; i < tablePairs.size(); i++)
 	{
 		tablePairs[i].draw(position, window);
 	}

@@ -72,10 +72,12 @@ private:
 
 
 
+	std::map<std::string, std::string> testMap;
 
 	KeyboardData keyData;
 	MouseData mouseData;
-	std::string textData;
+	std::string textDataStr;
+	char textDataChr;
 
 	
 };

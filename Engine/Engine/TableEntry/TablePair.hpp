@@ -10,10 +10,11 @@ public:
 	void setup( sf::Font * const  font, sf::Texture * const barTex, sf::Texture * const bgTex, const sf::Vector2f& fpos, const unsigned int& charsiz, const double& spac);
 
 	void setKeyString(const std::string& kstr);
+	void setEntryString(std::string& estr);
 
-	std::string getInput();
+	//std::string getInput();
 
-	void update(const std::string& curstr, MouseData& mdata);
+	void update(const char& typedChar, MouseData& mdata);
 	void draw(const sf::Vector2f& drawpos, sf::RenderWindow& window);
 
 

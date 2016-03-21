@@ -10,16 +10,18 @@ public:
 
 	void setup(const double& xspac, const double& yspac, const unsigned int& csiz, const sf::Vector2f& pos);
 
-	void setMapKeys(const std::vector<std::string>& keys, sf::Font * const  font, sf::Texture * const barTex, sf::Texture * const bgTex);
+	void setMap(std::map<std::string, std::string>& fmap);
+	void createTable(sf::Font * const  font, sf::Texture * const barTex, sf::Texture * const bgTex);
 
 
-	void update(const std::string& curstr, MouseData& mdata);
+	void update(const char& typedChar, MouseData& mdata);
 	void draw(const sf::Vector2f& drawpos, sf::RenderWindow& window);
 private:
 
 	
 	std::vector<TablePair> tablePairs;
-	std::map<std::string, std::string> strMap;
+	std::map<std::string, std::string>* strMap;
+	std::vector<std::string> recordstrs;
 
 	sf::Vector2f position;
 	double xSpacing;

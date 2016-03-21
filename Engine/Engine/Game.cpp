@@ -21,6 +21,7 @@ void Game::initialize(const std::string& cfgFile, const std::string& resFile, co
 	}
 	
 	loadResources();	//loads texture sounds, etc
+	loadEntryTable();
 		
 	//loadObjects();		//creates object prototypes
 	
@@ -28,7 +29,9 @@ void Game::initialize(const std::string& cfgFile, const std::string& resFile, co
 
 	//thats all for now folks
 
-	textData = "";
+	textDataStr = "";
+	textDataChr = 0;
+	
 }
 
 void Game::begin()
@@ -56,10 +59,6 @@ void Game::begin()
 				
 					}
 				}
-				if (event.key.code == sf::Keyboard::BackSpace)
-				{
-					textData.erase(textData.size() - 1);
-				}
 			}
 			if (event.type == sf::Event::KeyReleased)
 			{
@@ -77,12 +76,55 @@ void Game::begin()
 			{
 				if (event.text.unicode < 128)
 				{
-
-					textData += static_cast<char>(event.text.unicode);
+					if (event.text.unicode == '\b')
+					{
+						if (textDataStr.size())
+						{
+							textDataStr.erase(textDataStr.size() - 1);
+						}
+					}
+					else
+					{
+						textDataStr += static_cast<char>(event.text.unicode);
+					}
+					textDataChr = static_cast<char>(event.text.unicode);
+					
 				}
 			}
-			
 
+			if (event.type == sf::Event::MouseMoved)
+			{
+				mouseData.setPosition(sf::Vector2f(event.mouseMove.x, event.mouseMove.y));
+			}
+			
+			if (event.type == sf::Event::MouseButtonPressed)
+			{
+				if (event.mouseButton.button == sf::Mouse::Right)
+				{
+					mouseData.setRightData(MouseData::Hit);
+				}
+				if (event.mouseButton.button == sf::Mouse::Left)
+				{
+					mouseData.setLeftData(MouseData::Hit);
+				}
+			}
+
+			if (event.type == sf::Event::MouseButtonReleased)
+			{
+				if (event.mouseButton.button == sf::Mouse::Right)
+				{
+					mouseData.setRightData(MouseData::Released);
+				}
+				if (event.mouseButton.button == sf::Mouse::Left)
+				{
+					mouseData.setLeftData(MouseData::Released);
+				}
+			}
+
+			if (event.type == sf::Event::MouseWheelMoved)
+			{
+				mouseData.setScroll(event.mouseWheel.delta);
+			}
 
 		}
 
@@ -93,7 +135,9 @@ void Game::begin()
 
 		window.display();
 
-		keyData.newFrameUpdate();
+		textDataChr = 0;
+		keyData.frameUpdate();
+		mouseData.frameUpdate();
 	}
 
 
@@ -104,26 +148,28 @@ void Game::begin()
 
 void Game::draw()
 {
+	gui.draw(sf::Vector2f(0, 0), *windowPtr);
+	//layMan.setupDraw();										//need to setup draw before objects are drawn
 
-	layMan.setupDraw();										//need to setup draw before objects are drawn
 
+	//numLayers = layMan.getLayerAmount();
 
-	numLayers = layMan.getLayerAmount();
-
-	for (int i = 0; i < numLayers; i++)	//draw objects to all layers
-	{
-		boost::function<void(objects::Object&)> draw = boost::bind(&objects::Object::draw, _1, boost::ref(*layMan.getLayerPtr(i)));
-		objMan.callFunction<boost::function<void(objects::Object&)> >("Layers.Layer" + boost::lexical_cast<std::string>(i), draw);
-	}
-	
-	layMan.draw(*windowPtr.get());	//actually draw layers to window
+	//for (int i = 0; i < numLayers; i++)	//draw objects to all layers
+	//{
+	//	boost::function<void(objects::Object&)> draw = boost::bind(&objects::Object::draw, _1, boost::ref(*layMan.getLayerPtr(i)));
+	//	objMan.callFunction<boost::function<void(objects::Object&)> >("Layers.Layer" + boost::lexical_cast<std::string>(i), draw);
+	//}
+	//
+	//layMan.draw(*windowPtr.get());	//actually draw layers to window
 
 }
 
 void Game::update()
 {
-	
-	objMan.getObject("Layers.Layer0.1")->update(keys);
+
+	gui.update(textDataChr, mouseData);
+	std::cout << testMap["Cat"] << ", " << testMap["Ani"] << std::endl;
+	//objMan.getObject("Layers.Layer0.1")->update(keys);
 
 	//for each layer
 		//get draw bounds for layer
@@ -246,8 +292,13 @@ void Game::loadMap()
 
 void Game::loadEntryTable()
 {
-	std::vector<std::string> testStr = { "Cat", "Dog", "TestString1", "TestString2" };
-	gui.setup(200, 50, 30, sf::Vector2f(100, 100));
-	gui.setMapKeys(testStr, recMan.getFontPointerByName("times"), recMan.getTexturePointerByName("textbar"), recMan.getTexturePointerByName("guiBG"));
+	
+	testMap["Cat"] = "";
+	testMap["Dog"] = "";
+	testMap["Bun"] = "";
+	testMap["Ani"] = "";
 
+	gui.setup(200, 50, 30, sf::Vector2f(100, 100));
+	gui.setMap(testMap);
+	gui.createTable(recMan.getFontPointerByName("times"), recMan.getTexturePointerByName("textbar"), recMan.getTexturePointerByName("guiBG"));
 }

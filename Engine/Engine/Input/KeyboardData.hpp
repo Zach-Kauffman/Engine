@@ -18,13 +18,26 @@ public:
 
 	//bool isKeyUnheld(const int& keyVal); //not useful
 
-	void newFrameUpdate();						//call once every time frame repeats
+	void frameUpdate();						//call once every time frame repeats
 
 private:
 
-	std::set<const int> keysHit;
-	std::set<const int> keysHeld;
-	std::set<const int> keysReleased;
+	/*template <class T>
+	bool setContains(const std::set<T>& set, const T& value)
+	{
+		if (set.find(value) == set.end())
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}*/
+
+	std::set<const unsigned int> keysHit;
+	std::set<const unsigned int> keysHeld;
+	std::set<const unsigned int> keysReleased;
 
 
 };

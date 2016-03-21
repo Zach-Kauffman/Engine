@@ -3,10 +3,12 @@
 
 EntryTextBox::EntryTextBox()
 {
-	strTracker = "";
+	//strTracker = "";
+	//*entryString = "a";
 	background.setPosition(0, 0);
-	entryText.setPosition(0, 0);
-	textBar.setPosition(0, 0);
+	entryText.setPosition(10, 10);
+	textBar.setPosition(0, 10);
+	isActive = false;
 }
 
 
@@ -28,24 +30,28 @@ void EntryTextBox::setup(sf::Font * const font, sf::Texture * const barTex, sf::
 	position = fpos;
 	entryText.setFont(*font);
 	entryText.setCharacterSize(charsiz);
-	entryText.setColor(sf::Color::Green);
+	entryText.setColor(sf::Color::Red);
 	textBar.setTexture(*barTex);
 }
 
 
-std::string EntryTextBox::getEntryString()
+void EntryTextBox::setEntryString(std::string& estr)
 {
-	return entryString;
+	entryString = &estr;
 }
+//std::string EntryTextBox::getEntryString()
+//{
+//	return entryString;
+//}
 
 
-void EntryTextBox::update(const std::string& curstr, MouseData& mdata)
+void EntryTextBox::update(const char& typedChar, MouseData& mdata)
 {
 	setActivity(mdata);
-	setEntryString(curstr);
+	setEntryString(typedChar);
 	if (isActive)
 	{
-		entryText.setString(entryString);
+		entryText.setString(*entryString);
 	}
 	setBarPos();
 
@@ -87,43 +93,43 @@ void EntryTextBox::draw(const sf::Vector2f& drawPos, sf::RenderWindow& window)
 
 //private
 
-void EntryTextBox::setEntryString(const std::string& curstr)
+void EntryTextBox::setEntryString(const char& typedChar)
 {
 	
 
-	if (!isActive)
+	if (isActive )
 	{
-		strTracker = curstr;
-	}
-	else
-	{
-		bool dif = false;
-		bool renewOnce = true;
-		for (unsigned int i = 0; i < curstr.size(); i++)
+		if (typedChar != 0)
 		{
-			if (curstr[i] != strTracker[i] && !dif)
+			if (typedChar == '\b')
 			{
-				dif = true;
-			}
-			if (dif)
-			{
-				if (renewOnce)
+				if (entryString->size())
 				{
-					entryString = "";
-					renewOnce = false;
+					entryString->erase(entryString->end() - 1);
 				}
-				entryString += curstr[i];
+			}
+			else
+			{
+				*entryString += typedChar;
 			}
 		}
+		
 	}
+
 
 }
 
 
 void EntryTextBox::setActivity(MouseData& mdata)
 {
-	sf::Vector2f mpos = mdata.getPosition() - lastDrawPos + position;
+	sf::Vector2f mpos = mdata.getPosition() - lastDrawPos - position;
 	bool clicked = (mdata.getLeftData() == MouseData::Hit);
+	/*
+	std::cout << mdata.getPosition().x << ", " << mdata.getPosition().y << std::endl;
+	std::cout << lastDrawPos.x << ", " << lastDrawPos.y << std::endl;
+	std::cout << mpos.x << ", " << mpos.y << std::endl;
+	std::cout << background.getGlobalBounds().left << ", " << background.getGlobalBounds().top << std::endl;
+	*/
 	if (background.getGlobalBounds().contains(mpos))
 	{
 		if (clicked)
@@ -144,6 +150,25 @@ void EntryTextBox::setActivity(MouseData& mdata)
 
 void EntryTextBox::setBarPos()
 {
-	float xval = entryText.findCharacterPos(entryString.size() - 1).x;
+	float xval = entryText.getGlobalBounds().width + entryText.getPosition().x;
 	textBar.setPosition(sf::Vector2f(xval, textBar.getPosition().y));
 }
+
+
+//bool EntryTextBox::isDif(const std::string& curstr,  const unsigned int& i)
+//{
+//	bool b = false;
+//	if (strTracker == "" && curstr != "")
+//	{
+//		b = true;
+//	}
+//	else if (strTracker.size() <= i)
+//	{
+//		b = true;
+//	}
+//	else if (curstr[i] != strTracker[i])
+//	{
+//		b = true;
+//	}
+//	return b;
+//}

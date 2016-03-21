@@ -20,8 +20,15 @@ void KeyboardData::keyPressed(const unsigned int keyVal)
 
 void KeyboardData::keyReleased(const unsigned int keyVal)
 {
-	keysHit.erase(remove(keysHit.begin(), keysHit.end(), keyVal), keysHit.end());
-	keysHeld.erase(remove(keysHit.begin(), keysHit.end(), keyVal), keysHit.end());
+	if (keysHit.find(keyVal) != keysHit.end())
+	{
+		keysHit.erase(keysHit.find(keyVal));
+	}
+	if (keysHeld.find(keyVal) != keysHeld.end())
+	{
+		keysHeld.erase(keysHeld.find(keyVal));
+	}
+	
 	keysReleased.insert(keyVal);
 }
 
@@ -30,7 +37,7 @@ void KeyboardData::keyReleased(const unsigned int keyVal)
 bool KeyboardData::isKeyHit(const int& keyVal)
 {
 	bool hit = false;
-	if (std::find(keysHit.begin(), keysHit.end(), keyVal) != keysHit.end())
+	if (keysHit.find(keyVal) != keysHit.end())
 	{
 		hit = true;
 	}
@@ -41,11 +48,11 @@ bool KeyboardData::isKeyHit(const int& keyVal)
 bool KeyboardData::isKeyHeld(const int& keyVal)
 {
 	bool hit = false;
-	if (std::find(keysHeld.begin(), keysHeld.end(), keyVal) != keysHeld.end())
+	if (keysHeld.find(keyVal) != keysHeld.end())
 	{
 		hit = true;
 	}
-	else if (std::find(keysHit.begin(), keysHit.end(), keyVal) != keysHit.end())
+	else if (keysHit.find(keyVal) != keysHit.end())
 	{
 		hit = true;
 	}
@@ -55,7 +62,7 @@ bool KeyboardData::isKeyHeld(const int& keyVal)
 bool KeyboardData::isKeyReleased(const int& keyVal)
 {
 	bool hit = false;
-	if (std::find(keysReleased.begin(), keysReleased.end(), keyVal) != keysReleased.end())
+	if (keysReleased.find(keyVal) != keysReleased.end())
 	{
 		hit = true;
 	}
@@ -63,17 +70,18 @@ bool KeyboardData::isKeyReleased(const int& keyVal)
 }
 
 
-void KeyboardData::newFrameUpdate()
+void KeyboardData::frameUpdate()
 {
-	for (unsigned int i = 0; i < keysHit.size(); i++)
+	while (keysHit.size() > 0)
 	{
-		keysHit.erase(remove(keysHit.begin(), keysHit.end(), i), keysHit.end());
-		keysHeld.insert(i);
+		const unsigned int k = *keysHit.begin();
+		keysHit.erase(keysHit.begin());
+		keysHeld.insert(k);
 	}
 
-	for (unsigned int i = 0; i < keysReleased.size(); i++)
+	while (keysReleased.size() > 0)
 	{
-		keysReleased.erase(remove(keysHit.begin(), keysHit.end(), i), keysHit.end());
+		keysReleased.erase(keysReleased.begin());
 	}
 
 }
