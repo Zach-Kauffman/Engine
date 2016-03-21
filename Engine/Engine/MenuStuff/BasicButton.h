@@ -33,7 +33,7 @@ public:
 
 	void update();															//necessary update inherited from MenuElement with an empty update vitrtual function
 	
-	void update(MouseData& fmouseData);										//this is the update used because it requires mouse data to determine button states
+	void update(MouseData& fmouseData, const char& typedChar, KeyboardData& fkeyData);										//this is the update used because it requires mouse data to determine button states
 	
 	void draw(sf::RenderWindow& frenderWindow, sf::Vector2f drawPosition);	//drawing something requires a renderwindow and a position to draw at
 

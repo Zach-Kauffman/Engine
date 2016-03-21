@@ -9,7 +9,7 @@ public:
 
 	virtual void update() = 0;															//virtual; every menuElement will have a 0-argument update
 
-	virtual void update(MouseData& fmouseData) = 0;										//and they will have a 1-argument mousedata update
+	virtual void update(MouseData& fmouseData, const char& typedChar, KeyboardData& fkeyData) = 0;			//and they will have a 1-argument mousedata update
 
 	virtual void draw(sf::RenderWindow& frenderWindow, sf::Vector2f drawPosition) = 0;	//and will draw, somehow
 

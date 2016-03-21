@@ -2,7 +2,6 @@
 
 
 
-
 MenuSprite::MenuSprite()
 {
 	requiresMouseData = false;			//by default, the MenuSprite does not require mouse data
@@ -13,7 +12,7 @@ MenuSprite::MenuSprite()
 }
 
 
-MenuSprite::MenuSprite(const sf::Texture* ftexture, sf::Vector2f fposition, sf::Vector2f fsize)
+MenuSprite::MenuSprite(const sf::Texture* const ftexture, sf::Vector2f fposition, sf::Vector2f fsize)
 {
 	requiresMouseData = false;			//same stuff
 
@@ -32,7 +31,7 @@ MenuSprite::~MenuSprite()
 }
 
 
-void MenuSprite::setup(const sf::Texture* ftexture, sf::Vector2f fposition, sf::Vector2f fsize)
+void MenuSprite::setup(const sf::Texture* const ftexture, sf::Vector2f fposition, sf::Vector2f fsize)
 {
 	position = fposition;				//position is set
 
@@ -47,7 +46,7 @@ void MenuSprite::update()	//empty
 }
 
 
-void MenuSprite::update(MouseData& fmouseData)	//empty
+void MenuSprite::update(MouseData& fmouseData, const char& typedChar, KeyboardData& fkeyData)	//empty
 {
 
 }

@@ -1,7 +1,7 @@
 #pragma once
 #include "TablePair.hpp"
 
-class EntryTable
+class EntryTable : MenuElement
 {
 public:
 	EntryTable();
@@ -11,11 +11,14 @@ public:
 	void setup(const double& xspac, const double& yspac, const unsigned int& csiz, const sf::Vector2f& pos);
 
 	void setMap(std::map<std::string, std::string>& fmap);
-	void createTable(sf::Font * const  font, sf::Texture * const barTex, sf::Texture * const bgTex);
+	void createTable(	sf::Font * const ffont, const sf::Color &fcolor, sf::Texture* const bgTex,
+						const sf::Vector2f& bgSiz, sf::Texture * const barTex, const double& indent
+						);
 
-
-	void update(const char& typedChar, MouseData& mdata);
-	void draw(const sf::Vector2f& drawpos, sf::RenderWindow& window);
+	void update() {};
+	void update(MouseData& fmouseData, const char& typedChar, KeyboardData& fkeyData);
+	void draw(sf::RenderWindow& window, sf::Vector2f drawPos);
+	void resetMD() {};
 private:
 
 	
@@ -23,7 +26,6 @@ private:
 	std::map<std::string, std::string>* strMap;
 	std::vector<std::string> recordstrs;
 
-	sf::Vector2f position;
 	double xSpacing;
 	double ySpacing;
 	unsigned int charSize;

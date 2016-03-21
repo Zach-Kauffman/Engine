@@ -2,16 +2,7 @@
 
 
 
-//----------------------------------------------------------------------------------------------------------------------------***************************
-//-----------------------------------------PUBLIC-----------------------------------------------------------------------------***************************
-//----------------------------------------------------------------------------------------------------------------------------***************************
 
-
-
-
-/*------------------------------------------------------------------------------------
-------------------------------------constructor1--------------------------------------
-------------------------------------------------------------------------------------*/
 SingleTextBox::SingleTextBox()
 {
 
@@ -26,10 +17,7 @@ SingleTextBox::SingleTextBox()
 
 
 
-/*------------------------------------------------------------------------------------
-------------------------------------constructor2--------------------------------------
-------------------------------------------------------------------------------------*/
-SingleTextBox::SingleTextBox(sf::Vector2f fposition, const sf::Font* ffont, std::string fstring, int ffontsize, double fmaxwidth, sf::Color fcolor)
+SingleTextBox::SingleTextBox(sf::Vector2f fposition, const sf::Font* const ffont, std::string fstring, int ffontsize, double fmaxwidth, sf::Color fcolor)
 {
 	requiresMouseData = false;					//same stuff
 
@@ -44,19 +32,14 @@ SingleTextBox::SingleTextBox(sf::Vector2f fposition, const sf::Font* ffont, std:
 
 
 
-/*------------------------------------------------------------------------------------
-------------------------------------destructor----------------------------------------
-------------------------------------------------------------------------------------*/
 SingleTextBox::~SingleTextBox()
 {
 }
 
 
 
-/*------------------------------------------------------------------------------------
-------------------------------------setup---------------------------------------------
-------------------------------------------------------------------------------------*/
-void SingleTextBox::setup(sf::Vector2f fposition, const sf::Font* ffont, std::string fstring, int ffontsize, double fmaxwidth, sf::Color fcolor)
+
+void SingleTextBox::setup(sf::Vector2f fposition, const sf::Font* const ffont, std::string fstring, int ffontsize, double fmaxwidth, sf::Color fcolor)
 {
 
 	position = fposition;						//set position
@@ -83,16 +66,7 @@ void SingleTextBox::setup(sf::Vector2f fposition, const sf::Font* ffont, std::st
 
 
 
-	sf::Vector2f tempDimensions;				//make temp dimensions
-
-	tempDimensions = sf::Vector2f(textBody.getLocalBounds().width, textBody.getLocalBounds().height);
 												//set it equal to the dimensions of the text box
-
-
-	textBody.setOrigin(tempDimensions.x / 2, tempDimensions.y / 2);
-												//set the origin in the center
-
-	textBody.setPosition(0,0);					//set the position at 0,0 by default
 
 	correctPosition();							//corrects the text's position
 
@@ -100,12 +74,7 @@ void SingleTextBox::setup(sf::Vector2f fposition, const sf::Font* ffont, std::st
 
 
 
-//----------------------------------------------------------------------------------------------------------------------------***************************
 
-
-/*------------------------------------------------------------------------------------
-------------------------------------update--------------------------------------------
-------------------------------------------------------------------------------------*/
 void SingleTextBox::update()					//empty
 { 
 
@@ -113,22 +82,14 @@ void SingleTextBox::update()					//empty
 
 
 
-/*------------------------------------------------------------------------------------
-------------------------------update-with-mouseData-----------------------------------
-------------------------------------------------------------------------------------*/
-void SingleTextBox::update(MouseData& fmouseData)	//empty
+
+void SingleTextBox::update(MouseData& fmouseData, const char& typedChar, KeyboardData& fkeyData)	//empty
 {
 
 }
 
 
 
-//----------------------------------------------------------------------------------------------------------------------------***************************
-
-
-/*------------------------------------------------------------------------------------
-------------------------------------draw----------------------------------------------
-------------------------------------------------------------------------------------*/
 void SingleTextBox::draw(sf::RenderWindow& frenderwindow, sf::Vector2f drawPosition)
 {
 	position += drawPosition;					//add the draw position to make things relative
@@ -144,12 +105,6 @@ void SingleTextBox::draw(sf::RenderWindow& frenderwindow, sf::Vector2f drawPosit
 
 
 
-//----------------------------------------------------------------------------------------------------------------------------***************************
-
-
-/*------------------------------------------------------------------------------------
-------------------------------------resetMD-------------------------------------------
-------------------------------------------------------------------------------------*/
 void SingleTextBox::resetMD()					//doesn't reseton Menu deactivation
 {
 
@@ -157,27 +112,37 @@ void SingleTextBox::resetMD()					//doesn't reseton Menu deactivation
 
 
 
-//----------------------------------------------------------------------------------------------------------------------------***************************
+sf::Vector2f SingleTextBox::getGlobalDimensions()
+{
+	return sf::Vector2f(textBody.getGlobalBounds().width, textBody.getGlobalBounds().height);
+}
 
+sf::Vector2f SingleTextBox::getLocalDimensions()
+{
+	return sf::Vector2f(textBody.getLocalBounds().width, textBody.getLocalBounds().height);
+}
 
-/*------------------------------------------------------------------------------------
--------------------------------setTextString------------------------------------------
-------------------------------------------------------------------------------------*/
+sf::Vector2f SingleTextBox::getLetterPosition(const unsigned int& index)
+{
+	return textBody.findCharacterPos(index);
+}
+
+sf::Vector2f SingleTextBox::getLastLetterPosition()
+{
+	return textBody.findCharacterPos(drawString.size() + 1);
+}
+
 void SingleTextBox::setTextString(std::string fstring)	//sets the string you want to draw
 {
 	textBody.setString(fstring);						//set the string
+	drawString = fstring;
 
 	wrapText();											//wrap the text
+	correctPosition();
 }
 
 
 
-//----------------------------------------------------------------------------------------------------------------------------***************************
-
-
-/*------------------------------------------------------------------------------------
---------------------------------setTextColor------------------------------------------
-------------------------------------------------------------------------------------*/
 void SingleTextBox::setTextColor(sf::Color fcolor)		//set the color of the text
 {
 	textBody.setColor(fcolor);							//yep, do it
@@ -185,40 +150,18 @@ void SingleTextBox::setTextColor(sf::Color fcolor)		//set the color of the text
 
 
 
-//----------------------------------------------------------------------------------------------------------------------------***************************
-
-
-/*------------------------------------------------------------------------------------
--------------------------------setFontSize--------------------------------------------
-------------------------------------------------------------------------------------*/
 void SingleTextBox::setFontSize(int fsize)				//set the font size in pixels
 {
 	textBody.setCharacterSize(fsize);					//set the size of the characters
 		
 	wrapText();											//wrap the text
+
+	correctPosition();
 }
 
 
+//private
 
-//----------------------------------------------------------------------------------------------------------------------------***************************
-
-
-
-
-
-
-
-//----------------------------------------------------------------------------------------------------------------------------***************************
-//-----------------------------------------PRIVATE----------------------------------------------------------------------------***************************
-//----------------------------------------------------------------------------------------------------------------------------***************************
-
-
-
-
-
-/*------------------------------------------------------------------------------------
--------------------------------wrapText-----------------------------------------------
-------------------------------------------------------------------------------------*/
 void SingleTextBox::wrapText()				//wraps the string around a margin
 {
 	std::string searchString;
@@ -335,12 +278,6 @@ void SingleTextBox::wrapText()				//wraps the string around a margin
 
 
 
-//----------------------------------------------------------------------------------------------------------------------------***************************
-
-
-/*------------------------------------------------------------------------------------
---------------------------getDimensionsOfString---------------------------------------
-------------------------------------------------------------------------------------*/
 sf::Vector2f SingleTextBox::getDimensionsOfString(std::string fstr)	//gets the dimensions of a hypothetical string given the other conditions of the textBox
 {
 
@@ -359,14 +296,21 @@ sf::Vector2f SingleTextBox::getDimensionsOfString(std::string fstr)	//gets the d
 
 
 
-//----------------------------------------------------------------------------------------------------------------------------***************************
-
-
-/*------------------------------------------------------------------------------------
---------------------------correctPosition---------------------------------------------
-------------------------------------------------------------------------------------*/
 void SingleTextBox::correctPosition()							//corrects the position of the text because text is dumb
 {
+
+	sf::Vector2f tempDimensions;							//make temp dimensions
+
+	tempDimensions = sf::Vector2f(textBody.getLocalBounds().width, textBody.getLocalBounds().height);
+
+
+	textBody.setOrigin(tempDimensions.x / 2, tempDimensions.y / 2);
+																//set the origin in the center
+
+	textBody.setPosition(0,0);									//set the position at 0,0 by default
+
+
+
 	double maxHeight = 0;										//declare maxHeight and a temporary string	
 
 	std::string tmpString;
@@ -380,7 +324,7 @@ void SingleTextBox::correctPosition()							//corrects the position of the text 
 			break;												//if it's a newline, stop
 		}
 
-		else if (getDimensionsOfString(tmpString).y > maxHeight)//otherwise, if the height of the letter is bigger than the maxHeight,
+		else if (getDimensionsOfString(tmpString).y > maxHeight)	//otherwise, if the height of the letter is bigger than the maxHeight,
 		{
 			maxHeight = getDimensionsOfString(tmpString).y;		//make the maxHeight the current letter's height
 		}
@@ -389,4 +333,3 @@ void SingleTextBox::correctPosition()							//corrects the position of the text 
 	textBody.move(sf::Vector2f(0, - maxHeight / 2));			//move the textBody up by half the maxHeight -- don't ask why
 }
 
-//----------------------------------------------------------------------------------------------------------------------------***************************

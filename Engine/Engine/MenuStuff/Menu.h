@@ -44,7 +44,7 @@ public:
 	//template<class C> C* getPointerToChildByName(std::string fname);		//gets a pointer to a child by name
 
 
-	void update(MouseData& fmousedata);										//updates all of the menuElements
+	void update(MouseData& fmouseData, const char& typedChar, KeyboardData& fkeyData);										//updates all of the menuElements
 
 	void draw(sf::RenderWindow& frenderwindow, sf::Vector2f drawPosition);	//draws all of the menuElements
 

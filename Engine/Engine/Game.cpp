@@ -148,7 +148,7 @@ void Game::begin()
 
 void Game::draw()
 {
-	gui.draw(sf::Vector2f(0, 0), *windowPtr);
+	gui.draw(*windowPtr, sf::Vector2f(0, 0));
 	//layMan.setupDraw();										//need to setup draw before objects are drawn
 
 
@@ -167,7 +167,7 @@ void Game::draw()
 void Game::update()
 {
 
-	gui.update(textDataChr, mouseData);
+	gui.update(mouseData, textDataChr, keyData);
 	std::cout << testMap["Cat"] << ", " << testMap["Ani"] << std::endl;
 	//objMan.getObject("Layers.Layer0.1")->update(keys);
 
@@ -298,7 +298,9 @@ void Game::loadEntryTable()
 	testMap["Bun"] = "";
 	testMap["Ani"] = "";
 
-	gui.setup(200, 50, 30, sf::Vector2f(100, 100));
+	gui.setup(200, 50, 20, sf::Vector2f(100, 100));
 	gui.setMap(testMap);
-	gui.createTable(recMan.getFontPointerByName("times"), recMan.getTexturePointerByName("textbar"), recMan.getTexturePointerByName("guiBG"));
+	gui.createTable(recMan.getFontPointerByName("times"), sf::Color::Red,
+					recMan.getTexturePointerByName("guiBG"), sf::Vector2f(200,50), 
+					recMan.getTexturePointerByName("textbar"), 5);
 }

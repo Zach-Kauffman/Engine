@@ -29,7 +29,7 @@ public:
 
 
 
-	void update(MouseData& fmousedata);										//updates all of the menus
+	void update(MouseData& fmouseData, const char& typedChar, KeyboardData& fkeyData);										//updates all of the menus
 
 	void draw(sf::RenderWindow& frenderwindow);								//draws all of the menus
 

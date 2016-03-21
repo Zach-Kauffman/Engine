@@ -15,7 +15,7 @@ public:
 	//inherited virtuals
 	void update();															
 
-	void update(MouseData& fmouseData);
+	void update(MouseData& fmouseData, const char& typedChar, KeyboardData& fkeyData);
 
 	void draw(sf::RenderWindow& frenderwindow, sf::Vector2f drawPosition);
 

@@ -12,7 +12,7 @@ public:
 
 	void update();															//empty
 
-	void update(MouseData& fmouseData);										//empty
+	void update(MouseData& fmouseData, const char& typedChar, KeyboardData& fkeyData);										//empty
 
 	void draw(sf::RenderWindow& frenderWindow, sf::Vector2f drawPosition);	//draws the background
 

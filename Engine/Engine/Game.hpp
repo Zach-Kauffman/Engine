@@ -25,8 +25,6 @@
 
 	#include "MenuStuff\MenuManager.h"
 
-#include "TableEntry\EntryTable.hpp"
-
 class Game
 {
 public:

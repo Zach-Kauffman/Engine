@@ -10,18 +10,18 @@ public:
 
 	MenuSprite();																	//0-argument constructor
 
-	MenuSprite(const sf::Texture* ftexture, sf::Vector2f fposition, sf::Vector2f fsize);	//constructor with all elements
+	MenuSprite(const sf::Texture* const ftexture, sf::Vector2f fposition, sf::Vector2f fsize);	//constructor with all elements
 
 	~MenuSprite();																	//destructor
 
 
-	void setup(const sf::Texture* ftexture, sf::Vector2f fposition, sf::Vector2f fsize);	//sets up the MenuSprite
+	void setup(const sf::Texture* const ftexture, sf::Vector2f fposition, sf::Vector2f fsize);	//sets up the MenuSprite
 
 
 	//inherited virtuals
 	void update();
 
-	void update(MouseData& fmouseData);
+	void update(MouseData& fmouseData, const char& typedChar, KeyboardData& fkeyData);
 
 	void draw(sf::RenderWindow& frenderWindow, sf::Vector2f drawPosition);
 

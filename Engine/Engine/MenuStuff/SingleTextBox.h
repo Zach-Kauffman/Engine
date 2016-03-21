@@ -8,25 +8,32 @@ public:
 
 	SingleTextBox();														//constructor empty
 
-	SingleTextBox(sf::Vector2f fposition, const sf::Font* ffont, std::string fstring, int ffontsize, double fmaxwidth, sf::Color fcolor);
+	SingleTextBox(sf::Vector2f fposition, const sf::Font* const ffont, std::string fstring, int ffontsize, double fmaxwidth, sf::Color fcolor);
 																			//constructor that actually sets everything
 
 	~SingleTextBox();														//destructor
 		
-	void setup(sf::Vector2f fposition, const sf::Font* ffont, std::string fstring, int ffontsize, double fmaxwidth, sf::Color fcolor);
+	void setup(sf::Vector2f fposition, const sf::Font* const ffont, std::string fstring, int ffontsize, double fmaxwidth, sf::Color fcolor);
 																			//setup -- must run if empty constructor was used
 
 
 	//inherited virtual
 	void update();
 
-	void update(MouseData& fmouseData);
+	void update(MouseData& fmouseData, const char& typedChar, KeyboardData& fkeyData);
 
 	void draw(sf::RenderWindow& frenderwindow, sf::Vector2f drawPosition);
 
 	void resetMD();
 
 
+	sf::Vector2f getGlobalDimensions();
+
+	sf::Vector2f getLocalDimensions();
+
+	sf::Vector2f getLetterPosition(const unsigned int& index);
+
+	sf::Vector2f getLastLetterPosition();
 
 	void setTextString(std::string fstring);								//set the string of the text
 

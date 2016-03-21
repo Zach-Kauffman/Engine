@@ -4,6 +4,7 @@
 #include <iostream>
 //#include <functional>
 #include "../Input/MouseData.hpp"
+#include "../Input/KeyboardData.hpp"
 #include "../ResourceManager/ResourceManager.hpp"
 
 //include this in almost every .h

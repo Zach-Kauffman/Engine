@@ -126,7 +126,7 @@ void BasicButton::update()															//Empty update -- inherited virtual
 
 
 
-void BasicButton::update(MouseData& fmouseData)										//mpouse data update -- inherited virtual
+void BasicButton::update(MouseData& fmouseData, const char& typedChar, KeyboardData& fkeyData)					//mouse data update -- inherited virtual
 {
 
 	updateButtonState(fmouseData);													//update the buttonState
