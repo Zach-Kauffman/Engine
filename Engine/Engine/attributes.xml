@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<types>
+	<type name="typeNameHere">
+		<attr>AttrName</attr>
+		<attr>Attr2Name</attr>
+	</type>
+<type>

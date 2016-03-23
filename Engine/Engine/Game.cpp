@@ -211,8 +211,6 @@ void Game::loadMap()
 	for (unsigned int layIt = 0; layIt < layers[0].size(); layIt++)	//for each layer
 	{
 		//reading layer data
-		
-
 		for (int chunkIt = 0; chunkIt < chunks[layIt].size(); chunkIt++)		//for every object
 		{
 			int chunkNum = 1;	//converted from scalar to vector to get chunk position on map -- starts at #1
@@ -236,9 +234,7 @@ void Game::loadMap()
 
 		}
 
-
 	}
-
 
 	//setting up the layer manager
 
