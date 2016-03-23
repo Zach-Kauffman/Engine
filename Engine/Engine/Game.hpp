@@ -20,6 +20,11 @@
 	#include "Utility\Logger.hpp"
 	#include "Utility\XMLParser.hpp"
 
+	#include "Input\KeyboardData.hpp"
+	#include "Input\MouseData.hpp"
+
+	#include "MenuStuff\MenuManager.h"
+
 class Game
 {
 public:
@@ -38,6 +43,7 @@ protected:
 	void loadResources();	//loads all textures, shaders, etc
 	void loadObjects();		//initializes object base types
 	void loadMap();			//loads basic map information
+	void loadEntryTable();
 
 	void updateMap();		//finds new bounds and adds/removes objects
 
@@ -52,6 +58,7 @@ protected:
 	objects::ObjectManager objMan;
 	LayerManager layMan;
 	ResourceManager recMan;
+	EntryTable gui;
 
 	std::string windowName;		//name of the window
 	sf::Vector2i renderSize;	//resolution of game
@@ -67,7 +74,13 @@ protected:
 	int numLayers;
 
 
-	std::vector<int> keys;
+
+	std::map<std::string, std::string> testMap;
+
+	KeyboardData keyData;
+	MouseData mouseData;
+	std::string textDataStr;
+	char textDataChr;
 
 	
 };

@@ -175,40 +175,18 @@ void LayerManager::setReferencePoint(sf::Vector2f& refPoint)
 }
 
 
-
-void LayerManager::draw(sf::RenderWindow& window)
+void  LayerManager::setupDraw()										//pieces of draw that function better if called before objects are drawn to layers
 {
-
 
 	sf::Vector2f distance = *referencePoint - oldReferencePointValue;	//distance from the reference point to where it used to be
 
-	sf::RenderTexture* tmpRenderTex;									//make a temporary RenderTexture pointer
-
-	for (int i = layers.size()-1; i>=0; i--)							//draw in reverse order -- makes intuitive sense: the first layer in the vector
-																		//is the forwardmost layer, not backmost
+	for (unsigned int i = 0; i < layers.size(); i++)
 	{
-
+		layers[i]->getRenderTexture()->clear(sf::Color(0, 0, 0, 0));	//clear the layer
 		layers[i]->interpretViewPos(distance);							//interpret the view position -- scrolling
-
-
-
-		tmpRenderTex = layers[i]->getRenderTexture();					//set tmpRenderTex to point to the current layer's renderTexture;
-
-			
-		tmpRenderTex->display();										//display it -- necessary to draw anything
-
-
-		const sf::Texture& tmpTex = (tmpRenderTex->getTexture());		//get the texture from the layer
-
-		sf::Sprite tmpSprite(tmpTex);									//set a sprite's texture as it
-
-		window.draw(tmpSprite);											//draw the new sprite
-
-		tmpRenderTex->clear(sf::Color(0, 0, 0, 0));						//clear it to transparent so it can draw again
 	}
 
 	oldReferencePointValue = *referencePoint;							//update the oldReferencePointValue
-	
 
 	if (dependentScrollLocking)											//if there is dependent scroll locking
 	{
@@ -232,7 +210,31 @@ void LayerManager::draw(sf::RenderWindow& window)
 		}
 
 	}
+}
 
+
+
+void LayerManager::draw(sf::RenderWindow& window)
+{
+
+	sf::RenderTexture* tmpRenderTex;									//make a temporary RenderTexture pointer
+
+	for (int i = layers.size()-1; i>=0; i--)							//draw in reverse order -- makes intuitive sense: the first layer in the vector
+																		//is the forwardmost layer, not backmost
+	{
+
+		tmpRenderTex = layers[i]->getRenderTexture();					//set tmpRenderTex to point to the current layer's renderTexture;
+
+		tmpRenderTex->display();										//display it -- necessary to draw anything
+
+
+		const sf::Texture& tmpTex = (tmpRenderTex->getTexture());		//get the texture from the layer
+
+		sf::Sprite tmpSprite(tmpTex);									//set a sprite's texture as it
+
+		window.draw(tmpSprite);											//draw the new sprite
+
+	}
 
 }
 
