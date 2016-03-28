@@ -43,7 +43,6 @@ protected:
 	void loadResources();	//loads all textures, shaders, etc
 	void loadObjects();		//initializes object base types
 	void loadMap();			//loads basic map information
-	void loadEntryTable();
 
 	void updateMap();		//finds new bounds and adds/removes objects
 
@@ -58,7 +57,6 @@ protected:
 	objects::ObjectManager objMan;
 	LayerManager layMan;
 	ResourceManager recMan;
-	EntryTable gui;
 
 	std::string windowName;		//name of the window
 	sf::Vector2i renderSize;	//resolution of game

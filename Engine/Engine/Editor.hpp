@@ -22,6 +22,9 @@
 
 	#include "Game.hpp"
 
+#include "EditorGUI.hpp"
+
+
 typedef std::map<std::string, std::string> StringMap;
 typedef std::tuple<boost::property_tree::ptree, StringMap > SelectionData;
 
@@ -31,8 +34,10 @@ public:
 	Editor();
 	~Editor();
 
-	
 private:
+	void editorInitialize();
+
+	void editorBegin();
 	void editorUpdate();
 	void editorDraw();
 
@@ -43,7 +48,7 @@ private:
 	void updateObject();
 	void selectObject(const int& ID);
 
-	void loadAttributes();
+	void loadAttributes(const std::string& path);
 	void saveObjects();
 	void loadSavedObjects();
 
@@ -60,8 +65,8 @@ private:
 
 	//first value of property map will always be two integers seperated by colon representing chunk eg (10:4) would be chunkX = 10 chunkY = 4
 	//second value will always be layer
-	StringMap& objProperties;				//currently selected object's property list
-	boost::property_tree::ptree& objXml;	//currently selected object's xml
+	StringMap* objProperties;				//currently selected object's property list
+	boost::property_tree::ptree* objXml;	//currently selected object's xml
 	int objID;								//currently selected object's id
 	bool objSelection;						//true if an object is currently selected
 
@@ -73,5 +78,7 @@ private:
 	bool loadAllResources;	//if true loads all resources into editable format
 	
 	std::map<std::string, SelectionData> resourceList;
+
+	EditorGUI gui;
 
 };

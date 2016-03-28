@@ -232,10 +232,10 @@ int BasicButton::getButtonState()										//returns the buttonState
 
 
 
-void BasicButton::addFunctionToDoOnButtonState(function_pointer function, void* object, int fbuttonState)		//adds a function to do when the button is a certain buttonState
+void BasicButton::addFunctionToDoOnButtonState(boost::function<void()> fxn, int fbuttonState)		//adds a function to do when the button is a certain buttonState
 {
 
-	doWhenButtonEvent[fbuttonState].push_back(std::make_pair(function, object));								//add the desired function
+	doWhenButtonEvent[fbuttonState].push_back(fxn);								//add the desired function
 
 }
 
@@ -458,9 +458,9 @@ void BasicButton::callbackOnButtonEvent(int fbuttonState)										//do this whe
 {
 	for (unsigned int i = 0; i < doWhenButtonEvent[fbuttonState].size(); i++)					//cycle through all functions to be called
 	{
-		if (doWhenButtonEvent[fbuttonState][i].first != NULL)
+		if (doWhenButtonEvent[fbuttonState][i])		//if the function exists
 		{
-			doWhenButtonEvent[fbuttonState][i].first(doWhenButtonEvent[fbuttonState][i].second);	//do all functions
+			doWhenButtonEvent[fbuttonState][i]();	//call it
 		}
 	}
 }

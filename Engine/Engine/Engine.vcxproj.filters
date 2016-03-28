@@ -136,6 +136,7 @@
     <ClInclude Include="MenuStuff\TableEntry\TablePair.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="EditorGUI.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Utility\Downcast.cpp">
@@ -235,5 +236,6 @@
     <ClCompile Include="MenuStuff\TableEntry\TablePair.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="EditorGUI.cpp" />
   </ItemGroup>
 </Project>

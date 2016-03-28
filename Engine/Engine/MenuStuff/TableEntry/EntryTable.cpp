@@ -16,7 +16,8 @@ EntryTable::~EntryTable()
 }
 
 
-EntryTable::EntryTable(const double& xspac, const double& yspac, const unsigned int& csiz, const sf::Vector2f& pos)
+EntryTable::EntryTable(const double& xspac, const double& yspac, const unsigned int& csiz, const sf::Vector2f& pos, sf::Font * const ffont, const sf::Color& fcolor, sf::Texture* const bgTex,
+	const sf::Vector2f& bgSiz, sf::Texture * const fbarTex, const double& findent)
 {
 
 	requiresMouseData = true;															
@@ -25,7 +26,12 @@ EntryTable::EntryTable(const double& xspac, const double& yspac, const unsigned 
 
 	resetsOnMD = false;	
 
-
+	font = ffont;
+	color = fcolor;
+	bgTexture = bgTex;
+	bgSize = bgSiz;
+	barTexture = fbarTex;
+	indent = findent;
 	setup(xspac, yspac, csiz, pos);
 }
 
@@ -37,31 +43,23 @@ void EntryTable::setup(const double& xspac, const double& yspac, const unsigned 
 	position = pos;
 }
 
-void EntryTable::setMap(std::map<std::string, std::string>& fmap)
+void EntryTable::setMap(std::map<std::string, std::string>& tableData)
 {
-	strMap = &fmap;
-	typedef std::map<std::string, std::string>::iterator it_type;
-	for(it_type iterator = fmap.begin(); iterator != fmap.end(); iterator++) {
+	strMap = &tableData;
+	std::map<std::string, std::string>::iterator it;
+	for(it = tableData.begin(); it != tableData.end(); it++) {
 	 // iterator->first = key
-		recordstrs.push_back(iterator->first);
+		recordStrs.push_back(it->first);
 	}
-}
 
-void EntryTable::createTable(	sf::Font * const ffont, const sf::Color& fcolor, sf::Texture* const bgTex,
-								const sf::Vector2f& bgSiz, sf::Texture * const barTex, const double& indent
-							)
-{
-	for (unsigned int i = 0; i < recordstrs.size(); i++)
+	for (unsigned int i = 0; i < recordStrs.size(); i++)
 	{
-		
-		tablePairs.push_back(TablePair(ffont, charSize, fcolor, bgTex, bgSiz, barTex, sf::Vector2f(0, i*ySpacing), indent, xSpacing));
-		tablePairs[i].setKeyString(recordstrs[i]);
-		tablePairs[i].setEntryString((*strMap)[recordstrs[i]]);
+
+		tablePairs.push_back(TablePair(font, charSize, color, bgTexture, bgSize, barTexture, sf::Vector2f(0, i*ySpacing), indent, xSpacing));
+		tablePairs[i].setKeyString(recordStrs[i]);
+		tablePairs[i].setEntryString((*strMap)[recordStrs[i]]);
 	}
-
-
 }
-
 
 void EntryTable::update(MouseData& fmouseData, const char& typedChar, KeyboardData& fkeyData)
 {
@@ -69,7 +67,7 @@ void EntryTable::update(MouseData& fmouseData, const char& typedChar, KeyboardDa
 	{
 		tablePairs[i].update(fmouseData, typedChar, fkeyData);
 	}
-	for (int i = 0; i < recordstrs.size(); i++)
+	for (int i = 0; i < recordStrs.size(); i++)
 	{
 		//std::cout << (*strMap)[recordstrs[i]] << std::endl;
 	}

@@ -2,13 +2,13 @@
 #include "MenuElement.h"
 #include "SingleTextBox.h"
 #include "MultiMenuSprite.h"
+#include "boost\function.hpp"
+
+typedef void(*function_pointer)(void*);
+typedef std::pair<function_pointer, void*> memfunc_of_object;
 
 class BasicButton : public MenuElement										//BasicButton is a menuElement that is a button with states based on mouse logic and with text.
 {
-	typedef void(*function_pointer)(void*);
-	typedef std::pair<function_pointer, void*> memfunc_of_object;
-
-
 
 public:
 	
@@ -59,7 +59,7 @@ public:
 
 
 
-	void addFunctionToDoOnButtonState(function_pointer function, void* object, int fbuttonState);//adds a function to do when the button is on a given buttonState
+	void addFunctionToDoOnButtonState(boost::function<void()> fxn, int fbuttonState);//adds a function to do when the button is on a given buttonState
 	
 
 	//void setResources(ResourceGroup& rgroup);
@@ -91,7 +91,7 @@ private:
 	void callbackOnButtonEvent(int fbuttonState);							//calls every function in the vector of functions assigned to a
 																			//button state when that button state is the current one
 
-	std::vector<std::vector<memfunc_of_object>> doWhenButtonEvent;
+	std::vector<std::vector<boost::function<void()> > > doWhenButtonEvent;
 
 	
 	

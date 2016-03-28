@@ -12,12 +12,144 @@ Editor::~Editor()
 
 }
 
+void Editor::editorInitialize()
+{
+	gui.initialize(&recMan);
+	
+	boost::function<void()> boundFxn = boost::bind(&Editor::updateObject, this);
+	gui.setButtonCallback("editorMenu", "updateButton", boundFxn, 12);
+
+	boundFxn = boost::bind(&Editor::editObject, this);
+	gui.setButtonCallback("editorMenu", "updateButton", boundFxn, 12);
+
+	boundFxn = boost::bind(&Editor::addResource, this);
+	gui.setButtonCallback("editorMenu", "save", boundFxn, 12);
+
+	boundFxn = boost::bind(&Editor::saveFile, this);
+	gui.setButtonCallback("editorMenu", "save", boundFxn, 12);
+
+
+	
+}
+
+void Editor::editorBegin()
+{
+	initialize();
+
+	sf::RenderWindow& window = *windowPtr;
+	window.setKeyRepeatEnabled(false);		//makes it so when a key is hit, only one event is recorded, not nine, or whatever -- ignores holding keys
+	while (window.isOpen())
+	{
+		sf::Event event;
+		while (window.pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed)
+			{
+				window.close();
+			}
+
+			if (event.type == sf::Event::KeyPressed)
+			{
+				for (int i = 0; i < sf::Keyboard::KeyCount; i++)			//KeyCount is the number of Keys; this is intended to check every key
+				{
+					if (event.key.code == (sf::Keyboard::Key)(i))			//trying to typecast int i as a Key enum 
+					{
+						keyData.keyPressed(i);
+
+					}
+				}
+			}
+			if (event.type == sf::Event::KeyReleased)
+			{
+				for (int i = 0; i < sf::Keyboard::KeyCount; i++)
+				{
+					if (event.key.code == (sf::Keyboard::Key)(i))
+					{
+						keyData.keyReleased(i);
+
+					}
+				}
+			}
+
+			if (event.type == sf::Event::TextEntered)
+			{
+				if (event.text.unicode < 128)
+				{
+					if (event.text.unicode == '\b')
+					{
+						if (textDataStr.size())
+						{
+							textDataStr.erase(textDataStr.size() - 1);
+						}
+					}
+					else
+					{
+						textDataStr += static_cast<char>(event.text.unicode);
+					}
+					textDataChr = static_cast<char>(event.text.unicode);
+
+				}
+			}
+
+			if (event.type == sf::Event::MouseMoved)
+			{
+				mouseData.setPosition(sf::Vector2f(event.mouseMove.x, event.mouseMove.y));
+			}
+
+			if (event.type == sf::Event::MouseButtonPressed)
+			{
+				if (event.mouseButton.button == sf::Mouse::Right)
+				{
+					mouseData.setRightData(MouseData::Hit);
+				}
+				if (event.mouseButton.button == sf::Mouse::Left)
+				{
+					mouseData.setLeftData(MouseData::Hit);
+				}
+			}
+
+			if (event.type == sf::Event::MouseButtonReleased)
+			{
+				if (event.mouseButton.button == sf::Mouse::Right)
+				{
+					mouseData.setRightData(MouseData::Released);
+				}
+				if (event.mouseButton.button == sf::Mouse::Left)
+				{
+					mouseData.setLeftData(MouseData::Released);
+				}
+			}
+
+			if (event.type == sf::Event::MouseWheelMoved)
+			{
+				mouseData.setScroll(event.mouseWheel.delta);
+			}
+
+		}
+
+		window.clear();
+
+		update();
+		editorUpdate();
+
+		draw();
+		editorDraw();
+
+		window.display();
+
+		textDataChr = 0;
+		keyData.frameUpdate();
+		mouseData.frameUpdate();
+	}
+}
+
 //update needs to allow for GUI and object selection
 void Editor::editorUpdate()
 {
 	//run selection check for (all???) objects or at least the current layer
 
 	//update gui
+	gui.update(mouseData, textDataChr, keyData);
 }
 
 //draw needs to draw GUI
@@ -26,12 +158,15 @@ void Editor::editorDraw()
 	//find object with id of currently selected
 	//highlight its rectangle bounds
 
-	//draw gui
+	gui.draw(*windowPtr);	//tell menus to draw
 }
+
+
 
 void Editor::addObject()
 {
-	std::string type = GUI.popup("Enter Object Type: ");	//get that object type
+	std::string type;
+	gui.popup("Enter Object Type: ", type);	//get that object type
 
 	//check for type validity
 
@@ -44,7 +179,7 @@ void Editor::addObject()
 
 	idList[tempObject->getID()] = std::make_tuple(objectRoot, properties);
 
-	GUI.prompt(properties);	//prompt for all object attributes
+	gui.setMap("editorMenu", "attributeEditor", properties);	//prompt for all object attributes
 
 	selectObject(tempObject->getID());
 
@@ -60,7 +195,7 @@ void Editor::addObject()
 
 void Editor::editObject()	//edits currently selected object
 {
-	GUI.prompt(objProperties);
+	gui.setMap("editorMenu", "attributeEditor", *objProperties);
 
 	//find object xml by id in storage
 	//redisplays option with current selection for editing
@@ -77,15 +212,15 @@ void Editor::updateObject()
 	//save xml
 	boost::property_tree::ptree newXml;
 	std::map<std::string, std::string>::iterator it;
-	for (it = objProperties.begin(); it != objProperties.end(); it++)	//iterate through values and store them in property tree
+	for (it = objProperties->begin(); it != objProperties->end(); it++)	//iterate through values and store them in property tree
 	{
 		newXml.put(it->first, it->second);
 	}
 
-	objXml = newXml;
+	objXml = &newXml;
 
 	auto tmp = objMan.getObject(objID);	
-	tmp->load(objXml, recMan);
+	tmp->load(*objXml, recMan);
 	tmp->setActive(true);
 	//calculate chunk and add here
 }
@@ -94,8 +229,8 @@ void Editor::selectObject(const int& ID)
 {
 	SelectionData& toSelect = idList[ID];
 
-	objXml = std::get<0>(toSelect);
-	objProperties = std::get<1>(toSelect);
+	objXml = &std::get<0>(toSelect);
+	objProperties = &std::get<1>(toSelect);
 	objID = ID;
 	objSelection = true;
 
@@ -150,7 +285,7 @@ void Editor::saveObjects()
 		
 		int layer = std::get<0>(it->second)["layer"];
 
-		for (int layer)
+		//for (int layer)
 	}
 }
 
@@ -169,7 +304,7 @@ void Editor::removeResource(std::string& name)
 
 }
 
-void Editor::loadAttributes(std::string& path) //loads object attributes from set of files....??
+void Editor::loadAttributes(const std::string& path) //loads object attributes from set of files....??
 {
 	XMLParser attrLoader("attributes.xml");
 
@@ -190,8 +325,9 @@ void Editor::loadAttributes(std::string& path) //loads object attributes from se
 		StringMap attrMap;
 		for (int attrIt = 0; attrIt < attributes.size(); attrIt++)
 		{
-			attrMap[]
+			attrMap[attributes[attrIt]] = "";
 		}
+		objectAttributes[types[typeIt]] = attrMap;
 	}
 
 	//for files in directory

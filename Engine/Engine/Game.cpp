@@ -21,11 +21,10 @@ void Game::initialize(const std::string& cfgFile, const std::string& resFile, co
 	}
 	
 	loadResources();	//loads texture sounds, etc
-	loadEntryTable();
 		
-	//loadObjects();		//creates object prototypes
+	loadObjects();		//creates object prototypes
 	
-	//loadMap();			//displays correct objects
+	loadMap();			//displays correct objects
 
 	//thats all for now folks
 
@@ -148,28 +147,27 @@ void Game::begin()
 
 void Game::draw()
 {
-	gui.draw(*windowPtr, sf::Vector2f(0, 0));
-	//layMan.setupDraw();										//need to setup draw before objects are drawn
+
+	layMan.setupDraw();										//need to setup draw before objects are drawn
 
 
-	//numLayers = layMan.getLayerAmount();
+	numLayers = layMan.getLayerAmount();
 
-	//for (int i = 0; i < numLayers; i++)	//draw objects to all layers
-	//{
-	//	boost::function<void(objects::Object&)> draw = boost::bind(&objects::Object::draw, _1, boost::ref(*layMan.getLayerPtr(i)));
-	//	objMan.callFunction<boost::function<void(objects::Object&)> >("Layers.Layer" + boost::lexical_cast<std::string>(i), draw);
-	//}
-	//
-	//layMan.draw(*windowPtr.get());	//actually draw layers to window
+	for (int i = 0; i < numLayers; i++)	//draw objects to all layers
+	{
+		boost::function<void(objects::Object&)> draw = boost::bind(&objects::Object::draw, _1, boost::ref(*layMan.getLayerPtr(i)));
+		objMan.callFunction<boost::function<void(objects::Object&)> >("Layers.Layer" + boost::lexical_cast<std::string>(i), draw);
+	}
+	
+	layMan.draw(*windowPtr.get());	//actually draw layers to window
 
 }
 
 void Game::update()
 {
 	doChunks();
-	objMan.getObject("Layers.Layer0.1.0.1")->update(keys);
+	//objMan.getObject("Layers.Layer0.1.0.1")->update(keyData);
 
-	gui.update(mouseData, textDataChr, keyData);
 	std::cout << testMap["Cat"] << ", " << testMap["Ani"] << std::endl;
 	//objMan.getObject("Layers.Layer0.1")->update(keys);
 
@@ -241,10 +239,31 @@ void Game::loadResources()
 
 	parser.readTree<std::string>(groupTree);		//read data from file and place in output vector
 
+	std::vector<std::string> groups;
+
 	auto &output = groupTree.trees["resources"].output;
 	for (unsigned int ii = 0; ii < output.size(); ii++)
 	{
 		recMan.loadFile(output[ii][1], output[ii][0]);	//load each resource
+		if (output[ii].size() > 2)	//if a third element (being group) exists
+		{
+			bool groupExists = false;
+			for (int groupIt = 0; groupIt < groups.size(); groupIt++)	//cycle through groups
+			{
+				if (groups[groupIt] == output[ii][2])
+				{
+					groupExists = true;
+				}
+			}
+			if (!groupExists)
+			{
+				recMan.addEmptyResourceGroup(output[ii][2]);
+				groups.push_back(output[ii][2]);
+			}
+			std::vector<std::string> returned = util::splitStrAtSubstr(output[ii][1], ".");					//finds extension from filepath
+			recMan.addResourcetoResourceGroup(output[ii][0], output[ii][2], returned[returned.size()-1]);	//adds resource to group with type of
+
+		}
 	}
 
 }
@@ -337,20 +356,4 @@ void Game::loadMap()
 
 	
 	
-}
-
-
-void Game::loadEntryTable()
-{
-	
-	testMap["Cat"] = "";
-	testMap["Dog"] = "";
-	testMap["Bun"] = "";
-	testMap["Ani"] = "";
-
-	gui.setup(200, 50, 20, sf::Vector2f(100, 100));
-	gui.setMap(testMap);
-	gui.createTable(recMan.getFontPointerByName("times"), sf::Color::Red,
-					recMan.getTexturePointerByName("guiBG"), sf::Vector2f(200,50), 
-					recMan.getTexturePointerByName("textbar"), 5);
 }
