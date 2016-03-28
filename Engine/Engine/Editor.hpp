@@ -34,9 +34,7 @@ public:
 	Editor();
 	~Editor();
 
-private:
 	void editorInitialize();
-
 	void editorBegin();
 	void editorUpdate();
 	void editorDraw();
@@ -60,6 +58,8 @@ private:
 
 	void saveResources();
 	void loadSavedResources();
+
+private:
 
 	int currentLayer;		//currently selected layer
 

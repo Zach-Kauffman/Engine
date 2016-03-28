@@ -16,29 +16,29 @@ void EditorGUI::initialize(ResourceManager* resources)
 
 
 	MenuElement* selectedLayer;	//entry table
-	selectedLayer = new EntryTable(200, 50, 20, sf::Vector2f(50, 50), recMan->getFontPointerByName("EditorFont"), sf::Color::Black, recMan->getTexturePointerByName("EditorEntryBG"), sf::Vector2f(300, 150), recMan->getTexturePointerByName("EditorEntryBar"), 20);
+	selectedLayer = new EntryTable(200, 50, 20, sf::Vector2f(500, 500), recMan->getFontPointerByName("EditorFont"), sf::Color::White, recMan->getTexturePointerByName("EditorEntryBG"), sf::Vector2f(300, 150), recMan->getTexturePointerByName("EditorEntryBar"), 20);
 	//selectedLayer = new EntryTextBox(recMan->getFontPointerByName("EditorFont"), 5, sf::Color::Black, recMan->getTexturePointerByName("EditorEntryBG"), sf::Vector2f(300, 150), recMan->getTexturePointerByName("EditorEntryBar"), sf::Vector2f(100, 200), 20);
 
 	MenuElement* selectedObject;	//entry table
-	selectedObject = new EntryTable(200, 50, 20, sf::Vector2f(200, 50), recMan->getFontPointerByName("EditorFont"), sf::Color::Black, recMan->getTexturePointerByName("EditorEntryBG"), sf::Vector2f(300, 150), recMan->getTexturePointerByName("EditorEntryBar"), 20);
+	selectedObject = new EntryTable(200, 50, 20, sf::Vector2f(200, 50), recMan->getFontPointerByName("EditorFont"), sf::Color::White, recMan->getTexturePointerByName("EditorEntryBG"), sf::Vector2f(300, 150), recMan->getTexturePointerByName("EditorEntryBar"), 20);
 
 	MenuElement* selectedResource;	//entry table
-	selectedResource = new EntryTable(200, 50, 20, sf::Vector2f(50, 150), recMan->getFontPointerByName("EditorFont"), sf::Color::Black, recMan->getTexturePointerByName("EditorEntryBG"), sf::Vector2f(300, 150), recMan->getTexturePointerByName("EditorEntryBar"), 20);
+	selectedResource = new EntryTable(200, 50, 20, sf::Vector2f(50, 150), recMan->getFontPointerByName("EditorFont"), sf::Color::White, recMan->getTexturePointerByName("EditorEntryBG"), sf::Vector2f(300, 150), recMan->getTexturePointerByName("EditorEntryBar"), 20);
 
 	MenuElement* attributeEditor;	//entry table
-	attributeEditor = new EntryTable(200, 50, 20, sf::Vector2f(200, 150), recMan->getFontPointerByName("EditorFont"), sf::Color::Black, recMan->getTexturePointerByName("EditorEntryBG"), sf::Vector2f(300, 150), recMan->getTexturePointerByName("EditorEntryBar"), 20);
+	attributeEditor = new EntryTable(200, 50, 20, sf::Vector2f(200, 150), recMan->getFontPointerByName("EditorFont"), sf::Color::White, recMan->getTexturePointerByName("EditorEntryBG"), sf::Vector2f(300, 150), recMan->getTexturePointerByName("EditorEntryBar"), 20);
 
 	MenuElement* updateButton;
 	updateButton = new BasicButton(sf::Vector2f(200, 800), recMan->getResourceGroupByName("EditorButton"), "Update Selection", sf::Color::Black, sf::Vector2f(200, 200), 10);
 
 	MenuElement* newObject;	//button
-	newObject = new BasicButton(sf::Vector2f(200, 800), recMan->getResourceGroupByName("EditorButton"), "New Object", sf::Color::Black, sf::Vector2f(200, 200), 12);
+	newObject = new BasicButton(sf::Vector2f(600, 800), recMan->getResourceGroupByName("EditorButton"), "New Object", sf::Color::Black, sf::Vector2f(200, 200), 12);
 
 	MenuElement* newResource;	//button
-	newResource = new BasicButton(sf::Vector2f(200, 800), recMan->getResourceGroupByName("EditorButton"), "New Resource", sf::Color::Black, sf::Vector2f(200, 200), 12);
+	newResource = new BasicButton(sf::Vector2f(0, 800), recMan->getResourceGroupByName("EditorButton"), "New Resource", sf::Color::Black, sf::Vector2f(200, 200), 12);
 
 	MenuElement* save;	//button
-	save = new BasicButton(sf::Vector2f(200, 800), recMan->getResourceGroupByName("EditorButton"), "Save", sf::Color::Black, sf::Vector2f(200, 200), 14);
+	save = new BasicButton(sf::Vector2f(400, 900), recMan->getResourceGroupByName("EditorButton"), "Save", sf::Color::Black, sf::Vector2f(200, 200), 14);
 
 	
 	Menu editorMenu;
@@ -52,15 +52,6 @@ void EditorGUI::initialize(ResourceManager* resources)
 	editorMenu.addMenuElement(newResource, "newResource");
 	editorMenu.addMenuElement(save, "save");
 	
-	delete selectedLayer;
-	delete selectedObject;
-	delete selectedResource;
-	delete attributeEditor;
-	delete updateButton;
-	delete newObject;
-	delete newResource;
-	delete save;
-
 	MenuElement* input;
 	input = new EntryTable(200, 50, 20, sf::Vector2f(0, 0), recMan->getFontPointerByName("EditorFont"), sf::Color::Black, recMan->getTexturePointerByName("EditorEntryBG"), sf::Vector2f(300, 150), recMan->getTexturePointerByName("EditorEntryBar"), 20);
 
@@ -76,7 +67,7 @@ void EditorGUI::initialize(ResourceManager* resources)
 	popup.addMenuElement(okButton, "okButton");
 	popup.addMenuElement(cancelButton, "cancelButton");
 
-	this->addMenu(editorMenu, "editorMenu", sf::Vector2f(1280, 0));
+	this->addMenu(editorMenu, "editorMenu", sf::Vector2f(0, 0));
 	this->addMenu(popup, "popup", sf::Vector2f(950, 540));
 
 	this->getMenuPointerByName("popup")->deactivate();
@@ -87,16 +78,15 @@ void EditorGUI::initialize(ResourceManager* resources)
 	boundFxn = boost::bind(&EditorGUI::popup_CANCEL, this);
 	setButtonCallback("popup", "cancelButton", boundFxn, 12);
 
-	delete input;
-	delete okButton;
-	delete cancelButton;
 }
 
 void EditorGUI::popup(const std::string& key, const std::string& value)
 {
 	Menu* popup = this->getMenuPointerByName("popup");
 	popup->activate();
-	setMap("popup", "input", { { key, value } });
+	std::map<std::string, std::string> input;
+	input[key] = value;
+	setMap("popup", "input", input);
 }
 
 void EditorGUI::popdown(bool which)

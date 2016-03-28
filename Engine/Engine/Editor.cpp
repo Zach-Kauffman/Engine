@@ -14,6 +14,7 @@ Editor::~Editor()
 
 void Editor::editorInitialize()
 {
+
 	gui.initialize(&recMan);
 	
 	boost::function<void()> boundFxn = boost::bind(&Editor::updateObject, this);
@@ -28,14 +29,11 @@ void Editor::editorInitialize()
 	boundFxn = boost::bind(&Editor::saveFile, this);
 	gui.setButtonCallback("editorMenu", "save", boundFxn, 12);
 
-
-	
 }
 
 void Editor::editorBegin()
 {
-	initialize();
-
+	selectObject(1);
 	sf::RenderWindow& window = *windowPtr;
 	window.setKeyRepeatEnabled(false);		//makes it so when a key is hit, only one event is recorded, not nine, or whatever -- ignores holding keys
 	while (window.isOpen())
@@ -132,9 +130,9 @@ void Editor::editorBegin()
 		update();
 		editorUpdate();
 
-		draw();
+		//draw();
 		editorDraw();
-
+		gui.setMap("editorMenu", "attributeEditor", *objProperties);	//prompt for all object attributes
 		window.display();
 
 		textDataChr = 0;
@@ -272,7 +270,7 @@ void Editor::saveObjects()
 		std::string chunkStr = std::get<1>(it->second)[""];
 		std::vector<std::string> splitChunk = util::splitStrAtSubstr(chunkStr, ":");
 
-		sf::Vector2f chunk;
+		sf::Vector2f loadedChunk;
 		if (splitChunk.size() < 2)
 		{
 			//error -- object chunk data not detected reverting to default (0, 0)
@@ -280,10 +278,10 @@ void Editor::saveObjects()
 		}
 		else
 		{
-			chunk = sf::Vector2f(boost::lexical_cast<float>(splitChunk[0]), boost::lexical_cast<float>(splitChunk[1]));
+			loadedChunk = sf::Vector2f(boost::lexical_cast<float>(splitChunk[0]), boost::lexical_cast<float>(splitChunk[1]));
 		}
 		
-		int layer = std::get<0>(it->second)["layer"];
+		int layer = boost::lexical_cast<int>(std::get<1>(it->second)["layer"]);
 
 		//for (int layer)
 	}
@@ -320,14 +318,16 @@ void Editor::loadAttributes(const std::string& path) //loads object attributes f
 	auto& types = attrTree.output;
 	auto& attributes = attrTree.trees["types"].output;
 
-	for (int typeIt = 0; typeIt < types.size(); i++)
+	std::string tmp;
+	for (int typeIt = 0; typeIt < types.size(); typeIt++)
 	{
 		StringMap attrMap;
 		for (int attrIt = 0; attrIt < attributes.size(); attrIt++)
 		{
-			attrMap[attributes[attrIt]] = "";
+//			attrMap[attributes[attrIt]] = "";
 		}
-		objectAttributes[types[typeIt]] = attrMap;
+		//attrLoader.readValue<std::string>("<xmlattr>.name", tmp, types[typeIt]);
+		objectAttributes["id"] = attrMap;
 	}
 
 	//for files in directory

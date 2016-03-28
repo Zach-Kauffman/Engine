@@ -168,8 +168,6 @@ void Game::update()
 	doChunks();
 	//objMan.getObject("Layers.Layer0.1.0.1")->update(keyData);
 
-	std::cout << testMap["Cat"] << ", " << testMap["Ani"] << std::endl;
-	//objMan.getObject("Layers.Layer0.1")->update(keys);
 
 	//for each layer
 		//get draw bounds for layer
@@ -236,6 +234,7 @@ void Game::loadResources()
 
 	groupTree.trees["resources"].tags["path"] = "";	//path to resource
 	groupTree.trees["resources"].tags["name"] = "";	//storage name of resource
+	groupTree.trees["resources"].tags["group"] = "";
 
 	parser.readTree<std::string>(groupTree);		//read data from file and place in output vector
 
@@ -244,24 +243,30 @@ void Game::loadResources()
 	auto &output = groupTree.trees["resources"].output;
 	for (unsigned int ii = 0; ii < output.size(); ii++)
 	{
-		recMan.loadFile(output[ii][1], output[ii][0]);	//load each resource
-		if (output[ii].size() > 2)	//if a third element (being group) exists
+		recMan.loadFile(output[ii][2], output[ii][1]);	//load each resource
+		if (output[ii][0] != "")	//if a third element (being group) exists
 		{
 			bool groupExists = false;
 			for (int groupIt = 0; groupIt < groups.size(); groupIt++)	//cycle through groups
 			{
-				if (groups[groupIt] == output[ii][2])
+				if (groups[groupIt] == output[ii][0])
 				{
 					groupExists = true;
 				}
 			}
 			if (!groupExists)
 			{
-				recMan.addEmptyResourceGroup(output[ii][2]);
-				groups.push_back(output[ii][2]);
+				recMan.addEmptyResourceGroup(output[ii][0]);
+				groups.push_back(output[ii][0]);
 			}
-			std::vector<std::string> returned = util::splitStrAtSubstr(output[ii][1], ".");					//finds extension from filepath
-			recMan.addResourcetoResourceGroup(output[ii][0], output[ii][2], returned[returned.size()-1]);	//adds resource to group with type of
+
+			std::vector<std::string> returned = util::splitStrAtSubstr(output[ii][2], ".");					//finds extension from filepath
+			std::vector<std::string> numtoadd = util::splitStrAtSubstr(output[ii][0], ":");
+			for (unsigned int i = 0; i < boost::lexical_cast<int>(numtoadd[numtoadd.size() - 1]); i++)
+			{
+				recMan.addResourcetoResourceGroup(output[ii][1], numtoadd[0], returned[returned.size() - 1]);	//adds resource to group with type of
+			}
+
 
 		}
 	}

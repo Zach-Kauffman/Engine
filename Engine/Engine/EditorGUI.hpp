@@ -1,7 +1,8 @@
 #include "MenuStuff\MenuManager.h"
 #include "Input\KeyboardData.hpp"
 #include "Input\MouseData.hpp"
-#include "boost/function.hpp"
+#include "boost\function.hpp"
+#include "boost\bind.hpp"
 
 class EditorGUI : public MenuManager
 {

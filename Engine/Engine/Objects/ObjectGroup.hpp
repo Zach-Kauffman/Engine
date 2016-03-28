@@ -80,7 +80,7 @@ namespace objects
 			removeObject(object);
 			for (int i = 0; i < groups.size(); i++)
 			{
-				groups[i].deleteObjectFromTree(object)
+				groups[i].deleteObjectFromTree(object);
 			}
 		}
 
