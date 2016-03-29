@@ -1,4 +1,4 @@
-#include "SingleTextBox.h"
+#include "SingleTextBox.hpp"
 
 
 
@@ -17,7 +17,8 @@ SingleTextBox::SingleTextBox()
 
 
 
-SingleTextBox::SingleTextBox(sf::Vector2f fposition, const sf::Font* const ffont, std::string fstring, int ffontsize, double fmaxwidth, sf::Color fcolor)
+SingleTextBox::SingleTextBox(	const sf::Vector2f& pos, const sf::Font* const font, const std::string& text, 
+								const unsigned int& charSize, const unsigned double& maxWidth, const sf::Color& color)
 {
 	requiresMouseData = false;					//same stuff
 
@@ -25,7 +26,7 @@ SingleTextBox::SingleTextBox(sf::Vector2f fposition, const sf::Font* const ffont
 
 	resetsOnMD = false;
 
-	setup(fposition, ffont, fstring, ffontsize, fmaxwidth, fcolor);		//setup
+	setup(pos, font, text, charSize, maxWidth, color);		//setup
 
 
 }
@@ -39,35 +40,30 @@ SingleTextBox::~SingleTextBox()
 
 
 
-void SingleTextBox::setup(sf::Vector2f fposition, const sf::Font* const ffont, std::string fstring, int ffontsize, double fmaxwidth, sf::Color fcolor)
+void SingleTextBox::setup(	const sf::Vector2f& pos, const sf::Font* const font, const std::string& text, 
+							const unsigned int& charSize, const unsigned double& maxWidth, const sf::Color& color)
 {
 
-	position = fposition;						//set position
-
-	characterSize = ffontsize;					//set char size
-
-	textColor = fcolor;							//set text color
+	position = pos;						//set position
 		
-	width = fmaxwidth;							//set width
+	width = maxWidth;							//set width
 
-	drawString = fstring;						//set drawString
+	drawString = text;						//set drawString
 
 
 
-	textBody.setFont(*ffont);					//set the font to the text
+	textBody.setFont(*font);					//set the font to the text
 
-	textBody.setString(fstring);				//set the text to draw the given string
+	textBody.setString(text);				//set the text to draw the given string
 
-	textBody.setCharacterSize(ffontsize);		//set the char size
+	textBody.setCharacterSize(charSize);		//set the char size
+
+
+	textBody.setColor(color);					//set the color
+
 
 	wrapText();									//wrap the text
-
-	textBody.setColor(fcolor);					//set the color
-
-
-
-												//set it equal to the dimensions of the text box
-
+	
 	correctPosition();							//corrects the text's position
 
 }
@@ -75,24 +71,11 @@ void SingleTextBox::setup(sf::Vector2f fposition, const sf::Font* const ffont, s
 
 
 
-void SingleTextBox::update()					//empty
-{ 
-
-}
 
 
-
-
-void SingleTextBox::update(MouseData& fmouseData, const char& typedChar, KeyboardData& fkeyData)	//empty
+void SingleTextBox::draw(sf::RenderWindow& window, sf::Vector2f drawPos\)
 {
-
-}
-
-
-
-void SingleTextBox::draw(sf::RenderWindow& frenderwindow, sf::Vector2f drawPosition)
-{
-	position += drawPosition;					//add the draw position to make things relative
+	position += drawPos;					//add the draw position to make things relative
 
 	textBody.move(position);					//move the textBody
 
@@ -100,15 +83,9 @@ void SingleTextBox::draw(sf::RenderWindow& frenderwindow, sf::Vector2f drawPosit
 
 	textBody.move(-position);					//move it back
 
-	position -= drawPosition;					//subtract the draw position
+	position -= drawPos;					//subtract the draw position
 }
 
-
-
-void SingleTextBox::resetMD()					//doesn't reseton Menu deactivation
-{
-
-}
 
 
 
@@ -122,6 +99,8 @@ sf::Vector2f SingleTextBox::getLocalDimensions()
 	return sf::Vector2f(textBody.getLocalBounds().width, textBody.getLocalBounds().height);
 }
 
+
+
 sf::Vector2f SingleTextBox::getLetterPosition(const unsigned int& index)
 {
 	return textBody.findCharacterPos(index);
@@ -132,10 +111,10 @@ sf::Vector2f SingleTextBox::getLastLetterPosition()
 	return textBody.findCharacterPos(drawString.size() + 1);
 }
 
-void SingleTextBox::setTextString(std::string fstring)	//sets the string you want to draw
+void SingleTextBox::setTextString(const std::string& text)	//sets the string you want to draw
 {
-	textBody.setString(fstring);						//set the string
-	drawString = fstring;
+	textBody.setString(text);						//set the string
+	drawString = text;
 
 	wrapText();											//wrap the text
 	correctPosition();
@@ -143,17 +122,17 @@ void SingleTextBox::setTextString(std::string fstring)	//sets the string you wan
 
 
 
-void SingleTextBox::setTextColor(sf::Color fcolor)		//set the color of the text
+void SingleTextBox::setTextColor(const sf::Color& color)		//set the color of the text
 {
-	textBody.setColor(fcolor);							//yep, do it
+	textBody.setColor(color);							//yep, do it
 }
 
 
 
-void SingleTextBox::setFontSize(int fsize)				//set the font size in pixels
+void SingleTextBox::setFontSize(const unsigned int& charSize)				//set the font size in pixels
 {
-	textBody.setCharacterSize(fsize);					//set the size of the characters
-		
+	textBody.setCharacterSize(charSize);
+	
 	wrapText();											//wrap the text
 
 	correctPosition();
@@ -176,7 +155,6 @@ void SingleTextBox::wrapText()				//wraps the string around a margin
 	}
 
 
-	
 
 	int spaceIndex;							//keeps track of where the last space was
 
@@ -278,7 +256,7 @@ void SingleTextBox::wrapText()				//wraps the string around a margin
 
 
 
-sf::Vector2f SingleTextBox::getDimensionsOfString(std::string fstr)	//gets the dimensions of a hypothetical string given the other conditions of the textBox
+sf::Vector2f SingleTextBox::getDimensionsOfString(const std::string& text)	//gets the dimensions of a hypothetical string given the other conditions of the textBox
 {
 
 	sf::Text tmpText;												//make a temporary text
@@ -287,7 +265,7 @@ sf::Vector2f SingleTextBox::getDimensionsOfString(std::string fstr)	//gets the d
 
 	tmpText.setCharacterSize(characterSize);
 
-	tmpText.setString(fstr);										//set the string to be the hypothetical one
+	tmpText.setString(text);										//set the string to be the hypothetical one
 
 	return sf::Vector2f(tmpText.getGlobalBounds().width, tmpText.getGlobalBounds().height);
 																	//return the dimensions of the Text
@@ -299,7 +277,7 @@ sf::Vector2f SingleTextBox::getDimensionsOfString(std::string fstr)	//gets the d
 void SingleTextBox::correctPosition()							//corrects the position of the text because text is dumb
 {
 
-	sf::Vector2f tempDimensions;							//make temp dimensions
+	sf::Vector2f tempDimensions;								//make temp dimensions
 
 	tempDimensions = sf::Vector2f(textBody.getLocalBounds().width, textBody.getLocalBounds().height);
 

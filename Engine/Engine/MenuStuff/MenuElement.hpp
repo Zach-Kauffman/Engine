@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IncludeMe.h"
+#include "IncludeMe.hpp"
 
 class MenuElement
 {
@@ -9,9 +9,9 @@ public:
 
 	virtual void update() = 0;															//virtual; every menuElement will have a 0-argument update
 
-	virtual void update(MouseData& fmouseData, const char& typedChar, KeyboardData& fkeyData) = 0;			//and they will have a 1-argument mousedata update
+	virtual void update(MouseData& mouseData, const char& typedChar, KeyboardData& keyData) = 0;			//and they will have a 3-argument mousedata update
 
-	virtual void draw(sf::RenderWindow& frenderWindow, sf::Vector2f drawPosition) = 0;	//and will draw, somehow
+	virtual void draw(sf::RenderWindow& window, const sf::Vector2f& drawPos) = 0;				//and will draw, somehow
 
 	virtual void resetMD() = 0;															//reset on menu deactivation
 
@@ -21,16 +21,16 @@ public:
 
 	
 
-	void setPosition(sf::Vector2f fpos);												//set the position of a menuElement
+	void setPosition(const sf::Vector2f& pos);												//set the position of a menuElement
 
-	void move(sf::Vector2f velocity);													//move the menuElement
+	void move(const sf::Vector2f& disp);													//move the menuElement
 
 	sf::Vector2f getPosition();															//retrieve the position of a menuElement
 		
 
 
 
-	void setRequiresMouseData(bool frequiresMouseData);									//set if something requires mouseData
+	void setRequiresMouseData(const bool& _reqsMouseData);									//set if something requires mouseData
 
 	bool getRequiresMouseData();														//retrieve mousedata
 
@@ -43,7 +43,7 @@ public:
 	bool getIsHidden();																	//retrieve oif the thing wnats to be drawn
 
 	
-	void setResetsOnMD(bool fresetOnMD);
+	void setResetsOnMD(const bool& _resetsOnMD);
 
 	bool getResetsOnMD();
 

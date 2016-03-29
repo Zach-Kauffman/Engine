@@ -1,4 +1,4 @@
-#include "MenuSprite.h"
+#include "MenuSprite.hpp"
 
 
 
@@ -12,7 +12,7 @@ MenuSprite::MenuSprite()
 }
 
 
-MenuSprite::MenuSprite(const sf::Texture* const ftexture, sf::Vector2f fposition, sf::Vector2f fsize)
+MenuSprite::MenuSprite(const sf::Texture* const texture, const sf::Vector2f& pos, const sf::Vector2f& size)
 {
 	requiresMouseData = false;			//same stuff
 
@@ -20,7 +20,7 @@ MenuSprite::MenuSprite(const sf::Texture* const ftexture, sf::Vector2f fposition
 
 	resetsOnMD = false;
 
-	setup(ftexture, position, fsize);	//setup	
+	setup(texture, pos, size);	//setup	
 }
 
 
@@ -31,47 +31,27 @@ MenuSprite::~MenuSprite()
 }
 
 
-void MenuSprite::setup(const sf::Texture* const ftexture, sf::Vector2f fposition, sf::Vector2f fsize)
+void MenuSprite::setup(const sf::Texture* const texture, const sf::Vector2f& pos, const sf::Vector2f& size)
 {
-	position = fposition;				//position is set
+	position = pos;				//position is set
 
-	menuImage.setup(ftexture, sf::Vector2f(0, 0), fsize, 0);
+	menuImage.setup(texture, sf::Vector2f(0, 0), size, 0);
 }
 
 
-
-void MenuSprite::update()	//empty
+void MenuSprite::draw(sf::RenderWindow& window, sf::Vector2f drawPos)
 {
 
-}
-
-
-void MenuSprite::update(MouseData& fmouseData, const char& typedChar, KeyboardData& fkeyData)	//empty
-{
-
-}
-
-
-
-void MenuSprite::draw(sf::RenderWindow& frenderWindow, sf::Vector2f drawPosition)
-{
-
-	position += drawPosition;		//add the drawPosition  to make position relative
+	position += drawPos;		//add the drawPosition  to make position relative
 		
-
 		
-	menuImage.draw(frenderWindow, position);
+	menuImage.draw(window, position);
 
 
-	position -= drawPosition;		//subtract the drawPosition because we added it
-
-}
-
-
-void MenuSprite::resetMD()			//resetMD()
-{
+	position -= drawPos;		//subtract the drawPosition because we added it
 
 }
+
 
 
 sf::Vector2f MenuSprite::getGlobalDimensions()													//all this function does is literally return the global
@@ -79,7 +59,6 @@ sf::Vector2f MenuSprite::getGlobalDimensions()													//all this function d
 {
 	return menuImage.getGlobalDimensions();
 }
-
 
 
 sf::Vector2f MenuSprite::getLocalDimensions()													//same thing as above, except the dimensions are local

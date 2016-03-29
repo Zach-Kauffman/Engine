@@ -55,7 +55,7 @@ void Game::begin()
 				{
 					if (event.key.code == (sf::Keyboard::Key)(i))			//trying to typecast int i as a Key enum 
 					{
-						keyData.keyPressed(i);
+						inpData.keyPressed(i);
 				
 					}
 				}
@@ -66,7 +66,7 @@ void Game::begin()
 				{
 					if (event.key.code == (sf::Keyboard::Key)(i))
 					{
-						keyData.keyReleased(i);
+						inpData.keyReleased(i);
 
 					}
 				}
@@ -76,36 +76,24 @@ void Game::begin()
 			{
 				if (event.text.unicode < 128)
 				{
-					if (event.text.unicode == '\b')
-					{
-						if (textDataStr.size())
-						{
-							textDataStr.erase(textDataStr.size() - 1);
-						}
-					}
-					else
-					{
-						textDataStr += static_cast<char>(event.text.unicode);
-					}
-					textDataChr = static_cast<char>(event.text.unicode);
-					
+					inpdData.setTypedChar(static_cast<char>(event.text.unicode));
 				}
 			}
 
 			if (event.type == sf::Event::MouseMoved)
 			{
-				mouseData.setPosition(sf::Vector2f(event.mouseMove.x, event.mouseMove.y));
+				inpData.seMousePosition(sf::Vector2f(event.mouseMove.x, event.mouseMove.y));
 			}
 			
 			if (event.type == sf::Event::MouseButtonPressed)
 			{
 				if (event.mouseButton.button == sf::Mouse::Right)
 				{
-					mouseData.setRightData(MouseData::Hit);
+					inpData.setRightData(MouseData::Hit);
 				}
 				if (event.mouseButton.button == sf::Mouse::Left)
 				{
-					mouseData.setLeftData(MouseData::Hit);
+					inpData.setLeftData(MouseData::Hit);
 				}
 			}
 
@@ -113,17 +101,17 @@ void Game::begin()
 			{
 				if (event.mouseButton.button == sf::Mouse::Right)
 				{
-					mouseData.setRightData(MouseData::Released);
+					inpData.setRightData(MouseData::Released);
 				}
 				if (event.mouseButton.button == sf::Mouse::Left)
 				{
-					mouseData.setLeftData(MouseData::Released);
+					inpData.setLeftData(MouseData::Released);
 				}
 			}
 
 			if (event.type == sf::Event::MouseWheelMoved)
 			{
-				mouseData.setScroll(event.mouseWheel.delta);
+				inpData.setScroll(event.mouseWheel.delta);
 			}
 
 		}
@@ -135,9 +123,7 @@ void Game::begin()
 
 		window.display();
 
-		textDataChr = 0;
-		keyData.frameUpdate();
-		mouseData.frameUpdate();
+		inpData.frameUpdate();
 	}
 
 

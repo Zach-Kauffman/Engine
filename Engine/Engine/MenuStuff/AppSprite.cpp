@@ -1,4 +1,4 @@
-#include "AppSprite.h"
+#include "AppSprite.hpp"
 
 
 AppSprite::AppSprite()
@@ -8,26 +8,28 @@ AppSprite::AppSprite()
 }
 
 
-AppSprite::AppSprite(const sf::Texture* ftexture, sf::Vector2f fposition, sf::Vector2f fsize, double frot)
+AppSprite::AppSprite(const sf::Texture* const & texture, const sf::Vector2f& pos, const sf::Vector2f& size, const double& rot)
 {
-	rotation = frot;
+	rotation = rot;
 
 	position = sf::Vector2f(0, 0);
 
-	setup(ftexture, position, fsize, frot);		//setup	
+	setup(texture, position, size, rotation);		//setup	
 }
 
 
-AppSprite::AppSprite(const sf::Texture* ftexture, sf::Vector2f fTL, sf::Vector2f fBR)
+AppSprite::AppSprite(const sf::Texture* const & texture, const sf::Vector2f& TL, const sf::Vector2f& BR)
 {
-	sf::Vector2f tposition = fTL + fBR;
-	tposition.x /= 2.00;
-	tposition.y /= 2.00;
+	//find average point of top left and bottom right -- the center, the position
+	sf::Vector2f tpos = TL + BR;
+	tposx /= 2.0000;
+	tpos.y /= 2.0000;
 
 
-	sf::Vector2f dimensions(fabs(fBR.x - fTL.x), fabs(fBR.y - fTL.y));
 
-	setup(ftexture, tposition, dimensions, 0);
+	sf::Vector2f dimensions(fabs(BR.x - TL.x), fabs(BR.y - TL.y));	//get size, esentially
+
+	setup(texture, tpos, dimensions, 0);
 }
 
 
@@ -37,13 +39,13 @@ AppSprite::~AppSprite()
 }
 
 
-void AppSprite::setup(const sf::Texture* ftexture, sf::Vector2f fposition, sf::Vector2f fsize, double frot)
+void AppSprite::setup(const sf::Texture* const & texture, const sf::Vector2f& pos, const sf::Vector2f& size, const double& rot)
 {
-	position = fposition;				//position is set
+	position = pos;				//position is set
 
-	rotation = frot;
+	rotation = rot;
 
-	appImage.setTexture(*ftexture);	//set the texture of the Sprite
+	appImage.setTexture(*texture);	//set the texture of the Sprite
 
 	sf::Vector2f tempDimensions(sf::Vector2f(appImage.getLocalBounds().width, appImage.getLocalBounds().height));
 	//make temporary helper dimensions
@@ -56,43 +58,47 @@ void AppSprite::setup(const sf::Texture* ftexture, sf::Vector2f fposition, sf::V
 
 	appImage.setPosition(0, 0);		//position is set (relatively) to (0,0)
 
-	appImage.setRotation(frot);
+	appImage.setRotation(rot);
 }
 
 
 
-void AppSprite::move(sf::Vector2f fdisp)
+void AppSprite::move(const sf::Vector2f& disp)
 {
-	position += fdisp;
+	position += disp;
 }
 
-void AppSprite::setPosition(sf::Vector2f fpos)
+void AppSprite::setPosition(const sf::Vector2f& pos)
 {
-	position = fpos;
-}
-
-
-void AppSprite::rotate(double frot)
-{
-	appImage.rotate(frot);
-}
-
-void AppSprite::setRotation(double frot)
-{
-	appImage.setRotation(frot);
+	position = pos;
 }
 
 
-void AppSprite::draw(sf::RenderWindow& frenderWindow, sf::Vector2f drawPosition)
+void AppSprite::rotate(const double& rot)
+{
+	appImage.rotate(rot);
+	rotation = rot;
+	reduceRotation();
+}
+
+void AppSprite::setRotation(const double& deltaRot)
+{
+	appImage.setRotation(deltaRot);
+	rotation += deltaRot;
+	reduceRotation();
+}
+
+
+void AppSprite::draw(sf::RenderWindow& window, const sf::Vector2f& drawPos)
 {
 
-	position += drawPosition;		//add the drawPosition  to make position relative
+	position += drawPos;		//add the drawPosition  to make position relative
 
 
 
 	appImage.move(position);		//move the appImage
 
-	frenderWindow.draw(appImage);	//draw the appImage
+	window.draw(appImage);	//draw the appImage
 
 	appImage.move(-position);		//move the appImage back
 
@@ -104,16 +110,33 @@ void AppSprite::draw(sf::RenderWindow& frenderWindow, sf::Vector2f drawPosition)
 
 
 
-sf::Vector2f AppSprite::getGlobalDimensions()													//all this function does is literally return the global
-//dimensions of the Sprite
+sf::Vector2f AppSprite::getGlobalDimensions()				//all this function does is literally return the global dimensions of the Sprite
 {
-	return sf::Vector2f(appImage.getGlobalBounds().width, appImage.getGlobalBounds().height);	//yep
+	return sf::Vector2f(appImage.getGlobalBounds().width, appImage.getGlobalBounds().height);
 }
 
 
-sf::Vector2f AppSprite::getLocalDimensions()													//same thing as above, except the dimensions are local
+sf::Vector2f AppSprite::getLocalDimensions()				//same thing as above, except the dimensions are local
 {
 	return sf::Vector2f(appImage.getLocalBounds().width, appImage.getLocalBounds().height);
 }
 
 
+AppSprite reduceRotation()									//bounds the rotation in the interval [0, 2pi)
+{
+	const double pi = 3.1415926535898;
+	const double two_pi = 2 * pi;
+	
+	while ((rotation >= two_pi) || (rotation < 0))
+	{
+		if (rotation < 0)
+		{
+			rotation += two_pi;
+		}
+		else
+		{
+			rotation -= two_pi;
+		}
+	}
+
+}

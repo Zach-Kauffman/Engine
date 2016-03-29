@@ -1,6 +1,6 @@
 #pragma once
-#include "MenuElement.h"
-#include "AppSprite.h"
+#include "MenuElement.hpp"
+#include "AppSprite.hpp"
 
 
 class MenuSprite : public MenuElement												//This class is a sprite that is also a menuElement, essentially
@@ -10,22 +10,22 @@ public:
 
 	MenuSprite();																	//0-argument constructor
 
-	MenuSprite(const sf::Texture* const ftexture, sf::Vector2f fposition, sf::Vector2f fsize);	//constructor with all elements
+	MenuSprite(const sf::Texture* const texture, const sf::Vector2f& pos, const sf::Vector2f& size);	//constructor with all elements
 
 	~MenuSprite();																	//destructor
 
 
-	void setup(const sf::Texture* const ftexture, sf::Vector2f fposition, sf::Vector2f fsize);	//sets up the MenuSprite
+	void setup(const sf::Texture* const texture, const sf::Vector2f& pos, const sf::Vector2f& size);	//sets up the MenuSprite
 
 
 	//inherited virtuals
-	void update();
+	void update() {};
 
-	void update(MouseData& fmouseData, const char& typedChar, KeyboardData& fkeyData);
+	void update(MouseData& mouseData, const char& typedChar, KeyboardData& keyData) {};
 
-	void draw(sf::RenderWindow& frenderWindow, sf::Vector2f drawPosition);
+	void draw(sf::RenderWindow& window, const sf::Vector2f& drawPos);
 
-	void resetMD();															
+	void resetMD() {};															
 
 
 
