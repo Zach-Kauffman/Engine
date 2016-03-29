@@ -32,11 +32,11 @@ void MultiTextBox::update()									//update
 }
 
 
-void MultiTextBox::update(MouseData& mouseData, const char& typedChar, KeyboardData& keyData)			//update with mouse data
+void MultiTextBox::update(InputData& inpData)			//update with mouse data
 {
 	for (unsigned int i = 0; i < textBoxVector.size(); i++)
 	{
-		textBoxVector[i].update(mouseData, typedChar, keyData);				//update every textBox with mouse data
+		textBoxVector[i].update(inpData);				//update every textBox with mouse data
 	}
 }
 
@@ -47,16 +47,13 @@ void MultiTextBox::draw(sf::RenderWindow& window, const sf::Vector2f& drawPos)
 
 	if (!textBoxVector[CTBIndex].getIsHidden())
 	{
-		textBoxVector[CTBIndex].draw(window, position);	
+		textBoxVector[CTBIndex].draw(window, position);
 															// if the current TextBox isn't hidden, draw it
 	}
 
 
 	position -= drawPos;								//take away the draw position because it was added
 }
-
-
-
 
 
 
@@ -76,7 +73,7 @@ void MultiTextBox::setCurrentTextBoxByName(const std::string& name)	//set the cu
 
 
 
-void MultiTextBox::setCurrentTextBoxByIndex(const int& index)		//set the textbox being drawn by index 
+void MultiTextBox::setCurrentTextBoxByIndex(const int& index)		//set the textbox being drawn by index
 {
 
 	if (CTBIndex >= 0)
@@ -90,38 +87,38 @@ void MultiTextBox::setCurrentTextBoxByIndex(const int& index)		//set the textbox
 }
 
 
-void MultiTextBox::addTextBox(SingleTextBox singleTextBox, const std::string& name) 
+void MultiTextBox::addTextBox(SingleTextBox singleTextBox, const std::string& name)
 {
 	if (textBoxVector.size() > 0)
 	{
 		singleTextBox.hide();								//hide the textBox if it's not the first
-		
+
 	}
 	else
-	{	
+	{
 		CTBIndex = 0;										//only change the CTBIndex if it is the first
 	}
-	
+
 	textBoxVector.push_back(singleTextBox);				//add it to the collection
 
 	addName(name, textBoxVector.size() - 1);				// add the name
 }
 
 
-void MultiTextBox::addTextBox(SingleTextBox singleTextBox, const unsigned int& intname) 
+void MultiTextBox::addTextBox(SingleTextBox singleTextBox, const unsigned int& intname)
 															//same thing, essentially as the previous one
 {
 	if (textBoxVector.size() > 0)
 	{
-		singleTextBox.hide();		
+		singleTextBox.hide();
 
 	}
 	else
 	{
-		CTBIndex = 0;				
+		CTBIndex = 0;
 	}
 
-	textBoxVector.push_back(singleTextBox);				
+	textBoxVector.push_back(singleTextBox);
 
 	addName(intname, textBoxVector.size() - 1);				// add the inted name
 }

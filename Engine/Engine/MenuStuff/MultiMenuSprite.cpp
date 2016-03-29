@@ -8,10 +8,10 @@ MultiMenuSprite::MultiMenuSprite()								//constructor
 
 	requiresMouseData = true;									//it does require mouse data, strangely
 
-	isHidden = false;											//draws by default			
+	isHidden = false;											//draws by default
 
 	resetsOnMD = false;											//does  not reset on menu deactvation
-	
+
 	CMSIndex = 0
 }
 
@@ -31,11 +31,11 @@ void MultiMenuSprite::update()
 
 
 
-void MultiMenuSprite::update(MouseData& mouseData, const char& typedChar, KeyboardData& keyData)
+void MultiMenuSprite::update(InputData& inpData)
 {
 	for (unsigned int i = 0; i < spriteVector.size(); i++)		//update all of the menuSprites
 	{
-		spriteVector[i].update(mouseData, typedChar, keyData);
+		spriteVector[i].update(inpData);
 	}
 }
 
@@ -49,7 +49,7 @@ void MultiMenuSprite::draw(sf::RenderWindow& window, const sf::Vector2f& drawPos
 		{
 			spriteVector[i].draw(window, position);	//draw all the unhidden menuSprites
 		}
-		
+
 	}
 
 	position -= drawPos;								//subtract draw position because it was added
@@ -126,7 +126,7 @@ void MultiMenuSprite::addMenuSprite(MenuSprite menuSprite, const unsigned int& i
 
 MenuSprite* MultiMenuSprite::getMenuSpritePtrByName(const std::string& name)		//get a pointer to a menuSprite by name
 {
-	return  &spriteVector[ntoi(name)];							
+	return  &spriteVector[ntoi(name)];
 }
 
 

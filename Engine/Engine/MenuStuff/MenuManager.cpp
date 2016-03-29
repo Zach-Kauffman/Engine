@@ -22,7 +22,7 @@ void MenuManager::addMenu(Menu menu, const std::string& name)							//adds a men
 Menu* MenuManager::getMenuPtr(const std::string& name)				//returns a pointer to a menu
 {
 
-	return &(menuVector[ntoi(name)]);							
+	return &(menuVector[ntoi(name)]);
 }
 
 
@@ -65,13 +65,13 @@ bool MenuManager::getActivity()
 }
 
 
-void MenuManager::update(MouseData& mouseData, const char& typedChar, KeyboardData& keyData)										//updates the menus
+void MenuManager::update(InputData& inpData)										//updates the menus
 {
 	for (unsigned int i = 0; i < menuVector.size(); i++)							//cycle through all the menus
 	{
 		if (menuVector[i].getIsActive())
 		{
-			menuVector[i].update(mouseData, typedChar, keyData);											//update them
+			menuVector[i].update(inpData);											//update them
 		}
 	}
 }

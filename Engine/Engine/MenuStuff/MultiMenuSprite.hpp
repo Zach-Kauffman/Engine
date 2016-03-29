@@ -10,9 +10,9 @@ public:
 
 
 	//inherited virtuals
-	void update();															
+	void update();
 
-	void update(MouseData& mouseData, const char& typedChar, KeyboardData& keyData);
+	void update(InputData& inpData);
 
 	void draw(sf::RenderWindow& fwindow, const sf::Vector2f& drawPos);
 

@@ -1,7 +1,7 @@
 #pragma once
 #include "MenuElement.hpp"
 
-class SingleTextBox : public MenuElement									//This class is simply text on the screen that has been wrapped a bit																	
+class SingleTextBox : public MenuElement									//This class is simply text on the screen that has been wrapped a bit
 {
 
 public:
@@ -13,7 +13,7 @@ public:
 																			//constructor that actually sets everything
 
 	~SingleTextBox();														//destructor
-		
+
 	void setup(	const sf::Vector2f& pos, const sf::Font* const font, const std::string& text,
 				const unsigned int& charSize, const unsigned double& maxWidth, const sf::Color& color);
 																			//setup -- must run if empty constructor was used
@@ -22,9 +22,9 @@ public:
 	//inherited virtual
 	void update() {};
 
-	void update(MouseData& mouseData, const char& typedChar, KeyboardData& keyData) {};
+	void update(InputData& inpData) {};
 
-	void draw(sf::RenderWindow& window, sf::Vector2f drawPos);
+	void draw(sf::RenderWindow& window, sf::Vector2f& drawPos);
 
 	void resetMD() {};
 

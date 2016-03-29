@@ -9,8 +9,8 @@ class Menu : public NameSearchable											//a Grouping of menuElements; one e
 public:
 
 	Menu();																	//constructor
-	
-	Menu(const sf::Vector2f& pos);	
+
+	Menu(const sf::Vector2f& pos);
 
 	void addMenuElement(MenuElement* element, const std::string& name);		//adds a menuElement and its name
 
@@ -43,14 +43,14 @@ public:
 	boost::shared_ptr<MenuElement> getPointerToElementByName(const std::string& name);				//gets a pointer to a menuElement by name, NOT A CHILD CLASS
 
 
-	template<class C> 
+	template<class C>
 	boost::shared_ptr<C> getPointerToChildByName(const std::string& fname)					//gets a pointer to a child by name
 	{
 		return (boost::shared_ptr<C>)(elementVector[ntoi(fname)]);
 	}
 
 
-	void update(MouseData& fouseData, const char& typedChar, KeyboardData& keyData);										//updates all of the menuElements
+	void update(InputData& inpData);										//updates all of the menuElements
 
 	void draw(sf::RenderWindow& window, const sf::Vector2f& drawPos);	//draws all of the menuElements
 
@@ -62,7 +62,7 @@ private:
 	std::vector<boost::shared_ptr<MenuElement>> elementVector;				//a vector of pointers to menuElements
 
 	sf::Vector2f position;													//the position of the menu (relative)
-	
+
 	bool isActive;															//determines if the menu is active
 };
 

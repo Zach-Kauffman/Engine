@@ -1,7 +1,7 @@
 #pragma once
 
-#include "BasicButton.h"
-#include "MenuBackground.h"
-#include "MultiTextBox.h"
+#include "BasicButton.hpp"
+#include "MenuBackground.hpp"
+#include "MultiTextBox.hpp"
 #include "TableEntry\EntryTable.hpp"
 

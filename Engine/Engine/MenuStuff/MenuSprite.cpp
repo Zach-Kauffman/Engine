@@ -12,7 +12,7 @@ MenuSprite::MenuSprite()
 }
 
 
-MenuSprite::MenuSprite(const sf::Texture* const texture, const sf::Vector2f& pos, const sf::Vector2f& size)
+MenuSprite::MenuSprite(const sf::Texture* const texture, const sf::Vector2f& pos, const sf::Vector2f& siz)
 {
 	requiresMouseData = false;			//same stuff
 
@@ -20,7 +20,7 @@ MenuSprite::MenuSprite(const sf::Texture* const texture, const sf::Vector2f& pos
 
 	resetsOnMD = false;
 
-	setup(texture, pos, size);	//setup	
+	setup(texture, pos, siz);	//setup
 }
 
 
@@ -31,11 +31,11 @@ MenuSprite::~MenuSprite()
 }
 
 
-void MenuSprite::setup(const sf::Texture* const texture, const sf::Vector2f& pos, const sf::Vector2f& size)
+void MenuSprite::setup(const sf::Texture* const texture, const sf::Vector2f& pos, const sf::Vector2f& siz)
 {
 	position = pos;				//position is set
 
-	menuImage.setup(texture, sf::Vector2f(0, 0), size, 0);
+	menuImage.setup(texture, sf::Vector2f(0, 0), siz, 0);
 }
 
 
@@ -43,8 +43,8 @@ void MenuSprite::draw(sf::RenderWindow& window, sf::Vector2f drawPos)
 {
 
 	position += drawPos;		//add the drawPosition  to make position relative
-		
-		
+
+
 	menuImage.draw(window, position);
 
 

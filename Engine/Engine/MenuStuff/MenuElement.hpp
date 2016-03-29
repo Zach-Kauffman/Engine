@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IncludeMe.hpp"
+#include "MenuIncludes.hpp"
 
 class MenuElement
 {
@@ -9,7 +9,7 @@ public:
 
 	virtual void update() = 0;															//virtual; every menuElement will have a 0-argument update
 
-	virtual void update(MouseData& mouseData, const char& typedChar, KeyboardData& keyData) = 0;			//and they will have a 3-argument mousedata update
+	virtual void update(InputData& inpData) = 0;			//and they will have a 3-argument mousedata update
 
 	virtual void draw(sf::RenderWindow& window, const sf::Vector2f& drawPos) = 0;				//and will draw, somehow
 
@@ -19,14 +19,14 @@ public:
 
 
 
-	
+
 
 	void setPosition(const sf::Vector2f& pos);												//set the position of a menuElement
 
 	void move(const sf::Vector2f& disp);													//move the menuElement
 
 	sf::Vector2f getPosition();															//retrieve the position of a menuElement
-		
+
 
 
 
@@ -42,7 +42,7 @@ public:
 
 	bool getIsHidden();																	//retrieve oif the thing wnats to be drawn
 
-	
+
 	void setResetsOnMD(const bool& _resetsOnMD);
 
 	bool getResetsOnMD();

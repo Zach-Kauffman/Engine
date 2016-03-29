@@ -7,13 +7,13 @@ Menu::Menu()															//Constructor
 	position = sf::Vector2f(0, 0);										//position is 0,0 at the start
 	setVectorSize(1);
 }
-	
+
 Menu::Menu(const sf::Vector2f& pos)
 {
 	isActive = true;													//isActive is true at the start
 	position = pos;
 	setVectorSize(1);
-}	
+}
 
 void Menu::addMenuElement(MenuElement* element, const std::string& name)	//adds a menuElement
 {
@@ -38,7 +38,7 @@ void Menu::setPosition(const sf::Vector2f& pos)						//set the relative position
 {
 
 	position = pos;													//change to the new position
-	
+
 }
 
 
@@ -126,13 +126,13 @@ MenuElement* Menu::getPointerToElementByName(const std::string& name)			//return
 }
 
 
-void Menu::update(MouseData& mouseData, const char& typedChar, KeyboardData& keyData)								//updates all of the menuElements
+void Menu::update(InputData& inpData)								//updates all of the menuElements
 {
 	for (unsigned int i = 0; i < elementVector.size(); i++)				//cycle through all menuElements
 	{
 		if (elementVector[i]->getRequiresMouseData())					//if it requires mouse data
 		{
-			elementVector[i]->update(mouseData, typedChar, keyData);						//give it mouse data
+			elementVector[i]->update(inpData);						//give it mouse data
 		}
 		else															//otherwise
 		{

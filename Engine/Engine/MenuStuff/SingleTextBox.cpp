@@ -17,7 +17,7 @@ SingleTextBox::SingleTextBox()
 
 
 
-SingleTextBox::SingleTextBox(	const sf::Vector2f& pos, const sf::Font* const font, const std::string& text, 
+SingleTextBox::SingleTextBox(	const sf::Vector2f& pos, const sf::Font* const font, const std::string& text,
 								const unsigned int& charSize, const unsigned double& maxWidth, const sf::Color& color)
 {
 	requiresMouseData = false;					//same stuff
@@ -40,12 +40,12 @@ SingleTextBox::~SingleTextBox()
 
 
 
-void SingleTextBox::setup(	const sf::Vector2f& pos, const sf::Font* const font, const std::string& text, 
+void SingleTextBox::setup(	const sf::Vector2f& pos, const sf::Font* const font, const std::string& text,
 							const unsigned int& charSize, const unsigned double& maxWidth, const sf::Color& color)
 {
 
 	position = pos;						//set position
-		
+
 	width = maxWidth;							//set width
 
 	drawString = text;						//set drawString
@@ -63,7 +63,7 @@ void SingleTextBox::setup(	const sf::Vector2f& pos, const sf::Font* const font, 
 
 
 	wrapText();									//wrap the text
-	
+
 	correctPosition();							//corrects the text's position
 
 }
@@ -73,7 +73,7 @@ void SingleTextBox::setup(	const sf::Vector2f& pos, const sf::Font* const font, 
 
 
 
-void SingleTextBox::draw(sf::RenderWindow& window, sf::Vector2f drawPos\)
+void SingleTextBox::draw(sf::RenderWindow& window, sf::Vector2f& drawPos)
 {
 	position += drawPos;					//add the draw position to make things relative
 
@@ -132,7 +132,7 @@ void SingleTextBox::setTextColor(const sf::Color& color)		//set the color of the
 void SingleTextBox::setFontSize(const unsigned int& charSize)				//set the font size in pixels
 {
 	textBody.setCharacterSize(charSize);
-	
+
 	wrapText();											//wrap the text
 
 	correctPosition();
@@ -145,7 +145,7 @@ void SingleTextBox::wrapText()				//wraps the string around a margin
 {
 	std::string searchString;
 
-	for (unsigned int i = 0; i < drawString.size(); i++)	
+	for (unsigned int i = 0; i < drawString.size(); i++)
 	{
 		searchString = drawString[i];
 		if (searchString == "\n")
@@ -167,7 +167,7 @@ void SingleTextBox::wrapText()				//wraps the string around a margin
 	std::string transline = "";				//the current line of text that is used to test the width of the string
 
 	std::string rtstr = "";					//the string to return
-		
+
 	bool notFirstWord = false;				//true if the current word is not the first word
 
 	bool notFirstLine = false;				//true if the current line is not the first line
@@ -183,7 +183,7 @@ void SingleTextBox::wrapText()				//wraps the string around a margin
 		{
 			letter = drawString[i];			//otherwise its jsut the index of tthe drawString
 		}
-		
+
 
 
 		if (letter == ' ')					//if a space is found
@@ -213,10 +213,10 @@ void SingleTextBox::wrapText()				//wraps the string around a margin
 
 
 				line = "";					//revert the line and testing line back to ""
-				transline = "";	
+				transline = "";
 
 				i = spaceIndex;				//revert the index back to the last space
-	
+
 			}
 
 			else							//if the width of the text would be fine, instead
@@ -239,9 +239,9 @@ void SingleTextBox::wrapText()				//wraps the string around a margin
 				}
 
 			}
-			
+
 			word = "";						//reset the word to "" if the letetr was a space
-	
+
 		}
 
 		else								//if the letter wasn't a space
@@ -289,7 +289,7 @@ void SingleTextBox::correctPosition()							//corrects the position of the text 
 
 
 
-	double maxHeight = 0;										//declare maxHeight and a temporary string	
+	double maxHeight = 0;										//declare maxHeight and a temporary string
 
 	std::string tmpString;
 
@@ -297,7 +297,7 @@ void SingleTextBox::correctPosition()							//corrects the position of the text 
 	{
 		tmpString = drawString[i];								//set tmep string equal to the char at the indexth point in the drawString
 
-		if (tmpString == "\n")									
+		if (tmpString == "\n")
 		{
 			break;												//if it's a newline, stop
 		}

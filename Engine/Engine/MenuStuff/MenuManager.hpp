@@ -18,17 +18,17 @@ public:
 	void activateAllMenus();												//activates all menus
 
 	void deactivateAllMenus();												//deactivates all menus
-	
-	
+
+
 	void deactivate();
-	
+
 	void activate();
-	
+
 	bool getActivity();
 
 
 
-	void update(MouseData& mouseData, const char& typedChar, KeyboardData& keyData);										//updates all of the menus
+	void update(InputData& inpData);										//updates all of the menus
 
 	void draw(sf::RenderWindow& window);								//draws all of the menus
 
@@ -36,7 +36,7 @@ public:
 private:
 
 	std::vector<Menu> menuVector;											//vector of all the menus
-	
+
 	bool isActive;
 };
 

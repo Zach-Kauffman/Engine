@@ -20,7 +20,7 @@ BasicButton::BasicButton()
 		buttonStateCheckers[i] = 0;
 	}
 
-	buttonState = Unheld;																//buttonState is unheld at the start of BasicButton's existence	
+	buttonState = Unheld;																//buttonState is unheld at the start of BasicButton's existence
 
 	lastMouseHeld = 0;																	//lastMouseHeld starts off as not having a hold value
 
@@ -31,39 +31,39 @@ BasicButton::BasicButton()
 
 BasicButton::BasicButton(	const sf::Vector2f& pos, const ResourceGroup* const & rg,
 							const std::string& text, const sf::Color& textColor,
-							const sf::Vector2f& size, const unsigned int& charSize, const double& border);
+							const sf::Vector2f& siz, const unsigned int& charSize, const double& border);
 {
 
 	//setting inherited protected stuff------------------
-	
-	
+
+
 
 	requiresMouseData = true;															//set the inherited protected bool requiresMouseData to true because BasicButton requires mouse data
 
 	isHidden = false;																	//set the inherited protected bool isHidden to false because BasicButton should be drawn by default
-	
+
 	resetsOnMD = true;																	//BasicButtons reset when their menu deactivates typically
 
 	//done-----------------------------------------------
-	
+
 	for (int i = 0; i < 2; i++)
 	{
 		buttonStateCheckers[i] = 0;														//button state checkers are both initially 0
 	}
-	
-	buttonState = Unheld;																//buttonState is unheld at the start of BasicButton's existence	
+
+	buttonState = Unheld;																//buttonState is unheld at the start of BasicButton's existence
 
 	lastMouseHeld = 0;																	//lastMouseHeld starts off as not having a hold value
 
 	pressedDown = 0;																	//the button is initially not held down
 
-	setup(pos, rg, text, textColor, size, charSize);//call the setup
+	setup(pos, rg, text, textColor, siz, charSize);//call the setup
 }
 
 
 void BasicButton::setup(	const sf::Vector2f& pos, const ResourceGroup* const & rg,
 							const std::string& text, const sf::Color& textColor,
-							const sf::Vector2f& size, const unsigned int& charSize, const double& border);
+							const sf::Vector2f& siz, const unsigned int& charSize, const double& border);
 {
 
 	position = pos;									//set the inherited protected position to the entered position; this will be the position of the button
@@ -71,7 +71,7 @@ void BasicButton::setup(	const sf::Vector2f& pos, const ResourceGroup* const & r
 
 	for (int i = 0; i < 2; i++)															//cycle through extreme corner indices
 	{
-		extremeCorners[i] = sf::Vector2f(position.x + (2 * i - 1) * size.x / 2, position.y + (2 * i - 1) * size.y / 2);
+		extremeCorners[i] = sf::Vector2f(position.x + (2 * i - 1) * siz.x / 2, position.y + (2 * i - 1) * siz.y / 2);
 		//set the extreme corner position; note: f: x -> (2x - 1) maps 0 to -1 and 1 to 1
 	}
 
@@ -88,8 +88,8 @@ void BasicButton::setup(	const sf::Vector2f& pos, const ResourceGroup* const & r
 	for (unsigned int i = 0; i < States_Number; i++)									//cycle through 6 times
 	{
 
-		tempSprite.setup(rg->getTexturePointer(i), sf::Vector2f(0, 0), size);//setup the temporary sprite with the desired textures
-		
+		tempSprite.setup(rg->getTexturePointer(i), sf::Vector2f(0, 0), siz);//setup the temporary sprite with the desired textures
+
 		buttonSprites.addMenuSprite(tempSprite, i);										//add the tempoarary sprite to the sprite vector
 
 	}
@@ -100,7 +100,7 @@ void BasicButton::setup(	const sf::Vector2f& pos, const ResourceGroup* const & r
 
 	//Now, the text is set----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	buttonTextBox.setup(sf::Vector2f(0, 0), rg->getFontPointer(0), text, charSize, size.x - border, textColor);
+	buttonTextBox.setup(sf::Vector2f(0, 0), rg->getFontPointer(0), text, charSize, siz.x - border, textColor);
 																						//setup the textbox
 
 
@@ -130,12 +130,12 @@ void BasicButton::update(InputData& inpData)					//mouse data update -- inherite
 
 void BasicButton::draw(sf::RenderWindow& window, const sf::Vector2f& drawPos)	//draws the Button
 {
-	
+
 	if (lastDrawPosition != drawPos)
 	{
 		lastDrawPosition = drawPos;							//the last draw position becomes the draw position if it's not already
 	}
-	
+
 
 	position += drawPos;								//increase the position by thedesired draw position -- makes the position relative
 
@@ -179,7 +179,7 @@ void BasicButton::setRelativeSpritePosition(const sf::Vector2f& pos)		//sets the
 
 
 	buttonSprites.setPosition(pos);									//set the position (which will in draw() be relative) to the desired position
-	
+
 }
 
 
@@ -224,10 +224,10 @@ int BasicButton::getButtonState()										//returns the buttonState
 
 
 
-void BasicButton::addFunctionOnButtonState(function_pointer function, void* object, const unsigned int& state)		//adds a function to do when the button is a certain buttonState
+void BasicButton::addFunctionOnButtonState(function_pointer _function, void* object, const unsigned int& state)		//adds a function to do when the button is a certain buttonState
 {
 
-	doWhenButtonEvent[state].push_back(std::make_pair(function, object));								//add the desired function
+	doWhenButtonEvent[state].push_back(std::make_pair(_function, object));								//add the desired function
 
 }
 
@@ -295,14 +295,14 @@ void BasicButton::updateButtonState(Input& inpData)			//*groan* Click logic...
 			else														//otherwise
 			{
 				buttonState = Hovered;									//it's only hovered
-			}						
+			}
 		}
 
 
 
-		else if (leftData == 2)										//else if the left mouse was being held 
+		else if (leftData == 2)										//else if the left mouse was being held
 		{
-			if (lastMouseHeld != 1)										//if the mouse was not last pressed outside of the button 
+			if (lastMouseHeld != 1)										//if the mouse was not last pressed outside of the button
 			{
 				if (pressedDown)											//if the button is presed down
 				{
@@ -345,13 +345,13 @@ void BasicButton::updateButtonState(Input& inpData)			//*groan* Click logic...
 
 	}
 
-	else															//else if the mouse was outside the button			
+	else															//else if the mouse was outside the button
 	{
 		if (lastMouseHeld == 2)											//if the mouse was last held on the button
 		{
 			if (pressedDown)												//if the button was pressed down
 			{
-				buttonState = Hovered_Pressed;								//it's hovered and pressed even if the 
+				buttonState = Hovered_Pressed;								//it's hovered and pressed even if the
 			}
 
 			else															//otherwise
@@ -399,7 +399,7 @@ void BasicButton::updateButtonEvent()										//This function calls the callbac
 	if (buttonStateCheckers[0] != buttonStateCheckers[1])					//if they are different...
 	{
 		if (buttonStateCheckers[0] == Held && (buttonStateCheckers[1] == Unheld_Pressed || buttonStateCheckers[1] == Hovered_Pressed))
-		{																	//if the button was held and is now either unheld pressed or hovered pressed, it was clicked 
+		{																	//if the button was held and is now either unheld pressed or hovered pressed, it was clicked
 
 			callbackOnButtonEvent(Clicked);									//do the clicked callback
 
