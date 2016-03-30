@@ -166,7 +166,7 @@ void Game::draw()
 void Game::update()
 {
 	doChunks();
-	//objMan.getObject("Layers.Layer0.1.0.1")->update(keyData);
+	objMan.getObject("Layers.Layer0.1.0.1")->update(keyData);
 
 
 	//for each layer
