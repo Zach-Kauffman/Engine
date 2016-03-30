@@ -26,7 +26,7 @@ void EditorGUI::initialize(ResourceManager* resources)
 	selectedResource = new EntryTable(50, 50, 20, sf::Vector2f(500, 500), recMan->getFontPointerByName("EditorFont"), sf::Color::Black, recMan->getTexturePointerByName("EditorEntryBG"), sf::Vector2f(150, 75), recMan->getTexturePointerByName("EditorEntryBar"), 20);
 
 	MenuElement* attributeEditor;	//entry table
-	attributeEditor = new EntryTable(100, 50, 20, sf::Vector2f(1000, 100), recMan->getFontPointerByName("EditorFont"), sf::Color::Black, recMan->getTexturePointerByName("EditorEntryBG"), sf::Vector2f(150, 75), recMan->getTexturePointerByName("EditorEntryBar"), 200);
+	attributeEditor = new EntryTable(100, 50, 20, sf::Vector2f(1000, 100), recMan->getFontPointerByName("EditorFont"), sf::Color::Black, recMan->getTexturePointerByName("EditorEntryBG"), sf::Vector2f(200, 50), recMan->getTexturePointerByName("EditorEntryBar"), 200);
 
 	MenuElement* updateButton;
 	updateButton = new BasicButton(sf::Vector2f(200, 800), recMan->getResourceGroupByName("EditorButton"), "Update Selection", sf::Color::Black, sf::Vector2f(200, 200), 10);
