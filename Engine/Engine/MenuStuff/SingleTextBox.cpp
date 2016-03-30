@@ -179,7 +179,7 @@ void SingleTextBox::wrapText()				//wraps the string around a margin
 
 	
 
-	int spaceIndex = 0;							//keeps track of where the last space was
+	int spaceIndex = 1;							//keeps track of where the last space was
 
 	char letter;							//the current letter
 
@@ -218,7 +218,7 @@ void SingleTextBox::wrapText()				//wraps the string around a margin
 
 			transline += word;				//then add the word onto the testing line
 
-			if (getDimensionsOfString(transline).x > width)	//if the width would be greater than acceptable,
+			if (getDimensionsOfString(transline).x > abs(width))	//if the width would be greater than acceptable,
 			{
 				if (notFirstLine)			//if its not the first line
 				{
@@ -281,7 +281,10 @@ void SingleTextBox::wrapText()				//wraps the string around a margin
 
 sf::Vector2f SingleTextBox::getDimensionsOfString(std::string fstr)	//gets the dimensions of a hypothetical string given the other conditions of the textBox
 {
-
+	if (fstr == "")
+	{
+		return sf::Vector2f(0, 0);
+	}
 	sf::Text tmpText;												//make a temporary text
 
 	tmpText.setFont(*textBody.getFont());							//set it up just like the texBox's Text

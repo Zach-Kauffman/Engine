@@ -22,7 +22,7 @@ void Editor::editorInitialize()
 	boost::function<void()> boundFxn = boost::bind(&Editor::promptObjectType, this);
 	gui.setButtonCallback("editorMenu", "newObject", boundFxn, 12);
 
-	boundFxn = boost::bind(&Editor::editObject, this);
+	boundFxn = boost::bind(&Editor::updateObject, this);
 	gui.setButtonCallback("editorMenu", "updateButton", boundFxn, 12);
 
 	boundFxn = boost::bind(&Editor::addResource, this);
