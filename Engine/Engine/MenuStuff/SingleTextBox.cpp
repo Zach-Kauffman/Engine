@@ -13,6 +13,7 @@ SingleTextBox::SingleTextBox()
 	resetsOnMD = false;							//does not reset on menu deactivation
 
 
+
 }
 
 
@@ -178,7 +179,7 @@ void SingleTextBox::wrapText()				//wraps the string around a margin
 
 	
 
-	int spaceIndex;							//keeps track of where the last space was
+	int spaceIndex = 0;							//keeps track of where the last space was
 
 	char letter;							//the current letter
 

@@ -47,11 +47,11 @@
 	<resource>
 		<path>Resources/GUIResources/TextBar.png</path>
 		<name>EditorEntryBar</name>
-		<group>EditorButton:6</group>
 	</resource>
 	<resource>
 		<path>Resources/GUIResources/GrayTextBoxBackground.png</path>
 		<name>EditorEntryBG</name>
+		<group>EditorButton:6</group>
 	</resource>
 	<resource>
 		<path>Resources/GUIResources/TimesNewRoman.ttf</path>

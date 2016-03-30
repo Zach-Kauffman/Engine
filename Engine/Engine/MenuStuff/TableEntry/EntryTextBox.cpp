@@ -63,9 +63,14 @@ void EntryTextBox::setEntryString(std::string& estr)
 void EntryTextBox::update(MouseData& fmouseData, const char& typedChar, KeyboardData& fkeyData)
 {
 	setActivity(fmouseData);
-	setEntryString(typedChar);
+
+
 	if (isActive)
 	{
+		if (typedChar != '\0')
+		{
+			buildEntryString(typedChar);
+		}
 		textBox.setTextString(*entryString);
 	}
 	setBarPos();
@@ -101,7 +106,7 @@ void EntryTextBox::draw(sf::RenderWindow& window, sf::Vector2f drawPos)
 
 //private
 
-void EntryTextBox::setEntryString(const char& typedChar)
+void EntryTextBox::buildEntryString(const char& typedChar)
 {
 	
 

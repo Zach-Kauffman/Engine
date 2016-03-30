@@ -1,7 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
 <types>
-	<type name="typeNameHere">
-		<attr>AttrName</attr>
-		<attr>Attr2Name</attr>
+	<type name="TestObject">
+		<attr attr="position.<xmlattr>.y"></attr>
+		<attr attr="position.<xmlattr>.x"></attr>
+		<attr attr="size.<xmlattr>.x"></attr>
+		<attr attr="size.<xmlattr>.y"></attr>
+		<attr attr="texture"></attr>
 	</type>
-<types>
+	<type name="MovingTestObject">
+		<attr attr="position.<xmlattr>.y"></attr>
+		<attr attr="position.<xmlattr>.x"></attr>
+		<attr attr="size.<xmlattr>.x"></attr>
+		<attr attr="size.<xmlattr>.y"></attr>
+		<attr attr="texture"></attr>
+	</type>
+</types>

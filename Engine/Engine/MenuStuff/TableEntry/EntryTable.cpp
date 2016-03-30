@@ -46,6 +46,7 @@ void EntryTable::setup(const double& xspac, const double& yspac, const unsigned 
 void EntryTable::setMap(std::map<std::string, std::string>& tableData)
 {
 	strMap = &tableData;
+
 	std::map<std::string, std::string>::iterator it;
 	for(it = tableData.begin(); it != tableData.end(); it++) {
 	 // iterator->first = key
@@ -57,7 +58,7 @@ void EntryTable::setMap(std::map<std::string, std::string>& tableData)
 
 		tablePairs.push_back(TablePair(font, charSize, color, bgTexture, bgSize, barTexture, sf::Vector2f(0, i*ySpacing), indent, xSpacing));
 		tablePairs[i].setKeyString(recordStrs[i]);
-		tablePairs[i].setEntryString((*strMap)[recordStrs[i]]);
+		tablePairs[i].setEntryString(tableData[recordStrs[i]]);
 	}
 }
 

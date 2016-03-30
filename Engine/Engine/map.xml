@@ -21,7 +21,7 @@
 				<type>TestObject</type>
 				<position x="1100" y="800"></position>
 				<size x="0" y="0"></size>
-				<texture>acorn</texture>
+				<texture>EditorEntryBG</texture>
 			</object>
 		</chunk>
 	</layer>

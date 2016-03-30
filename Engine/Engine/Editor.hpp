@@ -39,7 +39,7 @@ public:
 	void editorUpdate();
 	void editorDraw();
 
-
+	void promptObjectType();
 	void addObject();
 	void editObject();
 	void removeObject();
@@ -52,14 +52,17 @@ public:
 
 
 	void addResource();
-	void editResource(std::string& name);
-	void removeResource(std::string& name);
-	void selectResource();
+	void editResource(const std::string& name);
+	void removeResource(const std::string& name);
+	void selectResource(const std::string& name);
 
 	void saveResources();
 	void loadSavedResources();
 
 private:
+	void parsePopupOutput();
+
+
 
 	int currentLayer;		//currently selected layer
 
@@ -80,5 +83,8 @@ private:
 	std::map<std::string, SelectionData> resourceList;
 
 	EditorGUI gui;
+	std::string popData;	//data retrieved from popup
+	int popInfoType;		//0 is object type 1 is resource types .....	interpreted in parsePopupOutput()
+	StringMap objectPrompt;
 
 };

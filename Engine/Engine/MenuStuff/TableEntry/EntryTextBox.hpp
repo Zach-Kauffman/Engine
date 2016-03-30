@@ -31,7 +31,7 @@ public:
 	void resetMD() {};
 private:
 
-	void setEntryString(const char& typedChar);
+	void buildEntryString(const char& typedChar);
 	void setActivity(MouseData& mdata);
 	void setBarPos();
 	//bool isDif(const char& typedChar, const unsigned int& i);

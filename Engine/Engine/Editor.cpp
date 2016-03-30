@@ -5,6 +5,8 @@ Editor::Editor()
 	objSelection = false;
 	loadAllObjects = false;
 	loadAllResources = false;
+	popData = "";
+	objectPrompt["Enter Type:"] = "";
 }
 
 Editor::~Editor()
@@ -14,17 +16,17 @@ Editor::~Editor()
 
 void Editor::editorInitialize()
 {
-
+	loadAttributes("attributes.xml");
 	gui.initialize(&recMan);
 	
-	boost::function<void()> boundFxn = boost::bind(&Editor::updateObject, this);
-	gui.setButtonCallback("editorMenu", "updateButton", boundFxn, 12);
+	boost::function<void()> boundFxn = boost::bind(&Editor::promptObjectType, this);
+	gui.setButtonCallback("editorMenu", "newObject", boundFxn, 12);
 
 	boundFxn = boost::bind(&Editor::editObject, this);
 	gui.setButtonCallback("editorMenu", "updateButton", boundFxn, 12);
 
 	boundFxn = boost::bind(&Editor::addResource, this);
-	gui.setButtonCallback("editorMenu", "save", boundFxn, 12);
+	gui.setButtonCallback("editorMenu", "newResource", boundFxn, 12);
 
 	boundFxn = boost::bind(&Editor::saveFile, this);
 	gui.setButtonCallback("editorMenu", "save", boundFxn, 12);
@@ -34,6 +36,9 @@ void Editor::editorInitialize()
 void Editor::editorBegin()
 {
 	selectObject(1);
+	StringMap test;
+	std::string testvar = "";
+	std::string testvar2 = "";
 	sf::RenderWindow& window = *windowPtr;
 	window.setKeyRepeatEnabled(false);		//makes it so when a key is hit, only one event is recorded, not nine, or whatever -- ignores holding keys
 	while (window.isOpen())
@@ -127,12 +132,16 @@ void Editor::editorBegin()
 
 		window.clear();
 
+		if (gui.getPopData())
+		{
+			parsePopupOutput();
+		}
 		update();
 		editorUpdate();
 
-		//draw();
+		draw();
 		editorDraw();
-		gui.setMap("editorMenu", "attributeEditor", *objProperties);	//prompt for all object attributes
+
 		window.display();
 
 		textDataChr = 0;
@@ -159,27 +168,29 @@ void Editor::editorDraw()
 	gui.draw(*windowPtr);	//tell menus to draw
 }
 
-
+void Editor::promptObjectType()
+{
+	gui.popup(objectPrompt);	//get that object type
+	popInfoType = 1;
+}
 
 void Editor::addObject()
 {
-	std::string type;
-	gui.popup("Enter Object Type: ", type);	//get that object type
-
+	popData = objectPrompt.begin()->second;
 	//check for type validity
 
-	StringMap properties = objectAttributes[type];
+	StringMap properties = objectAttributes[popData];
 	boost::property_tree::ptree objectRoot;
 
-	auto tempObject = objMan.getPrototype(type);
+	auto tempObject = objMan.getPrototype(popData);
 	tempObject->setID(objMan.nextID());
 	tempObject->setActive(false);
 
 	idList[tempObject->getID()] = std::make_tuple(objectRoot, properties);
-
-	gui.setMap("editorMenu", "attributeEditor", properties);	//prompt for all object attributes
-
 	selectObject(tempObject->getID());
+	gui.setMap("editorMenu", "attributeEditor", *objProperties);	//prompt for all object attributes
+
+	
 
 	std::string pathString = "Layers.Layer" + boost::lexical_cast<std::string>(currentLayer);
 	objMan.addObject(tempObject, pathString);
@@ -292,12 +303,12 @@ void Editor::addResource()
 
 }
 
-void Editor::editResource(std::string& name)
+void Editor::editResource(const std::string& name)
 {
 
 }
 
-void Editor::removeResource(std::string& name)
+void Editor::removeResource(const std::string& name)
 {
 
 }
@@ -319,15 +330,16 @@ void Editor::loadAttributes(const std::string& path) //loads object attributes f
 	auto& attributes = attrTree.trees["types"].output;
 
 	std::string tmp;
-	for (int typeIt = 0; typeIt < types.size(); typeIt++)
+	for (int typeIt = 0; typeIt < types[0].size(); typeIt++)
 	{
 		StringMap attrMap;
-		for (int attrIt = 0; attrIt < attributes.size(); attrIt++)
+		for (int attrIt = 0; attrIt < attributes[typeIt].size(); attrIt++)
 		{
-//			attrMap[attributes[attrIt]] = "";
+			attrLoader.readValue<std::string>("<xmlattr>.attr", tmp, attributes[typeIt][attrIt]);
+			attrMap[tmp] = "plz";
 		}
-		//attrLoader.readValue<std::string>("<xmlattr>.name", tmp, types[typeIt]);
-		objectAttributes["id"] = attrMap;
+		attrLoader.readValue<std::string>("<xmlattr>.name", tmp, types[0][typeIt]);
+		objectAttributes[tmp] = attrMap;
 	}
 
 	//for files in directory
@@ -338,5 +350,17 @@ void Editor::loadAttributes(const std::string& path) //loads object attributes f
 	//somehow get stringified object prototype names (xml format?)
 }
 
+//PRIVATE FUNCTIONS
+
+void Editor::parsePopupOutput()
+{
+	gui.setPopData(0);
+
+	switch (popInfoType)
+	{
+	case 1: addObject();
+	case 2: addResource();
+	}
+}
 
 
