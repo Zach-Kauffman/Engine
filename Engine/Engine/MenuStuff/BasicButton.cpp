@@ -29,9 +29,9 @@ BasicButton::BasicButton()
 
 
 
-BasicButton::BasicButton(	const sf::Vector2f& pos, const ResourceGroup* const & rg,
+BasicButton::BasicButton(	const sf::Vector2f& pos, ResourceGroup & rg,
 							const std::string& text, const sf::Color& textColor,
-							const sf::Vector2f& siz, const unsigned int& charSize, const double& border);
+							const sf::Vector2f& siz, const unsigned int& charSize, const double& border)
 {
 
 	//setting inherited protected stuff------------------
@@ -57,13 +57,13 @@ BasicButton::BasicButton(	const sf::Vector2f& pos, const ResourceGroup* const & 
 
 	pressedDown = 0;																	//the button is initially not held down
 
-	setup(pos, rg, text, textColor, siz, charSize);//call the setup
+	setup(pos, rg, text, textColor, siz, charSize, border);//call the setup
 }
 
 
-void BasicButton::setup(	const sf::Vector2f& pos, const ResourceGroup* const & rg,
+void BasicButton::setup(	const sf::Vector2f& pos, ResourceGroup & rg,
 							const std::string& text, const sf::Color& textColor,
-							const sf::Vector2f& siz, const unsigned int& charSize, const double& border);
+							const sf::Vector2f& siz, const unsigned int& charSize, const double& border)
 {
 
 	position = pos;									//set the inherited protected position to the entered position; this will be the position of the button
@@ -88,7 +88,7 @@ void BasicButton::setup(	const sf::Vector2f& pos, const ResourceGroup* const & r
 	for (unsigned int i = 0; i < States_Number; i++)									//cycle through 6 times
 	{
 
-		tempSprite.setup(rg->getTexturePointer(i), sf::Vector2f(0, 0), siz);//setup the temporary sprite with the desired textures
+		tempSprite.setup(rg.getTexturePointer(i), sf::Vector2f(0, 0), siz);//setup the temporary sprite with the desired textures
 
 		buttonSprites.addMenuSprite(tempSprite, i);										//add the tempoarary sprite to the sprite vector
 
@@ -100,7 +100,7 @@ void BasicButton::setup(	const sf::Vector2f& pos, const ResourceGroup* const & r
 
 	//Now, the text is set----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	buttonTextBox.setup(sf::Vector2f(0, 0), rg->getFontPointer(0), text, charSize, siz.x - border, textColor);
+	buttonTextBox.setup(sf::Vector2f(0, 0), rg.getFontPointer(0), text, charSize, siz.x - border, textColor);
 																						//setup the textbox
 
 
@@ -145,7 +145,7 @@ void BasicButton::draw(sf::RenderWindow& window, const sf::Vector2f& drawPos)	//
 	buttonSprites.draw(window, position);			//draw the sprite
 
 
-	buttonTextBox.draw(fwindow, position);			//draw the text
+	buttonTextBox.draw(window, position);			//draw the text
 
 
 
@@ -215,7 +215,7 @@ void BasicButton::moveRelativeTextPosition(const sf::Vector2f& disp)			//move th
 
 
 
-int BasicButton::getButtonState()										//returns the buttonState
+unsigned int BasicButton::getButtonState()										//returns the buttonState
 {
 
 	return buttonState;
@@ -233,7 +233,7 @@ void BasicButton::addFunctionOnButtonState(function_pointer _function, void* obj
 
 
 
-void BasicButton::updateButtonState(Input& inpData)			//*groan* Click logic...
+void BasicButton::updateButtonState(InputData& inpData)			//*groan* Click logic...
 {
 
 

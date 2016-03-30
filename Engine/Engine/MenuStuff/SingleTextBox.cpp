@@ -73,13 +73,13 @@ void SingleTextBox::setup(	const sf::Vector2f& pos, const sf::Font* const font, 
 
 
 
-void SingleTextBox::draw(sf::RenderWindow& window, sf::Vector2f& drawPos)
+void SingleTextBox::draw(sf::RenderWindow& window, const sf::Vector2f& drawPos)
 {
 	position += drawPos;					//add the draw position to make things relative
 
 	textBody.move(position);					//move the textBody
 
-	frenderwindow.draw(textBody);				//draw it
+	window.draw(textBody);				//draw it
 
 	textBody.move(-position);					//move it back
 
@@ -263,7 +263,7 @@ sf::Vector2f SingleTextBox::getDimensionsOfString(const std::string& text)	//get
 
 	tmpText.setFont(*textBody.getFont());							//set it up just like the texBox's Text
 
-	tmpText.setCharacterSize(characterSize);
+	tmpText.setCharacterSize(textBody.getCharacterSize());
 
 	tmpText.setString(text);										//set the string to be the hypothetical one
 

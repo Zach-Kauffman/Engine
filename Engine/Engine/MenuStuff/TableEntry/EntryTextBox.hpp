@@ -4,8 +4,8 @@
 #include "..\..\Input\KeyboardData.hpp"
 #include "..\..\Input\MouseData.hpp"
 #include <iostream>
-#include "..\SingleTextBox.h"
-#include "..\MenuSprite.h"
+#include "..\SingleTextBox.hpp"
+#include "..\MenuSprite.hpp"
 class EntryTextBox : public MenuElement
 {
 public:
@@ -26,13 +26,13 @@ public:
 
 	//std::string getEntryString();
 	void update() {};
-	void update(MouseData& fmouseData, const char& typedChar, KeyboardData& fkeyData);
-	void draw(sf::RenderWindow& window, sf::Vector2f drawPos);
+	void update(InputData& inpData);
+	void draw(sf::RenderWindow& window, const sf::Vector2f& drawPos);
 	void resetMD() {};
 private:
 
-	void setEntryString(const char& typedChar);
-	void setActivity(MouseData& mdata);
+	void buildEntryString(InputData& inpData);
+	void setActivity(InputData& inpData);
 	void setBarPos();
 	//bool isDif(const char& typedChar, const unsigned int& i);
 

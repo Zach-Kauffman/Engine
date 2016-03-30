@@ -22,7 +22,7 @@ AppSprite::AppSprite(const sf::Texture* const & texture, const sf::Vector2f& TL,
 {
 	//find average point of top left and bottom right -- the center, the position
 	sf::Vector2f tpos = TL + BR;
-	tposx /= 2.0000;
+	tpos.x /= 2.0000;
 	tpos.y /= 2.0000;
 
 
@@ -39,7 +39,7 @@ AppSprite::~AppSprite()
 }
 
 
-void AppSprite::setup(const sf::Texture* const & texture, const sf::Vector2f& pos, const sf::Vector2f& size, const double& rot)
+void AppSprite::setup(const sf::Texture* const & texture, const sf::Vector2f& pos, const sf::Vector2f& siz, const double& rot)
 {
 	position = pos;				//position is set
 
@@ -53,7 +53,7 @@ void AppSprite::setup(const sf::Texture* const & texture, const sf::Vector2f& po
 	appImage.setOrigin(tempDimensions.x / 2, tempDimensions.y / 2);
 	//set the origin in the center of the temp dimensions
 
-	appImage.setScale(fsize.x / tempDimensions.x, fsize.y / tempDimensions.y);
+	appImage.setScale(siz.x / tempDimensions.x, siz.y / tempDimensions.y);
 	//set the scale such that it is the correct size
 
 	appImage.setPosition(0, 0);		//position is set (relatively) to (0,0)
@@ -104,7 +104,7 @@ void AppSprite::draw(sf::RenderWindow& window, const sf::Vector2f& drawPos)
 
 
 
-	position -= drawPosition;		//subtract the drawPosition because we added it
+	position -= drawPos;		//subtract the drawPosition because we added it
 
 }
 
@@ -122,7 +122,7 @@ sf::Vector2f AppSprite::getLocalDimensions()				//same thing as above, except th
 }
 
 
-AppSprite reduceRotation()									//bounds the rotation in the interval [0, 2pi)
+void AppSprite::reduceRotation()									//bounds the rotation in the interval [0, 2pi)
 {
 	const double pi = 3.1415926535898;
 	const double two_pi = 2 * pi;

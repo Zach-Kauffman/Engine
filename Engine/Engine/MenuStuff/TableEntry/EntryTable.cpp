@@ -63,19 +63,19 @@ void EntryTable::createTable(	sf::Font * const ffont, const sf::Color& fcolor, s
 }
 
 
-void EntryTable::update(MouseData& fmouseData, const char& typedChar, KeyboardData& fkeyData)
+void EntryTable::update(InputData& inpData)
 {
 	for (unsigned int i = 0; i < tablePairs.size(); i++)
 	{
-		tablePairs[i].update(fmouseData, typedChar, fkeyData);
+		tablePairs[i].update(inpData);
 	}
-	for (int i = 0; i < recordstrs.size(); i++)
-	{
-		//std::cout << (*strMap)[recordstrs[i]] << std::endl;
-	}
+	//for (int i = 0; i < recordstrs.size(); i++)
+	//{
+	//	//std::cout << (*strMap)[recordstrs[i]] << std::endl;
+	//}
 }
 
-void EntryTable::draw(sf::RenderWindow& window, sf::Vector2f drawPos)
+void EntryTable::draw(sf::RenderWindow& window, const sf::Vector2f& drawPos)
 {
 	position += drawPos;
 

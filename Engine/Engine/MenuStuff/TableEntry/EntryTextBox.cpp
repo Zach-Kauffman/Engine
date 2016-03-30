@@ -60,10 +60,10 @@ void EntryTextBox::setEntryString(std::string& estr)
 //}
 
 
-void EntryTextBox::update(MouseData& fmouseData, const char& typedChar, KeyboardData& fkeyData)
+void EntryTextBox::update(InputData& inpData)
 {
-	setActivity(fmouseData);
-	setEntryString(typedChar);
+	setActivity(inpData);
+	buildEntryString(inpData);
 	if (isActive)
 	{
 		textBox.setTextString(*entryString);
@@ -74,7 +74,7 @@ void EntryTextBox::update(MouseData& fmouseData, const char& typedChar, Keyboard
 
 }
 
-void EntryTextBox::draw(sf::RenderWindow& window, sf::Vector2f drawPos)
+void EntryTextBox::draw(sf::RenderWindow& window, const sf::Vector2f& drawPos)
 {
 	if (lastDrawPos != drawPos)
 	{
@@ -101,10 +101,10 @@ void EntryTextBox::draw(sf::RenderWindow& window, sf::Vector2f drawPos)
 
 //private
 
-void EntryTextBox::setEntryString(const char& typedChar)
+void EntryTextBox::buildEntryString(InputData& inpData)
 {
 	
-
+	const unsigned char typedChar = inpData.getTypedChar();
 	if (isActive )
 	{
 		if (typedChar != 0)
@@ -128,10 +128,10 @@ void EntryTextBox::setEntryString(const char& typedChar)
 }
 
 
-void EntryTextBox::setActivity(MouseData& mdata)
+void EntryTextBox::setActivity(InputData& inpData)
 {
-	sf::Vector2f mpos = mdata.getPosition() - lastDrawPos - position;
-	bool clicked = (mdata.getLeftData() == MouseData::Hit);
+	sf::Vector2f mpos = inpData.getMousePosition() - lastDrawPos - position;
+	bool clicked = ( inpData.getLeftData() == MouseData::Hit);
 	/*
 	std::cout << mdata.getPosition().x << ", " << mdata.getPosition().y << std::endl;
 	std::cout << lastDrawPos.x << ", " << lastDrawPos.y << std::endl;

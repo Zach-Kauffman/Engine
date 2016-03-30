@@ -8,14 +8,14 @@ public:
 
 	AppSprite();																	//0-argument constructor
 
-	AppSprite(const sf::Texture* const & texture, const sf::Vector2f& pos, const sf::Vector2f& size, double rot);	//constructor with all elements
+	AppSprite(const sf::Texture* const & texture, const sf::Vector2f& pos, const sf::Vector2f& size, const double& rot);	//constructor with all elements
 
 	AppSprite(const sf::Texture* const & texture, const sf::Vector2f& TL, const sf::Vector2f& BR);
 
 	~AppSprite();																	//destructor
 
 
-	void setup(const sf::Texture* const & texture, const sf::Vector2f& pos, const sf::Vector2f& size, double rot);	//sets up the MenuSprite
+	void setup(const sf::Texture* const & texture, const sf::Vector2f& pos, const sf::Vector2f& size, const double& rot);	//sets up the MenuSprite
 	
 
 	void move(const sf::Vector2f& disp);
@@ -38,7 +38,7 @@ public:
 	sf::Vector2f getLocalDimensions();												//returns the dimensions of the AppSprite locally
 
 private:
-	reduceRotation();
+	void reduceRotation();
 	
 	sf::Vector2f position;
 

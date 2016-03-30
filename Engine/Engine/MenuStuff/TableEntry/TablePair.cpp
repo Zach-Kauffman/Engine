@@ -64,14 +64,14 @@ void TablePair::setEntryString(std::string& estr)
 //}
 
 
-void TablePair::update(MouseData& fmouseData, const char& typedChar, KeyboardData& fkeyData)
+void TablePair::update(InputData& inpData)
 {
-	entryBox.update(fmouseData, typedChar, fkeyData);
+	entryBox.update(inpData);
 }
 
-void TablePair::draw(sf::RenderWindow& window, sf::Vector2f drawpos)
+void TablePair::draw(sf::RenderWindow& window, const sf::Vector2f& drawPos)
 {
-	position += drawpos;
+	position += drawPos;
 
 	keyText.draw(window, position);
 
@@ -80,5 +80,5 @@ void TablePair::draw(sf::RenderWindow& window, sf::Vector2f drawpos)
 	entryBox.draw(window, position);
 
 
-	position -= drawpos;
+	position -= drawPos;
 }

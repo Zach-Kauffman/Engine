@@ -20,8 +20,8 @@ public:
 	//std::string getInput();
 
 	void update() {};
-	void update(MouseData& fmouseData, const char& typedChar, KeyboardData& fkeyData);
-	void draw(sf::RenderWindow& window, sf::Vector2f drawPos);
+	void update(InputData& inpData);
+	void draw(sf::RenderWindow& window, const sf::Vector2f& drawPos);
 	void resetMD() {};
 
 

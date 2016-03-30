@@ -73,7 +73,7 @@ void MultiTextBox::setCurrentTextBoxByName(const std::string& name)	//set the cu
 
 
 
-void MultiTextBox::setCurrentTextBoxByIndex(const int& index)		//set the textbox being drawn by index
+void MultiTextBox::setCurrentTextBoxByIndex(const unsigned int& index)		//set the textbox being drawn by index
 {
 
 	if (CTBIndex >= 0)

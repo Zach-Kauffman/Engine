@@ -39,7 +39,7 @@ void MenuSprite::setup(const sf::Texture* const texture, const sf::Vector2f& pos
 }
 
 
-void MenuSprite::draw(sf::RenderWindow& window, sf::Vector2f drawPos)
+void MenuSprite::draw(sf::RenderWindow& window, const sf::Vector2f& drawPos)
 {
 
 	position += drawPos;		//add the drawPosition  to make position relative

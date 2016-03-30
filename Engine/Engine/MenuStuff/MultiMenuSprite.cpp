@@ -12,7 +12,7 @@ MultiMenuSprite::MultiMenuSprite()								//constructor
 
 	resetsOnMD = false;											//does  not reset on menu deactvation
 
-	CMSIndex = 0
+	CMSIndex = 0;
 }
 
 
@@ -81,7 +81,7 @@ void MultiMenuSprite::setCurrentMenuSpriteByIndex(const unsigned int& index)		//
 		spriteVector[CMSIndex].hide();
 	}
 
-	CMSIndex = findex;
+	CMSIndex = index;
 
 	spriteVector[CMSIndex].unhide();
 }

@@ -28,9 +28,7 @@ void Game::initialize(const std::string& cfgFile, const std::string& resFile, co
 	//loadMap();			//displays correct objects
 
 	//thats all for now folks
-
-	textDataStr = "";
-	textDataChr = 0;
+	inpData.frameUpdate();
 	
 }
 
@@ -76,13 +74,13 @@ void Game::begin()
 			{
 				if (event.text.unicode < 128)
 				{
-					inpdData.setTypedChar(static_cast<char>(event.text.unicode));
+					inpData.setTypedChar(static_cast<char>(event.text.unicode));
 				}
 			}
 
 			if (event.type == sf::Event::MouseMoved)
 			{
-				inpData.seMousePosition(sf::Vector2f(event.mouseMove.x, event.mouseMove.y));
+				inpData.setMousePosition(sf::Vector2f(event.mouseMove.x, event.mouseMove.y));
 			}
 			
 			if (event.type == sf::Event::MouseButtonPressed)
@@ -153,7 +151,7 @@ void Game::draw()
 void Game::update()
 {
 
-	gui.update(mouseData, textDataChr, keyData);
+	gui.update(inpData);
 	std::cout << testMap["Cat"] << ", " << testMap["Ani"] << std::endl;
 	//objMan.getObject("Layers.Layer0.1")->update(keys);
 

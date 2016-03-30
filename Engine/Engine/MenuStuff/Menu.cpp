@@ -25,7 +25,7 @@ void Menu::addMenuElement(MenuElement* element, const std::string& name)	//adds 
 
 
 
-void Menu::addMenuElement(boost::shared_ptr<MenuElement> element, std::string name)
+void Menu::addMenuElement(boost::shared_ptr<MenuElement> element, const std::string& name)
 {
 	elementVector.push_back(element);								//adds a pointer to a menuElement
 
@@ -109,7 +109,7 @@ bool Menu::getIsActive()												//returns if the menu is active
 
 
 
-MenuElement* Menu::getPointerToElementByIndex(const unsigned int& index)				//gets a pointer to a menuElement, not a child
+boost::shared_ptr<MenuElement> Menu::getPointerToElementByIndex(const unsigned int& index)				//gets a pointer to a menuElement, not a child
 {
 
 	return elementVector[index];										//returns the index'th part of elementVector
@@ -118,7 +118,7 @@ MenuElement* Menu::getPointerToElementByIndex(const unsigned int& index)				//ge
 
 
 
-MenuElement* Menu::getPointerToElementByName(const std::string& name)			//returns a pointer to a menuElemtn by name, not a child
+boost::shared_ptr<MenuElement> Menu::getPointerToElementByName(const std::string& name)			//returns a pointer to a menuElemtn by name, not a child
 {
 
 	return elementVector[ntoi(name)];							//returns the (int that the name was mapped to)th element of elementVector
@@ -155,7 +155,7 @@ void Menu::draw(sf::RenderWindow& window, const sf::Vector2f& drawPos)	//draws a
 		}
 	}
 
-	position -= drawPosition;												//subtract the draw position because we added it
+	position -= drawPos;												//subtract the draw position because we added it
 }
 
 

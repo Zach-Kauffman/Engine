@@ -24,7 +24,7 @@ public:
 
 	void update(InputData& inpData) {};
 
-	void draw(sf::RenderWindow& window, sf::Vector2f& drawPos);
+	void draw(sf::RenderWindow& window, const sf::Vector2f& drawPos);
 
 	void resetMD() {};
 

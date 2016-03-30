@@ -71,7 +71,7 @@ private:
 
 	std::map<std::string, std::string> testMap;
 
-	InputData inpdata;
+	InputData inpData;
 
 	
 };
