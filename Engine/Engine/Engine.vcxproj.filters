@@ -129,6 +129,9 @@
     <ClInclude Include="MenuStuff\SingleTextBox.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Input\InputData.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Utility\Downcast.cpp">
@@ -197,9 +200,6 @@
     <ClCompile Include="MenuStuff\Menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MenuStuff\MenuBackground.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="MenuStuff\MenuElement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -225,6 +225,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MenuStuff\TableEntry\TablePair.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\InputData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

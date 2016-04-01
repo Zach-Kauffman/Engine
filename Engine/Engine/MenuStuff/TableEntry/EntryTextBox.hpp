@@ -1,8 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "..\..\Utility\Utilities.hpp"
-#include "..\..\Input\KeyboardData.hpp"
-#include "..\..\Input\MouseData.hpp"
 #include <iostream>
 #include "..\SingleTextBox.hpp"
 #include "..\MenuSprite.hpp"

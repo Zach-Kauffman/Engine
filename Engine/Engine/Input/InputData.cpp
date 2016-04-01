@@ -22,7 +22,6 @@ void InputData::keyReleased(const unsigned int keyVal)
 {
 	keyData.keyReleased(keyVal);
 }
-	
 
 
 
@@ -32,7 +31,7 @@ bool InputData::isKeyHit(const int& keyVal)
 	return keyData.isKeyHit(keyVal);
 }
 
-bool InputData::isKeyHeld(const int& keyVal);
+bool InputData::isKeyHeld(const int& keyVal)
 {
 	return keyData.isKeyHeld(keyVal);
 }
@@ -60,12 +59,12 @@ void InputData::setButtonData(const unsigned int& stateLeft, const unsigned int&
 
 void InputData::setMousePosition(const sf::Vector2f& pos)
 {
-	mouseData.setMousePosition(pos);
+	mouseData.setPosition(pos);
 }
 
 void InputData::moveMouse(const sf::Vector2f& dist)
 {
-	mouseData.moveMouse(dist);
+	mouseData.move(dist);
 }
 
 void InputData::setScroll(const int& scrollDel)
@@ -80,17 +79,17 @@ unsigned int InputData::getLeftData()
 
 unsigned int InputData::getRightData()
 {
-	return mousData.getRightData();
+	return mouseData.getRightData();
 }
 
 sf::Vector2f InputData::getMousePosition()
 {
-	return mouseData.getMousePosition();
+	return mouseData.getPosition();
 }
 
 sf::Vector2f InputData::getMousePositionChange()
 {
-	return mouseData.getMousePositionChange();
+	return mouseData.getPositionChange();
 }
 
 int InputData::getScroll()
