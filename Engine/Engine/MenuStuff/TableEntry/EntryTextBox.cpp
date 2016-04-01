@@ -14,11 +14,14 @@ EntryTextBox::EntryTextBox()
 
 	resetsOnMD = false;	
 
+	entryString = new std::string;
+
 }
 
 
 EntryTextBox::~EntryTextBox()
 {
+
 }
 
 
@@ -70,8 +73,9 @@ void EntryTextBox::update(MouseData& fmouseData, const char& typedChar, Keyboard
 		if (typedChar != '\0')
 		{
 			buildEntryString(typedChar);
+			textBox.setTextString(*entryString);
 		}
-		textBox.setTextString(*entryString);
+
 	}
 	setBarPos();
 
@@ -123,7 +127,7 @@ void EntryTextBox::buildEntryString(const char& typedChar)
 			}
 			else
 			{
-				*entryString += typedChar;
+				entryString->append(boost::lexical_cast<std::string>(typedChar));
 			}
 		}
 		

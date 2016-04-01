@@ -138,7 +138,7 @@ void SingleTextBox::setTextString(std::string fstring)	//sets the string you wan
 	textBody.setString(fstring);						//set the string
 	drawString = fstring;
 
-	wrapText();											//wrap the text
+//	wrapText();											//wrap the text
 	correctPosition();
 }
 

@@ -45,6 +45,7 @@ void EntryTable::setup(const double& xspac, const double& yspac, const unsigned 
 
 void EntryTable::setMap(std::map<std::string, std::string>& tableData)
 {
+	recordStrs.clear();
 	strMap = &tableData;
 
 	std::map<std::string, std::string>::iterator it;
