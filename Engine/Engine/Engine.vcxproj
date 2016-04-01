@@ -12,6 +12,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Defines.hpp" />
+    <ClInclude Include="Editor.hpp" />
+    <ClInclude Include="EditorGUI.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="Input\ControlSet.hpp" />
     <ClInclude Include="Input\InputData.hpp" />
@@ -49,6 +51,8 @@
     <ClInclude Include="Utility\XMLParser.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Editor.cpp" />
+    <ClCompile Include="EditorGUI.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Input\ControlSet.cpp" />
     <ClCompile Include="Input\InputData.cpp" />
@@ -127,6 +131,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>C:\local\boost_1_59_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <SuppressStartupBanner>false</SuppressStartupBanner>
+      <AdditionalOptions>-D_SCL_SECURE_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

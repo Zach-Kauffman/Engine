@@ -13,6 +13,7 @@ SingleTextBox::SingleTextBox()
 	resetsOnMD = false;							//does not reset on menu deactivation
 
 
+
 }
 
 
@@ -156,7 +157,7 @@ void SingleTextBox::wrapText()				//wraps the string around a margin
 
 
 
-	int spaceIndex;							//keeps track of where the last space was
+	int spaceIndex = 1;							//keeps track of where the last space was
 
 	char letter;							//the current letter
 
@@ -258,7 +259,10 @@ void SingleTextBox::wrapText()				//wraps the string around a margin
 
 sf::Vector2f SingleTextBox::getDimensionsOfString(const std::string& text)	//gets the dimensions of a hypothetical string given the other conditions of the textBox
 {
-
+	if (text == "")
+	{
+		return sf::Vector2f(0, 0);
+	}
 	sf::Text tmpText;												//make a temporary text
 
 	tmpText.setFont(*textBody.getFont());							//set it up just like the texBox's Text

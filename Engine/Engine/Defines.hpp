@@ -7,3 +7,5 @@
 //#define TEST_RESOURCE_GROUP
 //#define TEST_RESOURCE_MANAGER
 //#define TEST_INI_PARSER
+
+#define RUN_EDITOR

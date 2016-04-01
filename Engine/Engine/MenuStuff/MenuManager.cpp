@@ -17,6 +17,11 @@ void MenuManager::addMenu(Menu menu, const std::string& name)							//adds a men
 
 }
 
+void MenuManager::addMenu(Menu menu, const std::string& name, const sf::Vector2f& pos)
+{
+	menu.setPosition(pos);
+	addMenu(menu, name);
+}
 
 
 Menu* MenuManager::getMenuPtr(const std::string& name)				//returns a pointer to a menu

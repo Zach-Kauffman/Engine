@@ -9,9 +9,10 @@ TestObject::~TestObject(){}
 void TestObject::draw(Layer& renderTarget)
 {
 	renderTarget.getRenderTexture()->draw(texCoords, testTex);
+	std::cout << "Drawed this to the screeeeeeen! : " << ID <<  std::endl;
 }
 
-void TestObject::update(std::vector<int>& keys)
+void TestObject::update(InputData& inpData)
 {
 
 }

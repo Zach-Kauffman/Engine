@@ -46,14 +46,16 @@
 	</resource>
 	<resource>
 		<path>Resources/GUIResources/TextBar.png</path>
-		<name>textbar</name>
+		<name>EditorEntryBar</name>
 	</resource>
 	<resource>
 		<path>Resources/GUIResources/GrayTextBoxBackground.png</path>
-		<name>guiBG</name>
+		<name>EditorEntryBG</name>
+		<group>EditorButton:6</group>
 	</resource>
 	<resource>
 		<path>Resources/GUIResources/TimesNewRoman.ttf</path>
-		<name>times</name>
+		<name>EditorFont</name>
+		<group>EditorButton:1</group>
 	</resource>
 </resources>

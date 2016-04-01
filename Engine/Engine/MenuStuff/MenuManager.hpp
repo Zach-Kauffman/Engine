@@ -10,6 +10,7 @@ public:
 
 
 	void addMenu(Menu menu, const std::string& name);						//adds a menu
+	void addMenu(Menu menu, const std::string& name, const sf::Vector2f& pos);
 
 	Menu* getMenuPtr(const std::string& name);								//returns a pointer to a menu
 

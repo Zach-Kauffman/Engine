@@ -76,7 +76,7 @@ void BasicButton::setup(	const sf::Vector2f& pos, ResourceGroup & rg,
 	}
 
 
-	//Here, the Sprites are set----------------------------------------------------------------------------------------------------------------------------------------------------
+	//Here, the Sprites are set
 
 
 	MenuSprite tempSprite;																//declare a temporary Sprite to be pushed back
@@ -98,7 +98,7 @@ void BasicButton::setup(	const sf::Vector2f& pos, ResourceGroup & rg,
 	doWhenButtonEvent.resize(Events_Number);											//resize the callback vector to the appropriate amount
 
 
-	//Now, the text is set----------------------------------------------------------------------------------------------------------------------------------------------------------
+	//Now, the text is set
 
 	buttonTextBox.setup(sf::Vector2f(0, 0), rg.getFontPointer(0), text, charSize, siz.x - border, textColor);
 																						//setup the textbox
@@ -224,10 +224,10 @@ unsigned int BasicButton::getButtonState()										//returns the buttonState
 
 
 
-void BasicButton::addFunctionOnButtonState(function_pointer _function, void* object, const unsigned int& state)		//adds a function to do when the button is a certain buttonState
+void BasicButton::addFunctionOnButtonState(boost::function<void()> fxn, const unsigned int& state)		//adds a function to do when the button is a certain buttonState
 {
 
-	doWhenButtonEvent[state].push_back(std::make_pair(_function, object));								//add the desired function
+	doWhenButtonEvent[state].push_back(fxn);								//add the desired function
 
 }
 
@@ -439,9 +439,10 @@ void BasicButton::callbackOnButtonEvent(const unsigned int& state)										//do
 {
 	for (unsigned int i = 0; i < doWhenButtonEvent[state].size(); i++)					//cycle through all functions to be called
 	{
-		if (doWhenButtonEvent[state][i].first != NULL)
+
+		if (doWhenButtonEvent[state][i])		//if the function exists
 		{
-			doWhenButtonEvent[state][i].first(doWhenButtonEvent[state][i].second);	//do all functions
+			doWhenButtonEvent[state][i]();	//call it
 		}
 	}
 }

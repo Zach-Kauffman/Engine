@@ -90,38 +90,51 @@ boost::shared_ptr<Object> ObjectGroup::getObject(const std::string& path)
 
 boost::shared_ptr<Object> ObjectGroup::getObject(const int& ID)	//quick binary search
 {
-	forceObjectSort();
-
-	int position;
-	int comparisonCount = 1;    //count the number of comparisons (optional)
-
-	// To start, find the subscript of the middle position.
-	position = (objects.size()) / 2;
-
-	int lowerbound = 0;
-	int upperbound = objects.size();
-
-	while ((objects[position]->getID() != ID) && (lowerbound <= upperbound))
+	if (objects.size() != 0)
 	{
-		comparisonCount++;
-		if (objects[position]->getID() > ID)               // If the number is > key, ..
-		{                                                       // decrease position by one.
-			upperbound = position - 1;
+		forceObjectSort();
+
+		int position;
+		int comparisonCount = 1;    //count the number of comparisons (optional)
+
+		// To start, find the subscript of the middle position.
+		position = (objects.size()) / 2;
+
+		int lowerbound = 0;
+		int upperbound = objects.size();
+
+		while ((objects[position]->getID() != ID) && (lowerbound <= upperbound))
+		{
+			comparisonCount++;
+			if (objects[position]->getID() > ID)               // If the number is > key, ..
+			{                                                       // decrease position by one.
+				upperbound = position - 1;
+			}
+			else
+			{                                                        // Else, increase position by one.
+				lowerbound = position + 1;
+			}
+			position = (lowerbound + upperbound) / 2;
+		}
+		if (lowerbound <= upperbound)
+		{
+			return objects[position];
 		}
 		else
-		{                                                        // Else, increase position by one.
-			lowerbound = position + 1;
+		{
+			BOOST_LOG_SEV(*groupLogger, ERROR) << "Object with ID = " << ID << " not found in group.";
+			return NULL;
 		}
-		position = (lowerbound + upperbound) / 2;
 	}
-	if (lowerbound <= upperbound)
+	for (int i = 0; i < groups.size(); i++)
 	{
-		return objects[position];
+		boost::shared_ptr<Object> tmp = groups[i].getObject(ID);
+		if (tmp)
+		{
+			return tmp;
+		}
 	}
-	else
-	{
-		BOOST_LOG_SEV(*groupLogger, ERROR) << "Object with ID = " << ID << " not found in group.";
-	}
+	
 }
 
 void ObjectGroup::addObjectGroup(const ObjectGroup& newGroup, const std::string& name)

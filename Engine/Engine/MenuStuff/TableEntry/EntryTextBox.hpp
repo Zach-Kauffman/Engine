@@ -29,8 +29,10 @@ public:
 	void resetMD() {};
 private:
 
+
 	void buildEntryString(InputData& inpData);
 	void setActivity(InputData& inpData);
+
 	void setBarPos();
 	//bool isDif(const char& typedChar, const unsigned int& i);
 

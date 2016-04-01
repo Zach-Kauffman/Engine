@@ -78,6 +78,7 @@
     <ClInclude Include="MovingTestObject.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Editor.hpp" />
     <ClInclude Include="Input\ControlSet.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -132,6 +133,7 @@
     <ClInclude Include="Input\InputData.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="EditorGUI.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Utility\Downcast.cpp">
@@ -182,6 +184,7 @@
     <ClCompile Include="MovingTestObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Editor.cpp" />
     <ClCompile Include="Input\ControlSet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -227,8 +230,12 @@
     <ClCompile Include="MenuStuff\TableEntry\TablePair.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="Input\InputData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+=======
+    <ClCompile Include="EditorGUI.cpp" />
+>>>>>>> 2fcb501756901395e428addce992b6c961a870f0
   </ItemGroup>
 </Project>

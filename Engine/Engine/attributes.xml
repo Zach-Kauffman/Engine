@@ -1,0 +1,16 @@
+<types>
+	<type name="TestObject">
+		<attr attr="position.<xmlattr>.y"></attr>
+		<attr attr="position.<xmlattr>.x"></attr>
+		<attr attr="size.<xmlattr>.x"></attr>
+		<attr attr="size.<xmlattr>.y"></attr>
+		<attr attr="texture"></attr>
+	</type>
+	<type name="MovingTestObject">
+		<attr attr="position.<xmlattr>.y"></attr>
+		<attr attr="position.<xmlattr>.x"></attr>
+		<attr attr="size.<xmlattr>.x"></attr>
+		<attr attr="size.<xmlattr>.y"></attr>
+		<attr attr="texture"></attr>
+	</type>
+</types>

@@ -54,18 +54,15 @@ void EntryTextBox::setEntryString(std::string& estr)
 {
 	entryString = &estr;
 }
-//std::string EntryTextBox::getEntryString()
-//{
-//	return entryString;
-//}
-
 
 void EntryTextBox::update(InputData& inpData)
 {
 	setActivity(inpData);
-	buildEntryString(inpData);
+	
+
 	if (isActive)
 	{
+		buildEntryString(inpData);
 		textBox.setTextString(*entryString);
 	}
 	setBarPos();
@@ -100,6 +97,7 @@ void EntryTextBox::draw(sf::RenderWindow& window, const sf::Vector2f& drawPos)
 }
 
 //private
+
 
 void EntryTextBox::buildEntryString(InputData& inpData)
 {
