@@ -29,13 +29,13 @@ void EditorGUI::initialize(ResourceManager* resources)
 	attributeEditor = new EntryTable(100, 50, 20, sf::Vector2f(1000, 100), recMan->getFontPointerByName("EditorFont"), sf::Color::Black, recMan->getTexturePointerByName("EditorEntryBG"), sf::Vector2f(150, 75), recMan->getTexturePointerByName("EditorEntryBar"), 200);
 
 	MenuElement* updateButton;
-	updateButton = new BasicButton(sf::Vector2f(200, 800), recMan->getResourceGroupByName("EditorButton"), "Update Selection", sf::Color::Black, sf::Vector2f(200, 200), 10);
+	updateButton = new BasicButton(sf::Vector2f(200, 800), recMan->getResourceGroupByName("EditorButton"), "Update Selection", sf::Color::Black, sf::Vector2f(200, 200), 10, 10);
 
 	MenuElement* newObject;	//button
-	newObject = new BasicButton(sf::Vector2f(600, 800), recMan->getResourceGroupByName("EditorButton"), "New Object", sf::Color::Black, sf::Vector2f(200, 200), 12);
+	newObject = new BasicButton(sf::Vector2f(600, 800), recMan->getResourceGroupByName("EditorButton"), "New Object", sf::Color::Black, sf::Vector2f(200, 200), 12, 10);
 
 	MenuElement* newResource;	//button
-	newResource = new BasicButton(sf::Vector2f(0, 800), recMan->getResourceGroupByName("EditorButton"), "New Resource", sf::Color::Black, sf::Vector2f(200, 200), 12);
+	newResource = new BasicButton(sf::Vector2f(0, 800), recMan->getResourceGroupByName("EditorButton"), "New Resource", sf::Color::Black, sf::Vector2f(200, 200), 12, 10);
 
 	MenuElement* save;	//button
 	save = new BasicButton(sf::Vector2f(400, 900), recMan->getResourceGroupByName("EditorButton"), "Save", sf::Color::Black, sf::Vector2f(200, 200), 14, 10);
@@ -96,15 +96,13 @@ void EditorGUI::popdown(bool which)
 void EditorGUI::setMap(const std::string& menuName, const std::string& tableName, std::map<std::string, std::string>& newAttributes)
 {
 	Menu* editor = this->getMenuPtr(menuName);
-	EntryTable* attributes = static_cast<boost::shared_ptr<EntryTable>>(editor->getPointerToElementByName(tableName));
-	attributes->setMap(newAttributes);
+	boost::static_pointer_cast<EntryTable>(editor->getPointerToElementByName(tableName))->setMap(newAttributes);
 }
 
 void EditorGUI::setButtonCallback(const std::string menuName, const std::string& buttonName, boost::function<void()> fxn, int buttonState)
 {
 	Menu* menu = this->getMenuPtr(menuName);
-	BasicButton* but = static_cast<boost::shared_ptr<BasicButton>>(menu->getPointerToElementByName(buttonName));
-	but->addFunctionOnButtonState(fxn, buttonState);
+	boost::static_pointer_cast<BasicButton>(menu->getPointerToElementByName(buttonName))->addFunctionOnButtonState(fxn, buttonState);
 }
 
 bool EditorGUI::getPopData()

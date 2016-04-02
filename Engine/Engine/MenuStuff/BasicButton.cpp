@@ -29,7 +29,7 @@ BasicButton::BasicButton()
 
 
 
-BasicButton::BasicButton(	const sf::Vector2f& pos, ResourceGroup & rg,
+BasicButton::BasicButton(	const sf::Vector2f& pos, ResourceGroup * rg,
 							const std::string& text, const sf::Color& textColor,
 							const sf::Vector2f& siz, const unsigned int& charSize, const double& border)
 {
@@ -61,7 +61,7 @@ BasicButton::BasicButton(	const sf::Vector2f& pos, ResourceGroup & rg,
 }
 
 
-void BasicButton::setup(	const sf::Vector2f& pos, ResourceGroup & rg,
+void BasicButton::setup(	const sf::Vector2f& pos, ResourceGroup * rg,
 							const std::string& text, const sf::Color& textColor,
 							const sf::Vector2f& siz, const unsigned int& charSize, const double& border)
 {
@@ -88,7 +88,7 @@ void BasicButton::setup(	const sf::Vector2f& pos, ResourceGroup & rg,
 	for (unsigned int i = 0; i < States_Number; i++)									//cycle through 6 times
 	{
 
-		tempSprite.setup(rg.getTexturePointer(i), sf::Vector2f(0, 0), siz);//setup the temporary sprite with the desired textures
+		tempSprite.setup(rg->getTexturePointer(i), sf::Vector2f(0, 0), siz);//setup the temporary sprite with the desired textures
 
 		buttonSprites.addMenuSprite(tempSprite, i);										//add the tempoarary sprite to the sprite vector
 
@@ -100,7 +100,7 @@ void BasicButton::setup(	const sf::Vector2f& pos, ResourceGroup & rg,
 
 	//Now, the text is set
 
-	buttonTextBox.setup(sf::Vector2f(0, 0), rg.getFontPointer(0), text, charSize, siz.x - border, textColor);
+	buttonTextBox.setup(sf::Vector2f(0, 0), rg->getFontPointer(0), text, charSize, siz.x - border, textColor);
 																						//setup the textbox
 
 
