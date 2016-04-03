@@ -246,9 +246,9 @@ void Game::loadResources()
 
 			std::vector<std::string> returned = util::splitStrAtSubstr(output[ii][2], ".");					//finds extension from filepath
 			std::vector<std::string> numtoadd = util::splitStrAtSubstr(output[ii][0], ":");
-			for (unsigned int i = 0; i < boost::lexical_cast<int>(numtoadd[numtoadd.size() - 1]); i++)
+			for (unsigned int i = 0; i < boost::lexical_cast<int>(numtoadd.back()); i++)
 			{
-				recMan.addResourcetoResourceGroup(output[ii][1], numtoadd[0], returned[returned.size() - 1]);	//adds resource to group with type of
+				recMan.addResourcetoResourceGroup(numtoadd[0], output[ii][1], returned.back());	//adds resource to group with type of
 			}
 
 

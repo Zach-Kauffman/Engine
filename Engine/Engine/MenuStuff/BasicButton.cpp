@@ -237,7 +237,7 @@ void BasicButton::updateButtonState(InputData& inpData)			//*groan* Click logic.
 {
 
 
-	const sf::Vector2f mousePos = inpData.getMousePosition() - lastDrawPosition - position;
+	const sf::Vector2f mousePos = inpData.getMousePosition() - lastDrawPosition;
 																	//make a new vec2f, mousePos that is the mousePosition from
 																	//the mouseData; only here to shorten and simplify code
 	const unsigned int leftData = inpData.getLeftData();
