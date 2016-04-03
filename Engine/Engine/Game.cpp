@@ -252,6 +252,12 @@ void Game::loadResources()
 		std::vector<std::string> returned = util::splitStrAtSubstr(output[ii][2], ".");					//finds extension from filepath
 		std::vector<std::string> numtoadd = util::splitStrAtSubstr(output[ii][0], ":");
 		recMan.loadFile(output[ii][2], output[ii][1]);	//load each resource
+		std::cout << "---------------FRAME-------------------" << std::endl;
+		for (int i = 0; i < ii; i++)
+		{
+			std::cout << i << ": " << recMan.getTexturePointerByIndex(i) << std::endl;
+		}
+		std::cout << std::endl << "---------------------------------------" << std::endl << std::endl;;
 		if (output[ii][0] != "")	//if a third element (being group) exists
 		{
 			bool groupExists = false;

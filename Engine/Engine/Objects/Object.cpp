@@ -11,7 +11,6 @@ Object::~Object(){}
 
 int Object::getID()
 {
-	std::cout << &ID << ", ";
 	return ID;
 }
 

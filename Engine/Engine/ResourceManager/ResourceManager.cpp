@@ -230,7 +230,10 @@ void ResourceManager::loadFile(const std::string& fileName, const std::string& n
 
 }
 
-
+sf::Texture* ResourceManager::getTexturePointerByIndex(const int& index)
+{
+	return &(textureVector[index]);
+}
 
 sf::Texture* ResourceManager::getTexturePointerByName(const std::string& name)	
 {
