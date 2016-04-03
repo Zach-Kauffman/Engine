@@ -9,7 +9,7 @@ TestObject::~TestObject(){}
 void TestObject::draw(Layer& renderTarget)
 {
 	renderTarget.getRenderTexture()->draw(texCoords, testTex);
-	std::cout << "Drawed this to the screeeeeeen! : " << ID <<  std::endl;
+	std::cout << testTex << ", " << getID() << ", " << &ID <<  std::endl;
 }
 
 void TestObject::update(KeyboardData& keyData)

@@ -13,4 +13,9 @@
 		<attr attr="size.<xmlattr>.y"></attr>
 		<attr attr="texture"></attr>
 	</type>
+	<type name="resource">
+		<attr attr="name"></attr>
+		<attr attr="path"></attr>
+		<attr attr="group"></attr>
+	</type>
 </types>

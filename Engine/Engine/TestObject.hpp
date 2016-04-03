@@ -34,7 +34,6 @@ namespace objects
 
 
 	private:
-		int ID;
 
 		const sf::Texture* testTex;
 		sf::VertexArray texCoords;

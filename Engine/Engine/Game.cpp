@@ -4,7 +4,11 @@
 
 //PUBLIC FUNCTIONS
 
-Game::Game(){}
+Game::Game()
+{
+	logger = logger::getSLogger();
+}
+
 
 Game::~Game(){}
 

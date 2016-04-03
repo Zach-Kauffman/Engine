@@ -2,11 +2,19 @@
 
 Editor::Editor()
 {
-	objSelection = false;
-	loadAllObjects = false;
-	loadAllResources = false;
+	layerChanged = false;
+	currentLayer = 1;
+	currentLayerMap["Layer"] = "1";
+
+	objID = 1;
+	objIDMap["Object ID"] = "1";
+
 	popData = "";
 	objectPrompt["Enter Type:"] = "";
+	resourcePrompt["Enter Name:"] = "";
+
+	objSelection = false;
+	recSelection = false;
 }
 
 Editor::~Editor()
@@ -22,7 +30,7 @@ void Editor::editorInitialize()
 	boost::function<void()> boundFxn = boost::bind(&Editor::promptObjectType, this);
 	gui.setButtonCallback("editorMenu", "newObject", boundFxn, 12);
 
-	boundFxn = boost::bind(&Editor::updateObject, this);
+	boundFxn = boost::bind(&Editor::updateSelection, this);
 	gui.setButtonCallback("editorMenu", "updateButton", boundFxn, 12);
 
 	boundFxn = boost::bind(&Editor::addResource, this);
@@ -31,14 +39,14 @@ void Editor::editorInitialize()
 	boundFxn = boost::bind(&Editor::saveFile, this);
 	gui.setButtonCallback("editorMenu", "save", boundFxn, 12);
 
+	gui.setMap("editorMenu", "selectedObject", currentLayerMap);
+	gui.setMap("editorMenu", "selectedLayer", objIDMap);
 }
 
 void Editor::editorBegin()
 {
 	selectObject(1);
-	StringMap test;
-	std::string testvar = "";
-	std::string testvar2 = "";
+
 	sf::RenderWindow& window = *windowPtr;
 	window.setKeyRepeatEnabled(false);		//makes it so when a key is hit, only one event is recorded, not nine, or whatever -- ignores holding keys
 	while (window.isOpen())
@@ -136,6 +144,7 @@ void Editor::editorBegin()
 		{
 			parsePopupOutput();
 		}
+
 		update();
 		editorUpdate();
 
@@ -150,6 +159,20 @@ void Editor::editorBegin()
 	}
 }
 
+void Editor::updateSelection()
+{
+	if (objSelection != recSelection)	//if they are the same something is wrong nothing happens
+	{
+		if (objSelection)
+		{
+			updateObject();
+		}
+		else if (recSelection)
+		{
+			updateResource();
+		}
+	}
+}
 //update needs to allow for GUI and object selection
 void Editor::editorUpdate()
 {
@@ -171,7 +194,7 @@ void Editor::editorDraw()
 void Editor::promptObjectType()
 {
 	gui.popup(objectPrompt);	//get that object type
-	popInfoType = 1;
+	popInfoType = 0;
 }
 
 void Editor::addObject()
@@ -182,18 +205,25 @@ void Editor::addObject()
 	StringMap properties = objectAttributes[popData];
 	boost::property_tree::ptree objectRoot;
 
-	auto tempObject = objMan.getPrototype(popData);
-	tempObject->setID(objMan.nextID());
-	tempObject->setActive(false);
+	try
+	{
+		auto tempObject = objMan.getPrototype(popData);
+		if (!tempObject){ throw; };
+		tempObject->setID(objMan.nextID());
+		tempObject->setActive(false);
 
-	idList[tempObject->getID()] = std::make_tuple(objectRoot, properties);
-	selectObject(tempObject->getID());
-	gui.setMap("editorMenu", "attributeEditor", *objProperties);	//prompt for all object attributes
+		idList[tempObject->getID()] = std::make_tuple(objectRoot, properties);
+		selectObject(tempObject->getID());
+		gui.setMap("editorMenu", "attributeEditor", *objProperties);	//prompt for all object attributes
 
-	
+		std::string pathString = "Layers.Layer1";// +boost::lexical_cast<std::string>(currentLayer);
+		objMan.addObject(tempObject, pathString);
+	}
+	catch (...){	//catch all exceptions
+		BOOST_LOG_SEV(logger, WARNING) << "Object prototype \"" << popData << "\" not found.  Object was not added.";
+	}
+	//need to catch out of bounds exception coming from prototype creation w/ invalid string	
 
-	std::string pathString = "Layers.Layer" + boost::lexical_cast<std::string>(currentLayer);
-	objMan.addObject(tempObject, pathString);
 
 	//ask for object type
 	//get the object stuff and display it with dropdowns options in the gui
@@ -242,6 +272,8 @@ void Editor::selectObject(const int& ID)
 	objProperties = &std::get<1>(toSelect);
 	objID = ID;
 	objSelection = true;
+	recSelection = false;
+	objIDMap.begin()->second = boost::lexical_cast<std::string>(ID);
 
 }
 
@@ -298,18 +330,49 @@ void Editor::saveObjects()
 	}
 }
 
+void Editor::promptResourceName()
+{
+	gui.popup(resourcePrompt);
+}
 void Editor::addResource()
 {
-
+	popData = resourcePrompt.begin()->second;
+	boost::property_tree::ptree filler;
+	resourceList[popData] = std::make_tuple(filler, objectAttributes["resource"]);
+	selectResource(popData);
+	gui.setMap("editorMenu", "attributeEditor", currentRecMap);
 }
 
-void Editor::editResource(const std::string& name)
+void Editor::editResource()
+{
+	gui.setMap("editorMenu", "attributeEditor", currentRecMap);
+}
+
+void Editor::updateResource()
+{
+	//add resource to manager
+	recMan.loadFile(currentRecMap["path"], currentRecMap["name"]);
+	//make sure it actually added before grouping
+	//check if group
+		//check for group existence
+		//if exists nothing
+		//if not create
+		//add to group
+	
+}
+
+void Editor::removeResource()
 {
 
 }
 
-void Editor::removeResource(const std::string& name)
+void Editor::selectResource(const std::string& name)
 {
+	currentRecMap.clear();
+	currentRecMap = std::get<1>(resourceList[name]);
+	currentRecName = name;
+	objSelection = false;
+	recSelection = true;
 
 }
 
@@ -358,8 +421,10 @@ void Editor::parsePopupOutput()
 
 	switch (popInfoType)
 	{
-	case 1: addObject();
-	case 2: addResource();
+	case 0: addObject();
+		break;
+	case 1: addResource();
+		break;
 	}
 }
 
