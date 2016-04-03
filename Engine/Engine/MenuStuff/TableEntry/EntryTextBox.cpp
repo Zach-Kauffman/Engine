@@ -14,11 +14,14 @@ EntryTextBox::EntryTextBox()
 
 	resetsOnMD = false;	
 
+	entryString = new std::string;
+
 }
 
 
 EntryTextBox::~EntryTextBox()
 {
+
 }
 
 
@@ -55,6 +58,19 @@ void EntryTextBox::setEntryString(std::string& estr)
 	entryString = &estr;
 }
 
+
+void EntryTextBox::setActivity(bool b)
+{
+	isActive = b;
+}
+
+bool EntryTextBox::getActivity()
+{
+	return isActive;
+}
+
+
+
 void EntryTextBox::update(InputData& inpData)
 {
 	setActivity(inpData);
@@ -64,6 +80,7 @@ void EntryTextBox::update(InputData& inpData)
 	{
 		buildEntryString(inpData);
 		textBox.setTextString(*entryString);
+
 	}
 	setBarPos();
 
@@ -105,7 +122,8 @@ void EntryTextBox::buildEntryString(InputData& inpData)
 	const unsigned char typedChar = inpData.getTypedChar();
 	if (isActive )
 	{
-		if (typedChar != 0)
+		bool goodChar = (typedChar != 0 && !inpData.isKeyHit(sf::Keyboard::Tab) && !inpData.isKeyHit(sf::Keyboard::Return));
+		if (goodChar)
 		{
 			if (typedChar == '\b')
 			{
@@ -116,7 +134,7 @@ void EntryTextBox::buildEntryString(InputData& inpData)
 			}
 			else
 			{
-				*entryString += typedChar;
+				entryString->append(boost::lexical_cast<std::string>(typedChar));
 			}
 		}
 		

@@ -18,6 +18,9 @@ public:
 	void draw(sf::RenderWindow& window, const sf::Vector2f& drawPos);
 	void resetMD() {};
 private:
+
+	void setActivities(InputData& inpData);
+
 	sf::Vector2f position;
 	sf::Font* font;
 	sf::Color color;

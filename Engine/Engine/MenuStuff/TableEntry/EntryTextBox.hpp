@@ -22,7 +22,11 @@ public:
 
 	void setEntryString(std::string& estr);
 
+	void setActivity(bool b);
+	bool getActivity();
+
 	//std::string getEntryString();
+
 	void update() {};
 	void update(InputData& inpData);
 	void draw(sf::RenderWindow& window, const sf::Vector2f& drawPos);

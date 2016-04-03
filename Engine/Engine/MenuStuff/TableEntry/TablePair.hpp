@@ -19,6 +19,9 @@ public:
 
 	//std::string getInput();
 
+	void setActivity(bool b);
+	bool getActivity();
+
 	void update() {};
 	void update(InputData& inpData);
 	void draw(sf::RenderWindow& window, const sf::Vector2f& drawPos);

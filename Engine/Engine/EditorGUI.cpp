@@ -16,7 +16,7 @@ void EditorGUI::initialize(ResourceManager* resources)
 
 
 	MenuElement* selectedLayer;	//entry table
-	selectedLayer = new EntryTable(50, 50, 20, sf::Vector2f(500, 500), recMan->getFontPointerByName("EditorFont"), sf::Color::Black, recMan->getTexturePointerByName("EditorEntryBG"), sf::Vector2f(150, 75), recMan->getTexturePointerByName("EditorEntryBar"), 20);
+	selectedLayer = new EntryTable(50, 50, 20, sf::Vector2f(300, 500), recMan->getFontPointerByName("EditorFont"), sf::Color::Black, recMan->getTexturePointerByName("EditorEntryBG"), sf::Vector2f(150, 75), recMan->getTexturePointerByName("EditorEntryBar"), 20);
 	//selectedLayer = new EntryTextBox(recMan->getFontPointerByName("EditorFont"), 5, sf::Color::Black, recMan->getTexturePointerByName("EditorEntryBG"), sf::Vector2f(300, 150), recMan->getTexturePointerByName("EditorEntryBar"), sf::Vector2f(100, 200), 20);
 
 	MenuElement* selectedObject;	//entry table
@@ -26,7 +26,7 @@ void EditorGUI::initialize(ResourceManager* resources)
 	selectedResource = new EntryTable(50, 50, 20, sf::Vector2f(500, 500), recMan->getFontPointerByName("EditorFont"), sf::Color::Black, recMan->getTexturePointerByName("EditorEntryBG"), sf::Vector2f(150, 75), recMan->getTexturePointerByName("EditorEntryBar"), 20);
 
 	MenuElement* attributeEditor;	//entry table
-	attributeEditor = new EntryTable(100, 50, 20, sf::Vector2f(1000, 100), recMan->getFontPointerByName("EditorFont"), sf::Color::Black, recMan->getTexturePointerByName("EditorEntryBG"), sf::Vector2f(150, 75), recMan->getTexturePointerByName("EditorEntryBar"), 200);
+	attributeEditor = new EntryTable(100, 50, 20, sf::Vector2f(1000, 100), recMan->getFontPointerByName("EditorFont"), sf::Color::Black, recMan->getTexturePointerByName("EditorEntryBG"), sf::Vector2f(200, 50), recMan->getTexturePointerByName("EditorEntryBar"), 20);
 
 	MenuElement* updateButton;
 	updateButton = new BasicButton(sf::Vector2f(200, 800), recMan->getResourceGroupByName("EditorButton"), "Update Selection", sf::Color::Black, sf::Vector2f(200, 200), 10, 10);

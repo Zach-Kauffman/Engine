@@ -322,7 +322,7 @@ void Editor::loadAttributes(const std::string& path) //loads object attributes f
 		for (int attrIt = 0; attrIt < attributes[typeIt].size(); attrIt++)
 		{
 			attrLoader.readValue<std::string>("<xmlattr>.attr", tmp, attributes[typeIt][attrIt]);
-			attrMap[tmp] = "plz";
+			attrMap[tmp] = "";
 		}
 		attrLoader.readValue<std::string>("<xmlattr>.name", tmp, types[0][typeIt]);
 		objectAttributes[tmp] = attrMap;

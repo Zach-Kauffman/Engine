@@ -29,6 +29,7 @@ private:
 	//callback functions for popup menu
 	void popup_OK();
 	void popup_CANCEL();
+	void clearTable();
 
 
 };

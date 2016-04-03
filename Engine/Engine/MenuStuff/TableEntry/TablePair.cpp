@@ -41,7 +41,7 @@ void TablePair::setup( 	sf::Font * const ffont, const unsigned int& ffontsize, c
 
 	colonDivider.setup(sf::Vector2f(spac, 0), ffont, "|:|", ffontsize, bgSiz.x - 2 * indent, fcolor);
 
-	entryBox.setup(ffont, ffontsize, fcolor, bgTex, bgSiz, barTex, sf::Vector2f(2*spac, 0), indent);
+	entryBox.setup(ffont, ffontsize, fcolor, bgTex, bgSiz, barTex, sf::Vector2f(2*spac + bgSiz.x/2, 0), indent);
 
 	
 }
@@ -62,6 +62,16 @@ void TablePair::setEntryString(std::string& estr)
 //{
 //	return entryBox.getEntryString();
 //}
+
+void TablePair::setActivity(bool b)
+{
+	entryBox.setActivity(b);
+}
+
+bool TablePair::getActivity()
+{
+	return entryBox.getActivity();
+}
 
 
 void TablePair::update(InputData& inpData)
