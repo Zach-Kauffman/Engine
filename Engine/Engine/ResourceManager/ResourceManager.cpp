@@ -8,6 +8,7 @@
 ResourceManager::ResourceManager()						//Constructor
 {
 	setVectorSize(4);									//set the vector of name maps to 4: Textures, Fonts, SoundBuffers, ResourceGroups
+	textureVector.resize(100);
 
 	resourceManagerLogger = logger::getSLogger();		//setup the logger
 }

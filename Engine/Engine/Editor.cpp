@@ -148,16 +148,11 @@ void Editor::editorBegin()
 		update();
 		editorUpdate();
 
-		std::cout << "---------------FRAME-------------------" << std::endl;
-		for (int i = 0; i < 13; i++)
-		{
-			std::cout << i << ": " << recMan.getTexturePointerByIndex(i) << std::endl;
-		}
-		std::cout << std::endl;
+
 		draw();
 		editorDraw();
 
-		std::cout << std::endl << "---------------------------------------" << std::endl << std::endl;;
+
 		window.display();
 
 		textDataChr = 0;
