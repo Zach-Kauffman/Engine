@@ -4,7 +4,11 @@
 
 //PUBLIC FUNCTIONS
 
-Game::Game(){}
+Game::Game()
+{
+	logger = logger::getSLogger();
+}
+
 
 Game::~Game(){}
 
@@ -232,6 +236,7 @@ void Game::loadResources()
 		std::vector<std::string> returned = util::splitStrAtSubstr(output[ii][2], ".");					//finds extension from filepath
 		std::vector<std::string> numtoadd = util::splitStrAtSubstr(output[ii][0], ":");
 		recMan.loadFile(output[ii][2], output[ii][1]);	//load each resource
+
 		if (output[ii][0] != "")	//if a third element (being group) exists
 		{
 			bool groupExists = false;

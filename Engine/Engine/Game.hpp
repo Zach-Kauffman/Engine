@@ -76,5 +76,7 @@ protected:
 
 	InputData inpData;
 
+	src::severity_logger<severity_level> logger;	//logger to handle debuging and errors
+
 	
 };

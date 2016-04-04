@@ -103,7 +103,7 @@ boost::shared_ptr<Object> ObjectGroup::getObject(const int& ID)	//quick binary s
 		int lowerbound = 0;
 		int upperbound = objects.size();
 
-		while ((objects[position]->getID() != ID) && (lowerbound <= upperbound))
+		while ((lowerbound < upperbound) && (objects[position]->getID() != ID))	
 		{
 			comparisonCount++;
 			if (objects[position]->getID() > ID)               // If the number is > key, ..
@@ -115,8 +115,12 @@ boost::shared_ptr<Object> ObjectGroup::getObject(const int& ID)	//quick binary s
 				lowerbound = position + 1;
 			}
 			position = (lowerbound + upperbound) / 2;
+			if (position >= objects.size())
+			{
+				break;
+			}
 		}
-		if (lowerbound <= upperbound)
+		if (lowerbound < upperbound)
 		{
 			return objects[position];
 		}

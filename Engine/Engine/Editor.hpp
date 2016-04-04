@@ -39,6 +39,9 @@ public:
 	void editorUpdate();
 	void editorDraw();
 
+
+	void updateSelection();		//deduces and updates the currently selected object or resource
+
 	void promptObjectType();
 	void addObject();
 	void editObject();
@@ -50,10 +53,11 @@ public:
 	void saveObjects();
 	void loadSavedObjects();
 
-
-	void addResource();
-	void editResource(const std::string& name);
-	void removeResource(const std::string& name);
+	void promptResourceName();
+	void addResource();			//all actions apply to currently selected resource
+	void editResource();
+	void updateResource();
+	void removeResource();
 	void selectResource(const std::string& name);
 
 	void saveResources();
@@ -70,21 +74,30 @@ private:
 	//second value will always be layer
 	StringMap* objProperties;				//currently selected object's property list
 	boost::property_tree::ptree* objXml;	//currently selected object's xml
+
+	StringMap objIDMap;						//map for object selection by id with EntryTable
 	int objID;								//currently selected object's id
-	bool objSelection;						//true if an object is currently selected
+
+	StringMap currentLayerMap;				//map for layer selection with EntryTable
+	bool layerChanged;
+
+	StringMap currentRecMap;
+	std::string currentRecName;
+
+	bool objSelection;	//true if object is currently selected
+	bool recSelection;	//true if resource is currently selected
 
 	std::map<std::string, StringMap > objectAttributes;		//key is name, second map is attribute list(key is xml name, second is input storage)
 	std::map<std::string, SelectionData&> objectList;		//list of created objects with xml and string maps -- key value is string path to object in objMan
 	std::map<int, SelectionData> idList;					//same list with real data and ids as the key values
 		
-	bool loadAllObjects;	//if true loads all objects into editable format
-	bool loadAllResources;	//if true loads all resources into editable format
-	
 	std::map<std::string, SelectionData> resourceList;
 
 	EditorGUI gui;
 	std::string popData;	//data retrieved from popup
-	int popInfoType;		//0 is object type 1 is resource types .....	interpreted in parsePopupOutput()
-	StringMap objectPrompt;
+	int popInfoType;		//0 is object type 1 is resource types 2 is for deletetion confirmation .....	interpreted in parsePopupOutput()
+	StringMap objectPrompt;		//popup prompt for new object
+	StringMap resourcePrompt;	//popup prompt for new resource
+	StringMap deletePrompt;		//popup prompt for deletion confirmation
 
 };

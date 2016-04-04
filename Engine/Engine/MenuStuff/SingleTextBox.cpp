@@ -146,6 +146,7 @@ void SingleTextBox::wrapText()				//wraps the string around a margin
 {
 	std::string searchString;
 
+	bool spaceless = true;
 	for (unsigned int i = 0; i < drawString.size(); i++)
 	{
 		searchString = drawString[i];
@@ -153,106 +154,120 @@ void SingleTextBox::wrapText()				//wraps the string around a margin
 		{
 			drawString[i] = ' ';			//first, change all "\n"s to spaces -- that is make the text "one line long"
 		}
+		if (drawString[i] == ' ')
+		{
+			spaceless = false;
+		}
 	}
 
-
-
-	int spaceIndex = 1;							//keeps track of where the last space was
-
-	char letter;							//the current letter
-
-	std::string word = "";					//the current word
-
-	std::string line = "";					//the current line of text
-
-	std::string transline = "";				//the current line of text that is used to test the width of the string
-
-	std::string rtstr = "";					//the string to return
-
-	bool notFirstWord = false;				//true if the current word is not the first word
-
-	bool notFirstLine = false;				//true if the current line is not the first line
-
-	for (unsigned int i = 0; i <= drawString.size(); i++)	//go though the string-to-be-drawn + 1 extra space...
+	if (spaceless)
+	{
+		textBody.setString(drawString);
+	}
+	else
 	{
 
-		if (i == drawString.size())
-		{
-			letter = ' ';					//at the space 'after' the end, we call it a space
-		}
-		else
-		{
-			letter = drawString[i];			//otherwise its jsut the index of tthe drawString
-		}
+
+
+		int spaceIndex = 1;							//keeps track of where the last space was
+
+		char letter;							//the current letter
+
+		std::string word = "";					//the current word
+
+		std::string line = "";					//the current line of text
+
+		std::string transline = "";				//the current line of text that is used to test the width of the string
+
+		std::string rtstr = "";					//the string to return
+
+		bool notFirstWord = false;				//true if the current word is not the first word
+
+		bool notFirstLine = false;				//true if the current line is not the first line
 
 
 
-		if (letter == ' ')					//if a space is found
+		for (unsigned int i = 0; i <= drawString.size(); i++)	//go though the string-to-be-drawn + 1 extra space...
 		{
-			if (notFirstWord)				//if it's not the first space/word
+
+			if (i == drawString.size())
 			{
-				transline += ' ';			//add a space to the beginning of the word
+				letter = ' ';					//at the space 'after' the end, we call it a space
+			}
+			else
+			{
+				letter = drawString[i];			//otherwise its jsut the index of tthe drawString
 			}
 
-			transline += word;				//then add the word onto the testing line
 
-			if (getDimensionsOfString(transline).x > width)	//if the width would be greater than acceptable,
+
+			if (letter == ' ')					//if a space is found
 			{
-				if (notFirstLine)			//if its not the first line
+				if (notFirstWord)				//if it's not the first space/word
 				{
-					rtstr += "\n";			//tack a newline on the beginning
+					transline += ' ';			//add a space to the beginning of the word
 				}
 
-				rtstr += line;				//add the line onto the finished string
+				transline += word;				//then add the word onto the testing line
 
-				notFirstWord = false;		//since it is going ot be a new line on the next teration, it is going to be the first word of that line
-
-				if (!notFirstLine)
+				if (getDimensionsOfString(transline).x > width)	//if the width would be greater than acceptable,
 				{
-					notFirstLine = true;	//it won't be the first line anymore after the first line
-				}
-
-
-				line = "";					//revert the line and testing line back to ""
-				transline = "";
-
-				i = spaceIndex;				//revert the index back to the last space
-
-			}
-
-			else							//if the width of the text would be fine, instead
-			{
-				line = transline;			//replace the current line with the testing line -- it passed the test
-
-				notFirstWord = true;		//it's no longer the first word
-
-				spaceIndex = i;				//the last space was at the current index
-
-				if (i == drawString.size())	//if the iteration is one greater than the possible indices in the string (in the case of "finishing early")
-				{
-
-					if (notFirstLine)		//if its not hte first line
+					if (notFirstLine)			//if its not the first line
 					{
-						rtstr += "\n";		//tack on a newline at the beginning
+						rtstr += "\n";			//tack a newline on the beginning
 					}
 
-					rtstr += line;			//throw on the current line
+					rtstr += line;				//add the line onto the finished string
+
+					notFirstWord = false;		//since it is going ot be a new line on the next teration, it is going to be the first word of that line
+
+					if (!notFirstLine)
+					{
+						notFirstLine = true;	//it won't be the first line anymore after the first line
+					}
+
+
+					line = "";					//revert the line and testing line back to ""
+					transline = "";
+
+					i = spaceIndex;				//revert the index back to the last space
+
 				}
+
+				else							//if the width of the text would be fine, instead
+				{
+					line = transline;			//replace the current line with the testing line -- it passed the test
+
+					notFirstWord = true;		//it's no longer the first word
+
+					spaceIndex = i;				//the last space was at the current index
+
+					if (i == drawString.size())	//if the iteration is one greater than the possible indices in the string (in the case of "finishing early")
+					{
+
+						if (notFirstLine)		//if its not hte first line
+						{
+							rtstr += "\n";		//tack on a newline at the beginning
+						}
+
+						rtstr += line;			//throw on the current line
+					}
+
+				}
+
+				word = "";						//reset the word to "" if the letetr was a space
 
 			}
 
-			word = "";						//reset the word to "" if the letetr was a space
+			else								//if the letter wasn't a space
+			{
+				word += letter;					//throw it on the current word
+			}
 
 		}
 
-		else								//if the letter wasn't a space
-		{
-			word += letter;					//throw it on the current word
-		}
-
+		textBody.setString(rtstr);				//set the drawn string to the finished string
 	}
-
-	textBody.setString(rtstr);				//set the drawn string to the finished string
 }
 
 

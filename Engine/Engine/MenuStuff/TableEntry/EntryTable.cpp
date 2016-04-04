@@ -119,39 +119,43 @@ void EntryTable::setActivities(InputData& inpData)
 			}
 		}
 
-		bool shift =	inpData.isKeyHeld(sf::Keyboard::LShift) || inpData.isKeyHit(sf::Keyboard::LShift) || 
+		if (activityFound)
+		{
+			bool shift =	inpData.isKeyHeld(sf::Keyboard::LShift) || inpData.isKeyHit(sf::Keyboard::LShift) || 
 						inpData.isKeyHeld(sf::Keyboard::RShift) || inpData.isKeyHit(sf::Keyboard::RShift);
 
-		if (inpData.isKeyHit(sf::Keyboard::Down) || (inpData.isKeyHit(sf::Keyboard::Tab) && !shift) || inpData.isKeyHit(sf::Keyboard::Return))
-		{
-			currentActiveRow++;
-		}
-
-		if (inpData.isKeyHit(sf::Keyboard::Up) || (inpData.isKeyHit(sf::Keyboard::Tab) && shift))
-		{
-			currentActiveRow--;
-		}
-
-
-		if (currentActiveRow >= tablePairs.size())
-		{
-			currentActiveRow = tablePairs.size() - 1;
-		}
-		if (currentActiveRow < 0)
-		{
-			currentActiveRow = 0;
-		}
-
-		for (unsigned int i = 0; i < tablePairs.size(); i++)
-		{
-			if (i == currentActiveRow)
+			if (inpData.isKeyHit(sf::Keyboard::Down) || (inpData.isKeyHit(sf::Keyboard::Tab) && !shift) || inpData.isKeyHit(sf::Keyboard::Return))
 			{
-				tablePairs[i].setActivity(true);
+				currentActiveRow++;
 			}
-			else
+
+			if (inpData.isKeyHit(sf::Keyboard::Up) || (inpData.isKeyHit(sf::Keyboard::Tab) && shift))
 			{
-				tablePairs[i].setActivity(false);
+				currentActiveRow--;
+			}
+
+
+			if (currentActiveRow >= tablePairs.size())
+			{
+				currentActiveRow = tablePairs.size() - 1;
+			}
+			if (currentActiveRow < 0)
+			{
+				currentActiveRow = 0;
+			}
+
+			for (unsigned int i = 0; i < tablePairs.size(); i++)
+			{
+				if (i == currentActiveRow)
+				{
+					tablePairs[i].setActivity(true);
+				}
+				else
+				{
+					tablePairs[i].setActivity(false);
+				}
 			}
 		}
+		
 	}
 }
