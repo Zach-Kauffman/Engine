@@ -37,6 +37,8 @@ namespace util
 	*/
 	//mins, maxes, bounds
 
+
+
 	inline void swapChars(char& a, char& b)
 	{
 		char temp = a;
