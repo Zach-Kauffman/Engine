@@ -135,7 +135,7 @@ void EntryTable::setActivities(InputData& inpData)
 			}
 
 
-			if (currentActiveRow >= tablePairs.size())
+			if (currentActiveRow >= (int)tablePairs.size())
 			{
 				currentActiveRow = tablePairs.size() - 1;
 			}
