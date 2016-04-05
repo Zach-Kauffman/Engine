@@ -43,6 +43,8 @@ public:
 
 	sf::SoundBuffer* getSoundBufferPointerByName(const std::string& name);			//retrieves a pointer to a soundBuffer
 
+	sf::Shader* getShaderPointerByName(const std::string& name);
+
 
 
 	void addEmptyResourceGroup(const std::string& name);									//sets a new empty resourceGroup to ResourceGroups
@@ -79,6 +81,11 @@ public:
 																							//adds a soundbuffer to a resourceGroup (specified name)
 	
 
+	void addShadertoResourceGroup(const std::string& rsName, const std::string& shaderName);
+
+	void addShadertoResourceGroup(const std::string& rsName, const std::string& shaderName, const std::string& desName);
+
+
 	ResourceGroup* getResourceGroupByName(const std::string& fname);						//returns a pointer to a resourceGroup
 
 
@@ -109,6 +116,8 @@ private:
 
 	void addSoundBuffer(const std::string& fileName);		//adds a SoundBuffer
 
+	void addShader(const std::string& fileName);
+
 
 
 	std::vector<const sf::Texture> textureVector;			//vector of textures
@@ -117,11 +126,13 @@ private:
 	
 	std::vector<const sf::SoundBuffer> soundBufferVector;	//vector of soundBuffers
 
+	std::vector<const sf::Shader> shaderVector;
+
 
 	std::vector<ResourceGroup> resourceGroups;				//presets for graphical elements that may look the same
 
 
-	const enum nameVectorIndeces {Texture_Names = 0, Font_Names = 1, SoundBuffer_Names = 2, ResourceGroup_Names = 3}; 
+	const enum nameVectorIndeces { Texture_Names = 0, Font_Names = 1, SoundBuffer_Names = 2, Shader_Names = 3, ResourceGroup_Names = 4 };
 															//enum for accessing vectors more intuitively
 
 	src::severity_logger<severity_level> resourceManagerLogger;

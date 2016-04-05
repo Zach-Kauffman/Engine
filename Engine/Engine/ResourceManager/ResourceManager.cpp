@@ -7,7 +7,7 @@
 
 ResourceManager::ResourceManager()						//Constructor
 {
-	setVectorSize(4);									//set the vector of name maps to 4: Textures, Fonts, SoundBuffers, ResourceGroups
+	setVectorSize(5);									//set the vector of name maps to 4: Textures, Fonts, SoundBuffers, ResourceGroups
 
 	resourceManagerLogger = logger::getSLogger();		//setup the logger
 }
@@ -220,7 +220,14 @@ void ResourceManager::loadFile(const std::string& fileName, const std::string& n
 	{
 		addSoundBuffer(fileName);
 
-		addName(name, SoundBuffer_Names);
+		addName(name, SoundBuffer_Names, soundBufferVector.size()-1);
+	}
+	else if (ext == "vert" ||
+			 ext == "frag")
+	{
+		addShader(fileName);
+
+		addName(name, Shader_Names, shaderVector.size() - 1);
 	}
 
 	else
@@ -250,6 +257,13 @@ sf::SoundBuffer* ResourceManager::getSoundBufferPointerByName(const std::string&
 {
 
 	return &soundBufferVector[ntoi(name, SoundBuffer_Names)];		//set it to the font with the desired name
+
+}
+
+sf::Shader* ResourceManager::getShaderPointerByName(const std::string& name)
+{
+
+	return &shaderVector[ntoi(name, Shader_Names)];
 
 }
 
@@ -333,6 +347,19 @@ void ResourceManager::addResourcetoResourceGroup(const std::string& rsName, cons
 			addSoundBuffertoResourceGroup(rsName, fileName, desName);
 		}
 	}
+
+	else if (ext == "vert" ||
+		ext == "frag")
+	{
+		if (nodesname)
+		{
+			addShadertoResourceGroup(rsName, fileName);
+		}
+		else
+		{
+			addShadertoResourceGroup(rsName, fileName, desName);
+		}
+	}
 	else
 	{
 		BOOST_LOG_SEV(resourceManagerLogger, ERROR) << "Could not add file to resource group \"" << ext << "\"extension type not supported";
@@ -372,6 +399,15 @@ void ResourceManager::addSoundBuffertoResourceGroup(const std::string& rsName, c
 	resourceGroups[ntoi(rsName, ResourceGroup_Names)].addSoundBuffer(getSoundBufferPointerByName(sbName), desName);
 }
 
+void ResourceManager::addShadertoResourceGroup(const std::string& rsName, const std::string& shaderName)
+{
+	resourceGroups[ntoi(rsName, ResourceGroup_Names)].addShader(getShaderPointerByName(shaderName));
+}
+
+void ResourceManager::addShadertoResourceGroup(const std::string& rsName, const std::string& shaderName, const std::string& desName)
+{
+	resourceGroups[ntoi(rsName, ResourceGroup_Names)].addShader(getShaderPointerByName(shaderName), desName);
+}
 
 
 ResourceGroup* ResourceManager::getResourceGroupByName(const std::string& name)
@@ -502,4 +538,16 @@ void ResourceManager::addSoundBuffer(const std::string& fileName)
 	}
 	soundBufferVector.push_back(buffer);
 
+}
+
+void ResourceManager::addShader(const std::string& fileName)
+{
+	sf::Shader shader;
+
+	if (!shader.loadFromFile(fileName))
+	{
+		BOOST_LOG_SEV(resourceManagerLogger, ERROR) << fileName << "(Shader) failed to load.";
+	}
+
+	shaderVector.push_back(shader);
 }
