@@ -1,4 +1,4 @@
-#include "SingleTextBox.h"
+#include "SingleTextBox.hpp"
 
 
 
@@ -18,7 +18,8 @@ SingleTextBox::SingleTextBox()
 
 
 
-SingleTextBox::SingleTextBox(sf::Vector2f fposition, const sf::Font* const ffont, std::string fstring, int ffontsize, double fmaxwidth, sf::Color fcolor)
+SingleTextBox::SingleTextBox(	const sf::Vector2f& pos, const sf::Font* const font, const std::string& text,
+								const unsigned int& charSize, const unsigned double& maxWidth, const sf::Color& color)
 {
 	requiresMouseData = false;					//same stuff
 
@@ -26,7 +27,7 @@ SingleTextBox::SingleTextBox(sf::Vector2f fposition, const sf::Font* const ffont
 
 	resetsOnMD = false;
 
-	setup(fposition, ffont, fstring, ffontsize, fmaxwidth, fcolor);		//setup
+	setup(pos, font, text, charSize, maxWidth, color);		//setup
 
 
 }
@@ -40,34 +41,29 @@ SingleTextBox::~SingleTextBox()
 
 
 
-void SingleTextBox::setup(sf::Vector2f fposition, const sf::Font* const ffont, std::string fstring, int ffontsize, double fmaxwidth, sf::Color fcolor)
+void SingleTextBox::setup(	const sf::Vector2f& pos, const sf::Font* const font, const std::string& text,
+							const unsigned int& charSize, const unsigned double& maxWidth, const sf::Color& color)
 {
 
-	position = fposition;						//set position
+	position = pos;						//set position
 
-	characterSize = ffontsize;					//set char size
+	width = maxWidth;							//set width
 
-	textColor = fcolor;							//set text color
-		
-	width = fmaxwidth;							//set width
-
-	drawString = fstring;						//set drawString
+	drawString = text;						//set drawString
 
 
 
-	textBody.setFont(*ffont);					//set the font to the text
+	textBody.setFont(*font);					//set the font to the text
 
-	textBody.setString(fstring);				//set the text to draw the given string
+	textBody.setString(text);				//set the text to draw the given string
 
-	textBody.setCharacterSize(ffontsize);		//set the char size
+	textBody.setCharacterSize(charSize);		//set the char size
+
+
+	textBody.setColor(color);					//set the color
+
 
 	wrapText();									//wrap the text
-
-	textBody.setColor(fcolor);					//set the color
-
-
-
-												//set it equal to the dimensions of the text box
 
 	correctPosition();							//corrects the text's position
 
@@ -76,40 +72,21 @@ void SingleTextBox::setup(sf::Vector2f fposition, const sf::Font* const ffont, s
 
 
 
-void SingleTextBox::update()					//empty
-{ 
-
-}
 
 
-
-
-void SingleTextBox::update(MouseData& fmouseData, const char& typedChar, KeyboardData& fkeyData)	//empty
+void SingleTextBox::draw(sf::RenderWindow& window, const sf::Vector2f& drawPos)
 {
-
-}
-
-
-
-void SingleTextBox::draw(sf::RenderWindow& frenderwindow, sf::Vector2f drawPosition)
-{
-	position += drawPosition;					//add the draw position to make things relative
+	position += drawPos;					//add the draw position to make things relative
 
 	textBody.move(position);					//move the textBody
 
-	frenderwindow.draw(textBody);				//draw it
+	window.draw(textBody);				//draw it
 
 	textBody.move(-position);					//move it back
 
-	position -= drawPosition;					//subtract the draw position
+	position -= drawPos;					//subtract the draw position
 }
 
-
-
-void SingleTextBox::resetMD()					//doesn't reseton Menu deactivation
-{
-
-}
 
 
 
@@ -123,6 +100,8 @@ sf::Vector2f SingleTextBox::getLocalDimensions()
 	return sf::Vector2f(textBody.getLocalBounds().width, textBody.getLocalBounds().height);
 }
 
+
+
 sf::Vector2f SingleTextBox::getLetterPosition(const unsigned int& index)
 {
 	return textBody.findCharacterPos(index);
@@ -133,28 +112,28 @@ sf::Vector2f SingleTextBox::getLastLetterPosition()
 	return textBody.findCharacterPos(drawString.size() + 1);
 }
 
-void SingleTextBox::setTextString(std::string fstring)	//sets the string you want to draw
+void SingleTextBox::setTextString(const std::string& text)	//sets the string you want to draw
 {
-	textBody.setString(fstring);						//set the string
-	drawString = fstring;
+	textBody.setString(text);						//set the string
+	drawString = text;
 
-//	wrapText();											//wrap the text
+	wrapText();											//wrap the text
 	correctPosition();
 }
 
 
 
-void SingleTextBox::setTextColor(sf::Color fcolor)		//set the color of the text
+void SingleTextBox::setTextColor(const sf::Color& color)		//set the color of the text
 {
-	textBody.setColor(fcolor);							//yep, do it
+	textBody.setColor(color);							//yep, do it
 }
 
 
 
-void SingleTextBox::setFontSize(int fsize)				//set the font size in pixels
+void SingleTextBox::setFontSize(const unsigned int& charSize)				//set the font size in pixels
 {
-	textBody.setCharacterSize(fsize);					//set the size of the characters
-		
+	textBody.setCharacterSize(charSize);
+
 	wrapText();											//wrap the text
 
 	correctPosition();
@@ -167,121 +146,135 @@ void SingleTextBox::wrapText()				//wraps the string around a margin
 {
 	std::string searchString;
 
-	for (unsigned int i = 0; i < drawString.size(); i++)	
+	bool spaceless = true;
+	for (unsigned int i = 0; i < drawString.size(); i++)
 	{
 		searchString = drawString[i];
 		if (searchString == "\n")
 		{
 			drawString[i] = ' ';			//first, change all "\n"s to spaces -- that is make the text "one line long"
 		}
+		if (drawString[i] == ' ')
+		{
+			spaceless = false;
+		}
 	}
 
-
-	
-
-	int spaceIndex = 1;							//keeps track of where the last space was
-
-	char letter;							//the current letter
-
-	std::string word = "";					//the current word
-
-	std::string line = "";					//the current line of text
-
-	std::string transline = "";				//the current line of text that is used to test the width of the string
-
-	std::string rtstr = "";					//the string to return
-		
-	bool notFirstWord = false;				//true if the current word is not the first word
-
-	bool notFirstLine = false;				//true if the current line is not the first line
-
-	for (unsigned int i = 0; i <= drawString.size(); i++)	//go though the string-to-be-drawn + 1 extra space...
+	if (spaceless)
+	{
+		textBody.setString(drawString);
+	}
+	else
 	{
 
-		if (i == drawString.size())
-		{
-			letter = ' ';					//at the space 'after' the end, we call it a space
-		}
-		else
-		{
-			letter = drawString[i];			//otherwise its jsut the index of tthe drawString
-		}
-		
 
 
-		if (letter == ' ')					//if a space is found
+		int spaceIndex = 1;							//keeps track of where the last space was
+
+		char letter;							//the current letter
+
+		std::string word = "";					//the current word
+
+		std::string line = "";					//the current line of text
+
+		std::string transline = "";				//the current line of text that is used to test the width of the string
+
+		std::string rtstr = "";					//the string to return
+
+		bool notFirstWord = false;				//true if the current word is not the first word
+
+		bool notFirstLine = false;				//true if the current line is not the first line
+
+
+
+		for (unsigned int i = 0; i <= drawString.size(); i++)	//go though the string-to-be-drawn + 1 extra space...
 		{
-			if (notFirstWord)				//if it's not the first space/word
+
+			if (i == drawString.size())
 			{
-				transline += ' ';			//add a space to the beginning of the word
+				letter = ' ';					//at the space 'after' the end, we call it a space
+			}
+			else
+			{
+				letter = drawString[i];			//otherwise its jsut the index of tthe drawString
 			}
 
-			transline += word;				//then add the word onto the testing line
 
-			if (getDimensionsOfString(transline).x > abs(width))	//if the width would be greater than acceptable,
+
+			if (letter == ' ')					//if a space is found
 			{
-				if (notFirstLine)			//if its not the first line
+				if (notFirstWord)				//if it's not the first space/word
 				{
-					rtstr += "\n";			//tack a newline on the beginning
+					transline += ' ';			//add a space to the beginning of the word
 				}
 
-				rtstr += line;				//add the line onto the finished string
+				transline += word;				//then add the word onto the testing line
 
-				notFirstWord = false;		//since it is going ot be a new line on the next teration, it is going to be the first word of that line
-
-				if (!notFirstLine)
+				if (getDimensionsOfString(transline).x > width)	//if the width would be greater than acceptable,
 				{
-					notFirstLine = true;	//it won't be the first line anymore after the first line
-				}
-
-
-				line = "";					//revert the line and testing line back to ""
-				transline = "";	
-
-				i = spaceIndex;				//revert the index back to the last space
-	
-			}
-
-			else							//if the width of the text would be fine, instead
-			{
-				line = transline;			//replace the current line with the testing line -- it passed the test
-
-				notFirstWord = true;		//it's no longer the first word
-
-				spaceIndex = i;				//the last space was at the current index
-
-				if (i == drawString.size())	//if the iteration is one greater than the possible indices in the string (in the case of "finishing early")
-				{
-
-					if (notFirstLine)		//if its not hte first line
+					if (notFirstLine)			//if its not the first line
 					{
-						rtstr += "\n";		//tack on a newline at the beginning
+						rtstr += "\n";			//tack a newline on the beginning
 					}
 
-					rtstr += line;			//throw on the current line
+					rtstr += line;				//add the line onto the finished string
+
+					notFirstWord = false;		//since it is going ot be a new line on the next teration, it is going to be the first word of that line
+
+					if (!notFirstLine)
+					{
+						notFirstLine = true;	//it won't be the first line anymore after the first line
+					}
+
+
+					line = "";					//revert the line and testing line back to ""
+					transline = "";
+
+					i = spaceIndex;				//revert the index back to the last space
+
 				}
 
+				else							//if the width of the text would be fine, instead
+				{
+					line = transline;			//replace the current line with the testing line -- it passed the test
+
+					notFirstWord = true;		//it's no longer the first word
+
+					spaceIndex = i;				//the last space was at the current index
+
+					if (i == drawString.size())	//if the iteration is one greater than the possible indices in the string (in the case of "finishing early")
+					{
+
+						if (notFirstLine)		//if its not hte first line
+						{
+							rtstr += "\n";		//tack on a newline at the beginning
+						}
+
+						rtstr += line;			//throw on the current line
+					}
+
+				}
+
+				word = "";						//reset the word to "" if the letetr was a space
+
 			}
-			
-			word = "";						//reset the word to "" if the letetr was a space
-	
+
+			else								//if the letter wasn't a space
+			{
+				word += letter;					//throw it on the current word
+			}
+
 		}
 
-		else								//if the letter wasn't a space
-		{
-			word += letter;					//throw it on the current word
-		}
-
+		textBody.setString(rtstr);				//set the drawn string to the finished string
 	}
-
-	textBody.setString(rtstr);				//set the drawn string to the finished string
 }
 
 
 
-sf::Vector2f SingleTextBox::getDimensionsOfString(std::string fstr)	//gets the dimensions of a hypothetical string given the other conditions of the textBox
+sf::Vector2f SingleTextBox::getDimensionsOfString(const std::string& text)	//gets the dimensions of a hypothetical string given the other conditions of the textBox
 {
-	if (fstr == "")
+	if (text == "")
 	{
 		return sf::Vector2f(0, 0);
 	}
@@ -289,9 +282,9 @@ sf::Vector2f SingleTextBox::getDimensionsOfString(std::string fstr)	//gets the d
 
 	tmpText.setFont(*textBody.getFont());							//set it up just like the texBox's Text
 
-	tmpText.setCharacterSize(characterSize);
+	tmpText.setCharacterSize(textBody.getCharacterSize());
 
-	tmpText.setString(fstr);										//set the string to be the hypothetical one
+	tmpText.setString(text);										//set the string to be the hypothetical one
 
 	return sf::Vector2f(tmpText.getGlobalBounds().width, tmpText.getGlobalBounds().height);
 																	//return the dimensions of the Text
@@ -303,7 +296,7 @@ sf::Vector2f SingleTextBox::getDimensionsOfString(std::string fstr)	//gets the d
 void SingleTextBox::correctPosition()							//corrects the position of the text because text is dumb
 {
 
-	sf::Vector2f tempDimensions;							//make temp dimensions
+	sf::Vector2f tempDimensions;								//make temp dimensions
 
 	tempDimensions = sf::Vector2f(textBody.getLocalBounds().width, textBody.getLocalBounds().height);
 
@@ -315,7 +308,7 @@ void SingleTextBox::correctPosition()							//corrects the position of the text 
 
 
 
-	double maxHeight = 0;										//declare maxHeight and a temporary string	
+	double maxHeight = 0;										//declare maxHeight and a temporary string
 
 	std::string tmpString;
 
@@ -323,7 +316,7 @@ void SingleTextBox::correctPosition()							//corrects the position of the text 
 	{
 		tmpString = drawString[i];								//set tmep string equal to the char at the indexth point in the drawString
 
-		if (tmpString == "\n")									
+		if (tmpString == "\n")
 		{
 			break;												//if it's a newline, stop
 		}

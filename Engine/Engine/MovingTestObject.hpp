@@ -27,7 +27,7 @@ namespace objects
 		~MovingTestObject();
 
 		void draw(Layer& renderTarget);
-		void update(KeyboardData& keyData);
+		void update(InputData& inpData);
 
 		void load(boost::property_tree::ptree& dataTree, ResourceManager& resources);	//loads instances object properties based on subtree
 		void write();

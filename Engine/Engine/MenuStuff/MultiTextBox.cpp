@@ -1,4 +1,4 @@
-#include "MultiTextBox.h"
+#include "MultiTextBox.hpp"
 
 
 MultiTextBox::MultiTextBox()
@@ -11,7 +11,7 @@ MultiTextBox::MultiTextBox()
 
 	resetsOnMD = false;										//does not reset on menu dectivation
 
-	CTBIndex = -1;											//th current TextBox index starts as -1
+	CTBIndex = 0;											//th current TextBox index starts as -1
 
 }
 
@@ -32,46 +32,39 @@ void MultiTextBox::update()									//update
 }
 
 
-void MultiTextBox::update(MouseData& fmouseData, const char& typedChar, KeyboardData& fkeyData)			//update with mouse data
+void MultiTextBox::update(InputData& inpData)			//update with mouse data
 {
 	for (unsigned int i = 0; i < textBoxVector.size(); i++)
 	{
-		textBoxVector[i].update(fmouseData, typedChar, fkeyData);				//update every textBox with mouse data
+		textBoxVector[i].update(inpData);				//update every textBox with mouse data
 	}
 }
 
 
-void MultiTextBox::draw(sf::RenderWindow& frenderwindow, sf::Vector2f drawPosition)
+void MultiTextBox::draw(sf::RenderWindow& window, const sf::Vector2f& drawPos)
 {
-	position += drawPosition;								//add the draw position to make textBoxes' positions relative
+	position += drawPos;								//add the draw position to make textBoxes' positions relative
 
 	if (!textBoxVector[CTBIndex].getIsHidden())
 	{
-		textBoxVector[CTBIndex].draw(frenderwindow, position);	
+		textBoxVector[CTBIndex].draw(window, position);
 															// if the current TextBox isn't hidden, draw it
 	}
 
 
-	position -= drawPosition;								//take away the draw position because it was added
+	position -= drawPos;								//take away the draw position because it was added
 }
 
 
 
-void MultiTextBox::resetMD()								//empty
-{
-
-}
-
-
-
-void MultiTextBox::setCurrentTextBoxByName(std::string fname)	//set the current textBox to naother by name
+void MultiTextBox::setCurrentTextBoxByName(const std::string& name)	//set the current textBox to naother by name
 {
 	if (CTBIndex >= 0)
 	{
 		textBoxVector[CTBIndex].hide();						//hide the old textBox; doesnt really matter; just for consistency
 	}
 
-	CTBIndex = ntoi(fname);									//most important: the current TextBox index is the index associated with the name
+	CTBIndex = ntoi(name);									//most important: the current TextBox index is the index associated with the name
 
 	textBoxVector[CTBIndex].unhide();						//unhide the one that was named; again, doesn't matter
 
@@ -80,7 +73,7 @@ void MultiTextBox::setCurrentTextBoxByName(std::string fname)	//set the current 
 
 
 
-void MultiTextBox::setCurrentTextBoxByIndex(int findex)		//set the textbox being drawn by index 
+void MultiTextBox::setCurrentTextBoxByIndex(const unsigned int& index)		//set the textbox being drawn by index
 {
 
 	if (CTBIndex >= 0)
@@ -88,63 +81,59 @@ void MultiTextBox::setCurrentTextBoxByIndex(int findex)		//set the textbox being
 		textBoxVector[CTBIndex].hide();
 	}
 
-	CTBIndex = findex;
+	CTBIndex = index;
 
 	textBoxVector[CTBIndex].unhide();						//unhide the one that was named
 }
 
 
-void MultiTextBox::addTextBox(SingleTextBox fsingleTextBox, std::string fname) 
+void MultiTextBox::addTextBox(SingleTextBox singleTextBox, const std::string& name)
 {
 	if (textBoxVector.size() > 0)
 	{
-		fsingleTextBox.hide();								//hide the textBox if it's not the first
-		
+		singleTextBox.hide();								//hide the textBox if it's not the first
+
 	}
 	else
-	{	
+	{
 		CTBIndex = 0;										//only change the CTBIndex if it is the first
 	}
-	
-	textBoxVector.push_back(fsingleTextBox);				//add it to the collection
 
-	addName(fname, textBoxVector.size() - 1);				// add the name
+	textBoxVector.push_back(singleTextBox);				//add it to the collection
+
+	addName(name, textBoxVector.size() - 1);				// add the name
 }
 
 
-void MultiTextBox::addTextBox(SingleTextBox fsingleTextBox, int finame) 
+void MultiTextBox::addTextBox(SingleTextBox singleTextBox, const unsigned int& intname)
 															//same thing, essentially as the previous one
 {
 	if (textBoxVector.size() > 0)
 	{
-		fsingleTextBox.hide();		
+		singleTextBox.hide();
 
 	}
 	else
 	{
-		CTBIndex = 0;				
+		CTBIndex = 0;
 	}
 
-	textBoxVector.push_back(fsingleTextBox);				
+	textBoxVector.push_back(singleTextBox);
 
-	addName(finame, textBoxVector.size() - 1);				// add the inted name
+	addName(intname, textBoxVector.size() - 1);				// add the inted name
 }
 
 
 
-SingleTextBox* MultiTextBox::getTextBoxPointerByName(std::string fname)
+SingleTextBox* MultiTextBox::getTextBoxPointerByName(const std::string& name)
 {
-	SingleTextBox* tmpTextBox = &textBoxVector[ntoi(fname)];	//make the pointer
-
-	return tmpTextBox;											//return it
+	return &textBoxVector[ntoi(name)];	//make the pointer
 }
 
 
 
-SingleTextBox* MultiTextBox::getTextBoxPointerByIndex(int findex)
+SingleTextBox* MultiTextBox::getTextBoxPointerByIndex(const unsigned int& index)
 {
-	SingleTextBox* tmpTextBox = &textBoxVector[findex];			//make the pointer
-
-	return tmpTextBox;											//return it
+	return &textBoxVector[index];			//make the pointer
 }
 

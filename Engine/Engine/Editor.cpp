@@ -65,7 +65,7 @@ void Editor::editorBegin()
 				{
 					if (event.key.code == (sf::Keyboard::Key)(i))			//trying to typecast int i as a Key enum 
 					{
-						keyData.keyPressed(i);
+						inpData.keyPressed(i);
 
 					}
 				}
@@ -76,7 +76,7 @@ void Editor::editorBegin()
 				{
 					if (event.key.code == (sf::Keyboard::Key)(i))
 					{
-						keyData.keyReleased(i);
+						inpData.keyReleased(i);
 
 					}
 				}
@@ -86,36 +86,24 @@ void Editor::editorBegin()
 			{
 				if (event.text.unicode < 128)
 				{
-					if (event.text.unicode == '\b')
-					{
-						if (textDataStr.size())
-						{
-							textDataStr.erase(textDataStr.size() - 1);
-						}
-					}
-					else
-					{
-						textDataStr += static_cast<char>(event.text.unicode);
-					}
-					textDataChr = static_cast<char>(event.text.unicode);
-
+					inpData.setTypedChar(static_cast<char>(event.text.unicode));
 				}
 			}
 
 			if (event.type == sf::Event::MouseMoved)
 			{
-				mouseData.setPosition(sf::Vector2f(event.mouseMove.x, event.mouseMove.y));
+				inpData.setMousePosition(sf::Vector2f(event.mouseMove.x, event.mouseMove.y));
 			}
 
 			if (event.type == sf::Event::MouseButtonPressed)
 			{
 				if (event.mouseButton.button == sf::Mouse::Right)
 				{
-					mouseData.setRightData(MouseData::Hit);
+					inpData.setRightData(MouseData::Hit);
 				}
 				if (event.mouseButton.button == sf::Mouse::Left)
 				{
-					mouseData.setLeftData(MouseData::Hit);
+					inpData.setLeftData(MouseData::Hit);
 				}
 			}
 
@@ -123,17 +111,17 @@ void Editor::editorBegin()
 			{
 				if (event.mouseButton.button == sf::Mouse::Right)
 				{
-					mouseData.setRightData(MouseData::Released);
+					inpData.setRightData(MouseData::Released);
 				}
 				if (event.mouseButton.button == sf::Mouse::Left)
 				{
-					mouseData.setLeftData(MouseData::Released);
+					inpData.setLeftData(MouseData::Released);
 				}
 			}
 
 			if (event.type == sf::Event::MouseWheelMoved)
 			{
-				mouseData.setScroll(event.mouseWheel.delta);
+				inpData.setScroll(event.mouseWheel.delta);
 			}
 
 		}
@@ -155,9 +143,7 @@ void Editor::editorBegin()
 
 		window.display();
 
-		textDataChr = 0;
-		keyData.frameUpdate();
-		mouseData.frameUpdate();
+		inpData.frameUpdate();
 	}
 }
 
@@ -181,7 +167,7 @@ void Editor::editorUpdate()
 	//run selection check for (all???) objects or at least the current layer
 
 	//update gui
-	gui.update(mouseData, textDataChr, keyData);
+	gui.update(inpData);
 }
 
 //draw needs to draw GUI
@@ -216,6 +202,8 @@ void Editor::addObject()
 
 		idList[tempObject->getID()] = std::make_tuple(objectRoot, properties);
 		selectObject(tempObject->getID());
+
+		resetMap(*objProperties);
 		gui.setMap("editorMenu", "attributeEditor", *objProperties);	//prompt for all object attributes
 
 		std::string pathString = "Layers.Layer1";// +boost::lexical_cast<std::string>(currentLayer);
@@ -431,3 +419,11 @@ void Editor::parsePopupOutput()
 }
 
 
+void Editor::resetMap(StringMap& smap)
+{
+	std::map<std::string, std::string>::iterator it;
+	for (it = smap.begin(); it != smap.end(); it++)
+	{
+		smap[it->first] = "";
+	}
+}

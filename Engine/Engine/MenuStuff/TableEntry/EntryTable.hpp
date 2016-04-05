@@ -14,10 +14,14 @@ public:
 	void setMap(std::map<std::string, std::string>& fmap);
 
 	void update() {};
-	void update(MouseData& fmouseData, const char& typedChar, KeyboardData& fkeyData);
-	void draw(sf::RenderWindow& window, sf::Vector2f drawPos);
+	void update(InputData& inpData);
+	void draw(sf::RenderWindow& window, const sf::Vector2f& drawPos);
 	void resetMD() {};
 private:
+
+	void setActivities(InputData& inpData);
+	
+
 	sf::Vector2f position;
 	sf::Font* font;
 	sf::Color color;
@@ -27,8 +31,6 @@ private:
 	double indent;
 	
 	std::vector<TablePair> tablePairs;
-	std::map<std::string, std::string>* strMap;
-	std::vector<std::string> recordStrs;
 
 	double xSpacing;
 	double ySpacing;

@@ -1,51 +1,52 @@
-#include "Menu.h"
+#include "Menu.hpp"
 
 
 Menu::Menu()															//Constructor
 {
 	isActive = true;													//isActive is true at the start
 	position = sf::Vector2f(0, 0);										//position is 0,0 at the start
+	setVectorSize(1);
 }
 
-
-void Menu::addMenuElement(MenuElement& fmenuElement, std::string fname)	//adds a menuElement
+Menu::Menu(const sf::Vector2f& pos)
 {
-	elementVector.push_back(&fmenuElement);								//adds a pointer to a menuElement
-
-	addElementName(fname);												//adds the name
+	isActive = true;													//isActive is true at the start
+	position = pos;
+	setVectorSize(1);
 }
 
-
-
-void Menu::addMenuElement(MenuElement* fmenuElement, std::string fname)
+void Menu::addMenuElement(MenuElement* element, const std::string& name)	//adds a menuElement
 {
-	elementVector.push_back(fmenuElement);								//adds a pointer to a menuElement
+	boost::shared_ptr<MenuElement> tmpPtr(element);
+	elementVector.push_back(tmpPtr);									//adds a pointer to a menuElement
 
-	addElementName(fname);												//adds the name
-}
-
-
-
-void Menu::setRelativePosition(sf::Vector2f fpos)						//set the relative position of the menu
-{
-	//sf::Vector2f oldPos = position;			
-
-	position = fpos;													//change to the new position
-
-	//sf::Vector2f distance(oldPos - position);							
-	
-	//for (unsigned int i = 0; i < elementVector.size(); i++)
-	//{
-	//	elementVector[i]->move(distance);
-	//}
+	addName(name, elementVector.size() - 1);							//adds the name
 }
 
 
 
-void Menu::addRelativePosition(sf::Vector2f velocity)					//add position to the menu
+void Menu::addMenuElement(boost::shared_ptr<MenuElement> element, const std::string& name)
+{
+	elementVector.push_back(element);								//adds a pointer to a menuElement
+
+	addName(name, elementVector.size() - 1);												//adds the name
+}
+
+
+
+void Menu::setPosition(const sf::Vector2f& pos)						//set the relative position of the menu
 {
 
-	position += velocity;												//add velocity to position
+	position = pos;													//change to the new position
+
+}
+
+
+
+void Menu::move(const sf::Vector2f& disp)					//add position to the menu
+{
+
+	position += disp;												//add displacement to position
 
 }
 
@@ -84,10 +85,10 @@ void Menu::switchActive()												//switches the activity of the menu
 }
 
 
-void Menu::setIsActive(bool factive)									//sets the activity of the menu
+void Menu::setIsActive(const bool& activity)									//sets the activity of the menu
 {
 
-	if (factive)
+	if (activity)
 	{
 		activate();
 	}
@@ -108,30 +109,30 @@ bool Menu::getIsActive()												//returns if the menu is active
 
 
 
-MenuElement* Menu::getPointerToElementByIndex(int findex)				//gets a pointer to a menuElement, not a child
+boost::shared_ptr<MenuElement> Menu::getPointerToElementByIndex(const unsigned int& index)				//gets a pointer to a menuElement, not a child
 {
 
-	return elementVector[findex];										//returns the findex'th part of elementVector
+	return elementVector[index];										//returns the index'th part of elementVector
 
 }
 
 
 
-MenuElement* Menu::getPointerToElementByName(std::string fname)			//returns a pointer to a menuElemtn by nake, not a child
+boost::shared_ptr<MenuElement> Menu::getPointerToElementByName(const std::string& name)			//returns a pointer to a menuElemtn by name, not a child
 {
 
-	return elementVector[elementNames[fname]];							//returns the (int that the name was mapped to)th element of elementVector
+	return elementVector[ntoi(name)];							//returns the (int that the name was mapped to)th element of elementVector
 
 }
 
 
-void Menu::update(MouseData& fmouseData, const char& typedChar, KeyboardData& fkeyData)								//updates all of the menuElements
+void Menu::update(InputData& inpData)								//updates all of the menuElements
 {
 	for (unsigned int i = 0; i < elementVector.size(); i++)				//cycle through all menuElements
 	{
 		if (elementVector[i]->getRequiresMouseData())					//if it requires mouse data
 		{
-			elementVector[i]->update(fmouseData, typedChar, fkeyData);						//give it mouse data
+			elementVector[i]->update(inpData);						//give it mouse data
 		}
 		else															//otherwise
 		{
@@ -142,60 +143,21 @@ void Menu::update(MouseData& fmouseData, const char& typedChar, KeyboardData& fk
 
 
 
-void Menu::draw(sf::RenderWindow& frenderwindow, sf::Vector2f drawPosition)	//draws all of the menuElements
+void Menu::draw(sf::RenderWindow& window, const sf::Vector2f& drawPos)	//draws all of the menuElements
 {
-	position += drawPosition;												//adds the draw position to make position relative
+	position += drawPos;												//adds the draw position to make position relative
 
 	for (unsigned int i = 0; i < elementVector.size(); i++)					//cycle through all menuElements
 	{
 		if (!elementVector[i]->getIsHidden())								//if its not hidden
 		{
-			elementVector[i]->draw(frenderwindow, position);				//draw it
+			elementVector[i]->draw(window, position);				//draw it
 		}
 	}
 
-	position -= drawPosition;												//subtract the draw position because we added it
+	position -= drawPos;												//subtract the draw position because we added it
 }
 
 
 
-
-
-
-//private
-
-void Menu::addElementName(std::string fname)						//adds a name to the nameMap
-{
-	bool sameName = true;											//same name starts of as true
-
-	bool firstDuplicate = true;										//first duplicate is true
-
-	while (sameName == true)										//until nothing has the same name
-	{
-
-		if (elementNames.count(fname) == 1)							//if there exists a thing with that name already
-		{
-			if (firstDuplicate == true)								//if it was the first duplicate
-			{
-				fname += "2";										/*if there exists a "ExitButton" already, and you try to add another one,
-																	it will become "ExitButton2"*/
-
-				firstDuplicate = false;								//there cant be more than one first duplicate
-			}
-			else
-			{
-				fname[fname.size() - 1]++;							/*if there exists a "ExitButton2" already, and you try to add another one,
-																	it will become "ExitButton3"*/
-			}
-		}
-
-		else
-		{
-			sameName = false;										//if there is no same name, exit the while loop
-		}
-
-	}
-
-	elementNames[fname] = elementVector.size() - 1;					//then add the altered (or not) name
-}
 

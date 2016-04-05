@@ -11,7 +11,7 @@ void MovingTestObject::draw(Layer& renderTarget)
 	renderTarget.getRenderTexture()->draw(texCoords, testTex);
 }
 
-void MovingTestObject::update(KeyboardData& keyData)
+void MovingTestObject::update(InputData& inpData)
 {
 	//counter++;
 	const float movement = 1;
@@ -21,19 +21,19 @@ void MovingTestObject::update(KeyboardData& keyData)
 	}*/
 	
 
-	if(keyData.isKeyHeld(sf::Keyboard::Up)) 
+	if(inpData.isKeyHeld(sf::Keyboard::Up)) 
 	{
 		move(0, -movement);
 	}
-	if (keyData.isKeyHeld(sf::Keyboard::Down))
+	if (inpData.isKeyHeld(sf::Keyboard::Down))
 	{
 		move(0, movement);
 	}
-	if (keyData.isKeyHeld(sf::Keyboard::Left))
+	if (inpData.isKeyHeld(sf::Keyboard::Left))
 	{
 		move(-movement, 0);
 	}
-	if (keyData.isKeyHeld(sf::Keyboard::Right))
+	if (inpData.isKeyHeld(sf::Keyboard::Right))
 	{
 		move(movement, 0);
 	}

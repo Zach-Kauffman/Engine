@@ -1,15 +1,15 @@
-#include "MenuElement.h"
+#include "MenuElement.hpp"
 
 
-void MenuElement::setPosition(sf::Vector2f fpos)
+void MenuElement::setPosition(const sf::Vector2f& pos)
 {
-	position = fpos;
+	position = pos;
 }
 
 
-void MenuElement::move(sf::Vector2f velocity)
+void MenuElement::move(const sf::Vector2f& disp)
 {
-	position += velocity;
+	position += disp;
 }
 
 
@@ -27,9 +27,9 @@ bool MenuElement::getRequiresMouseData()
 }
 
 
-void MenuElement::setRequiresMouseData(bool frequiresMouseData)
+void MenuElement::setRequiresMouseData(const bool& _reqsMouseData)
 {
-	requiresMouseData = frequiresMouseData;
+	requiresMouseData = _reqsMouseData;
 }
 
 
@@ -57,10 +57,10 @@ bool MenuElement::getIsHidden()
 
 
 
-void MenuElement::setResetsOnMD(bool fresetsOnMD)
+void MenuElement::setResetsOnMD(const bool& _resetsOnMD)
 {
 
-	resetsOnMD = fresetsOnMD;
+	resetsOnMD = _resetsOnMD;
 
 }
 

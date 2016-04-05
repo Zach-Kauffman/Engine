@@ -20,10 +20,9 @@
 	#include "Utility\Logger.hpp"
 	#include "Utility\XMLParser.hpp"
 
-	#include "Input\KeyboardData.hpp"
-	#include "Input\MouseData.hpp"
+	#include "Input\InputData.hpp"
 
-	#include "MenuStuff\MenuManager.h"
+	#include "MenuStuff\MenuManager.hpp"
 
 class Game
 {
@@ -75,10 +74,7 @@ protected:
 
 	std::map<std::string, std::string> testMap;
 
-	KeyboardData keyData;
-	MouseData mouseData;
-	std::string textDataStr;
-	char textDataChr;
+	InputData inpData;
 
 	src::severity_logger<severity_level> logger;	//logger to handle debuging and errors
 

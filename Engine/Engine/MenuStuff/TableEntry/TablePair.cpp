@@ -41,7 +41,7 @@ void TablePair::setup( 	sf::Font * const ffont, const unsigned int& ffontsize, c
 
 	colonDivider.setup(sf::Vector2f(spac, 0), ffont, "|:|", ffontsize, bgSiz.x - 2 * indent, fcolor);
 
-	entryBox.setup(ffont, ffontsize, fcolor, bgTex, bgSiz, barTex, sf::Vector2f(2*spac, 0), indent);
+	entryBox.setup(ffont, ffontsize, fcolor, bgTex, bgSiz, barTex, sf::Vector2f(2*spac + bgSiz.x/2, 0), indent);
 
 	
 }
@@ -63,15 +63,25 @@ void TablePair::setEntryString(std::string& estr)
 //	return entryBox.getEntryString();
 //}
 
-
-void TablePair::update(MouseData& fmouseData, const char& typedChar, KeyboardData& fkeyData)
+void TablePair::setActivity(bool b)
 {
-	entryBox.update(fmouseData, typedChar, fkeyData);
+	entryBox.setActivity(b);
 }
 
-void TablePair::draw(sf::RenderWindow& window, sf::Vector2f drawpos)
+bool TablePair::getActivity()
 {
-	position += drawpos;
+	return entryBox.getActivity();
+}
+
+
+void TablePair::update(InputData& inpData)
+{
+	entryBox.update(inpData);
+}
+
+void TablePair::draw(sf::RenderWindow& window, const sf::Vector2f& drawPos)
+{
+	position += drawPos;
 
 	keyText.draw(window, position);
 
@@ -80,5 +90,5 @@ void TablePair::draw(sf::RenderWindow& window, sf::Vector2f drawpos)
 	entryBox.draw(window, position);
 
 
-	position -= drawpos;
+	position -= drawPos;
 }

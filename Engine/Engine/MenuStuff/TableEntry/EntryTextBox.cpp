@@ -57,24 +57,29 @@ void EntryTextBox::setEntryString(std::string& estr)
 {
 	entryString = &estr;
 }
-//std::string EntryTextBox::getEntryString()
-//{
-//	return entryString;
-//}
 
 
-void EntryTextBox::update(MouseData& fmouseData, const char& typedChar, KeyboardData& fkeyData)
+void EntryTextBox::setActivity(bool b)
 {
-	setActivity(fmouseData);
+	isActive = b;
+}
 
+bool EntryTextBox::getActivity()
+{
+	return isActive;
+}
+
+
+
+void EntryTextBox::update(InputData& inpData)
+{
+	setActivity(inpData);
+	
 
 	if (isActive)
 	{
-		if (typedChar != '\0')
-		{
-			buildEntryString(typedChar);
-			textBox.setTextString(*entryString);
-		}
+		buildEntryString(inpData);
+		textBox.setTextString(*entryString);
 
 	}
 	setBarPos();
@@ -83,7 +88,7 @@ void EntryTextBox::update(MouseData& fmouseData, const char& typedChar, Keyboard
 
 }
 
-void EntryTextBox::draw(sf::RenderWindow& window, sf::Vector2f drawPos)
+void EntryTextBox::draw(sf::RenderWindow& window, const sf::Vector2f& drawPos)
 {
 	if (lastDrawPos != drawPos)
 	{
@@ -110,13 +115,15 @@ void EntryTextBox::draw(sf::RenderWindow& window, sf::Vector2f drawPos)
 
 //private
 
-void EntryTextBox::buildEntryString(const char& typedChar)
+
+void EntryTextBox::buildEntryString(InputData& inpData)
 {
 	
-
+	const unsigned char typedChar = inpData.getTypedChar();
 	if (isActive )
 	{
-		if (typedChar != 0)
+		bool goodChar = (typedChar != 0 && !inpData.isKeyHit(sf::Keyboard::Tab) && !inpData.isKeyHit(sf::Keyboard::Return));
+		if (goodChar)
 		{
 			if (typedChar == '\b')
 			{
@@ -137,10 +144,10 @@ void EntryTextBox::buildEntryString(const char& typedChar)
 }
 
 
-void EntryTextBox::setActivity(MouseData& mdata)
+void EntryTextBox::setActivity(InputData& inpData)
 {
-	sf::Vector2f mpos = mdata.getPosition() - lastDrawPos - position;
-	bool clicked = (mdata.getLeftData() == MouseData::Hit);
+	sf::Vector2f mpos = inpData.getMousePosition() - lastDrawPos - position;
+	bool clicked = ( inpData.getLeftData() == MouseData::Hit);
 	/*
 	std::cout << mdata.getPosition().x << ", " << mdata.getPosition().y << std::endl;
 	std::cout << lastDrawPos.x << ", " << lastDrawPos.y << std::endl;
