@@ -63,3 +63,4 @@ void logger::init()
 	logging::add_common_attributes();
 	logging::core::get()->add_global_attribute("Scope", attrs::named_scope());
 }
+

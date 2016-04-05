@@ -19,11 +19,6 @@ NameSearchable::~NameSearchable()
 //-----------------------------------------PROTECTED--------------------------------------------------------------------------***************************
 //----------------------------------------------------------------------------------------------------------------------------***************************
 
-std::string NameSearchable::intToString(int finput)		//converts an int to a string using boost
-{
-	return boost::lexical_cast<std::string>(finput);	//boost does these things, thank god
-}
-
 
 
 int NameSearchable::ntoi(const std::string& name)	//accesses the nameMap to get the int associated with the name (assumes the amount of name maps is 1)
@@ -58,7 +53,7 @@ void  NameSearchable::addName(const int& intName, const int& mapIndex)	//adds an
 void  NameSearchable::addName(const int& intName, const int& vecIndex, const int& mapIndex)	
 																		//adds an int 'name', a vector index, and a desired index
 {
-	std::string tmpString = "Unnamed" + intToString(intName) + ".";		//make a name out of the int (23 -> "Unnamed23.") The '.' is to
+	std::string tmpString = "Unnamed" + util::intToString(intName) + ".";		//make a name out of the int (23 -> "Unnamed23.") The '.' is to
 																		//prevent multiple copies from having confusing names 
 																		//(e.g. add 2 then 2 again, you get "Unnamed2." and "Unnamed2.2"
 																		//rather than "Unnamed2" and "Unnamed22")
@@ -89,7 +84,7 @@ void NameSearchable::addName(std::string name, const int& vecIndex, const int& m
 			endNumber = boost::lexical_cast<int> (name.substr(size - 1, name.size()));				//if there exists a "RedTexture" and a "RedTexture2" already,
 			endNumber++;									//and you try to add another "RedTexture",it will become "RedTexture3"		
 			name = name.substr(0, size - 1);
-			name += intToString(endNumber);
+			name += util::intToString(endNumber);
 		}
 		else
 		{

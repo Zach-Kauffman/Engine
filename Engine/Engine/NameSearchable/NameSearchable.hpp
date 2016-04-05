@@ -3,6 +3,7 @@
 #include <vector>
 #include <map>
 #include "../Utility/Logger.hpp"
+#include "../Utilities.hpp"
 
 class NameSearchable											//A useful parent class to make other classes have standard name maps for vectors
 {
@@ -14,14 +15,13 @@ public:
 	~NameSearchable();											//constructor
 
 protected:
-	
-	std::string intToString(int finput);						//useful function for converting between int to string
+
 
 	int ntoi(const std::string& name);							//converts a name to an index (vector index is assumed to be 0)
 
 	int ntoi(const std::string& name, const int& vecIndex);		//converts a name to an index using a specific vector index
 
-	
+
 
 	void setVectorSize(const int& size);						//only call once; fills the Vecotr of Name maps with the desired number of maps
 

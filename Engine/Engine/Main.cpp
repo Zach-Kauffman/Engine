@@ -13,6 +13,7 @@
 #include "Utility\XMLParser.hpp"
 #include <iostream>
 
+
 int main(int, char*[])
 {
 
@@ -25,6 +26,7 @@ int main(int, char*[])
 	theGame.begin();	//starts SFML main loop
 
 	BOOST_LOG_SEV(slg, DEBUG) << "Exiting soon";
+
 	return 0;
 }
 
