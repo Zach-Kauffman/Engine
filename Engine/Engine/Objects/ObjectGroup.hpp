@@ -67,6 +67,10 @@ namespace objects
 			{
 				fxn(*(objects[i].get()));	//calls function
 			}
+			for (unsigned int grpIt = 0; grpIt < groups.size(); grpIt++)
+			{
+				groups[grpIt].callFunction(fxn);
+			}
 		}
 
 	protected:
@@ -76,7 +80,7 @@ namespace objects
 			removeObject(object);
 			for (int i = 0; i < groups.size(); i++)
 			{
-				groups[i].deleteObjectFromTree(object)
+				groups[i].deleteObjectFromTree(object);
 			}
 		}
 

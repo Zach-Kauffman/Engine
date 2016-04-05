@@ -36,6 +36,7 @@ public:
 	void loadFile(const std::string& fileName, const std::string& name);				//adds a generic file
 
 
+	sf::Texture* getTexturePointerByIndex(const int& index);
 
 	sf::Texture* getTexturePointerByName(const std::string& name);					//retrieves a pointer to a texture
 

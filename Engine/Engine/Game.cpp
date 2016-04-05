@@ -4,7 +4,11 @@
 
 //PUBLIC FUNCTIONS
 
-Game::Game(){}
+Game::Game()
+{
+	logger = logger::getSLogger();
+}
+
 
 Game::~Game(){}
 
@@ -28,6 +32,9 @@ void Game::initialize(const std::string& cfgFile, const std::string& resFile, co
 
 	//thats all for now folks
 
+	textDataStr = "";
+	textDataChr = 0;
+	
 }
 
 void Game::begin()
@@ -51,7 +58,7 @@ void Game::begin()
 				{
 					if (event.key.code == (sf::Keyboard::Key)(i))			//trying to typecast int i as a Key enum 
 					{
-						keys.push_back(i);									//add the pressed key index to the keys vector
+						keyData.keyPressed(i);
 				
 					}
 				}
@@ -62,13 +69,65 @@ void Game::begin()
 				{
 					if (event.key.code == (sf::Keyboard::Key)(i))
 					{
-						keys.erase( remove( keys.begin(), keys.end(), i ), keys.end() );	//removes all released keys from the keys vector
-				
+						keyData.keyReleased(i);
+
 					}
 				}
 			}
-			
 
+			if (event.type == sf::Event::TextEntered)
+			{
+				if (event.text.unicode < 128)
+				{
+					if (event.text.unicode == '\b')
+					{
+						if (textDataStr.size())
+						{
+							textDataStr.erase(textDataStr.size() - 1);
+						}
+					}
+					else
+					{
+						textDataStr += static_cast<char>(event.text.unicode);
+					}
+					textDataChr = static_cast<char>(event.text.unicode);
+					
+				}
+			}
+
+			if (event.type == sf::Event::MouseMoved)
+			{
+				mouseData.setPosition(sf::Vector2f(event.mouseMove.x, event.mouseMove.y));
+			}
+			
+			if (event.type == sf::Event::MouseButtonPressed)
+			{
+				if (event.mouseButton.button == sf::Mouse::Right)
+				{
+					mouseData.setRightData(MouseData::Hit);
+				}
+				if (event.mouseButton.button == sf::Mouse::Left)
+				{
+					mouseData.setLeftData(MouseData::Hit);
+				}
+			}
+
+			if (event.type == sf::Event::MouseButtonReleased)
+			{
+				if (event.mouseButton.button == sf::Mouse::Right)
+				{
+					mouseData.setRightData(MouseData::Released);
+				}
+				if (event.mouseButton.button == sf::Mouse::Left)
+				{
+					mouseData.setLeftData(MouseData::Released);
+				}
+			}
+
+			if (event.type == sf::Event::MouseWheelMoved)
+			{
+				mouseData.setScroll(event.mouseWheel.delta);
+			}
 
 		}
 
@@ -78,6 +137,10 @@ void Game::begin()
 		draw();
 
 		window.display();
+
+		textDataChr = 0;
+		keyData.frameUpdate();
+		mouseData.frameUpdate();
 	}
 
 
@@ -88,6 +151,10 @@ void Game::begin()
 
 void Game::draw()
 {
+
+	layMan.setupDraw();										//need to setup draw before objects are drawn
+
+
 	numLayers = layMan.getLayerAmount();
 
 	for (int i = 0; i < numLayers; i++)	//draw objects to all layers
@@ -102,13 +169,38 @@ void Game::draw()
 
 void Game::update()
 {
-	
-	objMan.getObject("Layers.Layer0.1")->update(keys);
+	doChunks();
+	objMan.getObject("Layers.Layer0.1.0.1")->update(keyData);
+
 
 	//for each layer
 		//get draw bounds for layer
 		//remove out of bound objects
 		//add new in-bound objects
+}
+
+void Game::doChunks()
+{
+	for (unsigned int layIt = 0; layIt < numLayers; layIt++)	//for each layer
+	{
+		//reading layer data
+		sf::Vector2f TLC = layMan.getLayerPtr(layIt)->getWindowCorners().first;
+		sf::Vector2f BRC = layMan.getLayerPtr(layIt)->getWindowCorners().second;
+
+		TLC = sf::Vector2f(std::floor(TLC.x/chunkSize.x), std::floor(TLC.y/chunkSize.y));
+		BRC = sf::Vector2f(std::ceil(BRC.x / chunkSize.x), std::ceil(BRC.y / chunkSize.y));
+
+		for (int width = TLC.x; width < (int)BRC.x; width++)
+		{
+			for (int height = TLC.y; height < (int)BRC.y; height++)
+			{
+				boost::function<void(objects::Object&)> setActive = boost::bind(&objects::Object::setActive, _1, 1);
+				objMan.callFunction<boost::function<void(objects::Object&)> >("Layers.Layer" + boost::lexical_cast<std::string>(layIt)
+					+ "." + boost::lexical_cast<std::string>(width) + "." + boost::lexical_cast<std::string>(height), setActive);
+			}
+		}
+
+	}
 }
 
 void Game::loadGameConfig(const std::string& configFile)
@@ -117,11 +209,23 @@ void Game::loadGameConfig(const std::string& configFile)
 	windowName = "Squirrel Game";
 	renderSize = sf::Vector2i(960, 540);
 	maxFPS = 0;
+	mapSize = sf::Vector2i(5, 5);
 
 	parser.setSection("Render_Options");
 	parser.readValue<std::string>("Window_Name", windowName);
 	parser.readValue<int>("Res_X", renderSize.x); parser.readValue<int>("Res_Y", renderSize.y);
 	parser.readValue<int>("FPS_Cap", maxFPS);
+
+	parser.readValue<int>("ChunkSize_X", chunkSize.x);
+	parser.readValue<int>("ChunkSize_Y", chunkSize.y);
+	if (!chunkSize.y || chunkSize.y == 0){ chunkSize.y = chunkSize.x; }
+
+	parser.readValue<int>("MapSize_X", mapSize.x);
+	parser.readValue<int>("MapSize_Y", mapSize.y);
+
+	mapSizePixel = sf::Vector2i(chunkSize.x * mapSize.x, chunkSize.y * mapSize.y);	//the resolution of the map is just the product of chunk size and map size
+
+	parser.setSection("Game_Options");
 
 }
 
@@ -134,13 +238,46 @@ void Game::loadResources()
 
 	groupTree.trees["resources"].tags["path"] = "";	//path to resource
 	groupTree.trees["resources"].tags["name"] = "";	//storage name of resource
+	groupTree.trees["resources"].tags["group"] = "";
 
 	parser.readTree<std::string>(groupTree);		//read data from file and place in output vector
 
+	std::vector<std::string> groups;
+
 	auto &output = groupTree.trees["resources"].output;
+
+
 	for (unsigned int ii = 0; ii < output.size(); ii++)
 	{
-		recMan.loadFile(output[ii][1], output[ii][0]);	//load each resource
+		std::vector<std::string> returned = util::splitStrAtSubstr(output[ii][2], ".");					//finds extension from filepath
+		std::vector<std::string> numtoadd = util::splitStrAtSubstr(output[ii][0], ":");
+		recMan.loadFile(output[ii][2], output[ii][1]);	//load each resource
+
+		if (output[ii][0] != "")	//if a third element (being group) exists
+		{
+			bool groupExists = false;
+			for (int groupIt = 0; groupIt < groups.size(); groupIt++)	//cycle through groups
+			{
+				if (groups[groupIt] == numtoadd[0])
+				{
+					groupExists = true;
+				}
+			}
+
+			if (!groupExists)
+			{
+				recMan.addEmptyResourceGroup(numtoadd[0]);
+				groups.push_back(numtoadd[0]);
+			}
+
+
+			for (unsigned int i = 0; i < boost::lexical_cast<int>(numtoadd[numtoadd.size() - 1]); i++)
+			{
+				recMan.addResourcetoResourceGroup(numtoadd[0], output[ii][1], returned[returned.size() - 1]);	//adds resource to group with type of
+			}
+
+
+		}
 	}
 
 }
@@ -155,18 +292,19 @@ void Game::loadMap()
 {
 	XMLParser parser(mapFile);
 
-	xmlTree<boost::property_tree::ptree> groupTree;
+	mapData.trees["map"];
+	mapData.tags["layer"];
+	mapData.trees["map"].trees[""];
+	mapData.trees["map"].tags["chunk"];
+	mapData.trees["map"].trees[""].trees[""];
+	mapData.trees["map"].trees[""].tags["object"];
 
-	groupTree.trees["map"];
-	groupTree.tags["layer"];
-	groupTree.trees["map"].trees[""];
-	groupTree.trees["map"].tags["object"];
 
+	parser.getSubTree(mapData);
 
-	parser.getSubTree(groupTree);
-
-	auto& layers = groupTree.output;
-	auto& objects = groupTree.trees["map"].output;
+	auto& layers = mapData.output;
+	auto& chunks = mapData.trees["map"].output;
+	auto& objects = mapData.trees["map"].trees[""].output;
 
 	layMan.setLayerAmount(layers[0].size());
 	numLayers = layMan.getLayerAmount();
@@ -174,46 +312,57 @@ void Game::loadMap()
 	for (unsigned int layIt = 0; layIt < layers[0].size(); layIt++)	//for each layer
 	{
 		//reading layer data
-		std::string layerNumber = "1";	//default is 1
-		parser.readValue<std::string>("<xmlattr>.z", layerNumber, layers[0][layIt]);
-
-		sf::Vector2f scrollSpeed = sf::Vector2f(0, 0);
-		parser.readValue<float>("<xmlattr>.scrollx", scrollSpeed.x, layers[0][layIt]);
-		parser.readValue<float>("<xmlattr>.scrolly", scrollSpeed.y, layers[0][layIt]);
-		layMan.setScrollSpeed(scrollSpeed, layIt);
-
-		for (int objIt = 0; objIt < objects[layIt].size(); objIt++)		//for every object
+		for (int chunkIt = 0; chunkIt < chunks[layIt].size(); chunkIt++)		//for every object
 		{
-			//making a new object
-			std::string type = "";
-			parser.readValue<std::string>("type", type, objects[layIt][objIt]);	//read type from tree
-			auto tmp = objMan.getPrototype(type);						//make object of that type
-			tmp->load(objects[layIt][objIt], recMan);
-			tmp->setID(objMan.nextID());
-			objMan.addObject(tmp, "Layers.Layer" + layerNumber);
-		}
+			int chunkNum = 1;	//converted from scalar to vector to get chunk position on map -- starts at #1
+			parser.readValue<int>("<xmlattr>.index", chunkNum, chunks[layIt][chunkIt]);
+			sf::Vector2i chunk = sf::Vector2i(chunkNum % mapSize.x, chunkNum / mapSize.y);
 
+
+			for (int objIt = 0; objIt < objects[layIt].size(); objIt++)
+			{
+				//making a new object
+				std::string type = "";
+				parser.readValue<std::string>("type", type, objects[chunkIt+layIt][objIt]);	//read type from tree
+				auto tmp = objMan.getPrototype(type);						//make object of that type
+				tmp->load(objects[layIt][objIt], recMan);
+				tmp->setID(objMan.nextID());
+				std::string pathString = "Layers.Layer" + boost::lexical_cast<std::string>(layIt);
+				pathString += "." + boost::lexical_cast<std::string>(chunk.x);
+				pathString += "." + boost::lexical_cast<std::string>(chunk.y);
+				objMan.addObject(tmp, pathString);	//appends object to appropriate spot in tree
+			}
+
+		}
 
 	}
 
-
 	//setting up the layer manager
-//	layMan.setDefaultSize((sf::Vector2f)windowPtr->getSize());	//size of the viewport
-
-//	layMan.setScrollSpeed({ sf::Vector2f(1, 1), sf::Vector2f(.4, .7), sf::Vector2f(.1, .1) });			//this layer should scroll at the same speed as movement		
-//	layMan.updateWindowSize(windowPtr.get()->getSize());		//umm idk?
 
 	tmpCenter = sf::Vector2f(500, 500);							//starting point of reference
 
 
 	util::Downcaster<objects::Object> tmpDC;
-	layMan.setReferencePoint(*(tmpDC.downcastMTO(objMan.getObject("Layers.Layer0.1"))->getPositionPtr()));						//make sure the layers reference the point
+	layMan.setReferencePoint(*(tmpDC.downcastMTO(objMan.getObject("Layers.Layer0.1.0.1"))->getPositionPtr()));						//make sure the layers reference the point
 	//layMan.setReferencePoint(tmpCenter);
 	for (int i = 0; i < numLayers; i++)
 	{
-		layMan.setScrollBounds({ 0, 0, 8000, 8000 }, i);
+		std::string layerNumber = "1";	//default is 1
+		parser.readValue<std::string>("<xmlattr>.z", layerNumber, layers[0][i]);
+
+		sf::Vector2f scrollSpeed = sf::Vector2f(0, 0);	//default to not moving
+		parser.readValue<float>("<xmlattr>.scrollx", scrollSpeed.x, layers[0][i]);
+		parser.readValue<float>("<xmlattr>.scrolly", scrollSpeed.y, layers[0][i]);
+		layMan.setScrollSpeed(scrollSpeed, i);
+
+		sf::Vector2f bounds = sf::Vector2f(0, 0);	//maximum bounds of layer
+		parser.readValue<float>("<xmlattr>.boundx", bounds.x, layers[0][i]);
+		parser.readValue<float>("<xmlattr>.boundy", bounds.y, layers[0][i]);
+
+		layMan.setScrollBounds({ 0, 0, bounds.x, bounds.y}, i);
 		layMan.setCorners(sf::Vector2f(0, 0), (sf::Vector2f)windowPtr->getSize(), i);
 		layMan.getLayerPtr(i)->setScrollBoundedness(true);
+
 	}
 	
 	layMan.createLayers();
@@ -222,5 +371,3 @@ void Game::loadMap()
 	
 	
 }
-
-

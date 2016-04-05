@@ -10,6 +10,7 @@
 #include "..\ResourceManager\ResourceManager.hpp";
 
 #include "..\Layers\Layer.hpp"
+#include "..\Input\KeyboardData.hpp"
 
 namespace objects
 {
@@ -30,7 +31,7 @@ namespace objects
 		//base virtual functions
 		virtual void draw(Layer& renderTarget) = 0;		//renders object to given sf::RenderTexture&
 
-		virtual void update(std::vector<int>& keys) = 0;
+		virtual void update(KeyboardData& keyData) = 0;
 
 
 		virtual void load(boost::property_tree::ptree& dataTree, ResourceManager&) = 0;	//defined in children to load from (INI?) file

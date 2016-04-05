@@ -12,9 +12,30 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Defines.hpp" />
+    <ClInclude Include="Editor.hpp" />
+    <ClInclude Include="EditorGUI.hpp" />
     <ClInclude Include="Game.hpp" />
+    <ClInclude Include="Input\ControlSet.hpp" />
+    <ClInclude Include="Input\KeyboardData.hpp" />
+    <ClInclude Include="Input\MouseData.hpp" />
     <ClInclude Include="Layers\Layer.hpp" />
     <ClInclude Include="Layers\LayerManager.hpp" />
+    <ClInclude Include="MenuStuff\AppSprite.h" />
+    <ClInclude Include="MenuStuff\BasicButton.h" />
+    <ClInclude Include="MenuStuff\IncludeMe.h" />
+    <ClInclude Include="MenuStuff\Menu.h" />
+    <ClInclude Include="MenuStuff\MenuBackground.h" />
+    <ClInclude Include="MenuStuff\MenuElement.h" />
+    <ClInclude Include="MenuStuff\MenuManager.h" />
+    <ClInclude Include="MenuStuff\MenuSprite.h" />
+    <ClInclude Include="MenuStuff\MenuToolsInclude.h" />
+    <ClInclude Include="MenuStuff\MultiMenuSprite.h" />
+    <ClInclude Include="MenuStuff\MultiTextBox.h" />
+    <ClInclude Include="MenuStuff\SFMLbase.h" />
+    <ClInclude Include="MenuStuff\SingleTextBox.h" />
+    <ClInclude Include="MenuStuff\TableEntry\EntryTable.hpp" />
+    <ClInclude Include="MenuStuff\TableEntry\EntryTextBox.hpp" />
+    <ClInclude Include="MenuStuff\TableEntry\TablePair.hpp" />
     <ClInclude Include="MovingTestObject.hpp" />
     <ClInclude Include="NameSearchable\NameSearchable.hpp" />
     <ClInclude Include="Objects\Object.hpp" />
@@ -31,10 +52,28 @@
     <ClInclude Include="Utility\XMLParser.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Editor.cpp" />
+    <ClCompile Include="EditorGUI.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Input\ControlSet.cpp" />
+    <ClCompile Include="Input\KeyboardData.cpp" />
+    <ClCompile Include="Input\MouseData.cpp" />
     <ClCompile Include="Layers\Layer.cpp" />
     <ClCompile Include="Layers\LayerManager.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MenuStuff\AppSprite.cpp" />
+    <ClCompile Include="MenuStuff\BasicButton.cpp" />
+    <ClCompile Include="MenuStuff\Menu.cpp" />
+    <ClCompile Include="MenuStuff\MenuBackground.cpp" />
+    <ClCompile Include="MenuStuff\MenuElement.cpp" />
+    <ClCompile Include="MenuStuff\MenuManager.cpp" />
+    <ClCompile Include="MenuStuff\MenuSprite.cpp" />
+    <ClCompile Include="MenuStuff\MultiMenuSprite.cpp" />
+    <ClCompile Include="MenuStuff\MultiTextBox.cpp" />
+    <ClCompile Include="MenuStuff\SingleTextBox.cpp" />
+    <ClCompile Include="MenuStuff\TableEntry\EntryTable.cpp" />
+    <ClCompile Include="MenuStuff\TableEntry\EntryTextBox.cpp" />
+    <ClCompile Include="MenuStuff\TableEntry\TablePair.cpp" />
     <ClCompile Include="MovingTestObject.cpp" />
     <ClCompile Include="NameSearchable\NameSearchable.cpp" />
     <ClCompile Include="Objects\Object.cpp" />
@@ -93,6 +132,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>C:\local\boost_1_59_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <SuppressStartupBanner>false</SuppressStartupBanner>
+      <AdditionalOptions>-D_SCL_SECURE_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
