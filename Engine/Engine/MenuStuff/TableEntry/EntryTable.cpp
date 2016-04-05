@@ -48,7 +48,6 @@ void EntryTable::setup(const double& xspac, const double& yspac, const unsigned 
 void EntryTable::setMap(std::map<std::string, std::string>& tableData)
 {
 
-
 	std::map<std::string, std::string>::iterator it;
 	unsigned int i = 0;
 	for(it = tableData.begin(); it != tableData.end(); it++) {
@@ -159,3 +158,4 @@ void EntryTable::setActivities(InputData& inpData)
 		
 	}
 }
+

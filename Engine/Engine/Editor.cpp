@@ -202,6 +202,8 @@ void Editor::addObject()
 
 		idList[tempObject->getID()] = std::make_tuple(objectRoot, properties);
 		selectObject(tempObject->getID());
+
+		resetMap(*objProperties);
 		gui.setMap("editorMenu", "attributeEditor", *objProperties);	//prompt for all object attributes
 
 		std::string pathString = "Layers.Layer1";// +boost::lexical_cast<std::string>(currentLayer);
@@ -417,3 +419,11 @@ void Editor::parsePopupOutput()
 }
 
 
+void Editor::resetMap(StringMap& smap)
+{
+	std::map<std::string, std::string>::iterator it;
+	for (it = smap.begin(); it != smap.end(); it++)
+	{
+		smap[it->first] = "";
+	}
+}

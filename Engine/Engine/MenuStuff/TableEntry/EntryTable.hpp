@@ -20,6 +20,7 @@ public:
 private:
 
 	void setActivities(InputData& inpData);
+	
 
 	sf::Vector2f position;
 	sf::Font* font;

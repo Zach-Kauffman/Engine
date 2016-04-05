@@ -65,6 +65,7 @@ public:
 
 private:
 	void parsePopupOutput();
+	void resetMap(StringMap& smap);
 
 
 
