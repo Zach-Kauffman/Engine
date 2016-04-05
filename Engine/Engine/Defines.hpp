@@ -1,6 +1,8 @@
-//#define RUN_TESTS
-//#define TEST_ALL
-//#define TEST_UTILITIES
+#pragma once
+
+#define RUN_TESTS
+#define RUN_ALL
+#define TEST_UTILITIES
 //#define TEST_LOGGING
 //#define TEST_RESOURCE_GROUP
 //#define TEST_RESOURCE_MANAGER

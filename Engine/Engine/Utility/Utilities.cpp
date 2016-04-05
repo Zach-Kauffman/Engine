@@ -1,13 +1,14 @@
 #include "Utilities.hpp"
 
-
-
-void util::swapChars(char& a, char& b)
+using namespace util;
+/*
+void swapChars(char& a, char& b)
 {
 	char tmp = a;
 	a = b;
 	b = tmp;
 }
+
 
 std::string util::intToString(int finput)		//converts an int to a string using boost
 {
@@ -36,7 +37,7 @@ std::string util::reverseString(const std::string& str)
 }
 
 
-std::vector<std::string> util::splitStrAtSubstr(const std::string& str, const std::string& split)
+std::vector<std::string> splitStrAtSubstr(const std::string& str, const std::string& split)
 {
 	int lastHit = 0; //stores location of last split
 	std::vector<std::string> splits;
@@ -56,6 +57,16 @@ std::vector<std::string> util::splitStrAtSubstr(const std::string& str, const st
 	return splits;	//return vector containing all splits
 }
 
+std::string vecToStr(const std::vector<std::string>& vec, const std::string& between)	//compiles vector into single string
+{
+	std::string toReturn = "";
+	for (int i = 0; i < vec.size(); i++)
+	{
+		toReturn += vec[i] + between;	//concatenate strings
+	}
+	toReturn.erase(toReturn.end(), toReturn.end() - between.size());	//delete extra "between"
+	return toReturn;
+}
 
 //mins, maxes, bounds
 int imax(int& a, int& b)
@@ -132,3 +143,4 @@ void uibound(unsigned int& a, const unsigned int& b, const unsigned int& c)
 		else if (a < b) { a = b; }
 	}
 }
+*/

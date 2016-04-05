@@ -21,9 +21,9 @@ public:
 	void addFont(sf::Font* const & ffont, const std::string& name);					//adds a font
 
 
-	void addSoundBuffer(sf::SoundBuffer * const & fsoundbuf);						//adds a soundBuf
+	void addSoundBuffer(sf::SoundBuffer* const & fsoundbuf);						//adds a soundBuf
 
-	void addSoundBuffer(sf::SoundBuffer * const & fsoundbuf, const std::string& name);		//adds a soundBuf
+	void addSoundBuffer(sf::SoundBuffer* const & fsoundbuf, const std::string& name);		//adds a soundBuf
 
 
 	void addShader(sf::Shader * const& fshader);

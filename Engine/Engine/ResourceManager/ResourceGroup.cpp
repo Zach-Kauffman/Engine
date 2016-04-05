@@ -16,7 +16,6 @@ ResourceGroup::~ResourceGroup()
 }
 
 
-
 void ResourceGroup::addTexture(sf::Texture * const & ftexture)
 {
 

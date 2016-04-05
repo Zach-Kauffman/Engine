@@ -509,6 +509,10 @@ void ResourceManager::addTexture(const std::string& fileName)
 		BOOST_LOG_SEV(resourceManagerLogger, ERROR) << fileName << " (Texture) failed to load.";				
 																// if it doesn't, there is an error
 	}
+	else
+	{
+		BOOST_LOG_SEV(resourceManagerLogger, INFO) << fileName << " (Texture) successfully added.";
+	}
 
 	textureVector.push_back(texture);							//add the texture
 
@@ -523,8 +527,13 @@ void ResourceManager::addFont(const std::string& fileName)
 		BOOST_LOG_SEV(resourceManagerLogger, ERROR) << fileName << " (Font) failed to load.";			
 
 	}
+	else
+	{
+		fontVector.push_back(font);
+		BOOST_LOG_SEV(resourceManagerLogger, INFO) << fileName << "(Font) successfully added.";
+	}
 
-	fontVector.push_back(font);
+
 }
 
 void ResourceManager::addSoundBuffer(const std::string& fileName)
@@ -535,6 +544,10 @@ void ResourceManager::addSoundBuffer(const std::string& fileName)
 	if (!buffer.loadFromFile(fileName))
 	{
 		BOOST_LOG_SEV(resourceManagerLogger, ERROR) << fileName << " (SoundBuffer) failed to load.";
+	}
+	else
+	{
+		BOOST_LOG_SEV(resourceManagerLogger, INFO) << fileName << " (SoundBuffer) successfully added";
 	}
 	soundBufferVector.push_back(buffer);
 
