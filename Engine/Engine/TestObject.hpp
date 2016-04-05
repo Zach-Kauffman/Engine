@@ -27,14 +27,13 @@ namespace objects
 
 		void draw(Layer& renderTarget);
 
-		void update(std::vector<int>& keys);
+		void update(KeyboardData& keyData);
 
 		void load(boost::property_tree::ptree& dataTree, ResourceManager& resources);	//loads instances object properties based on subtree
 		void write();
 
 
 	private:
-		int ID;
 
 		const sf::Texture* testTex;
 		sf::VertexArray texCoords;

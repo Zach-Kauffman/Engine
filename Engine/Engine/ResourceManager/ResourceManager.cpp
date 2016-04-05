@@ -7,7 +7,12 @@
 
 ResourceManager::ResourceManager()						//Constructor
 {
+<<<<<<< HEAD
 	setVectorSize(5);									//set the vector of name maps to 4: Textures, Fonts, SoundBuffers, ResourceGroups
+=======
+	setVectorSize(4);									//set the vector of name maps to 4: Textures, Fonts, SoundBuffers, ResourceGroups
+	textureVector.resize(100);
+>>>>>>> 77f8f7561bf861e9b823290c96a02b12822fef0f
 
 	resourceManagerLogger = logger::getSLogger();		//setup the logger
 }
@@ -237,7 +242,10 @@ void ResourceManager::loadFile(const std::string& fileName, const std::string& n
 
 }
 
-
+sf::Texture* ResourceManager::getTexturePointerByIndex(const int& index)
+{
+	return &(textureVector[index]);
+}
 
 sf::Texture* ResourceManager::getTexturePointerByName(const std::string& name)	
 {

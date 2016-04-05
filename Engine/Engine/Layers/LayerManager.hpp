@@ -70,6 +70,7 @@ public:
 														//make the layers' scroll-locking dependent on a specific layer
 
 
+	void setupDraw();									//setup a draw before objects are drawn each frame
 
 	void draw(sf::RenderWindow& window);				//draws all of the layers
 

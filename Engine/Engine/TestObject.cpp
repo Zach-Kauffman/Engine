@@ -11,7 +11,7 @@ void TestObject::draw(Layer& renderTarget)
 	renderTarget.getRenderTexture()->draw(texCoords, testTex);
 }
 
-void TestObject::update(std::vector<int>& keys)
+void TestObject::update(KeyboardData& keyData)
 {
 
 }

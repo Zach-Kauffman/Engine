@@ -11,23 +11,31 @@ void MovingTestObject::draw(Layer& renderTarget)
 	renderTarget.getRenderTexture()->draw(texCoords, testTex);
 }
 
-void MovingTestObject::update(std::vector<int>& fkeyVec)
+void MovingTestObject::update(KeyboardData& keyData)
 {
-	if(std::find(fkeyVec.begin(), fkeyVec.end(), sf::Keyboard::Up) != fkeyVec.end()) 
+	//counter++;
+	const float movement = 1;
+	/*if (counter > 1 && counter < 10)
 	{
-		move(0, -1);
+		move(movement);
+	}*/
+	
+
+	if(keyData.isKeyHeld(sf::Keyboard::Up)) 
+	{
+		move(0, -movement);
 	}
-	if(std::find(fkeyVec.begin(), fkeyVec.end(), sf::Keyboard::Down) != fkeyVec.end()) 
+	if (keyData.isKeyHeld(sf::Keyboard::Down))
 	{
-		move(0, 1);
+		move(0, movement);
 	}
-	if(std::find(fkeyVec.begin(), fkeyVec.end(), sf::Keyboard::Left) != fkeyVec.end()) 
+	if (keyData.isKeyHeld(sf::Keyboard::Left))
 	{
-		move(-1, 0);
+		move(-movement, 0);
 	}
-	if(std::find(fkeyVec.begin(), fkeyVec.end(), sf::Keyboard::Right) != fkeyVec.end()) 
+	if (keyData.isKeyHeld(sf::Keyboard::Right))
 	{
-		move(1, 0);
+		move(movement, 0);
 	}
 }
 

@@ -20,6 +20,11 @@
 	#include "Utility\Logger.hpp"
 	#include "Utility\XMLParser.hpp"
 
+	#include "Input\KeyboardData.hpp"
+	#include "Input\MouseData.hpp"
+
+	#include "MenuStuff\MenuManager.h"
+
 class Game
 {
 public:
@@ -29,10 +34,11 @@ public:
 	void initialize(const std::string& cfgFile, const std::string& resFile, const std::string& objFile, const std::string& mpFile, const std::string& save, const bool& doLoadScreen);	//initializes the game and begins loading of objects
 	void begin();			//starts sfml main loop
 
-private:
+protected:
 
 	void draw();			//renders drawables to screen
 	void update();			//calculates physics, item interactions, etc
+	void doChunks();		//calculates chunks and deactivates uneeded objects
 	void loadGameConfig(const std::string& configFile);	//loads basic game settings
 	void loadResources();	//loads all textures, shaders, etc
 	void loadObjects();		//initializes object base types
@@ -56,13 +62,25 @@ private:
 	sf::Vector2i renderSize;	//resolution of game
 	int maxFPS;					//fps cap - 0 would mean uncapped
 
+	sf::Vector2i chunkSize;		//size in pixels (for now) of each chunk
+	sf::Vector2i mapSize;		//size in chunks of the map
+	sf::Vector2i mapSizePixel;	//map size in pixels
+
 	sf::Vector2f tmpCenter;
 
-
+	xmlTree<boost::property_tree::ptree> mapData;
 	int numLayers;
 
 
-	std::vector<int> keys;
+
+	std::map<std::string, std::string> testMap;
+
+	KeyboardData keyData;
+	MouseData mouseData;
+	std::string textDataStr;
+	char textDataChr;
+
+	src::severity_logger<severity_level> logger;	//logger to handle debuging and errors
 
 	
 };
