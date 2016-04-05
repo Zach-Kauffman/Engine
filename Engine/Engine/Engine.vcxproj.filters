@@ -230,12 +230,9 @@
     <ClCompile Include="MenuStuff\TableEntry\TablePair.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="Input\InputData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-=======
     <ClCompile Include="EditorGUI.cpp" />
->>>>>>> 2fcb501756901395e428addce992b6c961a870f0
   </ItemGroup>
 </Project>
