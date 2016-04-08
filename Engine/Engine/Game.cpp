@@ -313,6 +313,7 @@ void Game::loadMap()
 				auto tmp = objMan.getPrototype(type);						//make object of that type
 				tmp->load(objects[layIt][objIt], recMan);
 				tmp->setID(objMan.nextID());
+				tmp->setType(type);
 				std::string pathString = "Layers.Layer" + boost::lexical_cast<std::string>(layIt);
 				pathString += "." + boost::lexical_cast<std::string>(chunk.x);
 				pathString += "." + boost::lexical_cast<std::string>(chunk.y);

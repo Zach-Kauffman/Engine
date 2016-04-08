@@ -30,7 +30,7 @@ namespace objects
 		void update(InputData& inpData);
 
 		void load(boost::property_tree::ptree& dataTree, ResourceManager& resources);	//loads instances object properties based on subtree
-		void write();
+		boost::property_tree::ptree write();
 
 
 	private:

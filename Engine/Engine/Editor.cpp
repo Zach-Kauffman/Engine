@@ -39,8 +39,16 @@ void Editor::editorInitialize()
 	boundFxn = boost::bind(&Editor::saveFile, this);
 	gui.setButtonCallback("editorMenu", "save", boundFxn, 12);
 
+	boundFxn = boost::bind(&Editor::selectLayer, this);
+	gui.setButtonCallback("editorMenu", "selectLayer", boundFxn, 12);
+
+	boundFxn = boost::bind(&Editor::selectObject, this);
+	gui.setButtonCallback("editorMenu", "selectObject", boundFxn, 12);
+
 	gui.setMap("editorMenu", "selectedObject", currentLayerMap);
 	gui.setMap("editorMenu", "selectedLayer", objIDMap);
+
+	loadSavedObjects();		//loads objects allready in manager into dynamic memory
 }
 
 void Editor::editorBegin()
@@ -205,7 +213,7 @@ void Editor::addObject()
 
 		gui.setMap("editorMenu", "attributeEditor", *objProperties);	//prompt for all object attributes
 
-		std::string pathString = "Layers.Layer1";// +boost::lexical_cast<std::string>(currentLayer);
+		std::string pathString = "Layers.Layer" + boost::lexical_cast<std::string>(currentLayer);
 		objMan.addObject(tempObject, pathString);
 	}
 	catch (...){	//catch all exceptions
@@ -263,7 +271,7 @@ void Editor::selectObject(const int& ID)
 	objSelection = true;
 	recSelection = false;
 	objIDMap.begin()->second = boost::lexical_cast<std::string>(ID);
-
+	gui.setMap("editorMenu", "attributeEditor", *objProperties);
 }
 
 void Editor::removeObject()	//deletes object xml and clears id from storage
@@ -317,6 +325,41 @@ void Editor::saveObjects()
 
 		//for (int layer)
 	}
+}
+
+void Editor::loadSavedObjects()
+{
+	XMLParser reader;
+	boost::property_tree::ptree xml;
+	StringMap properties;
+	for (unsigned int i = 0; i < objMan.getCurrentID(); i++)
+	{
+		auto tempObj = objMan.getObject(i + 1);
+		xml = tempObj->write();
+
+		properties = objectAttributes[tempObj->getType()];	//construct map with current object properties
+		StringMap::iterator it;
+		for (it = properties.begin(); it != properties.end(); it++)
+		{
+			reader.readValue<std::string>(it->first, it->second, xml);
+		}
+
+		idList[i + 1] = std::make_tuple(xml, properties);
+	}
+}
+
+void Editor::reloadObjects()
+{
+	std::map<int, SelectionData>::iterator it;
+	for (it = idList.begin(); it != idList.end(); it++)
+	{
+		reloadObject(it->first);
+	}
+}
+
+void Editor::reloadObject(const int& ID)
+{
+
 }
 
 void Editor::promptResourceName()
@@ -408,13 +451,17 @@ void Editor::parsePopupOutput()
 {
 	gui.setPopData(0);
 
-	switch (popInfoType)
+	switch (popInfoType)	//figure out which version of the popup it was
 	{
 	case 0: addObject();
 		break;
 	case 1: addResource();
 		break;
 	}
+
+	//reset the entryt table
+	resourcePrompt.begin()->second = "";
+	objectPrompt.begin()->second = "";
 }
 
 
@@ -425,4 +472,14 @@ void Editor::resetMap(StringMap& smap)
 	{
 		smap[it->first] = "";
 	}
+}
+
+void Editor::selectLayer()
+{
+	currentLayer = boost::lexical_cast<int>(currentLayerMap.begin()->second);
+}
+
+void Editor::selectObject()
+{
+	selectObject(boost::lexical_cast<int>(objIDMap.begin()->second));
 }

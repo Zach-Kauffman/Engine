@@ -16,7 +16,12 @@ ObjectManager::~ObjectManager(){}	//default destructor
 int ObjectManager::nextID()
 {
 	BOOST_LOG_SEV(*groupLogger, DEBUG) << "Returning ID #" << currentID+1;
-	return ++currentID;
+	return ++currentID;	//increments ID then returns it
+}
+
+int ObjectManager::getCurrentID()
+{
+	return currentID;
 }
 
 boost::shared_ptr<Object> ObjectManager::getPrototype(const std::string& type)

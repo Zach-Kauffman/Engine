@@ -24,6 +24,9 @@ namespace objects
 		int getID();
 		void setID(int newID);
 
+		const std::string getType();
+		void setType(const std::string& newType);
+
 		bool getActive();
 		void setActive(bool activity);
 
@@ -35,10 +38,11 @@ namespace objects
 
 
 		virtual void load(boost::property_tree::ptree& dataTree, ResourceManager&) = 0;	//defined in children to load from (INI?) file
-		virtual void write() = 0;	//defined in children to write to (INI?) file
+		virtual boost::property_tree::ptree write() = 0;	//defined in children to write to (INI?) file
 
 	protected:
 		int ID;				//unique ID for this instance of object
 		bool isActive;		//wether or not the object will be drawn/updated etc
+		std::string type;
 	};
 }

@@ -69,8 +69,10 @@ void MovingTestObject::load(boost::property_tree::ptree& dataTree, ResourceManag
 
 }
 
-void MovingTestObject::write()
+boost::property_tree::ptree MovingTestObject::write()
 {
+	boost::property_tree::ptree nothing;
+	return nothing;
 	//more INIParser stuff
 }
 

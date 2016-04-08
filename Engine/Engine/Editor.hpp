@@ -53,6 +53,9 @@ public:
 	void saveObjects();
 	void loadSavedObjects();
 
+	void reloadObjects();					//reloads all objects in ID list (position, etc could have changed)
+	void reloadObject(const int& ID);		//reloads a single object.. 
+
 	void promptResourceName();
 	void addResource();			//all actions apply to currently selected resource
 	void editResource();
@@ -67,6 +70,8 @@ private:
 	void parsePopupOutput();
 	void resetMap(StringMap& smap);
 
+	void selectLayer();
+	void selectObject();
 
 
 	int currentLayer;		//currently selected layer

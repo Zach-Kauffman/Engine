@@ -59,8 +59,10 @@ void TestObject::load(boost::property_tree::ptree& dataTree, ResourceManager& re
 
 }
 
-void TestObject::write()
+boost::property_tree::ptree TestObject::write()
 {
+	boost::property_tree::ptree nothing;
+	return nothing;
 	//more INIParser stuff
 }
 

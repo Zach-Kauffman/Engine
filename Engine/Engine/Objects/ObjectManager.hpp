@@ -27,7 +27,8 @@ namespace objects
 			deleteObjectFromTree(object);
 		}						
 
-		int nextID(); //returns the next ID to be issued;
+		int nextID(); //returns the next ID to be issued and increments ID
+		int getCurrentID(); 
 
 		boost::shared_ptr<Object> getPrototype(const std::string& type);
 
