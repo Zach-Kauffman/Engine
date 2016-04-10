@@ -20,12 +20,8 @@ namespace objects
 		ObjectManager();
 		~ObjectManager();
 
-		template<class T>
-		void deleteObject(const T& object)		//actually deletes object from memory, careful... this could cause issues :z
-												//public alias for delete object from tree
-		{
-			deleteObjectFromTree(object);
-		}						
+		void deleteObject(const int& ID);		//actually deletes object from memory, careful... this could cause issues :z
+				
 
 		int nextID(); //returns the next ID to be issued and increments ID
 		int getCurrentID(); 

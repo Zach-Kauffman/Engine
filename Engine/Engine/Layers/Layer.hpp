@@ -1,6 +1,8 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "..\Utility\Utilities.hpp"
+#include "../Utility/XMLParser.hpp"
+
 class Layer
 {
 
@@ -11,7 +13,7 @@ public:
 
 
 	void create();
-
+	boost::property_tree::ptree write();
 
 	void setScrollSpeed(const sf::Vector2f& fspeed);	//set the scrolling speed of the layer; should be pairs of numbers bewtween 0 and 1 inclusive
 

@@ -330,7 +330,7 @@ void Game::loadMap()
 
 
 	util::Downcaster<objects::Object> tmpDC;
-	layMan.setReferencePoint(*(tmpDC.downcastMTO(objMan.getObject("Layers.Layer0.1.0.1"))->getPositionPtr()));						//make sure the layers reference the point
+	layMan.setReferencePoint(*(tmpDC.downcastMTO(objMan.getObject("Layers.Layer0.1.0.1")->getPositionPtr()));						//make sure the layers reference the point
 	//layMan.setReferencePoint(tmpCenter);
 	for (int i = 0; i < numLayers; i++)
 	{
@@ -352,7 +352,7 @@ void Game::loadMap()
 
 	}
 	
-	layMan.createLayers();
+	layMan.createLayers();	//i just added this to the constructor...... and it broke 
 	layMan.setDependentLocking(true, 0);
 
 	

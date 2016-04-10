@@ -37,6 +37,9 @@ void EditorGUI::initialize(ResourceManager* resources)
 	MenuElement* newResource;	//button
 	newResource = new BasicButton(sf::Vector2f(1300, 800), recMan->getResourceGroupByName("EditorButton"), "New Resource", sf::Color::Black, sf::Vector2f(100, 100), 12, 10);
 
+	MenuElement* removeButton;
+	removeButton = new BasicButton(sf::Vector2f(1150, 800), recMan->getResourceGroupByName("EditorButton"), "Remove Object", sf::Color::Black, sf::Vector2f(100, 100), 10, 10);
+
 	MenuElement* save;	//button
 	save = new BasicButton(sf::Vector2f(1600, 800), recMan->getResourceGroupByName("EditorButton"), "Save", sf::Color::Black, sf::Vector2f(100, 100), 14, 10);
 
@@ -58,6 +61,7 @@ void EditorGUI::initialize(ResourceManager* resources)
 	editorMenu.addMenuElement(newResource, "newResource");
 	editorMenu.addMenuElement(selectLayer, "selectLayer");
 	editorMenu.addMenuElement(selectObject, "selectObject");
+	editorMenu.addMenuElement(removeButton, "removeButton");
 	editorMenu.addMenuElement(save, "save");
 	
 	MenuElement* input;

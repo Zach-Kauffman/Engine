@@ -27,7 +27,10 @@ int main(int, char*[])
 	theGame.begin();	//starts SFML main loop
 #else
 	Editor theEditor;
-	theEditor.initialize("gameConfig.ini", "resources.xml", "objects.xml", "map.xml", "save.xml", 0);
+	std::string mapFile;
+	std::cout << "Enter map filename: ";
+	std::cin >> mapFile;
+	theEditor.initialize("gameConfig.ini", "resources.xml", "objects.xml", mapFile, "save.xml", 0);
 	theEditor.editorInitialize();
 	theEditor.editorBegin();
 #endif

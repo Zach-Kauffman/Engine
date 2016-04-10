@@ -13,6 +13,12 @@ ObjectManager::ObjectManager()	//default constructor
 }
 ObjectManager::~ObjectManager(){}	//default destructor
 
+void ObjectManager::deleteObject(const int& ID)		//actually deletes object from memory, careful... this could cause issues :z
+//public alias for delete object from tree
+{
+	deleteObjectFromTree(ID);
+}
+
 int ObjectManager::nextID()
 {
 	BOOST_LOG_SEV(*groupLogger, DEBUG) << "Returning ID #" << currentID+1;

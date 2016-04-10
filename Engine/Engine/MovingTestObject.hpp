@@ -44,6 +44,7 @@ namespace objects
 		sf::VertexArray texCoords;
 
 		sf::Vector2f position;
+		std::string textureName;
 
 		double counter = 0;
 	};

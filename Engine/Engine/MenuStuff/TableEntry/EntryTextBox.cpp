@@ -56,6 +56,7 @@ void EntryTextBox::setup(	sf::Font * const ffont, const unsigned int& ffontsize,
 void EntryTextBox::setEntryString(std::string& estr)
 {
 	entryString = &estr;
+	textBox.setTextString(*entryString);
 }
 
 
