@@ -11,6 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Collision\Collidable.hpp" />
+    <ClInclude Include="Collision\CollisionData.hpp" />
+    <ClInclude Include="Collision\HitBoxCollider.hpp" />
     <ClInclude Include="Defines.hpp" />
     <ClInclude Include="Editor.hpp" />
     <ClInclude Include="EditorGUI.hpp" />
@@ -54,6 +57,9 @@
     <ClInclude Include="Utility\XMLParser.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Collision\Collidable.cpp" />
+    <ClCompile Include="Collision\CollisionData.cpp" />
+    <ClCompile Include="Collision\HitBoxCollider.cpp" />
     <ClCompile Include="Editor.cpp" />
     <ClCompile Include="EditorGUI.cpp" />
     <ClCompile Include="Game.cpp" />

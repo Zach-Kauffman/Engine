@@ -3,6 +3,7 @@
 
 CircularHitbox::CircularHitbox()
 {
+	setType(HitBox::CIRC);
 }
 
 
@@ -13,6 +14,11 @@ CircularHitbox::~CircularHitbox()
 void CircularHitbox::setRadius(const double& rad)
 {
 	radius = rad;
+}
+
+double CircularHitbox::getRadius()
+{
+	return radius;
 }
 
 bool CircularHitbox::isPointInside(const sf::Vector2f& point)

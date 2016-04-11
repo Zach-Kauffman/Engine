@@ -3,6 +3,7 @@
 
 AAHitbox::AAHitbox()
 {
+	setType(HitBox::AABB);
 }
 
 
@@ -12,17 +13,32 @@ AAHitbox::~AAHitbox()
 
 void AAHitbox::setSize(const sf::Vector2f& siz)
 {
-	setCorners(sf::Vector2f(position.x - siz.x / 2, position.y - siz.y / 2), sf::Vector2f(position.x + siz.x / 2, position.y + siz.y / 2));
+	size = siz;
+	
 }
 
 void AAHitbox::setCorners(const sf::Vector2f& tl, const sf::Vector2f& br)
 {
-	TLCorner = tl;
-	BRCorner = br;
+	size = sf::Vector2f(br.x - tl.x, br.y - tl.y);
+
+	position = sf::Vector2f((tl.x + br.x) / 2, (tl.y + br.y) / 2);
+}
+
+std::pair<sf::Vector2f, sf::Vector2f> AAHitbox::getCorners()
+{
+	findCorners();
+	return std::make_pair<sf::Vector2f, sf::Vector2f>(TLCorner, BRCorner);
+}
+
+sf::Vector2f AAHitbox::getSize()
+{
+	return size;
 }
 
 bool AAHitbox::isPointInside(const sf::Vector2f& point)
 {
+	findCorners();
+
 	bool inside = false;
 
 	double bounds[4];
@@ -36,4 +52,13 @@ bool AAHitbox::isPointInside(const sf::Vector2f& point)
 		inside = true;
 	}
 	return inside;
+}
+
+
+//private
+
+void AAHitbox::findCorners()
+{
+	TLCorner = sf::Vector2f(position.x - siz.x / 2, position.y - siz.y / 2);
+	BRCorner = sf::Vector2f(position.x + siz.x / 2, position.y + siz.y / 2);
 }

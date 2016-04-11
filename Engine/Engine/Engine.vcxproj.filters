@@ -40,6 +40,9 @@
     <ClCompile Include="HitBoxes\HitBox.cpp" />
     <ClCompile Include="HitBoxes\AAHitbox.cpp" />
     <ClCompile Include="HitBoxes\CircularHitbox.cpp" />
+    <ClCompile Include="Collision\HitBoxCollider.cpp" />
+    <ClCompile Include="Collision\Collidable.cpp" />
+    <ClCompile Include="Collision\CollisionData.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Defines.hpp" />
@@ -83,5 +86,8 @@
     <ClInclude Include="HitBoxes\HitBox.hpp" />
     <ClInclude Include="HitBoxes\AAHitbox.hpp" />
     <ClInclude Include="HitBoxes\CircularHitbox.hpp" />
+    <ClInclude Include="Collision\HitBoxCollider.hpp" />
+    <ClInclude Include="Collision\Collidable.hpp" />
+    <ClInclude Include="Collision\CollisionData.hpp" />
   </ItemGroup>
 </Project>
