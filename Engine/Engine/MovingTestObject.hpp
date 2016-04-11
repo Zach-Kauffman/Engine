@@ -38,7 +38,6 @@ namespace objects
 	private:
 		void move(const sf::Vector2f& dist);
 		void move(const float& dist_x, const float& dist_y);
-		int ID;
 
 		const sf::Texture* testTex;
 		sf::VertexArray texCoords;

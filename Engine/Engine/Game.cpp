@@ -154,7 +154,7 @@ void Game::draw()
 void Game::update()
 {
 	doChunks();
-	objMan.getObject("Layers.Layer0.1.0.1")->update(inpData);
+	objMan.getObject(1020001)->update(inpData);
 
 
 	//for each layer
@@ -312,7 +312,6 @@ void Game::loadMap()
 				parser.readValue<std::string>("type", type, objects[chunkIt+layIt][objIt]);	//read type from tree
 				auto tmp = objMan.getPrototype(type);						//make object of that type
 				tmp->load(objects[layIt][objIt], recMan);
-				tmp->setID(objMan.nextID());
 				tmp->setType(type);
 				std::string pathString = "Layers.Layer" + boost::lexical_cast<std::string>(layIt);
 				pathString += "." + boost::lexical_cast<std::string>(chunk.x);
@@ -330,7 +329,7 @@ void Game::loadMap()
 
 
 	util::Downcaster<objects::Object> tmpDC;
-	layMan.setReferencePoint(*(tmpDC.downcastMTO(objMan.getObject("Layers.Layer0.1.0.1")->getPositionPtr()));						//make sure the layers reference the point
+	layMan.setReferencePoint(*(tmpDC.downcastMTO(objMan.getObject(1020001))->getPositionPtr()));						//make sure the layers reference the point
 	//layMan.setReferencePoint(tmpCenter);
 	for (int i = 0; i < numLayers; i++)
 	{

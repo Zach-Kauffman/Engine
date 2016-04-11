@@ -209,7 +209,6 @@ void Editor::addObject()
 	{
 		auto tempObject = objMan.getPrototype(popData);
 		if (!tempObject){ throw; };
-		tempObject->setID(objMan.nextID());
 		tempObject->setActive(false);
 
 		idList[tempObject->getID()] = std::make_tuple(objectRoot, properties);
@@ -334,9 +333,13 @@ void Editor::loadSavedMap()
 	XMLParser reader;
 	boost::property_tree::ptree xml;
 	StringMap properties;
-	for (unsigned int i = 0; i < objMan.getCurrentID(); i++)
+
+	std::vector<int> objIDs = objMan.getObjectGroup("Layers")->getObjectIDs(true);
+
+	for (objID = 0; objID < objIDs.size(); objID++)
 	{
-		auto tempObj = objMan.getObject(i + 1);
+		auto tempObj = objMan.getObject(objIDs[objID]);
+		
 		if (tempObj)
 		{
 			xml = tempObj->write();
@@ -348,9 +351,8 @@ void Editor::loadSavedMap()
 				reader.readValue<std::string>(it->first, it->second, xml);
 			}
 
-			idList[i + 1] = std::make_tuple(xml, properties);
+			idList[objIDs[objID]] = std::make_tuple(xml, properties);
 		}
-		
 	}
 
 	for (unsigned int layIt = 0; layIt < numLayers; layIt++)

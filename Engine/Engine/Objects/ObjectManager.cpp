@@ -6,10 +6,9 @@ using namespace objects;
 
 ObjectManager::ObjectManager()	//default constructor
 {
-	currentID = 0;	//first ID issued will be "1"
 	groupLogger.reset(new src::severity_logger<severity_level>());	//groupLogger must be explicitly defined since the overloaded constructor wasn't called
+	currentTypeID = 101;
 	BOOST_LOG_SEV(*groupLogger, DEBUG) << "ObjectManager Initialized...";
-	
 }
 ObjectManager::~ObjectManager(){}	//default destructor
 
@@ -19,22 +18,18 @@ void ObjectManager::deleteObject(const int& ID)		//actually deletes object from 
 	deleteObjectFromTree(ID);
 }
 
-int ObjectManager::nextID()
+int ObjectManager::getCurrentTypeID()
 {
-	BOOST_LOG_SEV(*groupLogger, DEBUG) << "Returning ID #" << currentID+1;
-	return ++currentID;	//increments ID then returns it
-}
-
-int ObjectManager::getCurrentID()
-{
-	return currentID;
+	return currentTypeID;
 }
 
 boost::shared_ptr<Object> ObjectManager::getPrototype(const std::string& type)
 {
 	if (prototypes.find(type) != prototypes.end())	//if the value exists in the map
 	{
-		boost::shared_ptr<Object> tmp((this->*prototypes[type])());	//turns raw pointer into shared_ptr
+		boost::shared_ptr<Object> tmp((std::get<0>(prototypes[type]))());	//turns raw pointer into shared_ptr
+		int ID = ++std::get<1>(prototypes[type]);
+		tmp->setID(ID);								//issues and increments id for that type
 		return tmp;
 	}
 	else    //if the string matches no key value the type must not exist
