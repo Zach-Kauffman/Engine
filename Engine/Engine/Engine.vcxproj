@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Animation.hpp" />
     <ClInclude Include="Collision\Collidable.hpp" />
     <ClInclude Include="Collision\CollisionData.hpp" />
     <ClInclude Include="Collision\HitBoxCollider.hpp" />
@@ -57,6 +58,7 @@
     <ClInclude Include="Utility\XMLParser.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Collision\Collidable.cpp" />
     <ClCompile Include="Collision\CollisionData.cpp" />
     <ClCompile Include="Collision\HitBoxCollider.cpp" />
