@@ -9,7 +9,11 @@ public:
 	~HitBox();
 
 	void setPosition(const sf::Vector2f& pos);
+	void setPosition(const double& x, const double& y);
+
 	void move(const sf::Vector2f& disp);
+	void move(const double& dx, const double& dy);
+
 	sf::Vector2f getPosition();
 
 	void setType(const unsigned int & type);

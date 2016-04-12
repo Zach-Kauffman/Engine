@@ -17,6 +17,12 @@ void AAHitbox::setSize(const sf::Vector2f& siz)
 	
 }
 
+void AAHitbox::setSize(const double& width, const double& height)
+{
+	size = sf::Vector2f(width, height);
+}
+
+
 void AAHitbox::setCorners(const sf::Vector2f& tl, const sf::Vector2f& br)
 {
 	size = sf::Vector2f(br.x - tl.x, br.y - tl.y);

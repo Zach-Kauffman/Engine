@@ -1,4 +1,5 @@
 #pragma once
+#include "../Collision/HitBoxCollider.hpp"
 
 #include "../Defines.hpp"	//global #defines
 
@@ -32,6 +33,7 @@ namespace testing
 		void resourceGroup();
 		void resourceManager();
 		void INIParser();
+		void hitboxes();
 	};
 
 }

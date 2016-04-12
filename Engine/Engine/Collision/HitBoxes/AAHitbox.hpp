@@ -8,6 +8,8 @@ public:
 	~AAHitbox();
 
 	void setSize(const sf::Vector2f& siz);
+	void setSize(const double& width, const double& height);
+
 	void setCorners(const sf::Vector2f& tl, const sf::Vector2f& br);
 	std::pair<sf::Vector2f, sf::Vector2f> getCorners();
 	sf::Vector2f getSize();

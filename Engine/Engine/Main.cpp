@@ -49,7 +49,7 @@ int main(int, char*[])
 int main(int, char*[])
 {
 	logger::init();
-	logger::setSeverityLevel(INFO);
+	logger::setSeverityLevel(DEBUG);
 	auto slg = logger::getSLogger();
 
 	BOOST_LOG_SEV(slg, INFO) << "Starting Unit Tests...";
