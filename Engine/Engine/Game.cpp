@@ -235,34 +235,47 @@ void Game::loadResources()
 	{
 		std::vector<std::string> returned = util::splitStrAtSubstr(output[ii][2], ".");					//finds extension from filepath
 		std::vector<std::string> numtoadd = util::splitStrAtSubstr(output[ii][0], ":");
-		recMan.loadFile(output[ii][2], output[ii][1]);	//load each resource
-
-		if (output[ii][0] != "")	//if a third element (being group) exists
+		if (returned.size() > 1)	//if the thing has an extension
 		{
-			bool groupExists = false;
-			for (int groupIt = 0; groupIt < groups.size(); groupIt++)	//cycle through groups
+			recMan.loadFile(output[ii][2], output[ii][1]);	//load each resource
+
+
+			if (output[ii][0] != "")	//if a third element (being group) exists
 			{
-				if (groups[groupIt] == numtoadd[0])
+				bool groupExists = false;
+				for (int groupIt = 0; groupIt < groups.size(); groupIt++)	//cycle through groups
 				{
-					groupExists = true;
+					if (groups[groupIt] == numtoadd[0])
+					{
+						groupExists = true;
+					}
 				}
+
+				if (!groupExists)
+				{
+					recMan.addEmptyResourceGroup(numtoadd[0]);
+					groups.push_back(numtoadd[0]);
+				}
+
+
+				for (unsigned int i = 0; i < boost::lexical_cast<int>(numtoadd.back()); i++)
+				{
+					recMan.addResourcetoResourceGroup(numtoadd[0], output[ii][1], returned.back());	//adds resource to group with type of
+				}
+
 			}
 
-			if (!groupExists)
+		}
+		else
+		{
+			if (numtoadd.size() > 0)	//check if it should be added to group
 			{
-				recMan.addEmptyResourceGroup(numtoadd[0]);
-				groups.push_back(numtoadd[0]);
+				recMan.addFilesResourceGroupFromDirectory(returned[0], numtoadd[0]);
 			}
-
-
-			std::vector<std::string> returned = util::splitStrAtSubstr(output[ii][2], ".");					//finds extension from filepath
-			std::vector<std::string> numtoadd = util::splitStrAtSubstr(output[ii][0], ":");
-			for (unsigned int i = 0; i < boost::lexical_cast<int>(numtoadd.back()); i++)
+			else
 			{
-				recMan.addResourcetoResourceGroup(numtoadd[0], output[ii][1], returned.back());	//adds resource to group with type of
+				recMan.loadFileDirectory(returned[0]);
 			}
-
-
 		}
 	}
 

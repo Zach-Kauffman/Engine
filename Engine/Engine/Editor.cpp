@@ -397,7 +397,23 @@ void Editor::editResource()
 void Editor::updateResource()
 {
 	//add resource to manager
-	recMan.loadFile((*currentRecMap)["path"], (*currentRecMap)["name"]);
+	std::vector<std::string> returned = util::splitStrAtSubstr((*currentRecMap)["path"], ".");					//finds extension from filepath
+	std::vector<std::string> numtoadd = util::splitStrAtSubstr((*currentRecMap)["group"], ":");
+	if (returned.size() > 1)	//if the thing has an extension
+	{
+		recMan.loadFile((*currentRecMap)["path"], (*currentRecMap)["name"]);
+	}
+	else
+	{
+		if ((*currentRecMap)["group"] != "")	//check if it should be added to group
+		{
+			recMan.addFilesResourceGroupFromDirectory(returned[0], numtoadd[0]);
+		}
+		else
+		{
+			recMan.loadFileDirectory(returned[0]);
+		}
+	}
 	
 	StringMap::iterator it;
 	boost::property_tree::ptree& recTree = std::get<0>(resourceList[currentRecName]);

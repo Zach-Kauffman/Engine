@@ -58,4 +58,8 @@
 		<name>EditorFont</name>
 		<group>EditorButton:1</group>
 	</resource>
+	<resource>
+		<path>Resources/ShipGame</path>
+		<name>DONTCARE</name>
+	</resource>
 </resources>

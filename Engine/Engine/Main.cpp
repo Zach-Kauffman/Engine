@@ -23,7 +23,10 @@ int main(int, char*[])
 	auto slg = logger::getSLogger();
 #ifndef RUN_EDITOR
 	Game theGame;
-	theGame.initialize("gameConfig.ini", "resources.xml", "objects.xml", "map.xml", "save.xml", 0);
+	std::string mapFile;
+	std::cout << "Enter map filename: ";
+	std::cin >> mapFile;
+	theGame.initialize("gameConfig.ini", "resources.xml", "objects.xml", mapFile, "save.xml", 0);
 	theGame.begin();	//starts SFML main loop
 #else
 	Editor theEditor;
