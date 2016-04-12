@@ -27,7 +27,7 @@ void AAHitbox::setCorners(const sf::Vector2f& tl, const sf::Vector2f& br)
 std::pair<sf::Vector2f, sf::Vector2f> AAHitbox::getCorners()
 {
 	findCorners();
-	return std::make_pair<sf::Vector2f, sf::Vector2f>(TLCorner, BRCorner);
+	return std::make_pair(TLCorner, BRCorner);
 }
 
 sf::Vector2f AAHitbox::getSize()
@@ -59,6 +59,6 @@ bool AAHitbox::isPointInside(const sf::Vector2f& point)
 
 void AAHitbox::findCorners()
 {
-	TLCorner = sf::Vector2f(position.x - siz.x / 2, position.y - siz.y / 2);
-	BRCorner = sf::Vector2f(position.x + siz.x / 2, position.y + siz.y / 2);
+	TLCorner = sf::Vector2f(position.x - size.x / 2, position.y - size.y / 2);
+	BRCorner = sf::Vector2f(position.x + size.x / 2, position.y + size.y / 2);
 }

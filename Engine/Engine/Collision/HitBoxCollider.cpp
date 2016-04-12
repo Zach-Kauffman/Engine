@@ -31,6 +31,8 @@ bool HitBoxCollider::checkCollision(HitBox* boxA, HitBox* boxB)
 	{
 		collided = collideDoubleCirc(downcastCirc(boxA), downcastCirc(boxB));
 	}
+
+	return collided;
 }
 
 //private

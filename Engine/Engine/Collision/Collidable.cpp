@@ -23,6 +23,6 @@ bool Collidable::getColliding()
 
 CollisionData* Collidable::getCollisionData()
 {
-	return colData;
+	return &colData;
 }
 

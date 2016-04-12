@@ -5,7 +5,9 @@ class EntryTable : public MenuElement
 {
 public:
 	EntryTable();
-	EntryTable(const double& xspac, const double& yspac, const unsigned int& csiz, const sf::Vector2f& pos, sf::Font * const ffont, const sf::Color& fcolor, sf::Texture* const bgTex, const sf::Vector2f& bgSiz, sf::Texture * const fbarTex, const double& findent);
+	EntryTable(const double& xspac, const double& yspac, const unsigned int& csiz, const sf::Vector2f& pos, sf::Font * const ffont,
+				const sf::Color& fcolor, sf::Texture* const bgTex, const sf::Vector2f& bgSiz, sf::Texture * const fbarTex, 
+				const double& findent, const unsigned int& dispAmt);
 
 	~EntryTable();
 
@@ -21,6 +23,10 @@ private:
 
 	void setActivities(InputData& inpData);
 	
+	std::vector<unsigned int> getDisplayIndeces();
+	void shiftInterval(const int& shift);
+	void setTablePositions();
+	void setTableHiddenness();
 
 	sf::Vector2f position;
 	sf::Font* font;
@@ -35,6 +41,10 @@ private:
 	double xSpacing;
 	double ySpacing;
 	unsigned int charSize;
+
+
+	unsigned int displayAmt;
+	std::pair<unsigned int, unsigned int> displayInterval;
 
 };
 
