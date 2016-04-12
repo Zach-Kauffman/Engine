@@ -2,15 +2,22 @@
 <map>
    <layer scrollx="1" scrolly="1" boundx="13920" boundy="8080" z="0">
       <chunk index="1">
-         <object>
-            <position x="500" y="500" />
-            <texture>diver</texture>
-            <type>MovingTestObject</type>
+	    <object>
+            <position x="0" y="0" />
+            <size x="1" y="1" />
+            <texture>acorn</texture>
+            <type>TestObject</type>
          </object>
       </chunk>
    </layer>
    <layer scrollx="1.39999998" scrolly="1.39999998" boundx="13920" boundy="8080" z="1">
       <chunk index="1">
+         <object>
+            <position x="333" y="333" />
+            <size x="333" y="33" />
+            <texture>grass</texture>
+            <type>TestObject</type>
+         </object>
          <object>
             <position x="800" y="800" />
             <size x="1000" y="1000" />
@@ -33,7 +40,22 @@
    </layer>
    <layer scrollx="0.300000012" scrolly="0.300000012" boundx="13920" boundy="2080" z="2">
       <chunk index="1">
-	  	<object>
+	     <object>
+            <position x="500" y="500" />
+            <texture>diver</texture>
+            <type>MovingTestObject</type>
+         </object>
+         <object>
+            <position x="0" y="0" />
+            <size x="1" y="1" />
+            <texture>acorn</texture>
+            <type>TestObject</type>
+         </object>
+      </chunk>
+   </layer>
+   <layer scrollx="0.400000001" scrolly="0.400000003" boundx="13920" boundy="8080" z="3">
+      <chunk index="1">
+	   <object>
             <position x="300" y="300" />
             <size x="4000" y="2000" />
             <texture>waterBG</texture>
@@ -45,17 +67,6 @@
             <texture>underwatercave</texture>
             <type>TestObject</type>
          </object>
-         <object>
-            <position x="0" y="0" />
-            <size x="1" y="1" />
-            <texture>acorn</texture>
-            <type>TestObject</type>
-         </object>
-
-      </chunk>
-   </layer>
-   <layer scrollx="0.100000001" scrolly="0.200000003" boundx="13920" boundy="8080" z="3">
-      <chunk index="1">
          <object>
             <position x="0" y="0" />
             <size x="1" y="1" />

@@ -49,10 +49,9 @@ void Editor::editorInitialize()
 	boundFxn = boost::bind(&Editor::removeObject, this);
 	gui.setButtonCallback("editorMenu", "removeButton", boundFxn, 12);
 
-	gui.setMap("editorMenu", "selectedObject", currentLayerMap);
-	gui.setMap("editorMenu", "selectedLayer", objIDMap);
-
 	loadSavedMap();		//loads objects allready in manager into dynamic memory
+	gui.setMap("editorMenu", "selectedObject", currentLayerMap, 1);
+	gui.setMap("editorMenu", "selectedLayer", objIDMap, 1);
 }
 
 void Editor::editorBegin()
@@ -215,7 +214,7 @@ void Editor::addObject()
 		idList[tempObject->getID()] = std::make_tuple(objectRoot, properties);
 		selectObject(tempObject->getID());
 
-		gui.setMap("editorMenu", "attributeEditor", *objProperties);	//prompt for all object attributes
+		gui.setMap("editorMenu", "attributeEditor", *objProperties, 3);	//prompt for all object attributes
 
 		std::string pathString = "Layers.Layer" + boost::lexical_cast<std::string>(currentLayer);
 		objMan.addObject(tempObject, pathString);
@@ -235,7 +234,7 @@ void Editor::addObject()
 
 void Editor::editObject()	//edits currently selected object
 {
-	gui.setMap("editorMenu", "attributeEditor", *objProperties);
+	gui.setMap("editorMenu", "attributeEditor", *objProperties, 3);
 
 	//find object xml by id in storage
 	//redisplays option with current selection for editing
@@ -277,7 +276,7 @@ void Editor::selectObject(const int& ID)
 	objSelection = true;
 	recSelection = false;
 	objIDMap.begin()->second = boost::lexical_cast<std::string>(ID);
-	gui.setMap("editorMenu", "attributeEditor", *objProperties);
+	gui.setMap("editorMenu", "attributeEditor", *objProperties, 5);
 }
 
 void Editor::removeObject()	//deletes object xml and clears id from storage
@@ -386,12 +385,12 @@ void Editor::addResource()
 	boost::property_tree::ptree filler;
 	resourceList[popData] = std::make_tuple(filler, objectAttributes["resource"]);
 	selectResource(popData);
-	gui.setMap("editorMenu", "attributeEditor", *currentRecMap);
+	gui.setMap("editorMenu", "attributeEditor", *currentRecMap, 1);
 }
 
 void Editor::editResource()
 {
-	gui.setMap("editorMenu", "attributeEditor", *currentRecMap);
+	gui.setMap("editorMenu", "attributeEditor", *currentRecMap, 1);
 }
 
 void Editor::updateResource()
@@ -449,12 +448,12 @@ void Editor::addLayer()
 	numLayers++;
 	layerList[numLayers+1] = std::make_tuple (tree, objectAttributes["layer"]);
 	selectLayer(numLayers);
-	gui.setMap("editorMenu", "attributeEditor", std::get<1>(layerList[currentLayer]));
+	gui.setMap("editorMenu", "attributeEditor", std::get<1>(layerList[currentLayer]), 5);
 }
 
 void Editor::editLayer()	//this can't actually happen cuz layers and time
 {
-	gui.setMap("editorMenu", "attributeEditor", std::get<1>(layerList[currentLayer]));
+	gui.setMap("editorMenu", "attributeEditor", std::get<1>(layerList[currentLayer]), 5);
 }
 
 void Editor::selectLayer(const int& index)
