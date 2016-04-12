@@ -17,7 +17,7 @@ EntryTable::~EntryTable()
 
 
 EntryTable::EntryTable(const double& xspac, const double& yspac, const unsigned int& csiz, const sf::Vector2f& pos, sf::Font * const ffont, const sf::Color& fcolor, sf::Texture* const bgTex,
-	const sf::Vector2f& bgSiz, sf::Texture * const fbarTex, const double& findent, const unsigned int& dispAmt)
+	const sf::Vector2f& bgSiz, sf::Texture * const fbarTex, const double& findent)
 {
 
 	requiresMouseData = true;															
@@ -32,8 +32,7 @@ EntryTable::EntryTable(const double& xspac, const double& yspac, const unsigned 
 	bgSize = bgSiz;
 	barTexture = fbarTex;
 	indent = findent;
-	displayAmt = dispAmt;
-	displayInterval = std::make_pair(0, dispAmt - 1);
+	
 
 	setup(xspac, yspac, csiz, pos);
 
@@ -48,8 +47,10 @@ void EntryTable::setup(const double& xspac, const double& yspac, const unsigned 
 	position = pos;
 }
 
-void EntryTable::setMap(std::map<std::string, std::string>& tableData)
+void EntryTable::setMap(std::map<std::string, std::string>& tableData, const unsigned int& dispAmt)
 {
+
+	
 
 	std::map<std::string, std::string>::iterator it;
 	unsigned int i = 0;
@@ -60,6 +61,16 @@ void EntryTable::setMap(std::map<std::string, std::string>& tableData)
 		tablePairs[i].setEntryString(it->second);
 		i++;
 	}
+
+	if (dispAmt > tableData.size())
+	{
+		displayAmt = tableData.size();
+	}
+	else
+	{
+		displayAmt = dispAmt;
+	}
+	displayInterval = std::make_pair(0, displayAmt - 1);
 
 }
 
@@ -90,7 +101,13 @@ void EntryTable::draw(sf::RenderWindow& window, const sf::Vector2f& drawPos)
 {
 	position += drawPos;
 
-	setTablePositions();
+	if (tablePairs.size())
+	{
+		setTablePositions();
+		setTableHiddenness();
+
+	}
+	
 	for (unsigned int i = 0; i < tablePairs.size(); i++)
 	{
 		if (!tablePairs[i].getIsHidden())
@@ -121,7 +138,7 @@ void EntryTable::setActivities(InputData& inpData)
 			if (tablePairs[tableIndeces[i]].getActivity())
 			{
 				activityFound = true;
-				currentActiveRow = i;
+				currentActiveRow = tableIndeces[i];
 			}
 			else if (activityFound)
 			{
@@ -134,27 +151,34 @@ void EntryTable::setActivities(InputData& inpData)
 			bool shift =	inpData.isKeyHeld(sf::Keyboard::LShift) || inpData.isKeyHit(sf::Keyboard::LShift) || 
 							inpData.isKeyHeld(sf::Keyboard::RShift) || inpData.isKeyHit(sf::Keyboard::RShift);
 
+			bool moveSign = false;
 			if (inpData.isKeyHit(sf::Keyboard::Down) || (inpData.isKeyHit(sf::Keyboard::Tab) && !shift) || inpData.isKeyHit(sf::Keyboard::Return))
 			{
 				currentActiveRow++;
+				moveSign = true;
 			}
 
 			if (inpData.isKeyHit(sf::Keyboard::Up) || (inpData.isKeyHit(sf::Keyboard::Tab) && shift))
 			{
 				currentActiveRow--;
+				moveSign = false;
 			}
 
+			if (!isInInterval(currentActiveRow))
+			{
+				if (moveSign)
+				{
+					shiftInterval(currentActiveRow - displayInterval.second);
+					currentActiveRow = displayInterval.second;
+				}
+				else
+				{
+					shiftInterval(currentActiveRow - displayInterval.first);
+					currentActiveRow = displayInterval.first;
+				}
+			}
 
-			if (currentActiveRow > displayInterval.second)
-			{
-				shiftInterval(currentActiveRow - displayInterval.second);
-				currentActiveRow = displayInterval.second;
-			}
-			if (currentActiveRow < displayInterval.first)
-			{
-				shiftInterval(currentActiveRow - displayInterval.second);
-				currentActiveRow = displayInterval.first;
-			}
+			
 
 			for (unsigned int i = 0; i < tablePairs.size(); i++)
 			{
@@ -186,18 +210,26 @@ std::vector<unsigned int> EntryTable::getDisplayIndeces()
 	}
 
 	else
-	{
-		for (unsigned int i = displayInterval.first; i != displayInterval.second; i++)
+	{ 
+		bool flag = false;
+		for (unsigned int i = displayInterval.first; i != displayInterval.second && !flag; i++)
 		{
+			
 			if (i == siz)
 			{
 				i = 0;
+				flag = (i == displayInterval.second);
 			}
 
-			retVec.push_back(i);
+			if (!flag)
+			{
+				retVec.push_back(i);
+			}
+			
 		}
 		retVec.push_back(displayInterval.second);
 	}
+
 
 	return retVec;
 
@@ -208,7 +240,7 @@ void EntryTable::shiftInterval(const int& shift)
 	unsigned int siz = tablePairs.size();
 
 	int fir = (int)displayInterval.first;
-	int sec = (int)displayInterval.first;
+	int sec = (int)displayInterval.second;
 
 	fir += shift;
 	sec += shift;
@@ -272,4 +304,10 @@ void EntryTable::setTableHiddenness()
 				}
 			}
 	}
+}
+
+bool EntryTable::isInInterval(const unsigned int& val)
+{ 
+	std::vector<unsigned int> dispIndeces = getDisplayIndeces();
+	return (std::find(dispIndeces.begin(), dispIndeces.end(), val) != dispIndeces.end());
 }

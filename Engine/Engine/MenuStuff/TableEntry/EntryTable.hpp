@@ -7,13 +7,12 @@ public:
 	EntryTable();
 	EntryTable(const double& xspac, const double& yspac, const unsigned int& csiz, const sf::Vector2f& pos, sf::Font * const ffont,
 				const sf::Color& fcolor, sf::Texture* const bgTex, const sf::Vector2f& bgSiz, sf::Texture * const fbarTex, 
-				const double& findent, const unsigned int& dispAmt);
+				const double& findent);
 
 	~EntryTable();
-
 	void setup(const double& xspac, const double& yspac, const unsigned int& csiz, const sf::Vector2f& pos);
 
-	void setMap(std::map<std::string, std::string>& fmap);
+	void setMap(std::map<std::string, std::string>& fmap, const unsigned int& dispAmt);
 
 	void update() {};
 	void update(InputData& inpData);
@@ -27,6 +26,7 @@ private:
 	void shiftInterval(const int& shift);
 	void setTablePositions();
 	void setTableHiddenness();
+	bool isInInterval(const unsigned int& val);
 
 	sf::Vector2f position;
 	sf::Font* font;

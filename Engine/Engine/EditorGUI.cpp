@@ -88,7 +88,7 @@ void EditorGUI::popup(std::map<std::string, std::string>& input)
 {
 	Menu* popup = this->getMenuPtr("popup");
 	popup->activate();
-	setMap("popup", "input", input);
+	setMap("popup", "input", input, 1);
 }
 
 void EditorGUI::popdown(bool which)
@@ -97,10 +97,10 @@ void EditorGUI::popdown(bool which)
 	popData = which;
 }
 
-void EditorGUI::setMap(const std::string& menuName, const std::string& tableName, std::map<std::string, std::string>& newAttributes)
+void EditorGUI::setMap(const std::string& menuName, const std::string& tableName, std::map<std::string, std::string>& newAttributes, const unsigned int& dispAmt)
 {
 	Menu* editor = this->getMenuPtr(menuName);
-	boost::static_pointer_cast<EntryTable>(editor->getPointerToElementByName(tableName))->setMap(newAttributes);
+	boost::static_pointer_cast<EntryTable>(editor->getPointerToElementByName(tableName))->setMap(newAttributes, dispAmt);
 }
 
 void EditorGUI::setButtonCallback(const std::string menuName, const std::string& buttonName, boost::function<void()> fxn, int buttonState)

@@ -39,8 +39,8 @@ void Editor::editorInitialize()
 	boundFxn = boost::bind(&Editor::saveFile, this);
 	gui.setButtonCallback("editorMenu", "save", boundFxn, 12);
 
-	gui.setMap("editorMenu", "selectedObject", currentLayerMap);
-	gui.setMap("editorMenu", "selectedLayer", objIDMap);
+	gui.setMap("editorMenu", "selectedObject", currentLayerMap, 1);
+	gui.setMap("editorMenu", "selectedLayer", objIDMap, 1);
 }
 
 void Editor::editorBegin()
@@ -204,7 +204,7 @@ void Editor::addObject()
 		selectObject(tempObject->getID());
 
 		resetMap(*objProperties);
-		gui.setMap("editorMenu", "attributeEditor", *objProperties);	//prompt for all object attributes
+		gui.setMap("editorMenu", "attributeEditor", *objProperties, 3);	//prompt for all object attributes
 
 		std::string pathString = "Layers.Layer1";// +boost::lexical_cast<std::string>(currentLayer);
 		objMan.addObject(tempObject, pathString);
@@ -224,7 +224,7 @@ void Editor::addObject()
 
 void Editor::editObject()	//edits currently selected object
 {
-	gui.setMap("editorMenu", "attributeEditor", *objProperties);
+	gui.setMap("editorMenu", "attributeEditor", *objProperties, 3);
 
 	//find object xml by id in storage
 	//redisplays option with current selection for editing
@@ -330,12 +330,12 @@ void Editor::addResource()
 	boost::property_tree::ptree filler;
 	resourceList[popData] = std::make_tuple(filler, objectAttributes["resource"]);
 	selectResource(popData);
-	gui.setMap("editorMenu", "attributeEditor", currentRecMap);
+	gui.setMap("editorMenu", "attributeEditor", currentRecMap, 1);
 }
 
 void Editor::editResource()
 {
-	gui.setMap("editorMenu", "attributeEditor", currentRecMap);
+	gui.setMap("editorMenu", "attributeEditor", currentRecMap, 1);
 }
 
 void Editor::updateResource()
