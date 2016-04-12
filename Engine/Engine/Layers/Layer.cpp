@@ -40,8 +40,8 @@ boost::property_tree::ptree Layer::write()
 	boost::property_tree::ptree ret;
 	ret.put("<xmlattr>.scrollx", scrollSpeed.x);
 	ret.put("<xmlattr>.scrolly", scrollSpeed.y);
-	ret.put("<xmlattr>.boundx", boundBRCorner.x);
-	ret.put("<xmlattr>.boundy", boundBRCorner.y);
+	ret.put("<xmlattr>.boundx", scrollBounds[2]);
+	ret.put("<xmlattr>.boundy", scrollBounds[3]);
 	return ret;
 }
 

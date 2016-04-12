@@ -209,6 +209,7 @@ void Editor::addObject()
 	{
 		auto tempObject = objMan.getPrototype(popData);
 		if (!tempObject){ throw; };
+		tempObject->setType(popData);
 		tempObject->setActive(false);
 
 		idList[tempObject->getID()] = std::make_tuple(objectRoot, properties);
@@ -260,7 +261,7 @@ void Editor::updateObject()
 
 	auto tmp = objMan.getObject(objID);	
 	newXml.put("type", tmp->getType());
-	objXml = &newXml;
+	*objXml = newXml;
 	tmp->load(*objXml, recMan);
 	tmp->setActive(true);
 	//calculate chunk and add here
@@ -311,7 +312,7 @@ void Editor::saveMap()
 	for (int layIt = 0; layIt < numLayers; layIt++)
 	{
 		boost::property_tree::ptree layer;
-		objIDs = objMan.getObjectGroup("Layers.Layer" + boost::lexical_cast<std::string>(layIt + 1))->getObjectIDs(true);
+		objIDs = objMan.getObjectGroup("Layers.Layer" + boost::lexical_cast<std::string>(layIt))->getObjectIDs(true);
 		layer = std::get<0>(layerList[layIt]);
 		boost::property_tree::ptree chunk;
 		chunk.add("<xmlattr>.index", 1);
