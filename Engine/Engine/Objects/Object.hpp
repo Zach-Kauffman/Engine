@@ -30,7 +30,6 @@ namespace objects
 		bool getActive();
 		void setActive(bool activity);
 
-
 		//base virtual functions
 		virtual void draw(Layer& renderTarget) = 0;		//renders object to given sf::RenderTexture&
 
@@ -44,5 +43,6 @@ namespace objects
 		int ID;				//unique ID for this instance of object
 		bool isActive;		//wether or not the object will be drawn/updated etc
 		std::string type;
+
 	};
 }

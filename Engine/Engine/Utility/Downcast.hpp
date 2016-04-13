@@ -4,8 +4,8 @@
 #include "boost\shared_ptr.hpp"
 
 //inherited object includes
-#include "../TestObject.hpp"
-#include "../MovingTestObject.hpp"
+#include "../Objects/TestObject.hpp"
+#include "../Objects/MovingTestObject.hpp"
 
 
 //^^^ those should be combined into group include files ie "Objects.hpp" or this will get annoying

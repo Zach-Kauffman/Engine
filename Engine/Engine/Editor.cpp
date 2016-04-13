@@ -214,7 +214,7 @@ void Editor::addObject()
 		idList[tempObject->getID()] = std::make_tuple(objectRoot, properties);
 		selectObject(tempObject->getID());
 
-		gui.setMap("editorMenu", "attributeEditor", *objProperties, 3);	//prompt for all object attributes
+		gui.setMap("editorMenu", "attributeEditor", *objProperties, 5);	//prompt for all object attributes
 
 		std::string pathString = "Layers.Layer" + boost::lexical_cast<std::string>(currentLayer);
 		objMan.addObject(tempObject, pathString);
@@ -234,7 +234,7 @@ void Editor::addObject()
 
 void Editor::editObject()	//edits currently selected object
 {
-	gui.setMap("editorMenu", "attributeEditor", *objProperties, 3);
+	gui.setMap("editorMenu", "attributeEditor", *objProperties, 5);
 
 	//find object xml by id in storage
 	//redisplays option with current selection for editing

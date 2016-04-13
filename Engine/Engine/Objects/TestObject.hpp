@@ -1,18 +1,17 @@
-
 #pragma once
 
 //project includes
 	//include base class
-	#include "Objects/Object.hpp"	//gets most dependencies from here. Should they be locally #included?
+	#include "Object.hpp"	//gets most dependencies from here. Should they be locally #included?
 
 	//XML parser
-	#include "Utility/XMLParser.hpp"
+	#include "../Utility/XMLParser.hpp"
 	
 	//resource maanger
-	#include "ResourceManager/ResourceManager.hpp"
+	#include "../ResourceManager/ResourceManager.hpp"
 
 	//layer
-	#include "Layers/Layer.hpp"
+	#include "../Layers/Layer.hpp"
 
 //SFML includes
 #include <SFML/Graphics.hpp>
@@ -20,31 +19,28 @@
 namespace objects
 {
 //class for testing ObjectManager/group and so on
-	class MovingTestObject : public Object
+	class TestObject : public Object
 	{
 	public:
-		MovingTestObject();
-		~MovingTestObject();
+		TestObject();
+		~TestObject();
 
 		void draw(Layer& renderTarget);
+
 		void update(InputData& inpData);
 
 		void load(boost::property_tree::ptree& dataTree, ResourceManager& resources);	//loads instances object properties based on subtree
 		boost::property_tree::ptree write();
 
-		sf::Vector2f* getPositionPtr();
-
 
 	private:
-		void move(const sf::Vector2f& dist);
-		void move(const float& dist_x, const float& dist_y);
 
 		const sf::Texture* testTex;
 		sf::VertexArray texCoords;
 
 		sf::Vector2f position;
-		std::string textureName;
+		sf::Vector2f size;
 
-		double counter = 0;
+		std::string textureName;
 	};
 }

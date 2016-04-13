@@ -23,4 +23,14 @@
 		<attr attr="layer.<xmlattr>.boundx"></attr>
 		<attr attr="layer.<xmlattr>.boundy"></attr>
 	</type>
+	<type name="Squirrel">
+		<attr attr="walking"/>
+		<attr attr="idle"/>
+		<attr attr="fps"/>
+		<attr attr="position.<xmlattr>.x"/>
+		<attr attr="position.<xmlattr>.y"/>
+		<attr attr="size.<xmlattr>.x"/>
+		<attr attr="size.<xmlattr>.y"/>
+		<attr attr="moveSpeed"/>
+	</type>
 </types>

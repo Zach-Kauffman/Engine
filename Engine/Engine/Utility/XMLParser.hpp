@@ -62,6 +62,15 @@ public:
 	}
 
 	template<class T>
+	T readValue(const std::string& path, const boost::property_tree::ptree& currentTree)
+	{
+		//tree.get would throw ptree_bad_path (ptree_error) on nonexistent value
+		T ret;
+		readValue<T>(path, ret, currentTree);
+		return ret;
+	}
+
+	template<class T>
 	void readValue(const std::string& path, T& var)		//overloaded for default this.subTree
 	{
 		readValue(path, var, subTree);

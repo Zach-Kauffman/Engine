@@ -37,6 +37,27 @@
     <Filter Include="Menu\Headers">
       <UniqueIdentifier>{0ae0e2dc-2faf-4702-b2ed-fccb8d689f99}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Objects\Graphics">
+      <UniqueIdentifier>{2ec34d2a-f3fc-42e6-b4a9-bfb5f0c6178a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Graphics\Animation">
+      <UniqueIdentifier>{5c65bd8a-c5c5-4759-9a45-1479635c0761}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Physics">
+      <UniqueIdentifier>{3d59c001-0536-4a6d-8e75-741bceb68315}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Physics\Collision">
+      <UniqueIdentifier>{ff737c2c-9334-4c95-82c4-72a25758992d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Physics\Movement">
+      <UniqueIdentifier>{c8697f16-b3e5-43f4-a0dc-ee12e5a8c388}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{1976fbeb-b8f3-47be-8389-c22581541008}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Physics\Collision\HitBoxes">
+      <UniqueIdentifier>{f528623e-a340-4d19-a552-2b20206deafc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utility\Downcast.hpp">
@@ -80,32 +101,21 @@
     </ClInclude>
     <ClInclude Include="Defines.hpp" />
     <ClInclude Include="Game.hpp" />
-    <ClInclude Include="TestObject.hpp" />
     <ClInclude Include="Utility\XMLParser.hpp">
       <Filter>Utility</Filter>
     </ClInclude>
     <ClInclude Include="Editor.hpp" />
     <ClInclude Include="EditorGUI.hpp" />
-    <ClInclude Include="MovingTestObject.hpp" />
     <ClInclude Include="MenuStuff\AppSprite.hpp">
       <Filter>Menu\Headers</Filter>
     </ClInclude>
     <ClInclude Include="MenuStuff\BasicButton.hpp">
       <Filter>Menu\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Input\ControlSet.hpp">
-      <Filter>Menu\Headers</Filter>
-    </ClInclude>
     <ClInclude Include="MenuStuff\TableEntry\EntryTable.hpp">
       <Filter>Menu\Headers</Filter>
     </ClInclude>
     <ClInclude Include="MenuStuff\TableEntry\EntryTextBox.hpp">
-      <Filter>Menu\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Input\InputData.hpp">
-      <Filter>Menu\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Input\KeyboardData.hpp">
       <Filter>Menu\Headers</Filter>
     </ClInclude>
     <ClInclude Include="MenuStuff\Menu.hpp">
@@ -126,9 +136,6 @@
     <ClInclude Include="MenuStuff\MenuSprite.hpp">
       <Filter>Menu\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Input\MouseData.hpp">
-      <Filter>Menu\Headers</Filter>
-    </ClInclude>
     <ClInclude Include="MenuStuff\MultiMenuSprite.hpp">
       <Filter>Menu\Headers</Filter>
     </ClInclude>
@@ -141,26 +148,56 @@
     <ClInclude Include="MenuStuff\TableEntry\TablePair.hpp">
       <Filter>Menu\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Collision\Collidable.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Input\ControlSet.hpp">
+      <Filter>Input</Filter>
     </ClInclude>
-    <ClInclude Include="Collision\CollisionData.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Input\InputData.hpp">
+      <Filter>Input</Filter>
     </ClInclude>
-    <ClInclude Include="Collision\HitBoxCollider.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Input\KeyboardData.hpp">
+      <Filter>Input</Filter>
     </ClInclude>
-    <ClInclude Include="Collision\HitBoxes\AAHitbox.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Input\MouseData.hpp">
+      <Filter>Input</Filter>
     </ClInclude>
-    <ClInclude Include="Collision\HitBoxes\CircularHitbox.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Objects\MovingTestObject.hpp">
+      <Filter>Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Collision\HitBoxes\HitBox.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Objects\TestObject.hpp">
+      <Filter>Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Animation.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Objects\Physics\Collision\Collidable.hpp">
+      <Filter>Objects\Physics\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Physics\Collision\CollisionData.hpp">
+      <Filter>Objects\Physics\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Physics\Collision\HitBoxCollider.hpp">
+      <Filter>Objects\Physics\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Physics\Collision\HitBoxes\AAHitbox.hpp">
+      <Filter>Objects\Physics\Collision\HitBoxes</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Physics\Collision\HitBoxes\CircularHitbox.hpp">
+      <Filter>Objects\Physics\Collision\HitBoxes</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Physics\Collision\HitBoxes\HitBox.hpp">
+      <Filter>Objects\Physics\Collision\HitBoxes</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Graphics\Animation\Animation.hpp">
+      <Filter>Objects\Graphics\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Graphics\Graphics.hpp">
+      <Filter>Objects\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Physics\Physics.hpp">
+      <Filter>Objects\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Squirrel.hpp">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Physics\Movement\Movable.hpp">
+      <Filter>Objects\Physics\Movement</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -205,13 +242,11 @@
     </ClCompile>
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="TestObject.cpp" />
     <ClCompile Include="Utility\XMLParser.cpp">
       <Filter>Utility</Filter>
     </ClCompile>
     <ClCompile Include="Editor.cpp" />
     <ClCompile Include="EditorGUI.cpp" />
-    <ClCompile Include="MovingTestObject.cpp" />
     <ClCompile Include="MenuStuff\TableEntry\TablePair.cpp">
       <Filter>Menu\Sources</Filter>
     </ClCompile>
@@ -222,9 +257,6 @@
       <Filter>Menu\Sources</Filter>
     </ClCompile>
     <ClCompile Include="MenuStuff\MultiMenuSprite.cpp">
-      <Filter>Menu\Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Input\MouseData.cpp">
       <Filter>Menu\Sources</Filter>
     </ClCompile>
     <ClCompile Include="MenuStuff\MenuSprite.cpp">
@@ -239,19 +271,10 @@
     <ClCompile Include="MenuStuff\Menu.cpp">
       <Filter>Menu\Sources</Filter>
     </ClCompile>
-    <ClCompile Include="Input\KeyboardData.cpp">
-      <Filter>Menu\Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Input\InputData.cpp">
-      <Filter>Menu\Sources</Filter>
-    </ClCompile>
     <ClCompile Include="MenuStuff\TableEntry\EntryTextBox.cpp">
       <Filter>Menu\Sources</Filter>
     </ClCompile>
     <ClCompile Include="MenuStuff\TableEntry\EntryTable.cpp">
-      <Filter>Menu\Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Input\ControlSet.cpp">
       <Filter>Menu\Sources</Filter>
     </ClCompile>
     <ClCompile Include="MenuStuff\BasicButton.cpp">
@@ -260,26 +283,50 @@
     <ClCompile Include="MenuStuff\AppSprite.cpp">
       <Filter>Menu\Sources</Filter>
     </ClCompile>
-    <ClCompile Include="Collision\Collidable.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Input\ControlSet.cpp">
+      <Filter>Input</Filter>
     </ClCompile>
-    <ClCompile Include="Collision\CollisionData.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Input\InputData.cpp">
+      <Filter>Input</Filter>
     </ClCompile>
-    <ClCompile Include="Collision\HitBoxCollider.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Input\MouseData.cpp">
+      <Filter>Input</Filter>
     </ClCompile>
-    <ClCompile Include="Collision\HitBoxes\AAHitbox.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Input\KeyboardData.cpp">
+      <Filter>Input</Filter>
     </ClCompile>
-    <ClCompile Include="Collision\HitBoxes\CircularHitbox.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Objects\TestObject.cpp">
+      <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Collision\HitBoxes\HitBox.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Objects\MovingTestObject.cpp">
+      <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Animation.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Objects\Physics\Collision\Collidable.cpp">
+      <Filter>Objects\Physics\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Physics\Collision\CollisionData.cpp">
+      <Filter>Objects\Physics\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Physics\Collision\HitBoxCollider.cpp">
+      <Filter>Objects\Physics\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Physics\Collision\HitBoxes\AAHitbox.cpp">
+      <Filter>Objects\Physics\Collision\HitBoxes</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Physics\Collision\HitBoxes\CircularHitbox.cpp">
+      <Filter>Objects\Physics\Collision\HitBoxes</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Physics\Collision\HitBoxes\HitBox.cpp">
+      <Filter>Objects\Physics\Collision\HitBoxes</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Graphics\Animation\Animation.cpp">
+      <Filter>Objects\Graphics\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Squirrel.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Physics\Movement\Movable.cpp">
+      <Filter>Objects\Physics\Movement</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

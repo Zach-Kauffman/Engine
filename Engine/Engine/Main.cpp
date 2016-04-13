@@ -7,7 +7,7 @@
 #include "ResourceManager/ResourceManager.hpp"
 #include "Utility/Utilities.hpp"
 #include "Objects/ObjectManager.hpp"
-#include "TestObject.hpp"
+#include "Objects/TestObject.hpp"
 #include "Objects/Object.hpp"
 #include "Game.hpp"
 #include "Editor.hpp"

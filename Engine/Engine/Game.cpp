@@ -285,6 +285,7 @@ void Game::loadObjects()
 {
 	objMan.addPrototype<objects::TestObject>("TestObject");
 	objMan.addPrototype<objects::MovingTestObject>("MovingTestObject");
+	objMan.addPrototype<objects::Squirrel>("Squirrel");
 }
 
 void Game::loadMap()
