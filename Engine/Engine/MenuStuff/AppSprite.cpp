@@ -14,7 +14,7 @@ AppSprite::AppSprite(const sf::Texture* const & texture, const sf::Vector2f& pos
 
 	position = sf::Vector2f(0, 0);
 
-	setup(texture, position, size, rotation);		//setup	
+	setup(texture, position, size, rotation);		//setup
 }
 
 
@@ -108,6 +108,24 @@ void AppSprite::draw(sf::RenderWindow& window, const sf::Vector2f& drawPos)
 
 }
 
+void draw(Layer& lay, const sf::Vector2f& drawPos)
+{
+    position += drawPos;		//add the drawPosition  to make position relative
+
+
+
+	appImage.move(position);		//move the appImage
+
+	lay.draw(appImage);	//draw the appImage
+
+	appImage.move(-position);		//move the appImage back
+
+
+
+	position -= drawPos;		//subtract the drawPosition because we added it
+
+}
+
 
 
 sf::Vector2f AppSprite::getGlobalDimensions()				//all this function does is literally return the global dimensions of the Sprite
@@ -126,7 +144,7 @@ void AppSprite::reduceRotation()									//bounds the rotation in the interval [
 {
 	const double pi = 3.1415926535898;
 	const double two_pi = 2 * pi;
-	
+
 	while ((rotation >= two_pi) || (rotation < 0))
 	{
 		if (rotation < 0)
