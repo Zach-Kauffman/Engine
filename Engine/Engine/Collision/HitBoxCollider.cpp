@@ -70,38 +70,86 @@ bool HitBoxCollider::collideAABBCirc(AAHitbox* boxA, CircularHitbox* boxB)
 {
 
 	enum cornerNames {TL = 0, TR, BR, BL, CORNER_SIZE};
-	sf::Vector2f corners[CORNER_SIZE];
-	corners[TL] = boxA->getCorners().first;
-	corners[TR] = sf::Vector2f(boxA->getCorners().second.x, boxA->getCorners().first.y);
-	corners[BR] = boxA->getCorners().second;
-	corners[BL] = sf::Vector2f(boxA->getCorners().first.x, boxA->getCorners().second.y);
-
-	bool distTest = false;
-	for (unsigned int i = 0; i < CORNER_SIZE; i++)
-	{
-		if (boxB->isPointInside(corners[i]))
-		{
-			distTest = true;
-			break;
-		}
-	}
 
 	bool boxTest = false;
-	if (!distTest)
+	bool circPointTest = false;
+	bool rectPointTest = false;
+	bool positionTest = false;
+
+
+	AAHitbox testor;
+	const sf::Vector2f circpos = boxB->getPosition();
+	const double rad = boxB->getRadius();
+	testor.setPosition(circpos);
+	testor.setSize(sf::Vector2f(2 * rad, 2 * rad));
+
+	boxTest = collideDoubleAABB(boxA, &testor);
+
+	
+	
+
+	if (boxTest)
 	{
+		positionTest = boxB->isPointInside(boxB->getPosition()) || boxA->isPointInside(boxA->getPosition());
+		if (!positionTest)
+		{
+			sf::Vector2f corners[CORNER_SIZE];
+			corners[TL] = boxA->getCorners().first;
+			corners[TR] = sf::Vector2f(boxA->getCorners().second.x, boxA->getCorners().first.y);
+			corners[BR] = boxA->getCorners().second;
+			corners[BL] = sf::Vector2f(boxA->getCorners().first.x, boxA->getCorners().second.y);
+
 		
+			for (unsigned int i = 0; i < CORNER_SIZE; i++)
+			{
+				if (boxB->isPointInside(corners[i]))
+				{
+					circPointTest = true;
+					break;
+				}
+			}
 
-		AAHitbox testor;
-		const sf::Vector2f circpos = boxB->getPosition();
-		const double rad = boxB->getRadius();
-		testor.setPosition(circpos);
-		testor.setSize(sf::Vector2f(2 * rad, 2 * rad));
+			if (!circPointTest)
+			{
+				for (unsigned int i = 0; i < CORNER_SIZE; i++)
+				{
+					if (testor.isPointInside(corners[i]))
+					{
+						rectPointTest = true;
+						break;
+					}
+				}
 
-		boxTest = collideDoubleAABB(boxA, &testor);
+			}
+		}
 		
 	}
 
-	return (boxTest || distTest);
+
+	bool retVal = boxTest;
+	if (boxTest)
+	{
+		if (positionTest)
+		{
+			retVal = positionTest;
+		}
+		else
+		{
+			if (circPointTest)
+			{
+				retVal = true;
+			}
+			else
+			{
+				retVal = !rectPointTest;
+			}
+		}
+		
+	}
+	
+	return retVal;
+
+
 
 	
 }
@@ -112,7 +160,7 @@ bool HitBoxCollider::collideDoubleCirc(CircularHitbox* boxA, CircularHitbox* box
 	const double distY = boxA->getPosition().y - boxB->getPosition().y;
 	const double radsum = boxA->getRadius() + boxB->getRadius();
 
-	return (fabs(distX * distX + distY * distY - radsum * radsum) < .001);
+	return (distX * distX + distY * distY  < radsum * radsum);
 }
 
 AAHitbox* HitBoxCollider::downcastAABB(HitBox* box)

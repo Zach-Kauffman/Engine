@@ -183,7 +183,7 @@ void UnitTester::hitboxes()
 
 	bool testResult = hbCollider.checkCollision(&aahb_t1a, &aahb_t1b);
 
-	BOOST_LOG_SEV(testLogger, DEBUG) << "Double Axis-Aligned Hitbox Collision test 1 should have returned 1 (true). Actually returns: " << testResult << "Corners: hbA: { (-50, -50), (50, 50) }, hbB: { (0, 0), (100, 100) } ";
+	BOOST_LOG_SEV(testLogger, DEBUG) << "Double Axis-Aligned Hitbox Collision test 1 should have returned 1 (true). Actually returns: " << testResult << " Corners: hbA: { (-50, -50), (50, 50) }, hbB: { (0, 0), (100, 100) } ";
 
 
 
@@ -199,7 +199,7 @@ void UnitTester::hitboxes()
 	testResult = hbCollider.checkCollision(&aahb_t2a, &aahb_t2b);
 
 
-	BOOST_LOG_SEV(testLogger, DEBUG) << "Double Axis-Aligned Hitbox Collision test 2 should have returned 0 (false). Actually returns: " << testResult << "Corners: hbA: { (-50, -50), (50, 50) }, hbB: { (450, 450), (550, 550) } ";
+	BOOST_LOG_SEV(testLogger, DEBUG) << "Double Axis-Aligned Hitbox Collision test 2 should have returned 0 (false). Actually returns: " << testResult << " Corners: hbA: { (-50, -50), (50, 50) }, hbB: { (450, 450), (550, 550) } ";
 
 	
 
@@ -215,13 +215,13 @@ void UnitTester::hitboxes()
 
 	testResult = hbCollider.checkCollision(&chb_t1a, &chb_t1b);
 
-	BOOST_LOG_SEV(testLogger, DEBUG) << "Double Circular Hitbox Collision test 1 should have returned 1 (true). Actually returns: " << testResult << "CircleA: {position: (0,0) rad: 60},  CircleB: {position: (100,0) rad: 60}";
+	BOOST_LOG_SEV(testLogger, DEBUG) << "Double Circular Hitbox Collision test 1 should have returned 1 (true). Actually returns: " << testResult << " CircleA: {position: (0,0) rad: 60},  CircleB: {position: (100,0) rad: 60}";
 
 
 
 	CircularHitbox chb_t2a;
 	chb_t2a.setPosition(0, 0);
-	chb_t2a.setRadius(60);
+	chb_t2a.setRadius(45);
 
 
 	CircularHitbox chb_t2b;
@@ -230,7 +230,7 @@ void UnitTester::hitboxes()
 
 	testResult = hbCollider.checkCollision(&chb_t2a, &chb_t2b);
 
-	BOOST_LOG_SEV(testLogger, DEBUG) << "Double Circular Hitbox Collision test 2 should have returned 0 (false). Actually returns: " << testResult << "CircleA: {position: (0,0) rad: 45},  CircleB: {position: (100,0) rad: 45}";
+	BOOST_LOG_SEV(testLogger, DEBUG) << "Double Circular Hitbox Collision test 2 should have returned 0 (false). Actually returns: " << testResult << " CircleA: {position: (0,0) rad: 45},  CircleB: {position: (100,0) rad: 45}";
 
 
 
@@ -245,7 +245,7 @@ void UnitTester::hitboxes()
 
 	testResult = hbCollider.checkCollision(&db_t1a, &db_t1b);
 
-	BOOST_LOG_SEV(testLogger, DEBUG) << "Diffrent Collision test 2 should have returned 1 (true). Actually returns: " << testResult << "CircleA: {position: (0,0) rad: 400},  BoxB: corners { (50, -50), (150, 50)}";
+	BOOST_LOG_SEV(testLogger, DEBUG) << "Diffrent Collision test 1 should have returned 1 (true). Actually returns: " << testResult << " CircleA: {position: (0,0) rad: 400},  BoxB: corners { (50, -50), (150, 50)}";
 
 
 	CircularHitbox db_t2a;
@@ -259,7 +259,7 @@ void UnitTester::hitboxes()
 
 	testResult = hbCollider.checkCollision(&db_t2a, &db_t2b);
 
-	BOOST_LOG_SEV(testLogger, DEBUG) << "Diffrent Collision test 2 should have returned 0 (false). Actually returns: " << testResult << "CircleA: {position: (0,0) rad: 400},  BoxB: corners { (950, -50), (1050, 50)}";
+	BOOST_LOG_SEV(testLogger, DEBUG) << "Diffrent Collision test 2 should have returned 0 (false). Actually returns: " << testResult << " CircleA: {position: (0,0) rad: 400},  BoxB: corners { (950, -50), (1050, 50)}";
 
 
 
@@ -275,7 +275,7 @@ void UnitTester::hitboxes()
 
 	testResult = hbCollider.checkCollision(&db_t3a, &db_t3b);
 
-	BOOST_LOG_SEV(testLogger, DEBUG) << "Diffrent Collision test 3 should have returned 1 (true). Actually returns: " << testResult << "CircleA: {position: (52,0) rad: 5},  BoxB: corners { (-50, -50), (50, 50)}";
+	BOOST_LOG_SEV(testLogger, DEBUG) << "Diffrent Collision test 3 should have returned 1 (true). Actually returns: " << testResult << " CircleA: {position: (52,0) rad: 5},  BoxB: corners { (-50, -50), (50, 50)}";
 
 
 
@@ -289,7 +289,7 @@ void UnitTester::hitboxes()
 
 	testResult = hbCollider.checkCollision(&db_t4a, &db_t4b);
 
-	BOOST_LOG_SEV(testLogger, DEBUG) << "Diffrent Collision test 4 should have returned 0 (false). Actually returns: " << testResult << "CircleA: {position: (0,0) rad: 100},  BoxB: corners { (72, 72), (200, 200)}";
+	BOOST_LOG_SEV(testLogger, DEBUG) << "Diffrent Collision test 4 should have returned 0 (false). Actually returns: " << testResult << " CircleA: {position: (0,0) rad: 100},  BoxB: corners { (72, 72), (200, 200)}";
 
 
 }
