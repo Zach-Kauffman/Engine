@@ -1,5 +1,7 @@
 #include "Platform.hpp"
 
+using namespace objects;
+
 Platform::Platform()
 {
     colliding = true;
@@ -31,7 +33,7 @@ Platform::~Platform()
     {
             position = pos;
             siz = sf::Vector2f(width, height);
-            sprite.setup(tex, sf::Vector2f(0,0), siz, 0);
+            //sprite.setup(tex, sf::Vector2f(0,0), siz, 0);
 
 			boost::shared_ptr<AAHitbox> aahitbox(new AAHitbox());
 			aahitbox->setSize(siz);
@@ -49,7 +51,7 @@ Platform::~Platform()
 
 void Platform::draw(Layer& renderTarget)
 {
-   sprite.draw(renderTarget, position);
+	renderTarget.getRenderTexture()->draw(texCoords, platformTexture);
 }		//renders object to given sf::RenderTexture&
 
 
@@ -57,45 +59,49 @@ void Platform::draw(Layer& renderTarget)
 void Platform::load(boost::property_tree::ptree& dataTree, ResourceManager& resources)
 {
 
-	//	XMLParser parser;
-	//parser.readValue<float>("position.<xmlattr>.x", position.x, dataTree);	//loading x coord
-	//parser.readValue<float>("position.<xmlattr>.y", position.y, dataTree);	//loading y coord
-	//parser.readValue<float>("size.<xmlattr>.x", size.x, dataTree);
-	//parser.readValue<float>("size.<xmlattr>.y", size.y, dataTree);
+	XMLParser parser;
+	parser.readValue<float>("position.<xmlattr>.x", position.x, dataTree);	//loading x coord
+	parser.readValue<float>("position.<xmlattr>.y", position.y, dataTree);	//loading y coord
+	parser.readValue<float>("size.<xmlattr>.x", siz.x, dataTree);
+	parser.readValue<float>("size.<xmlattr>.y", siz.y, dataTree);
 
-	////loading texture
-	//std::string textureName;
-	//parser.readValue<std::string>("texture", textureName, dataTree);
-	//testTex = resources.getTexturePointerByName(textureName);
-	//
-	//sf::Vector2f texSize = (sf::Vector2f)testTex->getSize();
+	//loading texture
+	std::string textureName;
+	parser.readValue<std::string>("texture", textureName, dataTree);
+	platformTexture = resources.getTexturePointerByName(textureName);
+	
+	
+	sf::Vector2f texSize = (sf::Vector2f)platformTexture->getSize();
 
-	//texCoords = sf::VertexArray(sf::Quads, 4); 
+	texCoords = sf::VertexArray(sf::Quads, 4); 
 
-	////defining edge coordinates centered on position
-	//if (size.x + size.y == 0)
-	//{
-	//	texCoords[0].position = sf::Vector2f(position.x + texSize.x / 2, position.y + texSize.y / 2);	//bottom right
-	//	texCoords[1].position = sf::Vector2f(position.x - texSize.x / 2, position.y + texSize.y / 2);	//bottom left
-	//	texCoords[2].position = sf::Vector2f(position.x - texSize.x / 2, position.y - texSize.y / 2);	//top left
-	//	texCoords[3].position = sf::Vector2f(position.x + texSize.x / 2, position.y - texSize.y / 2);	//top right
-	//}
-	//else
-	//{
-	//	texCoords[0].position = sf::Vector2f(position.x + size.x / 2, position.y + size.y / 2);	//bottom right
-	//	texCoords[1].position = sf::Vector2f(position.x - size.x / 2, position.y + size.y / 2);	//bottom left
-	//	texCoords[2].position = sf::Vector2f(position.x - size.x / 2, position.y - size.y / 2);	//top left
-	//	texCoords[3].position = sf::Vector2f(position.x + size.x / 2, position.y - size.y / 2);	//top right
-	//}
-	//
+	//defining edge coordinates centered on position
+	if (siz.x + siz.y == 0)
+	{
+		
+		texCoords[0].position = sf::Vector2f(position.x + texSize.x / 2, position.y + texSize.y / 2);	//bottom right
+		texCoords[1].position = sf::Vector2f(position.x - texSize.x / 2, position.y + texSize.y / 2);	//bottom left
+		texCoords[2].position = sf::Vector2f(position.x - texSize.x / 2, position.y - texSize.y / 2);	//top left
+		texCoords[3].position = sf::Vector2f(position.x + texSize.x / 2, position.y - texSize.y / 2);	//top right
+	}
+	else
+	{
+		texCoords[0].position = sf::Vector2f(position.x + siz.x / 2, position.y + siz.y / 2);	//bottom right
+		texCoords[1].position = sf::Vector2f(position.x - siz.x / 2, position.y + siz.y / 2);	//bottom left
+		texCoords[2].position = sf::Vector2f(position.x - siz.x / 2, position.y - siz.y / 2);	//top left
+		texCoords[3].position = sf::Vector2f(position.x + siz.x / 2, position.y - siz.y / 2);	//top right
+	}
+	
 
-	////defining texture mapping coords
-	//texCoords[0].texCoords = sf::Vector2f(texSize.x, texSize.y);			//bottom right
-	//texCoords[1].texCoords = sf::Vector2f(0, texSize.y);					//bottom left
-	//texCoords[2].texCoords = sf::Vector2f(0, 0);			//top left
-	//texCoords[3].texCoords = sf::Vector2f(texSize.x, 0);	//top right
+	//defining texture mapping coords
+	texCoords[0].texCoords = sf::Vector2f(texSize.x, texSize.y);			//bottom right
+	texCoords[1].texCoords = sf::Vector2f(0, texSize.y);					//bottom left
+	texCoords[2].texCoords = sf::Vector2f(0, 0);			//top left
+	texCoords[3].texCoords = sf::Vector2f(texSize.x, 0);	//top right
 
 }	//defined in children to load from (INI?) file
+
+
 void Platform::write()
 {
 

@@ -7,43 +7,48 @@
 #include "..\..\MenuStuff\AppSprite.hpp"
 
 
-
-class Platform : public objects::Object , public Collidable
+namespace objects
 {
 
-public:
+	class Platform : public Object, public Collidable
+	{
 
-    Platform();
-    Platform(const sf::Vector2f& pos, const double& width, const double& height, sf::Texture* tex);
-    Platform(const sf::Vector2f& TL, const sf::Vector2f& BR, sf::Texture* tex);
+	public:
 
-    ~Platform();
+		Platform();
+		Platform(const sf::Vector2f& pos, const double& width, const double& height, sf::Texture* tex);
+		Platform(const sf::Vector2f& TL, const sf::Vector2f& BR, sf::Texture* tex);
 
-    void setup(const sf::Vector2f& pos, const double& width, const double& height, sf::Texture* tex);
-    void setup(const sf::Vector2f& TL, const sf::Vector2f& BR, sf::Texture*);
+		~Platform();
 
-    void draw(Layer& renderTarget);		//renders object to given sf::RenderTexture&
+		void setup(const sf::Vector2f& pos, const double& width, const double& height, sf::Texture* tex);
+		void setup(const sf::Vector2f& TL, const sf::Vector2f& BR, sf::Texture*);
 
-	void update(InputData& inpData) {}
+		void draw(Layer& renderTarget);		//renders object to given sf::RenderTexture&
 
-
-	void load(boost::property_tree::ptree& dataTree, ResourceManager&);	//defined in children to load from (INI?) file
-	void write();
-
-	void recieveCollisionData(CollisionData*) {}
+		void update(InputData& inpData) {}
 
 
-private:
-    sf::Vector2f getTlCorner();
-    sf::Vector2f getBRCorner();
+		void load(boost::property_tree::ptree& dataTree, ResourceManager&);	//defined in children to load from (INI?) file
+		void write();
 
-    AppSprite sprite;
-    sf::Vector2f position;
-    sf::Vector2f siz;
+		void recieveCollisionData(CollisionData*) {}
 
 
-    //Animation?
+	private:
+		sf::Vector2f getTlCorner();
+		sf::Vector2f getBRCorner();
+
+		const sf::Texture* platformTexture;
+		sf::VertexArray texCoords;
+		sf::Vector2f position;
+		sf::Vector2f siz;
+
+
+		//Animation?
 
 
 
-};
+	};
+
+}
