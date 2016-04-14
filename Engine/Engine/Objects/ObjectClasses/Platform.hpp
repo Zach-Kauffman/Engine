@@ -3,10 +3,12 @@
 //sfml includes
 # include "..\Object.hpp"
 #include "..\..\Collision\Collidable.hpp"
+#include "..\..\Collision\Hitboxes\AAHitbox.hpp"
 #include "..\..\MenuStuff\AppSprite.hpp"
 
 
-class Platform : public objects::Object : public Collidable
+
+class Platform : public objects::Object , public Collidable
 {
 
 public:

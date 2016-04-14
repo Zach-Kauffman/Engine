@@ -28,7 +28,7 @@ void CollisionData::setIsStationary(const bool& stat)
 
 bool CollisionData::getIsStationary()
 {
-    return stat;
+    return isStationary;
 }
 
 void CollisionData::setPosition(const sf::Vector2f& pos)

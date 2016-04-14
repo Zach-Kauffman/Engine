@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML\Graphics.hpp>
+#include "..\Layers\Layer.hpp"
 
 class AppSprite																	//This class is a more useful sprite
 {

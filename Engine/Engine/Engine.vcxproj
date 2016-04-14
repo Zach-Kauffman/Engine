@@ -44,6 +44,7 @@
     <ClInclude Include="MovingTestObject.hpp" />
     <ClInclude Include="NameSearchable\NameSearchable.hpp" />
     <ClInclude Include="Objects\Object.hpp" />
+    <ClInclude Include="Objects\ObjectClasses\Platform.hpp" />
     <ClInclude Include="Objects\ObjectGroup.hpp" />
     <ClInclude Include="Objects\ObjectManager.hpp" />
     <ClInclude Include="ResourceManager\ResourceGroup.hpp" />
@@ -88,6 +89,7 @@
     <ClCompile Include="MovingTestObject.cpp" />
     <ClCompile Include="NameSearchable\NameSearchable.cpp" />
     <ClCompile Include="Objects\Object.cpp" />
+    <ClCompile Include="Objects\ObjectClasses\Platform.cpp" />
     <ClCompile Include="Objects\ObjectGroup.cpp" />
     <ClCompile Include="Objects\ObjectManager.cpp" />
     <ClCompile Include="ResourceManager\ResourceGroup.cpp" />

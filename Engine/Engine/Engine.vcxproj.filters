@@ -43,6 +43,7 @@
     <ClCompile Include="Collision\HitBoxes\AAHitbox.cpp" />
     <ClCompile Include="Collision\HitBoxes\CircularHitbox.cpp" />
     <ClCompile Include="Collision\HitBoxes\HitBox.cpp" />
+    <ClCompile Include="Objects\ObjectClasses\Platform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Defines.hpp" />
@@ -89,5 +90,6 @@
     <ClInclude Include="Collision\HitBoxes\AAHitbox.hpp" />
     <ClInclude Include="Collision\HitBoxes\CircularHitbox.hpp" />
     <ClInclude Include="Collision\HitBoxes\HitBox.hpp" />
+    <ClInclude Include="Objects\ObjectClasses\Platform.hpp" />
   </ItemGroup>
 </Project>

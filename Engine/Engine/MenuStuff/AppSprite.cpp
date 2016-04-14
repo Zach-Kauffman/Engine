@@ -108,7 +108,7 @@ void AppSprite::draw(sf::RenderWindow& window, const sf::Vector2f& drawPos)
 
 }
 
-void draw(Layer& lay, const sf::Vector2f& drawPos)
+void AppSprite::draw(Layer& lay, const sf::Vector2f& drawPos)
 {
     position += drawPos;		//add the drawPosition  to make position relative
 
@@ -116,7 +116,7 @@ void draw(Layer& lay, const sf::Vector2f& drawPos)
 
 	appImage.move(position);		//move the appImage
 
-	lay.draw(appImage);	//draw the appImage
+	lay.getRenderTexture()->draw(appImage);	//draw the appImage
 
 	appImage.move(-position);		//move the appImage back
 
