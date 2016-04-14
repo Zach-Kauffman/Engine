@@ -23,10 +23,11 @@ namespace objects
 		Animation walking;
 		Animation idle;
 
-		int moveSpeed;
+		float moveSpeed;
 
 
-		sf::Vector2f size;
+		sf::Vector2f displaySize;
+		sf::Vector2f frameSize;
 		std::string walkingSSName;
 		std::string idleSSName;
 		int fps;

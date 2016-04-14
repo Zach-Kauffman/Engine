@@ -40,6 +40,7 @@ void Game::begin()
 	//sfml main loop
 	sf::RenderWindow& window = *windowPtr;
 	window.setKeyRepeatEnabled(false);		//makes it so when a key is hit, only one event is recorded, not nine, or whatever -- ignores holding keys
+	window.setFramerateLimit(60);
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -154,7 +155,7 @@ void Game::draw()
 void Game::update()
 {
 	doChunks();
-	objMan.getObject(1020001)->update(inpData);
+	objMan.getObject(1030001)->update(inpData);
 
 
 	//for each layer
@@ -343,7 +344,7 @@ void Game::loadMap()
 
 
 	util::Downcaster<objects::Object> tmpDC;
-	layMan.setReferencePoint(*(tmpDC.downcastMTO(objMan.getObject(1020001))->getPositionPtr()));						//make sure the layers reference the point
+	layMan.setReferencePoint(*(tmpDC.downcastSquirrel(objMan.getObject(1030001))->getPosition()));						//make sure the layers reference the point
 	//layMan.setReferencePoint(tmpCenter);
 	for (int i = 0; i < numLayers; i++)
 	{

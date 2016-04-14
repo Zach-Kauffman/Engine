@@ -7,8 +7,8 @@ public:
 
 	Animation();
 	Animation::Animation(sf::Texture* newSpriteSheet, const sf::Vector2f& newFrameSize);
-	Animation(sf::Texture* sprites, const sf::Vector2f& newFrameSize, const int& fps);
-	Animation::Animation(sf::Texture* newSpriteSheet, const sf::Vector2f& newFrameSize, const int& newFps, const sf::Vector2f& position);
+	Animation(sf::Texture* newSpriteSheet, const sf::Vector2f& newFrameSize, const sf::Vector2f& newDisplaySize, const int& newFps);
+	Animation::Animation(sf::Texture* newSpriteSheet, const sf::Vector2f& newFrameSize, const sf::Vector2f& newDisplaySize, const int& newFps, const sf::Vector2f& position);
 
 	~Animation();
 
@@ -17,6 +17,9 @@ public:
 
 	void setFrameSize(const sf::Vector2f& newFrameSize);
 	sf::Vector2f getFrameSize();
+
+	void setDisplaySize(const sf::Vector2f& newDisplaySize);
+	sf::Vector2f getDisplaySize();
 
 	void setSpriteSheet(sf::Texture* newSprites);
 	sf::Texture* getSpriteSheet();
@@ -40,6 +43,7 @@ protected:
 	sf::Vector2f currentSheetPosition;	//current spot of frame in spritesheet
 	sf::Vector2f sheetSize;				//dimensions of spritesheet in # of textures
 	sf::Vector2f frameSize;
+	sf::Vector2f displaySize;
 	sf::Texture* spriteSheet;
 
 	sf::VertexArray texCoords;			//coordinates on the spritesheet for drawing frame

@@ -9,12 +9,22 @@ Movable::Movable(const sf::Vector2f& newPosition, const sf::Vector2f& newVelocit
 	setAcceleration(newAcceleration);
 }
 
-void Movable::update()
+void Movable::updateMovement()
 {
+
 	velocity += acceleration;
 	position += velocity;
 
 	acceleration = sf::Vector2f(0, 0);
+	if (velocity.x > maxSpeed)
+	{
+		velocity.x = maxSpeed;
+	}
+	else if(velocity.x < maxSpeed*-1)
+	{
+		velocity.x = maxSpeed*-1;
+	}
+
 }
 
 void Movable::setPosition(const sf::Vector2f& newPosition)
@@ -50,4 +60,9 @@ sf::Vector2f* Movable::getAcceleration()
 void Movable::applyForce(const sf::Vector2f& force)
 {
 	acceleration += force;
+}
+
+void Movable::setMaxSpeed(const int& newMax)
+{
+	maxSpeed = newMax;
 }

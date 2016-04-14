@@ -6,7 +6,7 @@
 //inherited object includes
 #include "../Objects/TestObject.hpp"
 #include "../Objects/MovingTestObject.hpp"
-
+#include "../Objects/Squirrel.hpp"
 
 //^^^ those should be combined into group include files ie "Objects.hpp" or this will get annoying
 
@@ -31,6 +31,11 @@ namespace util	//this is a utility class
 		boost::shared_ptr<objects::MovingTestObject> downcastMTO(boost::shared_ptr<Base> baseObject)
 		{
 			return boost::dynamic_pointer_cast<objects::MovingTestObject, Base>(baseObject);	//casts shared_ptr of type Base to type TestObject
+		}
+
+		boost::shared_ptr<objects::Squirrel> downcastSquirrel(boost::shared_ptr<Base> baseObject)
+		{
+			return boost::dynamic_pointer_cast<objects::Squirrel, Base>(baseObject);
 		}
 
 		//PYTHONSCRIPT
