@@ -61,7 +61,8 @@ void ObjectGroup::removeObject(const std::string& path)
 
 void ObjectGroup::removeObject(const int& ID)
 {
-	removeObject(getObject(ID));	//just gets the object ptr and deletes with that
+	auto obj = getObject(ID, false);
+	removeObject(obj);	//just gets the object ptr and deletes with that
 }
 
 void ObjectGroup::removeObject(const boost::shared_ptr<Object>& objectPtr)
@@ -88,7 +89,7 @@ boost::shared_ptr<Object> ObjectGroup::getObject(const std::string& path)
 	return getObjectGroup(util::vecToStr(pathVec, "."))->getObject(ID);	//retrieves object group from reconstructed string and return objPtr
 }
 
-boost::shared_ptr<Object> ObjectGroup::getObject(const int& ID)	//quick binary search
+boost::shared_ptr<Object> ObjectGroup::getObject(const int& ID, const bool& tree)	//quick binary search
 {
 	if (objects.size() != 0)
 	{
@@ -117,10 +118,10 @@ boost::shared_ptr<Object> ObjectGroup::getObject(const int& ID)	//quick binary s
 			position = (lowerbound + upperbound) / 2;
 			if (position >= objects.size())
 			{
-				break;
+				goto AVOID_ERRORS;
 			}
 		}
-		if (lowerbound < upperbound)
+		if (objects[position]->getID() == ID)
 		{
 			return objects[position];
 		}
@@ -129,13 +130,17 @@ boost::shared_ptr<Object> ObjectGroup::getObject(const int& ID)	//quick binary s
 			BOOST_LOG_SEV(*groupLogger, ERROR) << "Object with ID = " << ID << " not found in group.";
 			return NULL;
 		}
+	AVOID_ERRORS:;
 	}
-	for (int i = 0; i < groups.size(); i++)
+	if (tree)	//only do this if the entire tree should be searched for object
 	{
-		boost::shared_ptr<Object> tmp = groups[i].getObject(ID);
-		if (tmp)
+		for (int i = 0; i < groups.size(); i++)
 		{
-			return tmp;
+			boost::shared_ptr<Object> tmp = groups[i].getObject(ID);
+			if (tmp)
+			{
+				return tmp;
+			}
 		}
 	}
 	
@@ -190,6 +195,21 @@ ObjectGroup* ObjectGroup::getObjectGroup(const std::string& path)
 	return getObjectGroup(pathVec);
 }
 
+std::vector<int> ObjectGroup::getObjectIDs(bool recursive)
+{
+	std::vector<int> ret;
+	for (unsigned int i = 0; i < objects.size(); i++)
+	{
+		ret.push_back(objects[i]->getID());
+	}
+	for (unsigned int groupIt = 0; groupIt < groups.size(); groupIt++)
+	{
+		std::vector<int> groupRet = groups[groupIt].getObjectIDs();
+		ret.insert(ret.end(), groupRet.begin(), groupRet.end());
+	}
+	return ret;
+}
+
 void ObjectGroup::forceObjectSort()	//could be more efficient but really shouldn't be called too much
 {
 	int currentInsert = 0;
@@ -207,6 +227,14 @@ void ObjectGroup::forceObjectSort()	//could be more efficient but really shouldn
 
 //PROTECTED FUNCTIONS
 
+void ObjectGroup::deleteObjectFromTree(const int& ID)
+{
+	removeObject(ID);
+	for (int i = 0; i < groups.size(); i++)
+	{
+		groups[i].deleteObjectFromTree(ID);
+	}
+}
 
 //PRIVATE FUNCTIONS
 

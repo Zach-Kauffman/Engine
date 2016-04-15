@@ -40,6 +40,7 @@ void Game::begin()
 	//sfml main loop
 	sf::RenderWindow& window = *windowPtr;
 	window.setKeyRepeatEnabled(false);		//makes it so when a key is hit, only one event is recorded, not nine, or whatever -- ignores holding keys
+	window.setFramerateLimit(60);
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -154,7 +155,7 @@ void Game::draw()
 void Game::update()
 {
 	doChunks();
-	objMan.getObject("Layers.Layer0.1.0.1")->update(inpData);
+	objMan.getObject(1030001)->update(inpData);
 
 
 	//for each layer
@@ -235,34 +236,47 @@ void Game::loadResources()
 	{
 		std::vector<std::string> returned = util::splitStrAtSubstr(output[ii][2], ".");					//finds extension from filepath
 		std::vector<std::string> numtoadd = util::splitStrAtSubstr(output[ii][0], ":");
-		recMan.loadFile(output[ii][2], output[ii][1]);	//load each resource
-
-		if (output[ii][0] != "")	//if a third element (being group) exists
+		if (returned.size() > 1)	//if the thing has an extension
 		{
-			bool groupExists = false;
-			for (int groupIt = 0; groupIt < groups.size(); groupIt++)	//cycle through groups
+			recMan.loadFile(output[ii][2], output[ii][1]);	//load each resource
+
+
+			if (output[ii][0] != "")	//if a third element (being group) exists
 			{
-				if (groups[groupIt] == numtoadd[0])
+				bool groupExists = false;
+				for (int groupIt = 0; groupIt < groups.size(); groupIt++)	//cycle through groups
 				{
-					groupExists = true;
+					if (groups[groupIt] == numtoadd[0])
+					{
+						groupExists = true;
+					}
 				}
+
+				if (!groupExists)
+				{
+					recMan.addEmptyResourceGroup(numtoadd[0]);
+					groups.push_back(numtoadd[0]);
+				}
+
+
+				for (unsigned int i = 0; i < boost::lexical_cast<int>(numtoadd.back()); i++)
+				{
+					recMan.addResourcetoResourceGroup(numtoadd[0], output[ii][1], returned.back());	//adds resource to group with type of
+				}
+
 			}
 
-			if (!groupExists)
+		}
+		else
+		{
+			if (numtoadd.size() > 0)	//check if it should be added to group
 			{
-				recMan.addEmptyResourceGroup(numtoadd[0]);
-				groups.push_back(numtoadd[0]);
+				recMan.addFilesResourceGroupFromDirectory(returned[0], numtoadd[0]);
 			}
-
-
-			std::vector<std::string> returned = util::splitStrAtSubstr(output[ii][2], ".");					//finds extension from filepath
-			std::vector<std::string> numtoadd = util::splitStrAtSubstr(output[ii][0], ":");
-			for (unsigned int i = 0; i < boost::lexical_cast<int>(numtoadd.back()); i++)
+			else
 			{
-				recMan.addResourcetoResourceGroup(numtoadd[0], output[ii][1], returned.back());	//adds resource to group with type of
+				recMan.loadFileDirectory(returned[0]);
 			}
-
-
 		}
 	}
 
@@ -273,6 +287,7 @@ void Game::loadObjects()
 	objMan.addPrototype<objects::TestObject>("TestObject");
 	objMan.addPrototype<objects::MovingTestObject>("MovingTestObject");
 	objMan.addPrototype<objects::Platform>("Platform");
+	objMan.addPrototype<objects::Squirrel>("Squirrel");
 }
 
 void Game::loadMap()
@@ -313,7 +328,7 @@ void Game::loadMap()
 				parser.readValue<std::string>("type", type, objects[chunkIt+layIt][objIt]);	//read type from tree
 				auto tmp = objMan.getPrototype(type);						//make object of that type
 				tmp->load(objects[layIt][objIt], recMan);
-				tmp->setID(objMan.nextID());
+				tmp->setType(type);
 				std::string pathString = "Layers.Layer" + boost::lexical_cast<std::string>(layIt);
 				pathString += "." + boost::lexical_cast<std::string>(chunk.x);
 				pathString += "." + boost::lexical_cast<std::string>(chunk.y);
@@ -330,7 +345,7 @@ void Game::loadMap()
 
 
 	util::Downcaster<objects::Object> tmpDC;
-	layMan.setReferencePoint(*(tmpDC.downcastMTO(objMan.getObject("Layers.Layer0.1.0.1"))->getPositionPtr()));						//make sure the layers reference the point
+	layMan.setReferencePoint(*(tmpDC.downcastSquirrel(objMan.getObject(1030001))->getPosition()));						//make sure the layers reference the point
 	//layMan.setReferencePoint(tmpCenter);
 	for (int i = 0; i < numLayers; i++)
 	{
@@ -352,7 +367,7 @@ void Game::loadMap()
 
 	}
 	
-	layMan.createLayers();
+	layMan.createLayers();	//i just added this to the constructor...... and it broke 
 	layMan.setDependentLocking(true, 0);
 
 	

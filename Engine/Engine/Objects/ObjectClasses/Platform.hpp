@@ -2,8 +2,8 @@
 
 //sfml includes
 # include "..\Object.hpp"
-#include "..\..\Collision\Collidable.hpp"
-#include "..\..\Collision\Hitboxes\AAHitbox.hpp"
+#include "..\Physics\Collision\Collidable.hpp"
+#include "..\Physics\Collision\Hitboxes\AAHitbox.hpp"
 #include "..\..\MenuStuff\AppSprite.hpp"
 
 
@@ -30,7 +30,7 @@ namespace objects
 
 
 		void load(boost::property_tree::ptree& dataTree, ResourceManager&);	//defined in children to load from (INI?) file
-		void write();
+		boost::property_tree::ptree write();
 
 		void recieveCollisionData(CollisionData*) {}
 

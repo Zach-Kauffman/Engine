@@ -7,12 +7,13 @@
 #include "ResourceManager/ResourceManager.hpp"
 #include "Utility/Utilities.hpp"
 #include "Objects/ObjectManager.hpp"
-#include "TestObject.hpp"
+#include "Objects/TestObject.hpp"
 #include "Objects/Object.hpp"
 #include "Game.hpp"
 #include "Editor.hpp"
 #include "Utility\XMLParser.hpp"
 #include <iostream>
+
 
 int main(int, char*[])
 {
@@ -22,15 +23,22 @@ int main(int, char*[])
 	auto slg = logger::getSLogger();
 #ifndef RUN_EDITOR
 	Game theGame;
-	theGame.initialize("gameConfig.ini", "resources.xml", "objects.xml", "map.xml", "save.xml", 0);
+	std::string mapFile;
+	std::cout << "Enter map filename: ";
+	std::cin >> mapFile;
+	theGame.initialize("gameConfig.ini", "resources.xml", "objects.xml", mapFile, "save.xml", 0);
 	theGame.begin();	//starts SFML main loop
 #else
 	Editor theEditor;
-	theEditor.initialize("gameConfig.ini", "resources.xml", "objects.xml", "map.xml", "save.xml", 0);
+	std::string mapFile;
+	std::cout << "Enter map filename: ";
+	std::cin >> mapFile;
+	theEditor.initialize("gameConfig.ini", "resources.xml", "objects.xml", mapFile, "save.xml", 0);
 	theEditor.editorInitialize();
 	theEditor.editorBegin();
 #endif
 	BOOST_LOG_SEV(slg, DEBUG) << "Exiting soon";
+
 	return 0;
 }
 

@@ -20,14 +20,8 @@ namespace objects
 		ObjectManager();
 		~ObjectManager();
 
-		template<class T>
-		void deleteObject(const T& object)		//actually deletes object from memory, careful... this could cause issues :z
-												//public alias for delete object from tree
-		{
-			deleteObjectFromTree(object);
-		}						
-
-		int nextID(); //returns the next ID to be issued;
+		void deleteObject(const int& ID);		//actually deletes object from memory, careful... this could cause issues :z
+		int getCurrentTypeID();
 
 		boost::shared_ptr<Object> getPrototype(const std::string& type);
 
@@ -41,7 +35,8 @@ namespace objects
 			}
 			else
 			{
-				prototypes[type] = &ObjectManager::instancePrototype<T>;	//define
+				prototypes[type] = std::make_tuple(boost::bind(&ObjectManager::instancePrototype<T>, this), currentTypeID*10000);	//id needs some (4) extra zeros
+				currentTypeID++;
 			}
 		}
 	private:
@@ -51,13 +46,13 @@ namespace objects
 			return new derived();
 		}
 
-
-		std::map<std::string, Object*(ObjectManager::*)()> prototypes;
+		int currentTypeID;
+		std::map<std::string, std::tuple<boost::function<Object*()>, int> > prototypes;	//function pointer and id iterator for that type
+		//ID is an 8 digit integer first 3 are the type ID 4 are the object ID
 		//boost::shared_ptr<Object>(ObjectManager::*makeObject)()
 
 		src::severity_logger<severity_level> objectLogger;				//real logger object -- passed to all objectGroups
 
-		int currentID;
 	};
 }
 

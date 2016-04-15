@@ -1,5 +1,5 @@
 #pragma once
-#include "../Collision/HitBoxCollider.hpp"
+
 
 #include "../Defines.hpp"	//global #defines
 
@@ -13,6 +13,7 @@
 #include "Logger.hpp"
 #include "..\ResourceManager\ResourceGroup.hpp"
 #include "INIParser.hpp"
+#include "../Objects/Physics/Collision/HitBoxCollider.hpp"
 
 
 namespace testing

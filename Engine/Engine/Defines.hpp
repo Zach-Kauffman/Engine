@@ -10,4 +10,6 @@
 //#define TEST_INI_PARSER
 //#define TEST_HIT_BOXES
 
+
+#define LOG_CONSOLE
 #define RUN_EDITOR

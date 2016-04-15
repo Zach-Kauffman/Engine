@@ -4,7 +4,6 @@
 			<object>
 				<type>MovingTestObject</type>
 				<position x="500" y="500"></position>
-				<size x="0" y="0"></size>
 				<texture>squirrel</texture>
 			</object>
 		</chunk>
@@ -13,7 +12,7 @@
 		<chunk index ="1">
 			<object>
 				<type>TestObject</type>
-				<position x="1200" y="800"></position>
+				<position x="1200" y="800"/>
 				<size x="0" y="0"></size>
 				<texture>acorn</texture>
 			</object>

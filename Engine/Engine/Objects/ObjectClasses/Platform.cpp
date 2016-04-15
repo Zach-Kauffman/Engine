@@ -102,9 +102,15 @@ void Platform::load(boost::property_tree::ptree& dataTree, ResourceManager& reso
 }	//defined in children to load from (INI?) file
 
 
-void Platform::write()
+boost::property_tree::ptree Platform::write()
 {
+	boost::property_tree::ptree xml;
+	xml.put("position.<xmlattr>.x", position.x);
+	xml.put("position.<xmlattr>.y", position.y);
+	xml.put("size.<xmlattr>.x", siz.x);
+	xml.put("size.<xmlattr>.y", siz.y);
 
+	return xml;
 }
 
 sf::Vector2f Platform::getTlCorner()

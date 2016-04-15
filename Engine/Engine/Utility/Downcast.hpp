@@ -4,9 +4,12 @@
 #include "boost\shared_ptr.hpp"
 
 //inherited object includes
-#include "../TestObject.hpp"
-#include "../MovingTestObject.hpp"
+
+#include "../Objects/TestObject.hpp"
+#include "../Objects/MovingTestObject.hpp"
+#include "../Objects/Squirrel.hpp"
 #include "../Objects/ObjectClasses/Platform.hpp"
+
 
 
 //^^^ those should be combined into group include files ie "Objects.hpp" or this will get annoying
@@ -34,9 +37,15 @@ namespace util	//this is a utility class
 			return boost::dynamic_pointer_cast<objects::MovingTestObject, Base>(baseObject);	//casts shared_ptr of type Base to type TestObject
 		}
 
+
 		boost::shared_ptr<objects::Platform> downcastPlatform(boost::shared_ptr<Base> baseObject)
 		{
 			return boost::dynamic_pointer_cast<objects::Platform, Base>(baseObject);	//casts shared_ptr of type Base to type TestObject
+		}
+
+		boost::shared_ptr<objects::Squirrel> downcastSquirrel(boost::shared_ptr<Base> baseObject)
+		{
+			return boost::dynamic_pointer_cast<objects::Squirrel, Base>(baseObject);
 		}
 
 		//PYTHONSCRIPT
