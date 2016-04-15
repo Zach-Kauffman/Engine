@@ -5,7 +5,7 @@ using namespace objects;
 Squirrel::Squirrel()
 {
 	displaySize = sf::Vector2f(100, 100);
-	moveSpeed = 10;
+	jumping = false;
 }
 
 Squirrel::~Squirrel(){}
@@ -29,21 +29,17 @@ void Squirrel::update(InputData& inpData)
 {
 	if (!isActive){ return; }
 
-	if (inpData.isKeyHeld(sf::Keyboard::Up))
+	if (inpData.isKeyHit(sf::Keyboard::Up))
 	{
-		applyForce(sf::Vector2f(0, -moveSpeed));
-	}
-	if (inpData.isKeyHeld(sf::Keyboard::Down))
-	{
-		applyForce(sf::Vector2f(0, moveSpeed));;
+		applyForce(sf::Vector2f(0, -jumpForce));
 	}
 	if (inpData.isKeyHeld(sf::Keyboard::Left))
 	{
-		applyForce(sf::Vector2f(-moveSpeed, 0));
+		applyForce(sf::Vector2f(-moveForce, 0));
 	}
 	if (inpData.isKeyHeld(sf::Keyboard::Right))
 	{
-		applyForce(sf::Vector2f(moveSpeed, 0));
+		applyForce(sf::Vector2f(moveForce, 0));
 	}
 
 	updateMovement();
@@ -55,7 +51,7 @@ void Squirrel::load(boost::property_tree::ptree& dataTree, ResourceManager& recM
 	walkingSSName = reader.readValue<std::string>("walking", dataTree);
 	idleSSName = reader.readValue<std::string>("idle", dataTree);
 	fps = reader.readValue<int>("fps", dataTree);
-	moveSpeed = reader.readValue<float>("moveSpeed", dataTree);
+	moveForce = reader.readValue<float>("moveSpeed", dataTree);
 	position.x = reader.readValue<float>("position.<xmlattr>.x", dataTree);
 	position.y = reader.readValue<float>("position.<xmlattr>.y", dataTree);
 	displaySize.x = reader.readValue<float>("size.<xmlattr>.x", dataTree);
@@ -63,9 +59,30 @@ void Squirrel::load(boost::property_tree::ptree& dataTree, ResourceManager& recM
 	frameSize.x = reader.readValue<float>("frameSize.<xmlattr>.x", dataTree);
 	frameSize.y = reader.readValue<float>("frameSize.<xmlattr>.y", dataTree);
 
+	//should some of these be loaded from ini??
 	walking = Animation(recMan.getTexturePointerByName(walkingSSName), frameSize, displaySize, fps, position);
 	idle = Animation(recMan.getTexturePointerByName(idleSSName), frameSize, displaySize, fps, position);
-	setMaxSpeed(5);
+
+	//default values
+	maxJumpTime = 1000;
+	maxSpeed = 5;
+	gravity = true;
+	air = true;
+
+	//load from ini
+	INIParser options("SquirrelOptions.ini");
+
+	options.setSection("Movement");
+	options.readValue<double>("jumpTime", maxJumpTime);
+	options.readValue<int>("MaxSpeed", maxSpeed);
+	options.readValue<bool>("Gravity", gravity);
+	options.readValue<float>("MoveForce", moveForce);
+	options.readValue<float>("JumpForce", jumpForce);
+
+	options.setSection("Graphics");
+	options.readValue<int>("AnimationFPS", fps);
+	
+
 }
 
 boost::property_tree::ptree Squirrel::write()
@@ -74,7 +91,7 @@ boost::property_tree::ptree Squirrel::write()
 	xml.put("walking", walkingSSName);
 	xml.put("idle", idleSSName);
 	xml.put("fps", fps);
-	xml.put("moveSpeed", moveSpeed);
+	xml.put("moveSpeed", moveForce);
 	xml.put("position.<xmlattr>.x", position.x);
 	xml.put("position.<xmlattr>.y", position.y);
 	xml.put("size.<xmlattr>.x", displaySize.x);

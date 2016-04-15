@@ -1,6 +1,8 @@
 #pragma once
 
 #include <SFML\Graphics.hpp>
+#include "../../../Defines.hpp"
+#include "boost/timer.hpp"
 
 class Movable
 {
@@ -22,14 +24,22 @@ public:
 	void applyForce(const sf::Vector2f& force);
 
 	void setMaxSpeed(const int& newMax);
-		
+	
+	void setGravity(const bool& isGravity);
 protected:
+	int sign(const float&);
 	//basic physics components
 	sf::Vector2f position;
 	sf::Vector2f velocity;
 	sf::Vector2f acceleration;
 
 	int maxSpeed;
+
+	bool gravity;		//toggles gravity
+	bool air;			//toggles air resistance
+
+	boost::timer frameTimer;
+
 
 	//not sure if these will be used here
 	//double mass;

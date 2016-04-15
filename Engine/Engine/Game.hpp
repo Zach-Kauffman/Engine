@@ -26,6 +26,7 @@
 
 	#include "Objects/Squirrel.hpp"
 
+
 class Game
 {
 public:

@@ -38,11 +38,13 @@ void Game::initialize(const std::string& cfgFile, const std::string& resFile, co
 void Game::begin()
 {
 	//sfml main loop
+	boost::timer frameTimer;
 	sf::RenderWindow& window = *windowPtr;
 	window.setKeyRepeatEnabled(false);		//makes it so when a key is hit, only one event is recorded, not nine, or whatever -- ignores holding keys
 	window.setFramerateLimit(60);
 	while (window.isOpen())
 	{
+		frameTimer.restart();
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
@@ -126,6 +128,7 @@ void Game::begin()
 		window.display();
 
 		inpData.frameUpdate();
+		frameTimer.elapsed();
 	}
 
 

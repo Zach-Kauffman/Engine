@@ -4,6 +4,7 @@
 #include "Graphics\Graphics.hpp"
 #include "Object.hpp"
 #include "../Utility/XMLParser.hpp"
+#include "../Utility/INIParser.hpp"
 
 namespace objects
 {
@@ -23,14 +24,18 @@ namespace objects
 		Animation walking;
 		Animation idle;
 
-		float moveSpeed;
-
+		float moveForce;
+		float jumpForce;
+		bool jumping;
 
 		sf::Vector2f displaySize;
 		sf::Vector2f frameSize;
 		std::string walkingSSName;
 		std::string idleSSName;
 		int fps;
+
+		boost::timer jumpTimer;
+		double maxJumpTime;
 
 	};
 }
