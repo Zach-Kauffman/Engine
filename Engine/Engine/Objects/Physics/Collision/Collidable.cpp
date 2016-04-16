@@ -1,6 +1,5 @@
 #include "Collidable.hpp"
 
-
 Collidable::Collidable()
 {
 }
@@ -21,8 +20,7 @@ bool Collidable::getColliding()
 	return colliding;
 }
 
-CollisionData* Collidable::getCollisionData()
+HitBox Collidable::getHitBox()
 {
-	return &colData;
+	return hitbox;
 }
-

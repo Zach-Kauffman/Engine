@@ -8,7 +8,7 @@
 #include "..\Utility\Logger.hpp"
 #include "ObjectGroup.hpp"
 #include "..\Utility\Downcast.hpp"
-
+#include <typeinfo>
 
 namespace objects
 {
@@ -36,9 +36,11 @@ namespace objects
 			else
 			{
 				prototypes[type] = std::make_tuple(boost::bind(&ObjectManager::instancePrototype<T>, this), currentTypeID*10000);	//id needs some (4) extra zeros
+				IDprototypes[std::get<1>(prototypes[type])] = std::get<0>(prototypes[type]);
 				currentTypeID++;
 			}
 		}
+
 	private:
 		template<class derived>
 		Object* instancePrototype()		//return raw pointer to child of Object
@@ -52,6 +54,8 @@ namespace objects
 		//boost::shared_ptr<Object>(ObjectManager::*makeObject)()
 
 		src::severity_logger<severity_level> objectLogger;				//real logger object -- passed to all objectGroups
+
+		typedef boost::shared_ptr<objects::Object> Base;
 
 	};
 }

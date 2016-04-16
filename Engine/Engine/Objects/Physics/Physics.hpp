@@ -1,4 +1,4 @@
 #pragma once
 
 #include "Collision/Collidable.hpp"
-#include "Movement/Movable.hpp"
+#include "Movement/PhysicsObject.hpp"

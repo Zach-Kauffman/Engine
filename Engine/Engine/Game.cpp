@@ -342,14 +342,12 @@ void Game::loadMap()
 
 	}
 
-	//setting up the layer manager
 
 	tmpCenter = sf::Vector2f(500, 500);							//starting point of reference
 
 
-	util::Downcaster<objects::Object> tmpDC;
-	layMan.setReferencePoint(*(tmpDC.downcastSquirrel(objMan.getObject(1030001))->getPosition()));						//make sure the layers reference the point
-	//layMan.setReferencePoint(tmpCenter);
+	layMan.setReferencePoint(*util::downcast<objects::Squirrel>(objMan.getObject(1030001))->getPosition());						//make sure the layers reference the point
+
 	for (int i = 0; i < numLayers; i++)
 	{
 		std::string layerNumber = "1";	//default is 1

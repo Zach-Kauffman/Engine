@@ -8,7 +8,7 @@
 
 namespace objects
 {
-	class Squirrel : public Object, public Movable
+	class Squirrel : public Object, public PhysicsObject
 	{
 	public:
 		Squirrel();

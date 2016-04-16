@@ -1,8 +1,10 @@
 #pragma once
-#include "HitBoxes\HitBox.hpp"
+#include "HitBox.hpp"
 #include <boost\shared_ptr.hpp>
 #include "CollisionData.hpp"
-class Collidable
+#include "../Movement/PhysicsObject.hpp"
+
+class Collidable : public PhysicsObject
 {
 public:
 	Collidable();
@@ -12,12 +14,10 @@ public:
 	void setColliding(const bool& col);
 	bool getColliding();
 
-	CollisionData* getCollisionData();
-	virtual void recieveCollisionData(CollisionData*) = 0;
+	HitBox getHitBox();
 
 protected:
-	boost::shared_ptr<HitBox> hitbox;
-	CollisionData colData;
+	HitBox hitbox;
 	bool colliding;
 };
 

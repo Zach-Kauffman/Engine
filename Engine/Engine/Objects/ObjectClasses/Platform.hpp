@@ -32,21 +32,16 @@ namespace objects
 		void load(boost::property_tree::ptree& dataTree, ResourceManager&);	//defined in children to load from (INI?) file
 		boost::property_tree::ptree write();
 
-		void recieveCollisionData(CollisionData*) {}
-
-
 	private:
 		sf::Vector2f getTlCorner();
 		sf::Vector2f getBRCorner();
 
-		const sf::Texture* platformTexture;
+		sf::Texture* platformTexture;
 		sf::VertexArray texCoords;
 		sf::Vector2f position;
-		sf::Vector2f siz;
+		sf::Vector2f size;
 
-
-		//Animation?
-
+		std::string textureName;
 
 
 	};

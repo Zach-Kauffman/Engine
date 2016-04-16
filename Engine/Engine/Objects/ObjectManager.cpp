@@ -40,3 +40,4 @@ boost::shared_ptr<Object> ObjectManager::getPrototype(const std::string& type)
 
 	}
 }
+

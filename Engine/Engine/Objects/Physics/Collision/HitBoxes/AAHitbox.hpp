@@ -1,5 +1,5 @@
 #pragma once
-#include "HitBox.hpp"
+#include "../HitBox.hpp"
 
 class AAHitbox : public HitBox
 {
