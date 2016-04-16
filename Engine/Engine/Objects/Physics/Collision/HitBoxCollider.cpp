@@ -3,6 +3,7 @@
 
 HitBoxCollider::HitBoxCollider()
 {
+    knockback = 1;
 }
 
 
@@ -10,6 +11,30 @@ HitBoxCollider::~HitBoxCollider()
 {
 }
 
+
+sf::Vector2f getNewPosition(HitBox* boxA, sf::Vector2f velA, HitBox* boxB, sf::Vector2f velB)
+{
+    sf::Vector2f corVel(0,0);
+    if (checkCollision(boxA, boxB))
+    {
+        magsqA = velA.x * velA*x + velA.y + velA.y;
+        magsqB = velB.x * velB*x + velB.y + velB.y;
+
+        if (fabs(magsqA) < .001)
+        {
+
+        }
+        else if (fabs(magsqB) < .001)
+        {
+
+        }
+
+    }
+
+
+    return corVel;
+
+}
 
 bool HitBoxCollider::checkCollision(HitBox* boxA, HitBox* boxB)
 {
@@ -70,40 +95,88 @@ bool HitBoxCollider::collideAABBCirc(AAHitbox* boxA, CircularHitbox* boxB)
 {
 
 	enum cornerNames {TL = 0, TR, BR, BL, CORNER_SIZE};
-	sf::Vector2f corners[CORNER_SIZE];
-	corners[TL] = boxA->getCorners().first;
-	corners[TR] = sf::Vector2f(boxA->getCorners().second.x, boxA->getCorners().first.y);
-	corners[BR] = boxA->getCorners().second;
-	corners[BL] = sf::Vector2f(boxA->getCorners().first.x, boxA->getCorners().second.y);
-
-	bool distTest = false;
-	for (unsigned int i = 0; i < CORNER_SIZE; i++)
-	{
-		if (boxB->isPointInside(corners[i]))
-		{
-			distTest = true;
-			break;
-		}
-	}
 
 	bool boxTest = false;
-	if (!distTest)
+	bool circPointTest = false;
+	bool rectPointTest = false;
+	bool positionTest = false;
+
+
+	AAHitbox testor;
+	const sf::Vector2f circpos = boxB->getPosition();
+	const double rad = boxB->getRadius();
+	testor.setPosition(circpos);
+	testor.setSize(sf::Vector2f(2 * rad, 2 * rad));
+
+	boxTest = collideDoubleAABB(boxA, &testor);
+
+
+
+
+	if (boxTest)
 	{
-		
+		positionTest = boxB->isPointInside(boxB->getPosition()) || boxA->isPointInside(boxA->getPosition());
+		if (!positionTest)
+		{
+			sf::Vector2f corners[CORNER_SIZE];
+			corners[TL] = boxA->getCorners().first;
+			corners[TR] = sf::Vector2f(boxA->getCorners().second.x, boxA->getCorners().first.y);
+			corners[BR] = boxA->getCorners().second;
+			corners[BL] = sf::Vector2f(boxA->getCorners().first.x, boxA->getCorners().second.y);
 
-		AAHitbox testor;
-		const sf::Vector2f circpos = boxB->getPosition();
-		const double rad = boxB->getRadius();
-		testor.setPosition(circpos);
-		testor.setSize(sf::Vector2f(2 * rad, 2 * rad));
 
-		boxTest = collideDoubleAABB(boxA, &testor);
-		
+			for (unsigned int i = 0; i < CORNER_SIZE; i++)
+			{
+				if (boxB->isPointInside(corners[i]))
+				{
+					circPointTest = true;
+					break;
+				}
+			}
+
+			if (!circPointTest)
+			{
+				for (unsigned int i = 0; i < CORNER_SIZE; i++)
+				{
+					if (testor.isPointInside(corners[i]))
+					{
+						rectPointTest = true;
+						break;
+					}
+				}
+
+			}
+		}
+
 	}
 
-	return (boxTest || distTest);
 
-	
+	bool retVal = boxTest;
+	if (boxTest)
+	{
+		if (positionTest)
+		{
+			retVal = positionTest;
+		}
+		else
+		{
+			if (circPointTest)
+			{
+				retVal = true;
+			}
+			else
+			{
+				retVal = !rectPointTest;
+			}
+		}
+
+	}
+
+	return retVal;
+
+
+
+
 }
 
 bool HitBoxCollider::collideDoubleCirc(CircularHitbox* boxA, CircularHitbox* boxB)
@@ -112,7 +185,7 @@ bool HitBoxCollider::collideDoubleCirc(CircularHitbox* boxA, CircularHitbox* box
 	const double distY = boxA->getPosition().y - boxB->getPosition().y;
 	const double radsum = boxA->getRadius() + boxB->getRadius();
 
-	return (fabs(distX * distX + distY * distY - radsum * radsum) < .001);
+	return (distX * distX + distY * distY  < radsum * radsum);
 }
 
 AAHitbox* HitBoxCollider::downcastAABB(HitBox* box)
@@ -130,3 +203,41 @@ CircularHitbox* HitBoxCollider::downcastCirc(HitBox* box)
 		return (CircularHitbox*)(box);
 	}
 }
+
+
+sf::Vector2f HitBoxCollider::getCorVelDoubleAABB( sf::Vector2f vel, AAHitbox* boxA, AAHitbox* boxB)
+{
+    unsigned double mag = sqrt(distSq(vel));
+    sf::Vector2f velnorm(vel.x/mag, vel.y/mag);
+
+    sf::Vector2f apos(boxA->getPosition());
+
+    yBoundTop = boxB->getCorners().first.y;
+    yBoundBot = boxB->getCorners().second.y;
+    xBoundLeft = boxB->getCorners().first.x;
+    xBoundRight = boxB->getCorners().second.x;
+
+
+   std::Vector<sf::Vector2f> intPoints;
+
+   sf::Vector2f testPoint;
+   if ((apos.y < yBoundTop && apos.y + vel.y > yBoundTop || apos.y > yBoundTop && apos.y + vel.y < yBoundTop))
+   {
+
+   }
+
+
+
+    intPoint[0] =
+
+}
+
+	sf::Vector2f HitBoxCollider::getCorVelCircAABB(sf::Vector2f vel, CircularHitbox* circA,  AAHitbox* boxB);
+	sf::Vector2f HitBoxCollider::getCorVelAABBCirc(sf::Vector2f vel, AAHitbox* boxB, CircularHitbox* circA)
+	sf::Vector2f HitBoxCollider::getCorVelDoubleCirc(sf::Vector2f vel, CircularHitbox* circA, CircularHitbox* circB);
+
+
+	unsigned double HitBoxCollider::distSq(sf::Vector2f vec)
+	{
+	    return (unsigned double)(vec.x * vec.x + vec.y * vec.y);
+	}

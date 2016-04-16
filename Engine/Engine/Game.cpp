@@ -289,6 +289,7 @@ void Game::loadObjects()
 {
 	objMan.addPrototype<objects::TestObject>("TestObject");
 	objMan.addPrototype<objects::MovingTestObject>("MovingTestObject");
+	objMan.addPrototype<objects::Platform>("Platform");
 	objMan.addPrototype<objects::Squirrel>("Squirrel");
 }
 
