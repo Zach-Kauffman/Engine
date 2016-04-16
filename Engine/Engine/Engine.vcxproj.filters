@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-<<<<<<< HEAD
     <ClCompile Include="Editor.cpp" />
     <ClCompile Include="EditorGUI.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -45,7 +44,6 @@
     <ClCompile Include="Collision\HitBoxes\CircularHitbox.cpp" />
     <ClCompile Include="Collision\HitBoxes\HitBox.cpp" />
     <ClCompile Include="Objects\ObjectClasses\Platform.cpp" />
-=======
     <Filter Include="Source Files">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
@@ -103,7 +101,6 @@
     <Filter Include="Objects\Physics\Collision\HitBoxes">
       <UniqueIdentifier>{f528623e-a340-4d19-a552-2b20206deafc}</UniqueIdentifier>
     </Filter>
->>>>>>> 8cdaabae19943d4fe4e1b8f5bbb713e6d303d1d2
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utility\Downcast.hpp">
