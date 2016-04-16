@@ -17,8 +17,8 @@
 namespace util	//this is a utility class
 {
 	template<class T>
-	boost::shared_ptr<T> downcast(boost::shared_ptr<objects::Object>& base > )
+	boost::shared_ptr<T> downcast(boost::shared_ptr<objects::Object> base )
 	{
-		return boost::dynamic_cast<boost::shared_ptr<T> >(base);
+		return boost::dynamic_pointer_cast<T, objects::Object>(base);
 	}
 }

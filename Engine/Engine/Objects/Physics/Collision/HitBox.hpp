@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML\Graphics.hpp>
+
 class HitBox	//convex shape collision
 {
 public:
@@ -21,8 +22,7 @@ public:
 	sf::Vector2f getPosition();
 
 
-	void move(const sf::Vector2f& newPosition);		//actually moves to new position instead of using difference
-	void move(const sf::Vector2f& translation);		//moves by translation factor
+	void move(const sf::Vector2f& newPosition);		//just an alias
 
 
 protected:

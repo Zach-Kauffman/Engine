@@ -1,19 +1,19 @@
-#include "HitBoxCollider.hpp"
+#include "Collider.hpp"
 
 Collider::Collider(){}
 Collider::~Collider(){}
 
 CollisionData Collider::collide(Collidable& o1, Collidable& o2)
 {
-	return collide(o1.getHitBox(), o2.getHitBox()));
+	return collide(o1.getHitBox(), o2.getHitBox());
 }
 
-CollisionData Collider::collide(Collidable& o1, std::vector<Collidable&>& oVec)
+CollisionData Collider::collide(Collidable& o1, std::vector<Collidable*>& oVec)
 {
 	CollisionData data;
 	for (unsigned int i = 0; i < oVec.size(); i++)
 	{
-		data = collide(o1.getHitBox(), oVec[i].getHitBox());
+		data = collide(o1.getHitBox(), oVec[i]->getHitBox());
 		if (data.collided())
 		{
 			return data;
@@ -26,12 +26,12 @@ CollisionData Collider::collide(HitBox& b1, HitBox& b2)
 	return CollisionData(isCollide(b1.get(), b2.get()), b2);
 }
 
-CollisionData Collider::collide(HitBox& b1, std::vector<HitBox&>& b2)
+CollisionData Collider::collide(HitBox& b1, std::vector<HitBox*>& b2)
 {
 	CollisionData data;
 	for (unsigned int i = 0; i < b2.size(); i++)
 	{
-		data = CollisionData(isCollide(b1.get(), b2[i].get()), b2[i]);
+		data = CollisionData(isCollide(b1.get(), b2[i]->get()), *b2[i]);
 		if (data.collided())
 		{
 			return data;
@@ -39,7 +39,7 @@ CollisionData Collider::collide(HitBox& b1, std::vector<HitBox&>& b2)
 	}
 }
 
-bool checkBoundinsgBoxCollision(const sf::Vector2f& tla, const sf::Vector2f& bra, const sf::Vector2f& tlb, const sf::Vector2f& brb)
+bool Collider::checkBoundingBoxCollision(const sf::Vector2f& tla, const sf::Vector2f& bra, const sf::Vector2f& tlb, const sf::Vector2f& brb)
 {
 	enum boundpos { Top = 0, Right, Bot, Left, BOUND_SIZE };
 

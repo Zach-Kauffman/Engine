@@ -14,9 +14,9 @@ public:
 	~Collider();
 
 	CollisionData collide(Collidable& o1, Collidable& o2);
-	CollisionData collide(Collidable& o1, std::vector<Collidable&>& oVec);
+	CollisionData collide(Collidable& o1, std::vector<Collidable*>& oVec);
 	CollisionData collide(HitBox& b1, HitBox& b2);
-	CollisionData collide(HitBox& b1, std::vector<HitBox&>& b2);
+	CollisionData collide(HitBox& b1, std::vector<HitBox*>& b2);
 
 	std::pair<sf::Vector2f, bool> getLinePoint(const sf::Vector2f& u, const sf::Vector2f& v, const sf::Vector2f& a, const sf::Vector2f& b);
 	bool checkPointOnLine(const sf::Vector2f& point, const sf::Vector2f& pa, const sf::Vector2f& vec);

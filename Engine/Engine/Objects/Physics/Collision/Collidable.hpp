@@ -1,5 +1,4 @@
 #pragma once
-#include "HitBox.hpp"
 #include <boost\shared_ptr.hpp>
 #include "CollisionData.hpp"
 #include "../Movement/PhysicsObject.hpp"

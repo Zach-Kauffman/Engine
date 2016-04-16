@@ -36,7 +36,6 @@ namespace objects
 			else
 			{
 				prototypes[type] = std::make_tuple(boost::bind(&ObjectManager::instancePrototype<T>, this), currentTypeID*10000);	//id needs some (4) extra zeros
-				IDprototypes[std::get<1>(prototypes[type])] = std::get<0>(prototypes[type]);
 				currentTypeID++;
 			}
 		}
