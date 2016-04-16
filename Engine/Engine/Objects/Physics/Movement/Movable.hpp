@@ -3,6 +3,7 @@
 #include <SFML\Graphics.hpp>
 #include "../../../Defines.hpp"
 #include "boost/timer.hpp"
+#include "../../../Utility/Utilities.hpp"
 
 class Movable
 {
@@ -38,7 +39,7 @@ protected:
 	bool gravity;		//toggles gravity
 	bool air;			//toggles air resistance
 
-	boost::timer frameTimer;
+	sf::Clock frameTimer;
 
 
 	//not sure if these will be used here

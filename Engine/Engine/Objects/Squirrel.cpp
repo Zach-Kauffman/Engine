@@ -6,6 +6,7 @@ Squirrel::Squirrel()
 {
 	displaySize = sf::Vector2f(100, 100);
 	jumping = false;
+	colliding = false;
 }
 
 Squirrel::~Squirrel(){}
@@ -14,7 +15,7 @@ void Squirrel::draw(Layer& renderTarget)
 {
 	if (!isActive){return;}
 
-	if (abs(velocity.x) > 0 || velocity.y > 0)
+	if (abs(velocity.x) > .5)
 	{
 		//sf::RenderTexture* renderTex = renderTarget.getRenderTexture();
 		walking.drawNextFrame(*renderTarget.getRenderTexture());
@@ -29,17 +30,57 @@ void Squirrel::update(InputData& inpData)
 {
 	if (!isActive){ return; }
 
-	if (inpData.isKeyHit(sf::Keyboard::Up))
+	if (abs(position.y - 1000) < .5)
 	{
-		applyForce(sf::Vector2f(0, -jumpForce));
+		colliding = true;
+	}
+	else
+	{
+		colliding = false;
+	}
+
+	if (inpData.isKeyHeld(sf::Keyboard::Up))
+	{
+		float time;
+		if (!jumping)
+		{
+			jumping = true;
+			jumpTimer.restart().asSeconds();
+
+		}
+		
+		if (jumping)
+		{
+			time = jumpTimer.getElapsedTime().asSeconds();
+
+			if (time > jumpTime)
+			{
+				if (abs(velocity.y) > .1 && colliding)
+				{
+					jumping = false;
+				}
+			}
+			else
+			{
+				applyForce(sf::Vector2f(0, -jumpForce));
+			}
+
+		}
+
+	}
+	float multiplier = 1;
+
+	if (!colliding)
+	{
+		multiplier *= airborneMultiplier;
 	}
 	if (inpData.isKeyHeld(sf::Keyboard::Left))
 	{
-		applyForce(sf::Vector2f(-moveForce, 0));
+		applyForce(sf::Vector2f(-moveForce*multiplier, 0));
 	}
 	if (inpData.isKeyHeld(sf::Keyboard::Right))
 	{
-		applyForce(sf::Vector2f(moveForce, 0));
+		applyForce(sf::Vector2f(moveForce*multiplier, 0));
 	}
 
 	updateMovement();
@@ -64,7 +105,7 @@ void Squirrel::load(boost::property_tree::ptree& dataTree, ResourceManager& recM
 	idle = Animation(recMan.getTexturePointerByName(idleSSName), frameSize, displaySize, fps, position);
 
 	//default values
-	maxJumpTime = 1000;
+	jumpTime = 1000;
 	maxSpeed = 5;
 	gravity = true;
 	air = true;
@@ -73,11 +114,12 @@ void Squirrel::load(boost::property_tree::ptree& dataTree, ResourceManager& recM
 	INIParser options("SquirrelOptions.ini");
 
 	options.setSection("Movement");
-	options.readValue<double>("jumpTime", maxJumpTime);
 	options.readValue<int>("MaxSpeed", maxSpeed);
 	options.readValue<bool>("Gravity", gravity);
 	options.readValue<float>("MoveForce", moveForce);
 	options.readValue<float>("JumpForce", jumpForce);
+	options.readValue<float>("JumpTime", jumpTime);
+	options.readValue<float>("AirMoveMultiplier", airborneMultiplier);
 
 	options.setSection("Graphics");
 	options.readValue<int>("AnimationFPS", fps);

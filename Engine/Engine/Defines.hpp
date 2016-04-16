@@ -12,7 +12,7 @@
 #define LOG_CONSOLE
 //#define RUN_EDITOR
 
-#define GRAVITY 9.8
+#define GRAVITY 15
 #define AIR .3
 
 

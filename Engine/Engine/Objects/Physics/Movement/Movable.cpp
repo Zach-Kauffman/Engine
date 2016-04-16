@@ -12,6 +12,7 @@ Movable::Movable(const sf::Vector2f& newPosition, const sf::Vector2f& newVelocit
 
 void Movable::updateMovement()
 {
+	double frameTime = frameTimer.restart().asSeconds();
 	//HARDCODE REMOVE
 	if (position.y > 1000)
 	{
@@ -21,11 +22,12 @@ void Movable::updateMovement()
 	
 	if (air)
 	{
-		sf::Vector2f air = sf::Vector2f(-1 * sign(acceleration.x) * velocity.x * velocity.x * AIR, -1 * sign(acceleration.y) * velocity.y * velocity.y * AIR);
-		acceleration += air;
+		sf::Vector2f s = sf::Vector2f(sign(velocity.x), sign(velocity.y));
+		sf::Vector2f air = sf::Vector2f(s.x * velocity.x * (s.x * util::clamp(abs(velocity.x), 10, 100)) * AIR, s.y * velocity.y * velocity.y * AIR);
+		acceleration -= air;
 	}
 
-	velocity += sf::Vector2f(acceleration.x * (frameTimer.elapsed() / 1000), acceleration.y * (frameTimer.elapsed() / 1000));
+	velocity += sf::Vector2f(acceleration.x * frameTime, acceleration.y * frameTime);
 	position += velocity;
 
 	if (gravity)

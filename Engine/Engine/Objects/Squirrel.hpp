@@ -27,6 +27,8 @@ namespace objects
 		float moveForce;
 		float jumpForce;
 		bool jumping;
+		sf::Clock jumpTimer;
+		float jumpTime;
 
 		sf::Vector2f displaySize;
 		sf::Vector2f frameSize;
@@ -34,8 +36,9 @@ namespace objects
 		std::string idleSSName;
 		int fps;
 
-		boost::timer jumpTimer;
-		double maxJumpTime;
+		bool colliding;
+
+		float airborneMultiplier;	//multiplier for airborne movement
 
 	};
 }

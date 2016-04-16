@@ -37,6 +37,19 @@ namespace util
 	*/
 	//mins, maxes, bounds
 
+	inline float clamp(const float& in, const float& min, const float& max)
+	{
+		if (in < min)
+		{
+			return min;
+		}
+		else if (in > max)
+		{
+			return max;
+		}
+		return in;
+	};
+
 	inline void swapChars(char& a, char& b)
 	{
 		char temp = a;
