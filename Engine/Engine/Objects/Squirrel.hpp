@@ -8,7 +8,7 @@
 
 namespace objects
 {
-	class Squirrel : public Object, public PhysicsObject
+	class Squirrel : public Object, public Collidable
 	{
 	public:
 		Squirrel();
@@ -35,8 +35,6 @@ namespace objects
 		std::string walkingSSName;
 		std::string idleSSName;
 		int fps;
-
-		bool colliding;
 
 		float airborneMultiplier;	//multiplier for airborne movement
 

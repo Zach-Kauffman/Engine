@@ -7,6 +7,7 @@ Squirrel::Squirrel()
 	displaySize = sf::Vector2f(100, 100);
 	jumping = false;
 	colliding = false;
+	movable = true;
 }
 
 Squirrel::~Squirrel(){}

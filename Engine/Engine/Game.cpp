@@ -289,8 +289,8 @@ void Game::loadObjects()
 {
 	objMan.addPrototype<objects::TestObject>("TestObject");
 	objMan.addPrototype<objects::MovingTestObject>("MovingTestObject");
-	objMan.addPrototype<objects::Platform>("Platform");
 	objMan.addPrototype<objects::Squirrel>("Squirrel");
+	objMan.addPrototype<objects::Platform>("Platform");
 }
 
 void Game::loadMap()
@@ -344,7 +344,6 @@ void Game::loadMap()
 
 
 	tmpCenter = sf::Vector2f(500, 500);							//starting point of reference
-
 
 	layMan.setReferencePoint(*util::downcast<objects::Squirrel>(objMan.getObject(1030001))->getPosition());						//make sure the layers reference the point
 
