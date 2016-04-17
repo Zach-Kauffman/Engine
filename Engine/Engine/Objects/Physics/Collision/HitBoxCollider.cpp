@@ -3,7 +3,7 @@
 
 HitBoxCollider::HitBoxCollider()
 {
-   // knockback = 1;
+    knockback = 1;
 }
 
 
@@ -46,15 +46,15 @@ bool HitBoxCollider::checkCollision(HitBox* boxA, HitBox* boxB)
 	}
 	else if ((boxA->getType() == HitBox::CIRC) && (boxB->getType() == HitBox::AABB))
 	{
-		collided = collideAABBCirc(downcastAABB(boxB), downcastCirc(boxA));
+		//collided = collideAABBCirc(downcastAABB(boxB), downcastCirc(boxA));
 	}
 	else if ((boxA->getType() == HitBox::AABB) && (boxB->getType() == HitBox::CIRC))
 	{
-		collided = collideAABBCirc(downcastAABB(boxA), downcastCirc(boxB));
+		//collided = collideAABBCirc(downcastAABB(boxA), downcastCirc(boxB));
 	}
 	else if ((boxA->getType() == HitBox::CIRC) && (boxB->getType() == HitBox::CIRC))
 	{
-		collided = collideDoubleCirc(downcastCirc(boxA), downcastCirc(boxB));
+		//collided = collideDoubleCirc(downcastCirc(boxA), downcastCirc(boxB));
 	}
 
 	return collided;
@@ -91,102 +91,166 @@ bool HitBoxCollider::collideDoubleAABB(AAHitbox* boxA, AAHitbox* boxB)
 
 }
 
-bool HitBoxCollider::collideAABBCirc(AAHitbox* boxA, CircularHitbox* boxB)
+//bool HitBoxCollider::collideAABBCirc(AAHitbox* boxA, CircularHitbox* boxB)
+//{
+//
+//	enum cornerNames {TL = 0, TR, BR, BL, CORNER_SIZE};
+//
+//	bool boxTest = false;
+//	bool circPointTest = false;
+//	bool rectPointTest = false;
+//	bool positionTest = false;
+//
+//
+//	AAHitbox testor;
+//	const sf::Vector2f circpos = boxB->getPosition();
+//	const double rad = boxB->getRadius();
+//	testor.setPosition(circpos);
+//	testor.setSize(sf::Vector2f(2 * rad, 2 * rad));
+//
+//	boxTest = collideDoubleAABB(boxA, &testor);
+//
+//
+//
+//
+//	if (boxTest)
+//	{
+//		positionTest = boxB->isPointInside(boxB->getPosition()) || boxA->isPointInside(boxA->getPosition());
+//		if (!positionTest)
+//		{
+//			sf::Vector2f corners[CORNER_SIZE];
+//			corners[TL] = boxA->getCorners().first;
+//			corners[TR] = sf::Vector2f(boxA->getCorners().second.x, boxA->getCorners().first.y);
+//			corners[BR] = boxA->getCorners().second;
+//			corners[BL] = sf::Vector2f(boxA->getCorners().first.x, boxA->getCorners().second.y);
+//
+//
+//			for (unsigned int i = 0; i < CORNER_SIZE; i++)
+//			{
+//				if (boxB->isPointInside(corners[i]))
+//				{
+//					circPointTest = true;
+//					break;
+//				}
+//			}
+//
+//			if (!circPointTest)
+//			{
+//				for (unsigned int i = 0; i < CORNER_SIZE; i++)
+//				{
+//					if (testor.isPointInside(corners[i]))
+//					{
+//						rectPointTest = true;
+//						break;
+//					}
+//				}
+//
+//			}
+//		}
+//
+//	}
+//
+//
+//	bool retVal = boxTest;
+//	if (boxTest)
+//	{
+//		if (positionTest)
+//		{
+//			retVal = positionTest;
+//		}
+//		else
+//		{
+//			if (circPointTest)
+//			{
+//				retVal = true;
+//			}
+//			else
+//			{
+//				retVal = !rectPointTest;
+//			}
+//		}
+//
+//	}
+//
+//	return retVal;
+//
+//
+//
+//
+//}
+
+//bool HitBoxCollider::collideDoubleCirc(CircularHitbox* boxA, CircularHitbox* boxB)
+//{
+//	const double distX = boxA->getPosition().x - boxB->getPosition().x;
+//	const double distY = boxA->getPosition().y - boxB->getPosition().y;
+//	const double radsum = boxA->getRadius() + boxB->getRadius();
+//
+//	return (distX * distX + distY * distY  < radsum * radsum);
+//}
+
+bool HitBoxCollider::collideDoublePolygon(const polygon& hb1, const polygon& hb2)
 {
+	double maxX = hb2[0].x;
 
-	enum cornerNames {TL = 0, TR, BR, BL, CORNER_SIZE};
-
-	bool boxTest = false;
-	bool circPointTest = false;
-	bool rectPointTest = false;
-	bool positionTest = false;
-
-
-	AAHitbox testor;
-	const sf::Vector2f circpos = boxB->getPosition();
-	const double rad = boxB->getRadius();
-	testor.setPosition(circpos);
-	testor.setSize(sf::Vector2f(2 * rad, 2 * rad));
-
-	boxTest = collideDoubleAABB(boxA, &testor);
+	bool colliding = false;
 
 
 
 
-	if (boxTest)
+	std::pair<sf::Vector2f, sf::Vector2f> bb1 = getBoundingBoxCorners(hb1);
+	std::pair<sf::Vector2f, sf::Vector2f> bb2 = getBoundingBoxCorners(hb2);
+
+	AAHitbox aabb1;
+	aabb1.setCorners(bb1.first, bb1.second);
+
+	AAHitbox aabb2;
+	aabb2.setCorners(bb2.first, bb2.second);
+
+	colliding = collideDoubleAABB(&aabb1, &aabb2);
+
+
+
+
+
+	if (colliding)
 	{
-		positionTest = boxB->isPointInside(boxB->getPosition()) || boxA->isPointInside(boxA->getPosition());
-		if (!positionTest)
+		for (unsigned int i = 0; i < hb1.size() - 1 && colliding == false; i++)
 		{
-			sf::Vector2f corners[CORNER_SIZE];
-			corners[TL] = boxA->getCorners().first;
-			corners[TR] = sf::Vector2f(boxA->getCorners().second.x, boxA->getCorners().first.y);
-			corners[BR] = boxA->getCorners().second;
-			corners[BL] = sf::Vector2f(boxA->getCorners().first.x, boxA->getCorners().second.y);
-
-
-			for (unsigned int i = 0; i < CORNER_SIZE; i++)
+			for (unsigned int k = 0; k < hb2.size() - 1 && colliding == false; k++)
 			{
-				if (boxB->isPointInside(corners[i]))
+				if (hb2[k].x > maxX)
 				{
-					circPointTest = true;
-					break;
+					maxX = hb2[k].x;
 				}
-			}
-
-			if (!circPointTest)
-			{
-				for (unsigned int i = 0; i < CORNER_SIZE; i++)
-				{
-					if (testor.isPointInside(corners[i]))
-					{
-						rectPointTest = true;
-						break;
-					}
-				}
-
+				std::pair<sf::Vector2f, bool> poi = getLinePoi(hb1[i], hb1[i + 1], hb2[k], hb2[k + 1]);
+				colliding = poi.second;
 			}
 		}
 
+		if (!colliding)
+		{
+			unsigned int poiCounter = 0;
+			maxX += 10;
+
+			for (unsigned int k = 0; k < hb2.size() - 1 && colliding == false; k++)
+			{
+				colliding = checkPointOnLine(hb1[0], hb2[k], hb2[k + 1]);
+				std::pair<sf::Vector2f, bool> poi = getLinePoi(hb1[0], sf::Vector2f(maxX, hb1[0].y), hb2[k], hb2[k + 1]);
+				poiCounter += poi.second;
+			}
+
+			if (!colliding)
+			{
+				colliding = (poiCounter & 1);
+			}
+			
+		}
 	}
 
 
-	bool retVal = boxTest;
-	if (boxTest)
-	{
-		if (positionTest)
-		{
-			retVal = positionTest;
-		}
-		else
-		{
-			if (circPointTest)
-			{
-				retVal = true;
-			}
-			else
-			{
-				retVal = !rectPointTest;
-			}
-		}
-
-	}
-
-	return retVal;
-
-
-
-
+	return colliding;
 }
 
-bool HitBoxCollider::collideDoubleCirc(CircularHitbox* boxA, CircularHitbox* boxB)
-{
-	const double distX = boxA->getPosition().x - boxB->getPosition().x;
-	const double distY = boxA->getPosition().y - boxB->getPosition().y;
-	const double radsum = boxA->getRadius() + boxB->getRadius();
-
-	return (distX * distX + distY * distY  < radsum * radsum);
-}
 
 AAHitbox* HitBoxCollider::downcastAABB(HitBox* box)
 {
@@ -285,6 +349,7 @@ CircularHitbox* HitBoxCollider::downcastCirc(HitBox* box)
 //{
 //
 //}
+
 //sf::Vector2f HitBoxCollider::getCorVelAABBCirc(sf::Vector2f vel, AAHitbox* boxA, CircularHitbox* circA)
 //{
 //
@@ -307,15 +372,17 @@ CircularHitbox* HitBoxCollider::downcastCirc(HitBox* box)
 //
 //}
 
-//double HitBoxCollider::magSq(const sf::Vector2f& vec)
-//{
-//	return ((double)(vec.x * vec.x + vec.y * vec.y));
-//}
-//
-//double HitBoxCollider::distSq(const sf::Vector2f& veca, const sf::Vector2f& vecb)
-//{
-//	return ((double)((veca.x - vecb.x) * (veca.x - vecb.x) + (veca.y - vecb.y) * (veca.y - vecb.y)));
-//}
+double HitBoxCollider::magSq(const sf::Vector2f& vec)
+{
+	return ((double)(vec.x * vec.x + vec.y * vec.y));
+}
+
+
+double HitBoxCollider::distSq(const sf::Vector2f& veca, const sf::Vector2f& vecb)
+{
+	return ((double)((veca.x - vecb.x) * (veca.x - vecb.x) + (veca.y - vecb.y) * (veca.y - vecb.y)));
+}
+
 //
 //
 //double HitBoxCollider::distanceSqToAALine(const sf::Vector2f& point, const sf::Vector2f& c1, const sf::Vector2f& c2)
@@ -491,67 +558,75 @@ std::pair<sf::Vector2f, sf::Vector2f> HitBoxCollider::getBoundingBoxCorners(cons
 }
 
 
-bool HitBoxCollider::collideDoublePolygon(const std::vector<sf::Vector2f>& hb1, const std::vector<sf::Vector2f>& hb2)
+
+
+std::pair<sf::Vector2f, sf::Vector2f> HitBoxCollider::getKineticResponseDoublePolygon(const sf::Vector2f& vel, const polygon& polyA, const polygon& polyB)
 {
-	double maxX = hb2[0].x;
+	unsigned int sizb = polyB.size();
 
-	bool colliding = false;
+	bool foundFirst = false;
+	double minDistSq = 1;
+	unsigned int critLine1;
+	unsigned int critLine2;
+	unsigned int critCorner;
 
+	sf::Vector2f firstPoi;
 
-
-
-	std::pair<sf::Vector2f, sf::Vector2f> bb1 = getBoundingBoxCorners(hb1);
-	std::pair<sf::Vector2f, sf::Vector2f> bb2 = getBoundingBoxCorners(hb2);
-
-	AAHitbox aabb1;
-	aabb1.setCorners(bb1.first, bb1.second);
-
-	AAHitbox aabb2;
-	aabb2.setCorners(bb2.first, bb2.second);
-
-	colliding = collideDoubleAABB(&aabb1, &aabb2);
-
-
-
-
-
-	if (colliding)
+	for (unsigned int i = 0; i < polyA.size(); i++)
 	{
-		for (unsigned int i = 0; i < hb1.size() - 1 && colliding == false; i++)
+		const sf::Vector2f oldPoint = polyA[i] - vel;
+		for (unsigned int k = 0; k < polyB.size(); k++)
 		{
-			for (unsigned int k = 0; k < hb2.size() - 1 && colliding == false; k++)
+			std::pair<sf::Vector2f, bool> poi = getLinePoi(oldPoint, polyA[i], polyB[k], polyB[(k + 1) % sizb]);
+			if (poi.second)
 			{
-				if (hb2[k].x > maxX)
+				double tmpDistSq = distSq(oldPoint, poi.first);
+				if ((tmpDistSq < minDistSq) || (!foundFirst))
 				{
-					maxX = hb2[k].x;
+					foundFirst = true;
+					critLine1 = k;
+					critLine2 = (k + 1) % sizb;
+					critCorner = i;
+					minDistSq = tmpDistSq;
+					firstPoi = poi.first;
 				}
-				std::pair<sf::Vector2f, bool> poi = getLinePoi(hb1[i], hb1[i + 1], hb2[k], hb2[k + 1]);
-				colliding = poi.second;
 			}
-		}
-
-		if (!colliding)
-		{
-			unsigned int poiCounter = 0;
-			maxX += 10;
-
-			for (unsigned int k = 0; k < hb2.size() - 1 && colliding == false; k++)
-			{
-				colliding = checkPointOnLine(hb1[0], hb2[k], hb2[k + 1]);
-				std::pair<sf::Vector2f, bool> poi = getLinePoi(hb1[0], sf::Vector2f(maxX, hb1[0].y), hb2[k], hb2[k + 1]);
-				poiCounter += poi.second;
-			}
-
-			if (!colliding)
-			{
-				colliding = (poiCounter & 1);
-			}
-			
 		}
 	}
 
+	sf::Vector2f corDisp = firstPoi - polyA[critCorner];
 
-	return colliding;
+	const double corMag = sqrt(magSq(corDisp));	
+
+	corDisp.x += corDisp.x / corMag * knockback;
+	corDisp.y += corDisp.y / corMag * knockback;	
+
+
+	sf::Vector2f critLineVec = polyB[critLine1] - polyB[critLine2]; //move line to origin
+	
+
+	//rotate by 90 degrees
+	double tmpx = critLineVec.x;
+
+	critLineVec.x = critLineVec.y;
+	critLineVec.y = -tmpx;
+
+	//normalize that vector
+	sf::Vector2f normCLVec;
+	normCLVec.x = critLineVec.x / sqrt(magSq(critLineVec));
+	normCLVec.y = critLineVec.y / sqrt(magSq(critLineVec));
+
+	//find dot product
+	const double dotProduct = normCLVec.x * vel.x + normCLVec.y * vel.y;
+
+	//find projection vector
+	const sf::Vector2f projVec(dotProduct * normCLVec.x, dotProduct * normCLVec.y);
+
+	//find other component (rejection vector)
+	sf::Vector2f newVelocity = vel - projVec;
+
+	return std::make_pair(corDisp, newVelocity);
+	
 }
 
 

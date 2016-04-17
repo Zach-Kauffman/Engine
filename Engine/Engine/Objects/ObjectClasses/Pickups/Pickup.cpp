@@ -13,7 +13,21 @@ Pickup::~Pickup()
 }
 
 
+void Pickup::setup(const sf::Vector2f& pos, const sf::Vector2f& siz, const std::string& snam, const std::string& pnam, const std::string& tnam, ResourceManager& rman)
+{
+	position = pos;
+	size = siz;
+	seasonName = snam;
+	pickupName = pnam;
+	textureName = tnam;
+	
+	pickupTexture = rman.getTexturePointerByName(textureName);
 
+	subSetup();
+
+
+
+}
 
 void Pickup::draw(Layer& renderTarget)
 {
@@ -49,6 +63,42 @@ void Pickup::load(boost::property_tree::ptree& dataTree, ResourceManager& rman)
 	parser.readValue<std::string>("texture", textureName, dataTree);
 
 	pickupTexture = rman.getTexturePointerByName(textureName);
+
+	subSetup();
+
+
+
+
+}
+
+ boost::property_tree::ptree Pickup::write()
+{
+	boost::property_tree::ptree properties;
+	properties.put("position.<xmlattr>.x", position.x);
+	properties.put("position.<xmlattr>.y", position.y);
+	properties.put("size.<xmlattr>.x", size.x);
+	properties.put("size.<xmlattr>.y", size.y);
+	properties.put("season_name", seasonName);
+	properties.put("pickup_name", pickupName);
+	properties.put("texture", textureName);
+
+	return properties;
+}
+
+ bool Pickup::isRemoved()
+ {
+	 return removed;
+ }
+
+ PickupData Pickup::getPickupData()
+ {
+	 return pdata;
+ }
+
+
+ void Pickup::subSetup()
+ {
+	
 	
 	sf::Vector2f texSize = (sf::Vector2f)(pickupTexture->getSize());
 
@@ -77,33 +127,10 @@ void Pickup::load(boost::property_tree::ptree& dataTree, ResourceManager& rman)
 	textureCoords[2].texCoords = sf::Vector2f(0, 0);			//top left
 	textureCoords[3].texCoords = sf::Vector2f(texSize.x, 0);	//top right
 
-
+	
 	pdata.load(pickupName);
 
+	hitbox.setPosition(position);
+	hitbox.create(size.x, 10);
 
-
-}
-
- boost::property_tree::ptree Pickup::write()
-{
-	boost::property_tree::ptree properties;
-	properties.put("position.<xmlattr>.x", position.x);
-	properties.put("position.<xmlattr>.y", position.y);
-	properties.put("size.<xmlattr>.x", size.x);
-	properties.put("size.<xmlattr>.y", size.y);
-	properties.put("season_name", seasonName);
-	properties.put("pickup_name", pickupName);
-	properties.put("texture", textureName);
-
-	return properties;
-}
-
- bool Pickup::isRemoved()
- {
-	 return removed;
- }
-
- PickupData Pickup::getPickupData()
- {
-	 return pdata;
  }
