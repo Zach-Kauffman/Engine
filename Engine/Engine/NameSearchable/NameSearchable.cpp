@@ -38,7 +38,8 @@ int NameSearchable::ntoi(const std::string& name, const int& vecIndex)	//accesse
 
 void NameSearchable::setVectorSize(const int& size)	//resizes the vector of name maps -- typically used only once
 {
-	nameMapVector.resize(size);						//resize it
+	std::map<std::string, int> val;
+	nameMapVector.resize(size, val);						//resize it
 }
 
 
@@ -52,7 +53,7 @@ void  NameSearchable::addName(const int& intName, const int& mapIndex)	//adds an
 void  NameSearchable::addName(const int& intName, const int& vecIndex, const int& mapIndex)	
 																		//adds an int 'name', a vector index, and a desired index
 {
-	std::string tmpString = "Unnamed" + util::intToString(intName) + ".";		//make a name out of the int (23 -> "Unnamed23.") The '.' is to
+	std::string tmpString = "Unnamed" + boost::lexical_cast<std::string>(intName) + ".";		//make a name out of the int (23 -> "Unnamed23.") The '.' is to
 																		//prevent multiple copies from having confusing names 
 																		//(e.g. add 2 then 2 again, you get "Unnamed2." and "Unnamed2.2"
 																		//rather than "Unnamed2" and "Unnamed22")
@@ -73,18 +74,24 @@ void NameSearchable::addName(std::string name, const int& vecIndex, const int& m
 	int endNumber = 1;
 	bool sameName = true;								//true if there may be a duplicate already
 	bool firstDuplicate = true;							//true if the duplicate found was the first duplicate
+	bool duplicateExists = false;
 
 	while (sameName == true)							//go through, finding duplicates
 	{
 		if (nameMapVector[vecIndex].count(name) == 1)
 		{
+			duplicateExists = true;
 			endNumber = boost::lexical_cast<int> (name.substr(size - 1, name.size()));				//if there exists a "RedTexture" and a "RedTexture2" already,
 			endNumber++;									//and you try to add another "RedTexture",it will become "RedTexture3"		
 			name = name.substr(0, size - 1);
-			name += util::intToString(endNumber);
+			name += boost::lexical_cast<std::string>(endNumber);
 		}
 		else
 		{
+			if (!duplicateExists)
+			{
+				name.pop_back();
+			}
 			sameName = false;							//if there is no same name, exit the while loop
 		}
 	}
