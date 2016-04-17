@@ -3,7 +3,7 @@
 
 HitBoxCollider::HitBoxCollider()
 {
-    //knockback = 1;
+   // knockback = 1;
 }
 
 
@@ -12,29 +12,29 @@ HitBoxCollider::~HitBoxCollider()
 }
 
 
-//sf::Vector2f HitBoxCollider::getNewPosition(HitBox* boxA, sf::Vector2f velA, HitBox* boxB, sf::Vector2f velB)
-//{
-//    sf::Vector2f corVel(0,0);
-//    if (checkCollision(boxA, boxB))
-//    {
-//        double magsqA = velA.x * velA.x + velA.y + velA.y;
-//        double magsqB = velB.x * velB.x + velB.y + velB.y;
-//
-//        if (fabs(magsqA) < .001)
-//        {
-//
-//        }
-//        else if (fabs(magsqB) < .001)
-//        {
-//
-//        }
-//
-//    }
-//
-//
-//    return corVel;
-//
-//}
+sf::Vector2f HitBoxCollider::getNewPosition(HitBox* boxA, sf::Vector2f velA, HitBox* boxB, sf::Vector2f velB)
+{
+    sf::Vector2f corVel(0,0);
+    if (checkCollision(boxA, boxB))
+    {
+        double magsqA = velA.x * velA.x + velA.y + velA.y;
+        double magsqB = velB.x * velB.x + velB.y + velB.y;
+
+        if (fabs(magsqA) < .001)
+        {
+
+        }
+        else if (fabs(magsqB) < .001)
+        {
+
+        }
+
+    }
+
+
+    return corVel;
+
+}
 
 bool HitBoxCollider::checkCollision(HitBox* boxA, HitBox* boxB)
 {
@@ -306,7 +306,7 @@ CircularHitbox* HitBoxCollider::downcastCirc(HitBox* box)
 //{
 //
 //}
-//
+
 //double HitBoxCollider::magSq(const sf::Vector2f& vec)
 //{
 //	return ((double)(vec.x * vec.x + vec.y * vec.y));
@@ -359,96 +359,199 @@ CircularHitbox* HitBoxCollider::downcastCirc(HitBox* box)
 //
 //	return distsq;
 //}
-//
-//
-//
-//std::pair<sf::Vector2f, bool> HitBoxCollider::getLinePoi(const sf::Vector2f& u, const sf::Vector2f& v, const sf::Vector2f& a, const sf::Vector2f& b)
+
+
+
+std::pair<sf::Vector2f, bool> HitBoxCollider::getLinePoi(const sf::Vector2f& u, const sf::Vector2f& v, const sf::Vector2f& a, const sf::Vector2f& b)
+{
+	bool legit = true;
+	sf::Vector2f poi = sf::Vector2f (0,0);
+
+	if (u.x == v.x)
+	{
+		if (a.x == b.x)
+		{
+			legit = false;
+		}
+		else
+		{
+			double slopeb = (a.y - b.y) / (a.x - b.x);
+			poi = sf::Vector2f(u.x, slopeb * (u.x - a.x) + a.y);
+		}
+	}
+	else if (a.x == b.x)
+	{
+			double slopea = (u.y - v.y) / (u.x - v.x);
+			poi = sf::Vector2f(a.x, slopea * (a.x - u.x) + u.y);
+	}
+	else
+	{
+		double slopea = (u.y - v.y) / (u.x - v.x);
+		double slopeb = (a.y - b.y) / (a.x - b.x);
+
+		if (slopea == slopeb)
+		{
+			legit = false;
+		}
+		else
+		{
+			poi.x = (slopeb * a.x - slopea * u.x + u.y - a.y) / (slopeb - slopea);
+			poi.y = slopea * (poi.x - u.x) + u.y;
+		}
+
+	}
+
+
+	if (legit)
+	{
+		legit = (checkPointOnLine(poi, u, v) && checkPointOnLine(poi, a, b));
+	}
+
+
+	return std::make_pair(poi, legit);
+
+}
+
+
+
+//std::pair<std::pair<sf::Vector2f, bool>, std::pair<sf::Vector2f, bool>> HitBoxCollider::getLineCirclePois(const sf::Vector2f& u, const sf::Vector2f& v, const sf::Vector2f& c, const double& rad)
 //{
-//	bool legit = true;
-//	sf::Vector2f poi = sf::Vector2f (0,0);
-//
 //	if (u.x == v.x)
-//	{
-//		if (a.x == b.x)
-//		{
-//			legit = false;
-//		}
-//		else
-//		{
-//			double slopeb = (a.y - b.y) / (a.x - b.x);
-//			poi = sf::Vector2f(u.x, slopeb * (u.x - a.x) + a.y);
-//		}
-//	}
-//	else if (a.x == b.x)
-//	{
-//			double slopea = (u.y - v.y) / (u.x - v.x);
-//			poi = sf::Vector2f(a.x, slopea * (a.x - u.x) + u.y);
-//	}
-//	else
-//	{
-//		double slopea = (u.y - v.y) / (u.x - v.x);
-//		double slopeb = (a.y - b.y) / (a.x - b.x);
-//
-//		if (slopea == slopeb)
-//		{
-//			legit = false;
-//		}
-//		else
-//		{
-//			poi.x = (slopeb * a.x - slopea * u.x + u.y - a.y) / (slopeb - slopea);
-//			poi.y = slopea * (poi.x - u.x) + u.y;
-//		}
-//
-//	}
-//
-//
-//	if (legit)
-//	{
-//		legit = (checkPointOnLine(poi, u, v) && checkPointOnLine(poi, a, b));
-//	}
-//
-//
-//	return std::make_pair(poi, legit);
-//
-//}
-//
-//
-//
-//std::pair<std::pair<sf::Vector2f, bool>, std::pair<sf::Vector2f, bool>> getLineCirclePois(const sf::Vector2f& u, const sf::Vector2f& v, const sf::Vector2f& c, const double& rad)
-//{
-//	if (u.x == v.x)
-//	{
-//
+//	{ 
+//		
 //	}
 //}
-//
-//
-//
-//bool HitBoxCollider::checkPointOnLine(const sf::Vector2f& point, const sf::Vector2f& pa, const sf::Vector2f& pb)
-//{
-//	return checkPointOnLine(point, pa, pb - pa);
-//}
-//
-//bool HitBoxCollider::checkPointOnLine(const sf::Vector2f& point, const sf::Vector2f& pa, const sf::Vector2f& vec)
-//{
-//
-//	bool good = false;
-//	sf::Vector2f pb = pa + vec;
-//	if (vec.x == 0)
-//	{
-//		good = (fabs(point.x - pa.x) < .001);
-//
-//	}
-//	else
-//	{
-//		double slope = vec.y / vec.x;
-//		good = ((fabs(slope * (point.x - pa.x) + pa.y - point.y) < .001));
-//	}
-//
-//	good = (good && (pb.x <= point.x && pa.x >= point.x || pb.x >= point.x && pa.x <= point.x));
-//	good = (good && (pb.y <= point.y && pa.y >= point.y || pb.y >= point.y && pa.y <= point.y));
-//
-//	return good;
-//
-//	
-//}
+
+
+
+bool HitBoxCollider::checkPointOnLine(const sf::Vector2f& point, const sf::Vector2f& pa, const sf::Vector2f& pb)
+{
+	const sf::Vector2f vec = (pb - pa);
+
+	bool good = false;
+	
+	if (vec.x == 0)
+	{
+		good = (fabs(point.x - pa.x) < .001);
+
+	}
+	else
+	{
+		double slope = vec.y / vec.x;
+		good = ((fabs(slope * (point.x - pa.x) + pa.y - point.y) < .001));
+	}
+
+	good = (good && (pb.x <= point.x && pa.x >= point.x || pb.x >= point.x && pa.x <= point.x));
+	good = (good && (pb.y <= point.y && pa.y >= point.y || pb.y >= point.y && pa.y <= point.y));
+
+	return good;
+
+	
+}
+
+
+
+
+
+
+std::pair<sf::Vector2f, sf::Vector2f> HitBoxCollider::getBoundingBoxCorners(const std::vector<sf::Vector2f>& points)
+{
+	double maxX = points[0].x;
+	double minX = points[0].x;
+	double maxY = points[0].y;
+	double minY = points[0].y;
+
+
+
+	for (unsigned int i = 0; i < points.size(); i++)
+	{
+		if (points[i].x > maxX)
+		{
+			maxX = points[i].x;
+		}
+
+		if (points[i].x < minX)
+		{
+			minX = points[i].x;
+		}
+
+		if (points[i].y > maxY)
+		{
+			maxY = points[i].x;
+		}
+
+		if (points[i].x > minY)
+		{
+			minY = points[i].x;
+		}
+	}
+
+	return std::make_pair(sf::Vector2f(minX, minY), sf::Vector2f(maxX, maxY));
+
+}
+
+
+bool HitBoxCollider::collideDoublePolygon(const std::vector<sf::Vector2f>& hb1, const std::vector<sf::Vector2f>& hb2)
+{
+	double maxX = hb2[0].x;
+
+	bool colliding = false;
+
+
+
+
+	std::pair<sf::Vector2f, sf::Vector2f> bb1 = getBoundingBoxCorners(hb1);
+	std::pair<sf::Vector2f, sf::Vector2f> bb2 = getBoundingBoxCorners(hb2);
+
+	AAHitbox aabb1;
+	aabb1.setCorners(bb1.first, bb1.second);
+
+	AAHitbox aabb2;
+	aabb2.setCorners(bb2.first, bb2.second);
+
+	colliding = collideDoubleAABB(&aabb1, &aabb2);
+
+
+
+
+
+	if (colliding)
+	{
+		for (unsigned int i = 0; i < hb1.size() - 1 && colliding == false; i++)
+		{
+			for (unsigned int k = 0; k < hb2.size() - 1 && colliding == false; k++)
+			{
+				if (hb2[k].x > maxX)
+				{
+					maxX = hb2[k].x;
+				}
+				std::pair<sf::Vector2f, bool> poi = getLinePoi(hb1[i], hb1[i + 1], hb2[k], hb2[k + 1]);
+				colliding = poi.second;
+			}
+		}
+
+		if (!colliding)
+		{
+			unsigned int poiCounter = 0;
+			maxX += 10;
+
+			for (unsigned int k = 0; k < hb2.size() - 1 && colliding == false; k++)
+			{
+				colliding = checkPointOnLine(hb1[0], hb2[k], hb2[k + 1]);
+				std::pair<sf::Vector2f, bool> poi = getLinePoi(hb1[0], sf::Vector2f(maxX, hb1[0].y), hb2[k], hb2[k + 1]);
+				poiCounter += poi.second;
+			}
+
+			if (!colliding)
+			{
+				colliding = (poiCounter & 1);
+			}
+			
+		}
+	}
+
+
+	return colliding;
+}
+
+

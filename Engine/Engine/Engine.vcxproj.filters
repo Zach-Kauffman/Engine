@@ -149,7 +149,6 @@
     </ClInclude>
     <ClInclude Include="Editor.hpp" />
     <ClInclude Include="EditorGUI.hpp" />
-<<<<<<< HEAD
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="Input\ControlSet.hpp" />
     <ClInclude Include="Input\InputData.hpp" />
@@ -192,7 +191,6 @@
     <ClInclude Include="Collision\HitBoxes\CircularHitbox.hpp" />
     <ClInclude Include="Collision\HitBoxes\HitBox.hpp" />
     <ClInclude Include="Objects\ObjectClasses\Platform.hpp" />
-=======
     <ClInclude Include="MenuStuff\AppSprite.hpp">
       <Filter>Menu\Headers</Filter>
     </ClInclude>
@@ -415,6 +413,5 @@
     <ClCompile Include="Objects\Physics\Movement\Movable.cpp">
       <Filter>Objects\Physics\Movement</Filter>
     </ClCompile>
->>>>>>> 8cdaabae19943d4fe4e1b8f5bbb713e6d303d1d2
   </ItemGroup>
 </Project>
