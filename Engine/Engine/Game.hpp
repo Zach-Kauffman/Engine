@@ -25,6 +25,8 @@
 	#include "MenuStuff\MenuManager.hpp"
 
 	#include "Objects/Squirrel.hpp"
+	#include "Objects/ObjectClasses/Pickups/Pickup.hpp"
+
 
 class Game
 {

@@ -4,10 +4,11 @@
 #include "Graphics\Graphics.hpp"
 #include "Object.hpp"
 #include "../Utility/XMLParser.hpp"
+#include "../Utility/INIParser.hpp"
 
 namespace objects
 {
-	class Squirrel : public Object, public Movable
+	class Squirrel : public Object, public Collidable
 	{
 	public:
 		Squirrel();
@@ -23,14 +24,19 @@ namespace objects
 		Animation walking;
 		Animation idle;
 
-		float moveSpeed;
-
+		float moveForce;
+		float jumpForce;
+		bool jumping;
+		sf::Clock jumpTimer;
+		float jumpTime;
 
 		sf::Vector2f displaySize;
 		sf::Vector2f frameSize;
 		std::string walkingSSName;
 		std::string idleSSName;
 		int fps;
+
+		float airborneMultiplier;	//multiplier for airborne movement
 
 	};
 }

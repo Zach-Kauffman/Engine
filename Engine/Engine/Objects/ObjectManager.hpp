@@ -8,7 +8,7 @@
 #include "..\Utility\Logger.hpp"
 #include "ObjectGroup.hpp"
 #include "..\Utility\Downcast.hpp"
-
+#include <typeinfo>
 
 namespace objects
 {
@@ -39,6 +39,7 @@ namespace objects
 				currentTypeID++;
 			}
 		}
+
 	private:
 		template<class derived>
 		Object* instancePrototype()		//return raw pointer to child of Object
@@ -52,6 +53,8 @@ namespace objects
 		//boost::shared_ptr<Object>(ObjectManager::*makeObject)()
 
 		src::severity_logger<severity_level> objectLogger;				//real logger object -- passed to all objectGroups
+
+		typedef boost::shared_ptr<objects::Object> Base;
 
 	};
 }

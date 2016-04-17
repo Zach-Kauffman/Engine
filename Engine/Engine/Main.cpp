@@ -13,11 +13,11 @@
 #include "Editor.hpp"
 #include "Utility\XMLParser.hpp"
 #include <iostream>
+#include <Windows.h>
 
 
 int main(int, char*[])
 {
-
 	logger::init();
 	logger::setSeverityLevel(DEBUG);
 	auto slg = logger::getSLogger();

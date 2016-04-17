@@ -38,11 +38,13 @@ void Game::initialize(const std::string& cfgFile, const std::string& resFile, co
 void Game::begin()
 {
 	//sfml main loop
+	boost::timer frameTimer;
 	sf::RenderWindow& window = *windowPtr;
 	window.setKeyRepeatEnabled(false);		//makes it so when a key is hit, only one event is recorded, not nine, or whatever -- ignores holding keys
 	window.setFramerateLimit(60);
 	while (window.isOpen())
 	{
+		frameTimer.restart();
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
@@ -126,6 +128,7 @@ void Game::begin()
 		window.display();
 
 		inpData.frameUpdate();
+		frameTimer.elapsed();
 	}
 
 
@@ -286,8 +289,9 @@ void Game::loadObjects()
 {
 	objMan.addPrototype<objects::TestObject>("TestObject");
 	objMan.addPrototype<objects::MovingTestObject>("MovingTestObject");
-	objMan.addPrototype<objects::Platform>("Platform");
 	objMan.addPrototype<objects::Squirrel>("Squirrel");
+	objMan.addPrototype<objects::Platform>("Platform");
+	objMan.addPrototype<objects::Pickup>("Pickup");
 }
 
 void Game::loadMap()
@@ -339,14 +343,11 @@ void Game::loadMap()
 
 	}
 
-	//setting up the layer manager
 
 	tmpCenter = sf::Vector2f(500, 500);							//starting point of reference
 
+	layMan.setReferencePoint(*util::downcast<objects::Squirrel>(objMan.getObject(1030001))->getPosition());						//make sure the layers reference the point
 
-	util::Downcaster<objects::Object> tmpDC;
-	layMan.setReferencePoint(*(tmpDC.downcastSquirrel(objMan.getObject(1030001))->getPosition()));						//make sure the layers reference the point
-	//layMan.setReferencePoint(tmpCenter);
 	for (int i = 0; i < numLayers; i++)
 	{
 		std::string layerNumber = "1";	//default is 1

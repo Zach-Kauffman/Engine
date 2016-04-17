@@ -105,32 +105,30 @@ void Animation::drawNextFrame(sf::RenderTexture& texture)
 //PROTECTED FUNCTIONS
 void Animation::prepareNextFrame()
 {
-	bool dox = NULL;
-	for (int i = 0; i < texCoords.getVertexCount(); i++)
+	if (currentSheetPosition.x < sheetSize.x)
 	{
-		if (currentSheetPosition.x < sheetSize.x)
+		for (int i = 0; i < texCoords.getVertexCount(); i++)
 		{
 			texCoords[i].texCoords.x += frameSize.x;
-			dox = true;
 		}
-		else if(currentSheetPosition.y < sheetSize.y)
+		currentSheetPosition.x++;
+	}
+	else if (currentSheetPosition.y < sheetSize.y)
+	{
+		for (int i = 0; i < texCoords.getVertexCount(); i++)
 		{
 			texCoords[i].texCoords.y += frameSize.y;
-			dox = false;
 		}
-		else
-		{
-			dox = NULL;
-			currentSheetPosition = sf::Vector2f(1, 1);	//reset to first texture
-			texCoords[0].texCoords = sf::Vector2f(frameSize.x, frameSize.y);		//bottom right
-			texCoords[1].texCoords = sf::Vector2f(0, frameSize.y);					//bottom left
-			texCoords[2].texCoords = sf::Vector2f(0, 0);							//top left
-			texCoords[3].texCoords = sf::Vector2f(frameSize.x, 0);					//top right
-		}
-
+		currentSheetPosition.y++;
 	}
-	if (dox){ currentSheetPosition.x++; }
-	else if(!dox){ currentSheetPosition.y++; }
+	else
+	{
+		currentSheetPosition = sf::Vector2f(1, 1);	//reset to first texture
+		texCoords[0].texCoords = sf::Vector2f(frameSize.x, frameSize.y);		//bottom right
+		texCoords[1].texCoords = sf::Vector2f(0, frameSize.y);					//bottom left
+		texCoords[2].texCoords = sf::Vector2f(0, 0);							//top left
+		texCoords[3].texCoords = sf::Vector2f(frameSize.x, 0);					//top right
+	}
 }
 
 void Animation::updatePosition()
@@ -138,7 +136,7 @@ void Animation::updatePosition()
 	for (int i = 0; i < texCoords.getVertexCount(); i++)
 	{
 		sf::Vector2f dif = *position - lastPosition;
-		texCoords[i].position += dif;
+		texCoords[i].position += dif + dif;
 	}
 
 	lastPosition = *position;
