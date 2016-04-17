@@ -166,6 +166,12 @@ boost::shared_ptr<Layer> LayerManager::getLayerPtr(const unsigned int& index)
 	
 }
 
+boost::property_tree::ptree LayerManager::getLayerXML(const int& layer)
+{
+	boost::property_tree::ptree ret = layers[layer]->write();
+	ret.put("<xmlattr>.z", layer);
+	return ret;
+}
 
 
 void LayerManager::setReferencePoint(sf::Vector2f& refPoint)

@@ -47,7 +47,6 @@ void MovingTestObject::load(boost::property_tree::ptree& dataTree, ResourceManag
 	parser.readValue<float>("position.<xmlattr>.y", position.y, dataTree);	//loading y coord
 
 	//loading texture
-	std::string textureName;
 	parser.readValue<std::string>("texture", textureName, dataTree);
 	testTex = resources.getTexturePointerByName(textureName);
 	
@@ -69,9 +68,15 @@ void MovingTestObject::load(boost::property_tree::ptree& dataTree, ResourceManag
 
 }
 
-void MovingTestObject::write()
+boost::property_tree::ptree MovingTestObject::write()
 {
-	//more INIParser stuff
+	boost::property_tree::ptree properties;
+	properties.put("position.<xmlattr>.x", position.x);
+	properties.put("position.<xmlattr>.y", position.y);
+	properties.put("texture", textureName);
+	properties.put("type", type);
+
+	return properties;
 }
 
 

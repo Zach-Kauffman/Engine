@@ -2,7 +2,6 @@
 
 Editor::Editor()
 {
-	layerChanged = false;
 	currentLayer = 1;
 	currentLayerMap["Layer"] = "1";
 
@@ -15,6 +14,8 @@ Editor::Editor()
 
 	objSelection = false;
 	recSelection = false;
+
+	version = 1;
 }
 
 Editor::~Editor()
@@ -36,11 +37,21 @@ void Editor::editorInitialize()
 	boundFxn = boost::bind(&Editor::addResource, this);
 	gui.setButtonCallback("editorMenu", "newResource", boundFxn, 12);
 
-	boundFxn = boost::bind(&Editor::saveFile, this);
+	boundFxn = boost::bind(&Editor::saveMap, this);
 	gui.setButtonCallback("editorMenu", "save", boundFxn, 12);
 
-	gui.setMap("editorMenu", "selectedObject", currentLayerMap);
-	gui.setMap("editorMenu", "selectedLayer", objIDMap);
+	boundFxn = boost::bind(&Editor::selectLayer, this);
+	gui.setButtonCallback("editorMenu", "selectLayer", boundFxn, 12);
+
+	boundFxn = boost::bind(&Editor::selectObject, this);
+	gui.setButtonCallback("editorMenu", "selectObject", boundFxn, 12);
+
+	boundFxn = boost::bind(&Editor::removeObject, this);
+	gui.setButtonCallback("editorMenu", "removeButton", boundFxn, 12);
+
+	loadSavedMap();		//loads objects allready in manager into dynamic memory
+	gui.setMap("editorMenu", "selectedObject", currentLayerMap, 1);
+	gui.setMap("editorMenu", "selectedLayer", objIDMap, 1);
 }
 
 void Editor::editorBegin()
@@ -197,16 +208,15 @@ void Editor::addObject()
 	{
 		auto tempObject = objMan.getPrototype(popData);
 		if (!tempObject){ throw; };
-		tempObject->setID(objMan.nextID());
+		tempObject->setType(popData);
 		tempObject->setActive(false);
 
 		idList[tempObject->getID()] = std::make_tuple(objectRoot, properties);
 		selectObject(tempObject->getID());
 
-		resetMap(*objProperties);
-		gui.setMap("editorMenu", "attributeEditor", *objProperties);	//prompt for all object attributes
+		gui.setMap("editorMenu", "attributeEditor", *objProperties, 5);	//prompt for all object attributes
 
-		std::string pathString = "Layers.Layer1";// +boost::lexical_cast<std::string>(currentLayer);
+		std::string pathString = "Layers.Layer" + boost::lexical_cast<std::string>(currentLayer);
 		objMan.addObject(tempObject, pathString);
 	}
 	catch (...){	//catch all exceptions
@@ -224,11 +234,11 @@ void Editor::addObject()
 
 void Editor::editObject()	//edits currently selected object
 {
-	gui.setMap("editorMenu", "attributeEditor", *objProperties);
+	gui.setMap("editorMenu", "attributeEditor", *objProperties, 5);
 
 	//find object xml by id in storage
 	//redisplays option with current selection for editing
-	//resaves and updates
+	//resaves and updat");
 }
 
 void Editor::updateObject()
@@ -246,9 +256,11 @@ void Editor::updateObject()
 		newXml.put(it->first, it->second);
 	}
 
-	objXml = &newXml;
+
 
 	auto tmp = objMan.getObject(objID);	
+	newXml.put("type", tmp->getType());
+	*objXml = newXml;
 	tmp->load(*objXml, recMan);
 	tmp->setActive(true);
 	//calculate chunk and add here
@@ -264,22 +276,23 @@ void Editor::selectObject(const int& ID)
 	objSelection = true;
 	recSelection = false;
 	objIDMap.begin()->second = boost::lexical_cast<std::string>(ID);
-
+	gui.setMap("editorMenu", "attributeEditor", *objProperties, 5);
 }
 
 void Editor::removeObject()	//deletes object xml and clears id from storage
 {
-	std::map<std::string, SelectionData&>::iterator it;
+	//std::map<int, SelectionData>::iterator it;
 
-	for (it = objectList.begin(); it != objectList.end(); it++)
-	{
-		if (it->second == idList[objID])
-		{
-			objectList.erase(it);
-		}
-	}
+	//for (it = idList.begin(); it != idList.end(); it++)
+	//{
+	//	if (it->second == idList[objID])
+	//	{
+	//		idList.erase(it);
+	//	}
+	//}
 
 	idList.erase(objID);
+
 
 	objMan.deleteObject(objID);
 
@@ -287,37 +300,79 @@ void Editor::removeObject()	//deletes object xml and clears id from storage
 	//could add ctrl-z functionality here
 }
 
-void Editor::saveObjects()
+void Editor::saveMap()
 {
-	std::vector<boost::property_tree::ptree> layers;
-	std::vector < std::vector<boost::property_tree::ptree> > chunks;
+	typedef std::vector<boost::property_tree::ptree>::iterator treeIt;
 
+	boost::property_tree::ptree root;
+	boost::property_tree::ptree layers;
+
+	std::vector<int> objIDs;
 	for (int layIt = 0; layIt < numLayers; layIt++)
 	{
+		boost::property_tree::ptree layer;
+		objIDs = objMan.getObjectGroup("Layers.Layer" + boost::lexical_cast<std::string>(layIt))->getObjectIDs(true);
+		layer = std::get<0>(layerList[layIt]);
+		boost::property_tree::ptree chunk;
+		chunk.add("<xmlattr>.index", 1);
+		for (unsigned int IDit = 0; IDit < objIDs.size(); IDit++)
+		{
+			chunk.add_child("object", std::get<0>(idList[objIDs[IDit]]));
+		}
 
+		layer.add_child("chunk", chunk);
+		layers.add_child("layer", layer);
 	}
+	root.add_child("map", layers);
+	boost::property_tree::write_xml(saveFile + boost::lexical_cast<std::string>(version), root);	//write xml to file
+	version++;
+}
+
+void Editor::loadSavedMap()
+{
+	XMLParser reader;
+	boost::property_tree::ptree xml;
+	StringMap properties;
+
+	std::vector<int> objIDs = objMan.getObjectGroup("Layers")->getObjectIDs(true);
+
+	for (objID = 0; objID < objIDs.size(); objID++)
+	{
+		auto tempObj = objMan.getObject(objIDs[objID]);
+		
+		if (tempObj)
+		{
+			xml = tempObj->write();
+
+			properties = objectAttributes[tempObj->getType()];	//construct map with current object properties
+			StringMap::iterator it;
+			for (it = properties.begin(); it != properties.end(); it++)
+			{
+				reader.readValue<std::string>(it->first, it->second, xml);
+			}
+
+			idList[objIDs[objID]] = std::make_tuple(xml, properties);
+		}
+	}
+
+	for (unsigned int layIt = 0; layIt < numLayers; layIt++)
+	{
+		layerList[layIt] = std::make_tuple (layMan.getLayerXML(layIt), objectAttributes["layer"]);
+	}
+}
+
+void Editor::reloadObjects()
+{
 	std::map<int, SelectionData>::iterator it;
 	for (it = idList.begin(); it != idList.end(); it++)
 	{
-		sf::Vector2f chunk;
-		std::string chunkStr = std::get<1>(it->second)[""];
-		std::vector<std::string> splitChunk = util::splitStrAtSubstr(chunkStr, ":");
-
-		sf::Vector2f loadedChunk;
-		if (splitChunk.size() < 2)
-		{
-			//error -- object chunk data not detected reverting to default (0, 0)
-			//revert to default
-		}
-		else
-		{
-			loadedChunk = sf::Vector2f(boost::lexical_cast<float>(splitChunk[0]), boost::lexical_cast<float>(splitChunk[1]));
-		}
-		
-		int layer = boost::lexical_cast<int>(std::get<1>(it->second)["layer"]);
-
-		//for (int layer)
+		reloadObject(it->first);
 	}
+}
+
+void Editor::reloadObject(const int& ID)
+{
+
 }
 
 void Editor::promptResourceName()
@@ -330,18 +385,41 @@ void Editor::addResource()
 	boost::property_tree::ptree filler;
 	resourceList[popData] = std::make_tuple(filler, objectAttributes["resource"]);
 	selectResource(popData);
-	gui.setMap("editorMenu", "attributeEditor", currentRecMap);
+	gui.setMap("editorMenu", "attributeEditor", *currentRecMap, 1);
 }
 
 void Editor::editResource()
 {
-	gui.setMap("editorMenu", "attributeEditor", currentRecMap);
+	gui.setMap("editorMenu", "attributeEditor", *currentRecMap, 1);
 }
 
 void Editor::updateResource()
 {
 	//add resource to manager
-	recMan.loadFile(currentRecMap["path"], currentRecMap["name"]);
+	std::vector<std::string> returned = util::splitStrAtSubstr((*currentRecMap)["path"], ".");					//finds extension from filepath
+	std::vector<std::string> numtoadd = util::splitStrAtSubstr((*currentRecMap)["group"], ":");
+	if (returned.size() > 1)	//if the thing has an extension
+	{
+		recMan.loadFile((*currentRecMap)["path"], (*currentRecMap)["name"]);
+	}
+	else
+	{
+		if ((*currentRecMap)["group"] != "")	//check if it should be added to group
+		{
+			recMan.addFilesResourceGroupFromDirectory(returned[0], numtoadd[0]);
+		}
+		else
+		{
+			recMan.loadFileDirectory(returned[0]);
+		}
+	}
+	
+	StringMap::iterator it;
+	boost::property_tree::ptree& recTree = std::get<0>(resourceList[currentRecName]);
+	for (it = currentRecMap->begin(); it != currentRecMap->begin(); it++)	//writing new resource data to xml
+	{
+		recTree.put(it->first, it->second);
+	}
 	//make sure it actually added before grouping
 	//check if group
 		//check for group existence
@@ -358,12 +436,63 @@ void Editor::removeResource()
 
 void Editor::selectResource(const std::string& name)
 {
-	currentRecMap.clear();
-	currentRecMap = std::get<1>(resourceList[name]);
+	currentRecMap = &std::get<1>(resourceList[name]);
 	currentRecName = name;
 	objSelection = false;
 	recSelection = true;
+}
 
+void Editor::addLayer()
+{
+	boost::property_tree::ptree tree;
+	numLayers++;
+	layerList[numLayers+1] = std::make_tuple (tree, objectAttributes["layer"]);
+	selectLayer(numLayers);
+	gui.setMap("editorMenu", "attributeEditor", std::get<1>(layerList[currentLayer]), 5);
+}
+
+void Editor::editLayer()	//this can't actually happen cuz layers and time
+{
+	gui.setMap("editorMenu", "attributeEditor", std::get<1>(layerList[currentLayer]), 5);
+}
+
+void Editor::selectLayer(const int& index)
+{
+	currentLayer = boost::lexical_cast<int>(currentLayerMap.begin()->second);
+}
+
+void Editor::updateLayer()
+{
+	StringMap& layerProperties = std::get<1>(layerList[currentLayer]);
+
+	std::string layerNumber = "1";	//default is 1
+	layerNumber = layerProperties["<xmlattr>.z"];
+
+	sf::Vector2f scrollSpeed = sf::Vector2f(boost::lexical_cast<int>(layerProperties["<xmlattr>.scrollx"]),
+		boost::lexical_cast<int>(layerProperties["<xmlattr>.scrolly"]));	//default to not moving
+
+	layMan.setScrollSpeed(scrollSpeed, currentLayer);
+
+	sf::Vector2f bounds = sf::Vector2f(boost::lexical_cast<int>(layerProperties["<xmlattr>.boundx"]),
+		boost::lexical_cast<int>(layerProperties["<xmlattr>.boundy"]));	//maximum bounds of layer
+
+	layMan.setScrollBounds({ 0, 0, bounds.x, bounds.y }, currentLayer);
+	layMan.setCorners(sf::Vector2f(0, 0), (sf::Vector2f)windowPtr->getSize(), currentLayer);
+	layMan.getLayerPtr(currentLayer)->setScrollBoundedness(true);
+
+	std::get<0>(layerList[currentLayer]) = layMan.getLayerXML(currentLayer);
+}
+
+void Editor::saveResources()
+{
+	boost::property_tree::ptree file;
+	boost::property_tree::ptree resourceRoot;
+
+	std::map<std::string, SelectionData>::iterator it;
+	for (it = resourceList.begin(); it != resourceList.end(); it++)		//cyle through resources and write their xml together
+	{
+		resourceRoot.add_child("resource", std::get<0>(it->second));
+	}
 }
 
 void Editor::loadAttributes(const std::string& path) //loads object attributes from set of files....??
@@ -409,13 +538,17 @@ void Editor::parsePopupOutput()
 {
 	gui.setPopData(0);
 
-	switch (popInfoType)
+	switch (popInfoType)	//figure out which version of the popup it was
 	{
 	case 0: addObject();
 		break;
 	case 1: addResource();
 		break;
 	}
+
+	//reset the entryt table
+	resourcePrompt.begin()->second = "";
+	objectPrompt.begin()->second = "";
 }
 
 
@@ -426,4 +559,14 @@ void Editor::resetMap(StringMap& smap)
 	{
 		smap[it->first] = "";
 	}
+}
+
+void Editor::selectLayer()
+{
+	currentLayer = boost::lexical_cast<int>(currentLayerMap.begin()->second);
+}
+
+void Editor::selectObject()
+{
+	selectObject(boost::lexical_cast<int>(objIDMap.begin()->second));
 }

@@ -58,4 +58,16 @@
 		<name>EditorFont</name>
 		<group>EditorButton:1</group>
 	</resource>
+	<resource>
+		<path>Resources/ShipGame</path>
+		<name>DONTCARE</name>
+	</resource>
+	<resource>
+		<path>Resources/walking.png</path>
+		<name>walking</name>
+	</resource>
+	<resource>
+		<path>Resources/idle.png</path>
+		<name>idle</name>
+	</resource>
 </resources>

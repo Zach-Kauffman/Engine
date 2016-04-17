@@ -50,8 +50,11 @@ public:
 	void selectObject(const int& ID);
 
 	void loadAttributes(const std::string& path);
-	void saveObjects();
-	void loadSavedObjects();
+	void saveMap();
+	void loadSavedMap();
+
+	void reloadObjects();					//reloads all objects in ID list (position, etc could have changed)
+	void reloadObject(const int& ID);		//reloads a single object.. 
 
 	void promptResourceName();
 	void addResource();			//all actions apply to currently selected resource
@@ -60,6 +63,11 @@ public:
 	void removeResource();
 	void selectResource(const std::string& name);
 
+	void addLayer();
+	void editLayer();
+	void updateLayer();
+	void selectLayer(const int& index);
+
 	void saveResources();
 	void loadSavedResources();
 
@@ -67,22 +75,22 @@ private:
 	void parsePopupOutput();
 	void resetMap(StringMap& smap);
 
+	void selectLayer();
+	void selectObject();
 
 
-	int currentLayer;		//currently selected layer
 
-	//first value of property map will always be two integers seperated by colon representing chunk eg (10:4) would be chunkX = 10 chunkY = 4
-	//second value will always be layer
+	//last value of property map will always be two integers seperated by colon representing chunk index and layer
 	StringMap* objProperties;				//currently selected object's property list
 	boost::property_tree::ptree* objXml;	//currently selected object's xml
-
+	
 	StringMap objIDMap;						//map for object selection by id with EntryTable
 	int objID;								//currently selected object's id
 
 	StringMap currentLayerMap;				//map for layer selection with EntryTable
-	bool layerChanged;
+	int currentLayer;						//currently selected layer
 
-	StringMap currentRecMap;
+	StringMap* currentRecMap;
 	std::string currentRecName;
 
 	bool objSelection;	//true if object is currently selected
@@ -92,7 +100,8 @@ private:
 	std::map<std::string, SelectionData&> objectList;		//list of created objects with xml and string maps -- key value is string path to object in objMan
 	std::map<int, SelectionData> idList;					//same list with real data and ids as the key values
 		
-	std::map<std::string, SelectionData> resourceList;
+	std::map<std::string, SelectionData> resourceList;	
+	std::map<int, SelectionData> layerList;				//key is z-index
 
 	EditorGUI gui;
 	std::string popData;	//data retrieved from popup
@@ -101,4 +110,5 @@ private:
 	StringMap resourcePrompt;	//popup prompt for new resource
 	StringMap deletePrompt;		//popup prompt for deletion confirmation
 
+	int version;			//number of times file has been saved
 };

@@ -24,6 +24,9 @@
 
 	#include "MenuStuff\MenuManager.hpp"
 
+	#include "Objects/Squirrel.hpp"
+
+
 class Game
 {
 public:

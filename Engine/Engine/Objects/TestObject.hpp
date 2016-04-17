@@ -2,16 +2,16 @@
 
 //project includes
 	//include base class
-	#include "Objects/Object.hpp"	//gets most dependencies from here. Should they be locally #included?
+	#include "Object.hpp"	//gets most dependencies from here. Should they be locally #included?
 
 	//XML parser
-	#include "Utility/XMLParser.hpp"
+	#include "../Utility/XMLParser.hpp"
 	
 	//resource maanger
-	#include "ResourceManager/ResourceManager.hpp"
+	#include "../ResourceManager/ResourceManager.hpp"
 
 	//layer
-	#include "Layers/Layer.hpp"
+	#include "../Layers/Layer.hpp"
 
 //SFML includes
 #include <SFML/Graphics.hpp>
@@ -30,7 +30,7 @@ namespace objects
 		void update(InputData& inpData);
 
 		void load(boost::property_tree::ptree& dataTree, ResourceManager& resources);	//loads instances object properties based on subtree
-		void write();
+		boost::property_tree::ptree write();
 
 
 	private:
@@ -40,5 +40,7 @@ namespace objects
 
 		sf::Vector2f position;
 		sf::Vector2f size;
+
+		std::string textureName;
 	};
 }
