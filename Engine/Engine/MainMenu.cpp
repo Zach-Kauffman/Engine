@@ -11,6 +11,9 @@ void MainMenu::initialize(ResourceManager* resources)
 {
 	recMan = resources;
 
+	MenuElement* background;
+	background = new MenuSprite(recMan->getTexturePointerByName("MenuBackground"), sf::Vector2f(0, 0), sf::Vector2f(size.x, size.y));
+
 	MenuElement* startButton;
 	startButton = new BasicButton(sf::Vector2f(size.x / 2, size.y / 6), recMan->getResourceGroupByName("MenuButton"), "Start", sf::Color::Black, sf::Vector2f(300, 100), 10, 10);
 
@@ -22,6 +25,7 @@ void MainMenu::initialize(ResourceManager* resources)
 
 	Menu mainMenu;
 
+	mainMenu.addMenuElement(background, "background");
 	mainMenu.addMenuElement(startButton, "startButton");
 	mainMenu.addMenuElement(optionsButton, "optionsButton");
 	mainMenu.addMenuElement(quitButton, "quitButton");

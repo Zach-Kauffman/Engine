@@ -59,7 +59,10 @@
 		<group>EditorButton:1</group>
 	</resource>
 	<resource>
-		<path>Resources/GUIResources/GrayTextBoxBackground</path>
+		<path>Resources/MenuResources/MenuBackground.png</path>
+		<name>MenuBackground</name>
+	<resource>
+		<path>Resources/MenuResources/MenuButton.png</path>
 		<name>MenuButtons</name>
 		<group>MenuButton:4</group>
 	</resource>
