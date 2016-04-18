@@ -5,6 +5,7 @@
 #include "Object.hpp"
 #include "../Utility/XMLParser.hpp"
 #include "../Utility/INIParser.hpp"
+#include "Physics/Collision/Collider.hpp"
 
 namespace objects
 {
@@ -19,6 +20,8 @@ namespace objects
 
 		void load(boost::property_tree::ptree& dataTree, ResourceManager& recMan);
 		boost::property_tree::ptree write();
+
+		void physicalCollide(CollisionData& data);
 
 	private:
 		Animation RR;

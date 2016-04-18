@@ -89,6 +89,7 @@ void Texture::updateSize()
 		texCoords[2].position = sf::Vector2f(position->x - size->x / 2, position->y - size->y / 2);	//top left
 		texCoords[3].position = sf::Vector2f(position->x + size->x / 2, position->y - size->y / 2);	//top right
 	}
+	lastPosition = *position;
 }
 
 void Texture::updateTexCoords()

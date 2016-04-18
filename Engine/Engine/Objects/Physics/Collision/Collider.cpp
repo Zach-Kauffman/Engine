@@ -238,3 +238,90 @@ bool Collider::isCollide(const std::vector<sf::Vector2f>& hb1, const std::vector
 
 	return colliding;
 }
+
+
+
+
+
+double magSq(const sf::Vector2f& vec)
+{
+	return ((double)(vec.x * vec.x + vec.y * vec.y));
+}
+
+
+double distSq(const sf::Vector2f& veca, const sf::Vector2f& vecb)
+{
+	return ((double)((veca.x - vecb.x) * (veca.x - vecb.x) + (veca.y - vecb.y) * (veca.y - vecb.y)));
+}
+
+std::pair<sf::Vector2f, sf::Vector2f> Collider::getKineticResponseDoublePolygon(const sf::Vector2f& vel, const polygon& polyA, const polygon& polyB)
+{
+
+	unsigned int sizb = polyB.size();
+
+	bool foundFirst = false;
+	double minDistSq = 1;
+	unsigned int critLine1;
+	unsigned int critLine2;
+	unsigned int critCorner;
+	const double knockback = 1;
+
+	sf::Vector2f firstPoi;
+
+	for (unsigned int i = 0; i < polyA.size(); i++)
+	{
+		const sf::Vector2f oldPoint = polyA[i] - vel;
+		for (unsigned int k = 0; k < polyB.size(); k++)
+		{
+			std::pair<sf::Vector2f, bool> poi = getLinePoint(oldPoint, polyA[i], polyB[k], polyB[(k + 1) % sizb]);
+			if (poi.second)
+			{
+				double tmpDistSq = distSq(oldPoint, poi.first);
+				if ((tmpDistSq < minDistSq) || (!foundFirst))
+				{
+					foundFirst = true;
+					critLine1 = k;
+					critLine2 = (k + 1) % sizb;
+					critCorner = i;
+					minDistSq = tmpDistSq;
+					firstPoi = poi.first;
+				}
+			}
+		}
+	}
+
+	sf::Vector2f corDisp = firstPoi - polyA[critCorner];
+
+	const double corMag = sqrt(magSq(corDisp));
+
+	corDisp.x += corDisp.x / corMag * knockback;
+	corDisp.y += corDisp.y / corMag * knockback;
+
+
+	sf::Vector2f critLineVec = polyB[critLine1] - polyB[critLine2]; //move line to origin
+
+
+	//rotate by 90 degrees
+	double tmpx = critLineVec.x;
+
+	critLineVec.x = critLineVec.y;
+	critLineVec.y = -tmpx;
+
+	//normalize that vector
+	sf::Vector2f normCLVec;
+	normCLVec.x = critLineVec.x / sqrt(magSq(critLineVec));
+	normCLVec.y = critLineVec.y / sqrt(magSq(critLineVec));
+
+	//find dot product
+	const double dotProduct = normCLVec.x * vel.x + normCLVec.y * vel.y;
+
+	//find projection vector
+	const sf::Vector2f projVec(dotProduct * normCLVec.x, dotProduct * normCLVec.y);
+
+	//find other component (rejection vector)
+	sf::Vector2f newVelocity = vel - projVec;
+
+	return std::make_pair(corDisp, newVelocity);
+
+}
+

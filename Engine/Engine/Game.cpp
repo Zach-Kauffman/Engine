@@ -390,15 +390,11 @@ void Game::organizeObjects()
 
 void Game::doCollisions()
 {
-	Collider col;
 	Collidable* pcol = player.get();
-	CollisionData result = col.collide(pcol, collidableMap[104]);
+	CollisionData result = Collider::collide(pcol, collidableMap[104]);
 	if (result.collided())
 	{
-		std::cout << "ayyyyy" << std::endl;
+		player->physicalCollide(result);
 	}
-	else
-	{
-		std::cout << "NOICE" << std::endl;
-	}
+
 }
