@@ -8,7 +8,7 @@
 #include "../Objects/TestObject.hpp"
 #include "../Objects/MovingTestObject.hpp"
 #include "../Objects/Squirrel.hpp"
-#include "../Objects/ObjectClasses/Platform.hpp"
+#include "../Objects/Platform.hpp"
 
 
 

@@ -1,10 +1,9 @@
 #pragma once
 
 //sfml includes
-# include "..\Object.hpp"
-#include "..\Physics\Collision\Collidable.hpp"
-#include "..\Physics\Collision\Hitboxes\AAHitbox.hpp"
-#include "..\..\MenuStuff\AppSprite.hpp"
+#include "Object.hpp"
+#include "Physics\Collision\Collidable.hpp"
+#include "Graphics/Texture.hpp"
 
 
 namespace objects
@@ -33,12 +32,11 @@ namespace objects
 		boost::property_tree::ptree write();
 
 	private:
+		Texture tex;
+
 		sf::Vector2f getTlCorner();
 		sf::Vector2f getBRCorner();
 
-		sf::Texture* platformTexture;
-		sf::VertexArray texCoords;
-		sf::Vector2f position;
 		sf::Vector2f size;
 
 		std::string textureName;
