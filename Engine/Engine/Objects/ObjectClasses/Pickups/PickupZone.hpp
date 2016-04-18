@@ -1,5 +1,8 @@
 #pragma once
 #include "Pickup.hpp"
+#include <stdio.h>      /* printf, NULL */
+#include <stdlib.h>     /* srand, rand */
+#include <time.h>       /* time */
 
 namespace objects
 {
@@ -21,6 +24,7 @@ namespace objects
 	private:
 
 		void createDistribution();
+		bool isInBounds(const int& val, const std::pair<int, int>& bound);
 
 		bool displaying;
 
@@ -35,7 +39,8 @@ namespace objects
 
 		std::string seasonName;
 
-		std::map<std::string, double> distribution;
+		std::map<std::pair<int, int>, std::string> distribution;
+		int distMax;
 
 	};
 

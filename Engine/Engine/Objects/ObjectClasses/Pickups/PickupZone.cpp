@@ -98,12 +98,15 @@ Pickup PickupZone::generatePickup()
 
 		// iterator->first = key
 		// iterator->second = value
-		// Repeat if you also want to iterate through the second map.
 		if (isInBounds(randNum, iterator->first))
 		{
 			typeName = iterator->second;
 		}
 	}
+
+	cons sf::Vector2f fsize(100, 100);
+	Pickup newPickup;
+	newPickup.setup()
 
 
 }
