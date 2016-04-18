@@ -159,6 +159,7 @@ void Game::update()
 {
 	doChunks();
 	objMan.getObject(1030001)->update(inpData);
+	doCollisions();
 
 
 	//for each layer
@@ -345,7 +346,8 @@ void Game::loadMap()
 
 	tmpCenter = sf::Vector2f(500, 500);							//starting point of reference
 
-	layMan.setReferencePoint(*util::downcast<objects::Squirrel>(objMan.getObject(1030001))->getPosition());						//make sure the layers reference the point
+	player = util::downcast<objects::Squirrel>(objMan.getObject(1030001));
+	layMan.setReferencePoint(*player->getPosition());						//make sure the layers reference the point
 
 	for (int i = 0; i < numLayers; i++)
 	{
@@ -370,6 +372,29 @@ void Game::loadMap()
 	layMan.createLayers();	//i just added this to the constructor...... and it broke 
 	layMan.setDependentLocking(true, 0);
 
+	organizeObjects();
 	
-	
+}
+
+void Game::organizeObjects()
+{
+	std::vector<Collidable*> boxes;
+	for (unsigned int i = 1; i <= objMan.getTypeAmount(104)-1040000; i++)
+	{
+		auto obj = objMan.getObject(1040000 + i);
+		boost::shared_ptr<objects::Platform> platform = util::downcast<objects::Platform>(obj);
+		boxes.push_back(platform.get());
+	}
+	collidableMap[104] = boxes;
+}
+
+void Game::doCollisions()
+{
+	Collider col;
+	Collidable* pcol = player.get();
+	CollisionData result = col.collide(pcol, collidableMap[104]);
+	if (result.collided())
+	{
+		std::cout << "ayyyyy" << std::endl;
+	}
 }

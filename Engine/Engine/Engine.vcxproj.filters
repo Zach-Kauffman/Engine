@@ -193,6 +193,12 @@
     <ClInclude Include="Objects\Physics\Collision\Collider.hpp">
       <Filter>Objects\Physics\Collision</Filter>
     </ClInclude>
+    <ClInclude Include="Objects\Graphics\Texture.hpp">
+      <Filter>Objects\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Platform.hpp">
+      <Filter>Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Utility\Downcast.cpp">
@@ -318,6 +324,12 @@
     </ClCompile>
     <ClCompile Include="Objects\Physics\Collision\Collider.cpp">
       <Filter>Objects\Physics\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Graphics\Texture.cpp">
+      <Filter>Objects\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Platform.cpp">
+      <Filter>Objects</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -38,9 +38,9 @@
     <ClInclude Include="NameSearchable\NameSearchable.hpp" />
     <ClInclude Include="Objects\Graphics\Animation\Animation.hpp" />
     <ClInclude Include="Objects\Graphics\Graphics.hpp" />
+    <ClInclude Include="Objects\Graphics\Texture.hpp" />
     <ClInclude Include="Objects\MovingTestObject.hpp" />
     <ClInclude Include="Objects\Object.hpp" />
-    <ClInclude Include="Objects\ObjectClasses\Platform.hpp" />
     <ClInclude Include="Objects\ObjectGroup.hpp" />
     <ClInclude Include="Objects\ObjectManager.hpp" />
     <ClInclude Include="Objects\Physics\Collision\Collidable.hpp" />
@@ -49,6 +49,7 @@
     <ClInclude Include="Objects\Physics\Collision\HitBox.hpp" />
     <ClInclude Include="Objects\Physics\Movement\PhysicsObject.hpp" />
     <ClInclude Include="Objects\Physics\Physics.hpp" />
+    <ClInclude Include="Objects\Platform.hpp" />
     <ClInclude Include="Objects\Squirrel.hpp" />
     <ClInclude Include="Objects\TestObject.hpp" />
     <ClInclude Include="ResourceManager\ResourceGroup.hpp" />
@@ -85,9 +86,9 @@
     <ClCompile Include="MenuStuff\TableEntry\TablePair.cpp" />
     <ClCompile Include="NameSearchable\NameSearchable.cpp" />
     <ClCompile Include="Objects\Graphics\Animation\Animation.cpp" />
+    <ClCompile Include="Objects\Graphics\Texture.cpp" />
     <ClCompile Include="Objects\MovingTestObject.cpp" />
     <ClCompile Include="Objects\Object.cpp" />
-    <ClCompile Include="Objects\ObjectClasses\Platform.cpp" />
     <ClCompile Include="Objects\ObjectGroup.cpp" />
     <ClCompile Include="Objects\ObjectManager.cpp" />
     <ClCompile Include="Objects\Physics\Collision\Collidable.cpp" />
@@ -95,6 +96,7 @@
     <ClCompile Include="Objects\Physics\Collision\CollisionData.cpp" />
     <ClCompile Include="Objects\Physics\Collision\HitBox.cpp" />
     <ClCompile Include="Objects\Physics\Movement\PhysicsObject.cpp" />
+    <ClCompile Include="Objects\Platform.cpp" />
     <ClCompile Include="Objects\Squirrel.cpp" />
     <ClCompile Include="Objects\TestObject.cpp" />
     <ClCompile Include="ResourceManager\ResourceGroup.cpp" />

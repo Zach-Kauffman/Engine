@@ -1,4 +1,4 @@
-#include "squirrel.hpp"
+#include "Squirrel.hpp"
 
 using namespace objects;
 
@@ -16,10 +16,14 @@ void Squirrel::draw(Layer& renderTarget)
 {
 	if (!isActive){return;}
 
-	if (abs(velocity.x) > .5)
+	if (velocity.x > .5)
 	{
 		//sf::RenderTexture* renderTex = renderTarget.getRenderTexture();
-		walking.drawNextFrame(*renderTarget.getRenderTexture());
+		RR.drawNextFrame(*renderTarget.getRenderTexture());
+	}
+	else if (velocity.x < -.5)
+	{
+		RL.drawNextFrame(*renderTarget.getRenderTexture());
 	}
 	else
 	{
@@ -90,7 +94,8 @@ void Squirrel::update(InputData& inpData)
 void Squirrel::load(boost::property_tree::ptree& dataTree, ResourceManager& recMan)
 {
 	XMLParser reader;
-	walkingSSName = reader.readValue<std::string>("walking", dataTree);
+	RRName = reader.readValue<std::string>("RunRight", dataTree);
+	RLName = reader.readValue<std::string>("RunLeft", dataTree);
 	idleSSName = reader.readValue<std::string>("idle", dataTree);
 	fps = reader.readValue<int>("fps", dataTree);
 	moveForce = reader.readValue<float>("moveSpeed", dataTree);
@@ -102,7 +107,8 @@ void Squirrel::load(boost::property_tree::ptree& dataTree, ResourceManager& recM
 	frameSize.y = reader.readValue<float>("frameSize.<xmlattr>.y", dataTree);
 
 	//should some of these be loaded from ini??
-	walking = Animation(recMan.getTexturePointerByName(walkingSSName), frameSize, displaySize, fps, position);
+	RR = Animation(recMan.getTexturePointerByName(RRName), frameSize, displaySize, fps, position);
+	RL = Animation(recMan.getTexturePointerByName(RLName), frameSize, displaySize, fps, position);
 	idle = Animation(recMan.getTexturePointerByName(idleSSName), frameSize, displaySize, fps, position);
 
 	//default values
@@ -124,14 +130,19 @@ void Squirrel::load(boost::property_tree::ptree& dataTree, ResourceManager& recM
 
 	options.setSection("Graphics");
 	options.readValue<int>("AnimationFPS", fps);
-	
+
+	HitBox box;
+	box.create(displaySize);
+	box.setPosition(position);
+	hitbox = box;
 
 }
 
 boost::property_tree::ptree Squirrel::write()
 {
 	boost::property_tree::ptree xml;
-	xml.put("walking", walkingSSName);
+	xml.put("RunRight", RRName);
+	xml.put("RunLeft", RLName);
 	xml.put("idle", idleSSName);
 	xml.put("fps", fps);
 	xml.put("moveSpeed", moveForce);

@@ -63,11 +63,15 @@
 		<name>DONTCARE</name>
 	</resource>
 	<resource>
-		<path>Resources/walking.png</path>
-		<name>walking</name>
-	</resource>
-	<resource>
 		<path>Resources/idle.png</path>
 		<name>idle</name>
+	</resource>
+		<resource>
+		<path>Resources/RunRight.png</path>
+		<name>RunRight</name>
+	</resource>
+		<resource>
+		<path>Resources/RunLeft.png</path>
+		<name>RunLeft</name>
 	</resource>
 </resources>

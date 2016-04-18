@@ -13,8 +13,8 @@ public:
 	Collider();
 	~Collider();
 
-	CollisionData collide(Collidable& o1, Collidable& o2);
-	CollisionData collide(Collidable& o1, std::vector<Collidable*>& oVec);
+	CollisionData collide(Collidable* o1, Collidable* o2);
+	CollisionData collide(Collidable* o1, std::vector<Collidable*>& oVec);
 	CollisionData collide(HitBox& b1, HitBox& b2);
 	CollisionData collide(HitBox& b1, std::vector<HitBox*>& b2);
 

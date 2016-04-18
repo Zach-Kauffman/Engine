@@ -8,18 +8,24 @@
             <texture>acorn</texture>
             <type>TestObject</type>
          </object>
-		 	   <object>
-            <fps>12</fps>
-            <frameSize x="32" y="32" />
+		  <object>
+            <position x="800" y="600" />
+            <size x="400" y="200" />
+            <texture>grass</texture>
+            <type>Platform</type>
+         </object>
+         <object>
+            <RunLeft>RunLeft</RunLeft>
+			<RunRight>RunRight</RunRight>
             <idle>idle</idle>
-            <moveSpeed>.5</moveSpeed>
+            <fps>20</fps>
+            <moveSpeed>20</moveSpeed>
             <position x="444" y="444" />
-            <size x="200" y="200" />
-            <walking>walking</walking>
+            <size x="400" y="200" />
+            <frameSize x="64" y="32" />
             <type>Squirrel</type>
          </object>
       </chunk>
-
    </layer>
    <layer scrollx="1.39999998" scrolly="1.39999998" boundx="13920" boundy="8080" z="1">
       <chunk index="1">

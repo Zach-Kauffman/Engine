@@ -21,7 +21,8 @@ namespace objects
 		boost::property_tree::ptree write();
 
 	private:
-		Animation walking;
+		Animation RR;
+		Animation RL;
 		Animation idle;
 
 		float moveForce;
@@ -32,7 +33,7 @@ namespace objects
 
 		sf::Vector2f displaySize;
 		sf::Vector2f frameSize;
-		std::string walkingSSName;
+		std::string RRName, RLName;
 		std::string idleSSName;
 		int fps;
 

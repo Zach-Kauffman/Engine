@@ -3,17 +3,17 @@
 Collider::Collider(){}
 Collider::~Collider(){}
 
-CollisionData Collider::collide(Collidable& o1, Collidable& o2)
+CollisionData Collider::collide(Collidable* o1, Collidable* o2)
 {
-	return collide(o1.getHitBox(), o2.getHitBox());
+	return collide(*o1->getHitBox(), *o2->getHitBox());
 }
 
-CollisionData Collider::collide(Collidable& o1, std::vector<Collidable*>& oVec)
+CollisionData Collider::collide(Collidable* o1, std::vector<Collidable*>& oVec)
 {
 	CollisionData data;
 	for (unsigned int i = 0; i < oVec.size(); i++)
 	{
-		data = collide(o1.getHitBox(), oVec[i]->getHitBox());
+		data = collide(*o1->getHitBox(), *oVec[i]->getHitBox());
 		if (data.collided())
 		{
 			return data;
@@ -172,12 +172,12 @@ std::pair<sf::Vector2f, sf::Vector2f> Collider::getBoundingBoxCorners(const std:
 
 		if (points[i].y > maxY)
 		{
-			maxY = points[i].x;
+			maxY = points[i].y;
 		}
 
-		if (points[i].x > minY)
+		if (points[i].y < minY)
 		{
-			minY = points[i].x;
+			minY = points[i].y;
 		}
 	}
 
