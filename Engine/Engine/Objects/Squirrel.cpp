@@ -161,8 +161,9 @@ boost::property_tree::ptree Squirrel::write()
 
 void Squirrel::physicalCollide(CollisionData& data)
 {
-	std::pair<sf::Vector2f, sf::Vector2f> response = Collider::getKineticResponseDoublePolygon(velocity, data.getCollidedHitbox()->get(), data.getCollidedHitbox()->get());
-	//setPosition(position + response.first);
+	colliding = true;
+	std::pair<sf::Vector2f, sf::Vector2f> response = Collider::getKineticResponseDoublePolygon(velocity, hitbox.get(), data.getCollidedHitbox()->get());
+	setPosition(position + response.first);
 	setVelocity(response.second);
 	colliding = true;
 }

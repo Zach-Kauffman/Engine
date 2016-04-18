@@ -104,7 +104,9 @@ std::pair<sf::Vector2f, bool> Collider::getLinePoint(const sf::Vector2f& u, cons
 		}
 		else
 		{
-			poi.x = (slopeb * a.x - slopea * u.x + u.y - a.y) / (slopeb - slopea);
+			double na = a.y - slopeb * a.x;
+			double nu = u.y - slopea * u.x;
+			poi.x = (na - nu) / (slopea - slopeb);
 			poi.y = slopea * (poi.x - u.x) + u.y;
 		}
 
@@ -141,8 +143,9 @@ bool Collider::checkPointOnLine(const sf::Vector2f& point, const sf::Vector2f& p
 		good = ((fabs(slope * (point.x - pa.x) + pa.y - point.y) < .001));
 	}
 
-	good = (good && (pb.x <= point.x && pa.x >= point.x || pb.x >= point.x && pa.x <= point.x));
-	good = (good && (pb.y <= point.y && pa.y >= point.y || pb.y >= point.y && pa.y <= point.y));
+	bool xtest = (((pb.x <= point.x && pa.x >= point.x) || (pb.x >= point.x && pa.x <= point.x)) || ((fabs(pa.x - point.x)) < .001 || ((pb.x - point.x) < .001)));
+	bool ytest = (((pb.y <= point.y && pa.y >= point.y) || (pb.y >= point.y && pa.y <= point.y)) || ((fabs(pa.y - point.y)) < .001 || ((pb.y - point.y) < .001)));
+	good = (good && xtest && ytest);
 
 	return good;
 
@@ -261,9 +264,9 @@ std::pair<sf::Vector2f, sf::Vector2f> Collider::getKineticResponseDoublePolygon(
 
 	bool foundFirst = false;
 	double minDistSq = 1;
-	unsigned int critLine1;
-	unsigned int critLine2;
-	unsigned int critCorner;
+	unsigned int critLine1 = 0;
+	unsigned int critLine2 = 0;
+	unsigned int critCorner = 0;
 	const double knockback = 1;
 
 	sf::Vector2f firstPoi;
