@@ -30,7 +30,7 @@ namespace objects
 	private:
 
 		void subSetup();
-
+		std::string getTexName(const std::string& typname);
 
 
 		bool removed;

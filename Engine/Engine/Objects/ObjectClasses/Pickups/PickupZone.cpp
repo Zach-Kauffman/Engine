@@ -84,13 +84,88 @@ boost::property_tree::ptree PickupZone::write()
 	return properties;
 }
 
-Pickup generatePickup()
+Pickup PickupZone::generatePickup()
 {
-	
+
+	typedef std::map<std::pair<int, int>, std::string>::iterator it_type;
+
+
+	srand(time(NULL));
+	int randNum = rand() % distMax;
+
+	std::string typeName;
+	for (it_type iterator = distribution.begin(); iterator != distribution.end(); iterator++) {
+
+		// iterator->first = key
+		// iterator->second = value
+		// Repeat if you also want to iterate through the second map.
+		if (isInBounds(randNum, iterator->first))
+		{
+			typeName = iterator->second;
+		}
+	}
+
+
 }
 
-void createDistribution()
+void PickupZone::createDistribution()
 {
-	int sum = 0;
+	double sum = 0;
 
+
+	std::string snames[2] = { "YearRound", seasonName };
+	std::vector<std::string> pickupNames;
+	std::vector<double> rarities;
+
+
+
+	INIParser options("PickupList.ini");
+
+	for (unsigned int j = 0; j < 2; j++)
+	{
+		
+		options.setSection(snames[j]);
+
+		std::string keystr;
+		int maxValue;
+		options.readValue<std::string>("Key", keystr);
+		options.readValue<int>("Max", maxValue);
+
+
+		for (unsigned int i = 0; i < maxValue; i++)
+		{
+			std::string numstr = boost::lexical_cast<std::string>(i + 1);
+
+			std::string pname;
+			options.readValue<std::string>(keystr + numstr, pname);
+
+			pickupNames.push_back(pname);
+
+		}
+	}
+
+
+
+	double sumOld = 0;
+	for (unsigned int i = 0; i < pickupNames.size(); i++)
+	{
+		options.setSection(pickupNames[i]);
+		double tmprar;
+		options.readValue<double>("Rarity", tmprar);
+
+		distribution[std::make_pair(sumOld, sum)] = pickupNames[i];
+
+	}
+
+	distMax = sum;
+
+
+
+
+
+}
+
+bool isInBounds(const int& val, const std::pair<int, int>& bound)
+{
+	return ((val < bound.second) && (val >= bound.first));
 }

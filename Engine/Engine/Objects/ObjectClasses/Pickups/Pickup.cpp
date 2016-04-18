@@ -60,9 +60,9 @@ void Pickup::load(boost::property_tree::ptree& dataTree, ResourceManager& rman)
 	parser.readValue<std::string>("pickup_name", pickupName, dataTree);
 
 	//loading texture
-	parser.readValue<std::string>("texture", textureName, dataTree);
 
-	pickupTexture = rman.getTexturePointerByName(textureName);
+
+	pickupTexture = rman.getTexturePointerByName(getTexName(pickupName));
 
 	subSetup();
 
@@ -80,7 +80,6 @@ void Pickup::load(boost::property_tree::ptree& dataTree, ResourceManager& rman)
 	properties.put("size.<xmlattr>.y", size.y);
 	properties.put("season_name", seasonName);
 	properties.put("pickup_name", pickupName);
-	properties.put("texture", textureName);
 
 	return properties;
 }
@@ -133,4 +132,16 @@ void Pickup::load(boost::property_tree::ptree& dataTree, ResourceManager& rman)
 	hitbox.setPosition(position);
 	hitbox.create(size.x, 10);
 
+ }
+
+
+ std::string Pickup::getTexName(const std::string& typname)
+ {
+	 INIParser options("PickupList.ini");
+
+	 options.setSection(typname);
+
+	 std::string tname;
+	 options.readValue<std::string>("Texture", tname);
+	 return tname;
  }
