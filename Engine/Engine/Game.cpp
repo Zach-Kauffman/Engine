@@ -397,4 +397,8 @@ void Game::doCollisions()
 	{
 		std::cout << "ayyyyy" << std::endl;
 	}
+	else
+	{
+		std::cout << "NOICE" << std::endl;
+	}
 }

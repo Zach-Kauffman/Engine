@@ -20,9 +20,7 @@ void HitBox::updatePosition()
 
 std::vector<sf::Vector2f> HitBox::get()
 {
-	updatePosition();
 	return hitbox;
-
 }
 void HitBox::setPosition(sf::Vector2f& pos)
 {

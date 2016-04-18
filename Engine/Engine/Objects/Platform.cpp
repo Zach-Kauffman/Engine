@@ -19,6 +19,7 @@ void Platform::draw(Layer& renderTarget)
 	if (!isActive){ return; }
 	tex.update();
 	tex.draw(*renderTarget.getRenderTexture());
+	hitbox.updatePosition();
 }		//renders object to given sf::RenderTexture&
 
 
@@ -54,6 +55,7 @@ boost::property_tree::ptree Platform::write()
 	xml.put("size.<xmlattr>.x", size.x);
 	xml.put("size.<xmlattr>.y", size.y);
 	xml.put("texture", textureName);
+	xml.put("type", type);
 	return xml;
 }
 

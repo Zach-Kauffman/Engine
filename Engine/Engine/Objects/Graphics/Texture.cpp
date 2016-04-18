@@ -65,7 +65,7 @@ sf::Texture* Texture::getTexture()
 
 void Texture::updatePosition()
 {
-	sf::Vector2f diff = sf::Vector2f((position->x - lastPosition.y)/2, (position->y - lastPosition.y)/2);
+	sf::Vector2f diff = sf::Vector2f((position->x - lastPosition.x)/2, (position->y - lastPosition.y)/2);
 
 	texCoords[0].position += diff;		//bottom right
 	texCoords[1].position += diff;		//bottom left

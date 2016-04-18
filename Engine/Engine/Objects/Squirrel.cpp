@@ -89,6 +89,7 @@ void Squirrel::update(InputData& inpData)
 	}
 
 	updateMovement();
+	hitbox.updatePosition();
 }
 
 void Squirrel::load(boost::property_tree::ptree& dataTree, ResourceManager& recMan)
@@ -152,6 +153,7 @@ boost::property_tree::ptree Squirrel::write()
 	xml.put("size.<xmlattr>.y", displaySize.y);
 	xml.put("frameSize.<xmlattr>.x", frameSize.x);
 	xml.put("frameSize.<xmlattr>.y", frameSize.y);
+	xml.put("type", type);
 
 
 	return xml;
