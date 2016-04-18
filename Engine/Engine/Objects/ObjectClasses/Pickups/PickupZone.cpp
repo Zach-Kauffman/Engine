@@ -34,6 +34,8 @@ void PickupZone::load(boost::property_tree::ptree& dataTree, ResourceManager& rm
 	parser.readValue<double>("x_value_right", xValRight, dataTree);
 	parser.readValue<std::string>("season_name", seasonName, dataTree);
 
+	resMan = &rman;
+
 	const sf::Vector2f size(xValRight - xValLeft, 6);
 	const sf::Vector2f position((xValRight + xValLeft) / 2, yVal + 3);
 	//loading texture
@@ -93,20 +95,25 @@ Pickup PickupZone::generatePickup()
 	srand(time(NULL));
 	int randNum = rand() % distMax;
 
-	std::string typeName;
+	std::string typName;
 	for (it_type iterator = distribution.begin(); iterator != distribution.end(); iterator++) {
 
 		// iterator->first = key
 		// iterator->second = value
 		if (isInBounds(randNum, iterator->first))
 		{
-			typeName = iterator->second;
+			typName = iterator->second;
 		}
 	}
 
-	cons sf::Vector2f fsize(100, 100);
+
+	double randXPos = rand() / RAND_MAX * (xValRight - xValLeft) + xValLeft;
+	
+
+	const sf::Vector2f default_size(100, 100);
+	const double floatingDist = 5;
 	Pickup newPickup;
-	newPickup.setup()
+	newPickup.setup(sf::Vector2f(randXPos, yVal + default_size.y / 2 + floatingDist), default_size, seasonName, typName, *resMan);
 
 
 }

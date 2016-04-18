@@ -13,13 +13,14 @@ Pickup::~Pickup()
 }
 
 
-void Pickup::setup(const sf::Vector2f& pos, const sf::Vector2f& siz, const std::string& snam, const std::string& pnam, const std::string& tnam, ResourceManager& rman)
+void Pickup::setup(const sf::Vector2f& pos, const sf::Vector2f& siz, const std::string& snam, const std::string& pnam, ResourceManager& rman)
 {
 	position = pos;
 	size = siz;
 	seasonName = snam;
 	pickupName = pnam;
-	textureName = tnam;
+
+	textureName = getTexName(pickupName);
 	
 	pickupTexture = rman.getTexturePointerByName(textureName);
 

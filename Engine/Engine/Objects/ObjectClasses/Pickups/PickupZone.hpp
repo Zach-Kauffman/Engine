@@ -42,6 +42,8 @@ namespace objects
 		std::map<std::pair<int, int>, std::string> distribution;
 		int distMax;
 
+		ResourceManager* resMan;
+
 	};
 
 
