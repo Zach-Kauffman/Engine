@@ -17,9 +17,6 @@ void PhysicsObject::updateMovement()
 	{
 		double frameTime = frameTimer.restart().asSeconds();
 
-		//HARDCODED platform  REMOVE
-
-
 		if (air)
 		{
 			sf::Vector2f s = sf::Vector2f(sign(velocity.x), sign(velocity.y));
