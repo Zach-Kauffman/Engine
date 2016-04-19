@@ -25,14 +25,11 @@
 	#include "MenuStuff\MenuManager.hpp"
 
 	#include "Objects/Squirrel.hpp"
-<<<<<<< HEAD
 	#include "Objects/ObjectClasses/Pickups/Pickup.hpp"
 
-=======
 #include "Objects/Platform.hpp"
 #include "Objects/Physics/Collision/Collidable.hpp"
 #include "Objects\Physics\Collision\Collider.hpp"
->>>>>>> 97620b96fa5ec3e3815701c58eded205ec2a438f
 
 class Game
 {
