@@ -158,8 +158,8 @@ void Game::draw()
 void Game::update()
 {
 	doChunks();
-	doCollisions();
 	objMan.getObject(1030001)->update(inpData);
+	doCollisions();
 
 
 
