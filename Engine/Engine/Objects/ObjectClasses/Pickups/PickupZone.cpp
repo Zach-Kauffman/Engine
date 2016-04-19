@@ -17,13 +17,15 @@ void PickupZone::draw(Layer& renderTarget)
 {
 	if (displaying)
 	{
-		renderTarget.getRenderTexture()->draw(textureCoords, pZoneTexture);
+		if (!isActive){ return; }
+		tex.update();
+		tex.draw(*renderTarget.getRenderTexture());
 	}
 }
 
 void PickupZone::update(InputData& inpData)
 {
-
+	if (!isActive){ return; }
 }
 
 void PickupZone::load(boost::property_tree::ptree& dataTree, ResourceManager& rman)
@@ -32,43 +34,23 @@ void PickupZone::load(boost::property_tree::ptree& dataTree, ResourceManager& rm
 	parser.readValue<double>("y_value", yVal, dataTree);	//loading x coord
 	parser.readValue<double>("x_value_left", xValLeft, dataTree);	//loading y coord
 	parser.readValue<double>("x_value_right", xValRight, dataTree);
+	parser.readValue<double>("thickness", thickness, dataTree);
+	parser.readValue<double>("gap_distance", gapDist, dataTree);
 	parser.readValue<std::string>("season_name", seasonName, dataTree);
 
-	resMan = &rman;
+	//resMan = &rman;
 
-	const sf::Vector2f size(xValRight - xValLeft, 6);
-	const sf::Vector2f position((xValRight + xValLeft) / 2, yVal + 3);
+	size = sf::Vector2f(xValRight - xValLeft, thickness);
+	position = sf::Vector2f((xValRight + xValLeft) / 2, yVal + thickness/2);
+
+
 	//loading texture
+
 	parser.readValue<std::string>("texture", textureName, dataTree);
 
-	pZoneTexture = rman.getTexturePointerByName(textureName);
+	sf::Texture* tmpTex = rman.getTexturePointerByName(textureName);
 	
-	sf::Vector2f texSize = (sf::Vector2f)(pZoneTexture->getSize());
-
-	textureCoords = sf::VertexArray(sf::Quads, 4); 
-
-	//defining edge coordinates centered on position
-	if (size.x + size.y == 0)
-	{
-		textureCoords[0].position = sf::Vector2f(position.x + texSize.x / 2, position.y + texSize.y / 2);	//bottom right
-		textureCoords[1].position = sf::Vector2f(position.x - texSize.x / 2, position.y + texSize.y / 2);	//bottom left
-		textureCoords[2].position = sf::Vector2f(position.x - texSize.x / 2, position.y - texSize.y / 2);	//top left
-		textureCoords[3].position = sf::Vector2f(position.x + texSize.x / 2, position.y - texSize.y / 2);	//top right
-	}
-	else
-	{
-		textureCoords[0].position = sf::Vector2f(position.x + size.x / 2, position.y + size.y / 2);	//bottom right
-		textureCoords[1].position = sf::Vector2f(position.x - size.x / 2, position.y + size.y / 2);	//bottom left
-		textureCoords[2].position = sf::Vector2f(position.x - size.x / 2, position.y - size.y / 2);	//top left
-		textureCoords[3].position = sf::Vector2f(position.x + size.x / 2, position.y - size.y / 2);	//top right
-	}
-	
-
-	//defining texture mapping coords
-	textureCoords[0].texCoords = sf::Vector2f(texSize.x, texSize.y);			//bottom right
-	textureCoords[1].texCoords = sf::Vector2f(0, texSize.y);					//bottom left
-	textureCoords[2].texCoords = sf::Vector2f(0, 0);			//top left
-	textureCoords[3].texCoords = sf::Vector2f(texSize.x, 0);	//top right
+	tex = Texture(tmpTex, &position, &size);
 
 
 }
@@ -81,19 +63,28 @@ boost::property_tree::ptree PickupZone::write()
 	properties.put("x_value_left", xValLeft);
 	properties.put("x_value_right", xValLeft); 
 	properties.put("season_name", seasonName);
-	properties.put("texture", textureName);
+	properties.put("thickness", thickness);
+	properties.put("gap_distance", gapDist);
+	properties.put("texture_name", textureName);
 
 	return properties;
 }
 
-Pickup PickupZone::generatePickup()
+
+void PickupZone::changeSeason(const std::string& newSeason)
+{
+	seasonName = newSeason;
+}
+
+
+Pickup PickupZone::generatePickup(ResourceManager& rman)
 {
 
 	typedef std::map<std::pair<int, int>, std::string>::iterator it_type;
 
 
 	srand(time(NULL));
-	int randNum = rand() % distMax;
+	int randNum = rand() % distrMax;
 
 	std::string typName;
 	for (it_type iterator = distribution.begin(); iterator != distribution.end(); iterator++) {
@@ -111,9 +102,9 @@ Pickup PickupZone::generatePickup()
 	
 
 	const sf::Vector2f default_size(100, 100);
-	const double floatingDist = 5;
+
 	Pickup newPickup;
-	newPickup.setup(sf::Vector2f(randXPos, yVal + default_size.y / 2 + floatingDist), default_size, seasonName, typName, *resMan);
+	newPickup.setup(sf::Vector2f(randXPos, yVal + default_size.y / 2 + gapDist), default_size, seasonName, typName, rman);
 
 	return newPickup;
 
@@ -122,6 +113,7 @@ Pickup PickupZone::generatePickup()
 
 void PickupZone::createDistribution()
 {
+	distribution.clear();
 	double sum = 0;
 
 
@@ -169,7 +161,7 @@ void PickupZone::createDistribution()
 
 	}
 
-	distMax = sum;
+	distrMax = sum;
 
 
 

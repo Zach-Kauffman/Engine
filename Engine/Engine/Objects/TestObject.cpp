@@ -8,13 +8,14 @@ TestObject::~TestObject(){}
 
 void TestObject::draw(Layer& renderTarget)
 {
+	if (!isActive){ return; }
 	tex.update();
 	tex.draw(*renderTarget.getRenderTexture());
 }
 
 void TestObject::update(InputData& inpData)
 {
-
+	if (!isActive){ return; }
 }
 
 void TestObject::load(boost::property_tree::ptree& dataTree, ResourceManager& resources)

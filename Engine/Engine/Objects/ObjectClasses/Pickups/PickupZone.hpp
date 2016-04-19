@@ -16,9 +16,12 @@ namespace objects
 		void draw(Layer& renderTarget);
 		void update(InputData& inpData);
 		void load(boost::property_tree::ptree& dataTree, ResourceManager& rman);
+
 		boost::property_tree::ptree write();
 
-		Pickup generatePickup();
+		void changeSeason(const std::string& newSeason);
+
+		Pickup generatePickup(ResourceManager& rman);
 
 
 	private:
@@ -28,21 +31,26 @@ namespace objects
 
 		bool displaying;
 
-		const sf::Texture* pZoneTexture;
-		sf::VertexArray textureCoords;
+		Texture tex;
+
 		std::string textureName;
 
 
 		double yVal;
 		double xValLeft;
 		double xValRight;
+		double thickness;
+
+		sf::Vector2f position;
+		sf::Vector2f size;
 
 		std::string seasonName;
 
 		std::map<std::pair<int, int>, std::string> distribution;
-		int distMax;
+		int distrMax;
+		double gapDist;
 
-		ResourceManager* resMan;
+		//ResourceManager* resMan;
 
 	};
 
