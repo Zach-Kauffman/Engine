@@ -15,12 +15,12 @@
             <frameSize x="64" y="32" />
             <idle>idle</idle>
             <moveSpeed>20</moveSpeed>
-            <position x="200" y="600" />
+            <position x="900" y="600" />
             <size x="400" y="200" />
             <type>Squirrel</type>
          </object>
          <object>
-            <position x="800" y="800" />
+            <position x="900" y="1000" />
             <size x="400" y="200" />
             <texture>grass</texture>
             <type>Platform</type>

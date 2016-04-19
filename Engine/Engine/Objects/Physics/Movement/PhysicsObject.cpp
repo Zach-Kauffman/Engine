@@ -18,11 +18,7 @@ void PhysicsObject::updateMovement()
 		double frameTime = frameTimer.restart().asSeconds();
 
 		//HARDCODED platform  REMOVE
-		if (position.y > 1000)
-		{
-			velocity.y = 0;
-			position.y = 1000;
-		}
+
 
 		if (air)
 		{
