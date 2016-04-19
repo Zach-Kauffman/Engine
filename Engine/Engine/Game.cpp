@@ -158,8 +158,9 @@ void Game::draw()
 void Game::update()
 {
 	doChunks();
-	objMan.getObject(1030001)->update(inpData);
+	player->update(inpData);
 	doCollisions();
+
 
 
 	//for each layer

@@ -60,6 +60,7 @@ void Editor::editorBegin()
 
 	sf::RenderWindow& window = *windowPtr;
 	window.setKeyRepeatEnabled(false);		//makes it so when a key is hit, only one event is recorded, not nine, or whatever -- ignores holding keys
+	window.setFramerateLimit(60);
 	while (window.isOpen())
 	{
 		sf::Event event;

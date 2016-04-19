@@ -103,5 +103,6 @@
     <ClInclude Include="Utility\Utilities.hpp" />
     <ClInclude Include="Utility\XMLParser.hpp" />
     <ClInclude Include="Objects\Platform.hpp" />
+    <ClInclude Include="Utility\Timer.hpp" />
   </ItemGroup>
 </Project>

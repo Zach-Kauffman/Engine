@@ -35,15 +35,6 @@ void Squirrel::update(InputData& inpData)
 {
 	if (!isActive){ return; }
 
-	if (abs(position.y - 1000) < .5)
-	{
-		colliding = true;
-	}
-	else
-	{
-		colliding = false;
-	}
-
 	if (inpData.isKeyHeld(sf::Keyboard::Up))
 	{
 		float time;
@@ -60,7 +51,7 @@ void Squirrel::update(InputData& inpData)
 
 			if (time > jumpTime)
 			{
-				if (abs(velocity.y) > .1 && colliding)
+				if (colliding)
 				{
 					jumping = false;
 				}
@@ -74,7 +65,7 @@ void Squirrel::update(InputData& inpData)
 
 	}
 	float multiplier = 1;
-
+	std::cout << colliding << std::endl;
 	if (!colliding)
 	{
 		multiplier *= airborneMultiplier;
@@ -90,6 +81,8 @@ void Squirrel::update(InputData& inpData)
 
 	updateMovement();
 	hitbox.updatePosition();
+
+	colliding = false;
 }
 
 void Squirrel::load(boost::property_tree::ptree& dataTree, ResourceManager& recMan)
@@ -161,9 +154,8 @@ boost::property_tree::ptree Squirrel::write()
 
 void Squirrel::physicalCollide(CollisionData& data)
 {
-	colliding = true;
 	std::tuple<sf::Vector2f, sf::Vector2f, bool> response = Collider::getKineticResponseDoublePolygon(velocity, hitbox.get(), data.getCollidedHitbox()->get());
+	colliding = std::get<2>(response);
 	setPosition(position + std::get<0>(response));
 	setVelocity(std::get<1>(response) + velocity);
-	colliding = true;
 }

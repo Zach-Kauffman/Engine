@@ -60,6 +60,7 @@
     <ClInclude Include="Utility\Downcast.hpp" />
     <ClInclude Include="Utility\INIParser.hpp" />
     <ClInclude Include="Utility\Logger.hpp" />
+    <ClInclude Include="Utility\Timer.hpp" />
     <ClInclude Include="Utility\UnitTester.hpp" />
     <ClInclude Include="Utility\Utilities.hpp" />
     <ClInclude Include="Utility\XMLParser.hpp" />
