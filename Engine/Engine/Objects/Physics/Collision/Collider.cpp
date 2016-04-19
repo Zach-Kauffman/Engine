@@ -257,7 +257,7 @@ double distSq(const sf::Vector2f& veca, const sf::Vector2f& vecb)
 	return ((double)((veca.x - vecb.x) * (veca.x - vecb.x) + (veca.y - vecb.y) * (veca.y - vecb.y)));
 }
 
-std::pair<sf::Vector2f, sf::Vector2f> Collider::getKineticResponseDoublePolygon(const sf::Vector2f& vel, const polygon& polyA, const polygon& polyB)
+std::tuple<sf::Vector2f, sf::Vector2f, bool> Collider::getKineticResponseDoublePolygon(const sf::Vector2f& vel, const polygon& polyA, const polygon& polyB)
 {
 
 	unsigned int sizb = polyB.size();
@@ -304,27 +304,26 @@ std::pair<sf::Vector2f, sf::Vector2f> Collider::getKineticResponseDoublePolygon(
 	sf::Vector2f critLineVec = polyB[critLine1] - polyB[critLine2]; //move line to origin
 
 
-	//rotate by 90 degrees
-	double tmpx = critLineVec.x;
-
-	critLineVec.x = critLineVec.y;
-	critLineVec.y = -tmpx;
-
-	//normalize that vector
-	sf::Vector2f normCLVec;
-	normCLVec.x = critLineVec.x / sqrt(magSq(critLineVec));
-	normCLVec.y = critLineVec.y / sqrt(magSq(critLineVec));
 
 	//find dot product
-	const double dotProduct = normCLVec.x * vel.x + normCLVec.y * vel.y;
+	const double dotProduct = critLineVec.x * vel.x + critLineVec.y * vel.y;
 
 	//find projection vector
-	const sf::Vector2f projVec(dotProduct * normCLVec.x, dotProduct * normCLVec.y);
+	const sf::Vector2f projVec(dotProduct / magSq(critLineVec) * critLineVec.x, dotProduct / magSq(critLineVec) * critLineVec.y);
 
 	//find other component (rejection vector)
-	sf::Vector2f newVelocity = vel - projVec;
+	sf::Vector2f normalVelocity =  projVec - vel;
 
-	return std::make_pair(corDisp, newVelocity);
+
+	bool jumpable;
+	if (critLineVec.x != 0)
+	{
+		double critSlope = critLineVec.y / critLineVec.x;
+		jumpable = ((fabs(critSlope) <= 1) && (polyA[critCorner].y - vel.y < firstPoi.y));
+	}
+
+	return std::make_tuple(corDisp, normalVelocity, jumpable);
+	//return std::make_pair(corDisp, normalVelocity);
 
 }
 

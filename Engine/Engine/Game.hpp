@@ -25,6 +25,8 @@
 	#include "MenuStuff\MenuManager.hpp"
 
 	#include "Objects/Squirrel.hpp"
+	#include "Objects/ObjectClasses/Pickups/Pickup.hpp"
+
 #include "Objects/Platform.hpp"
 #include "Objects/Physics/Collision/Collidable.hpp"
 #include "Objects\Physics\Collision\Collider.hpp"

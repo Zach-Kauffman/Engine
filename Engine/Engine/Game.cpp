@@ -293,6 +293,7 @@ void Game::loadObjects()
 	objMan.addPrototype<objects::MovingTestObject>("MovingTestObject");
 	objMan.addPrototype<objects::Squirrel>("Squirrel");
 	objMan.addPrototype<objects::Platform>("Platform");
+	objMan.addPrototype<objects::Pickup>("Pickup");
 }
 
 void Game::loadMap()
