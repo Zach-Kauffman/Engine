@@ -315,7 +315,7 @@ std::tuple<sf::Vector2f, sf::Vector2f, bool> Collider::getKineticResponseDoubleP
 	sf::Vector2f normalVelocity =  projVec - vel;
 
 
-	bool jumpable;
+	bool jumpable = false;
 	if (critLineVec.x != 0)
 	{
 		double critSlope = critLineVec.y / critLineVec.x;
