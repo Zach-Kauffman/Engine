@@ -115,6 +115,8 @@ Pickup PickupZone::generatePickup()
 	Pickup newPickup;
 	newPickup.setup(sf::Vector2f(randXPos, yVal + default_size.y / 2 + floatingDist), default_size, seasonName, typName, *resMan);
 
+	return newPickup;
+
 
 }
 
@@ -175,7 +177,8 @@ void PickupZone::createDistribution()
 
 }
 
-bool isInBounds(const int& val, const std::pair<int, int>& bound)
+
+bool PickupZone::isInBounds(const int& val, const std::pair<int, int>& bound)
 {
 	return ((val < bound.second) && (val >= bound.first));
 }

@@ -20,7 +20,7 @@ public:
 	static CollisionData collide(HitBox& b1, HitBox& b2);
 	static CollisionData collide(HitBox& b1, std::vector<HitBox*>& b2);
 
-	static	std::pair<sf::Vector2f, sf::Vector2f> Collider::getKineticResponseDoublePolygon(const sf::Vector2f& vel, const polygon& polyA, const polygon& polyB);
+	static	std::tuple<sf::Vector2f, sf::Vector2f, bool> Collider::getKineticResponseDoublePolygon(const sf::Vector2f& vel, const polygon& polyA, const polygon& polyB);
 
 private:
 	static std::pair<sf::Vector2f, bool> getLinePoint(const sf::Vector2f& u, const sf::Vector2f& v, const sf::Vector2f& a, const sf::Vector2f& b);

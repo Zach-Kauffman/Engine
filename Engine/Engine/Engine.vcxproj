@@ -44,7 +44,6 @@
     <ClInclude Include="Objects\ObjectClasses\Pickups\Pickup.hpp" />
     <ClInclude Include="Objects\ObjectClasses\Pickups\PickupData.hpp" />
     <ClInclude Include="Objects\ObjectClasses\Pickups\PickupZone.hpp" />
-    <ClInclude Include="Objects\ObjectClasses\Platform.hpp" />
     <ClInclude Include="Objects\ObjectGroup.hpp" />
     <ClInclude Include="Objects\ObjectManager.hpp" />
     <ClInclude Include="Objects\Physics\Collision\Collidable.hpp" />
@@ -96,7 +95,6 @@
     <ClCompile Include="Objects\ObjectClasses\Pickups\Pickup.cpp" />
     <ClCompile Include="Objects\ObjectClasses\Pickups\PickupData.cpp" />
     <ClCompile Include="Objects\ObjectClasses\Pickups\PickupZone.cpp" />
-    <ClCompile Include="Objects\ObjectClasses\Platform.cpp" />
     <ClCompile Include="Objects\ObjectGroup.cpp" />
     <ClCompile Include="Objects\ObjectManager.cpp" />
     <ClCompile Include="Objects\Physics\Collision\Collidable.cpp" />

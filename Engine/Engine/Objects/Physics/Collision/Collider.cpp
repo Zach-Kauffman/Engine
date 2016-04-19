@@ -257,7 +257,7 @@ double distSq(const sf::Vector2f& veca, const sf::Vector2f& vecb)
 	return ((double)((veca.x - vecb.x) * (veca.x - vecb.x) + (veca.y - vecb.y) * (veca.y - vecb.y)));
 }
 
-std::pair<sf::Vector2f, sf::Vector2f> Collider::getKineticResponseDoublePolygon(const sf::Vector2f& vel, const polygon& polyA, const polygon& polyB)
+std::tuple<sf::Vector2f, sf::Vector2f, bool> Collider::getKineticResponseDoublePolygon(const sf::Vector2f& vel, const polygon& polyA, const polygon& polyB)
 {
 
 	unsigned int sizb = polyB.size();
@@ -312,7 +312,7 @@ std::pair<sf::Vector2f, sf::Vector2f> Collider::getKineticResponseDoublePolygon(
 	const sf::Vector2f projVec(dotProduct / magSq(critLineVec) * critLineVec.x, dotProduct / magSq(critLineVec) * critLineVec.y);
 
 	//find other component (rejection vector)
-	sf::Vector2f newVelocity = vel - projVec;
+	sf::Vector2f normalVelocity =  projVec - vel;
 
 
 	bool jumpable;
@@ -322,8 +322,8 @@ std::pair<sf::Vector2f, sf::Vector2f> Collider::getKineticResponseDoublePolygon(
 		jumpable = ((fabs(critSlope) <= 1) && (polyA[critCorner].y - vel.y < firstPoi.y));
 	}
 
-
-	return std::make_pair(corDisp, newVelocity);
+	return std::make_tuple(corDisp, normalVelocity, jumpable);
+	//return std::make_pair(corDisp, normalVelocity);
 
 }
 
