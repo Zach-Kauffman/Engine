@@ -15,7 +15,7 @@ public:
 private:
 	Texture tile;
 	sf::Vector2f setSize;
-	sf::Vector2f setCenter;
+	sf::Vector2f TLC;
 	sf::Vector2f* centerPosition;
 	sf::Vector2f drawPosition;
 };
