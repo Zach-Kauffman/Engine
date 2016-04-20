@@ -19,15 +19,17 @@ CollisionData Collider::collide(Collidable* o1, std::vector<Collidable*>& oVec)
 			return data;
 		}
 	}
-	CollisionData unit = CollisionData(false, *oVec.back()->getHitBox()); //returning null data
-	return unit;
+
+	data = CollisionData(false, *oVec.back()->getHitBox());
+	return data;
+
 }
 
 CollisionData Collider::collide(HitBox& b1, HitBox& b2)
 {
-	bool c = isCollide(b1.get(), b2.get());
-	CollisionData ret = CollisionData(c, b2);
-	//ret.setFeathered(b2.isFeather());
+
+	CollisionData ret = CollisionData(isCollide(b1.get(), b2.get()), b2);
+
 	return ret;
 }
 
@@ -44,8 +46,9 @@ CollisionData Collider::collide(HitBox& b1, std::vector<HitBox*>& b2)
 			return data;
 		}
 	}
-	CollisionData unit = CollisionData(false, *b2.back()); //returning null data
-	return unit;
+
+	data = CollisionData(false, *b2.back());
+	return data;
 }
 
 bool Collider::checkBoundingBoxCollision(const sf::Vector2f& tla, const sf::Vector2f& bra, const sf::Vector2f& tlb, const sf::Vector2f& brb)
