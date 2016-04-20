@@ -10,6 +10,7 @@
 #include "Objects/TestObject.hpp"
 #include "Objects/Object.hpp"
 #include "Game.hpp"
+#include "MainMenu.hpp"
 #include "Editor.hpp"
 #include "Utility\XMLParser.hpp"
 #include <iostream>
