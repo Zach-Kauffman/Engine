@@ -49,6 +49,7 @@
     <ClCompile Include="Utility\Utilities.cpp" />
     <ClCompile Include="Utility\XMLParser.cpp" />
     <ClCompile Include="Objects\Platform.cpp" />
+    <ClCompile Include="Objects\Graphics\TiledTexture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Defines.hpp" />
@@ -104,5 +105,6 @@
     <ClInclude Include="Utility\XMLParser.hpp" />
     <ClInclude Include="Objects\Platform.hpp" />
     <ClInclude Include="Utility\Timer.hpp" />
+    <ClInclude Include="Objects\Graphics\TiledTexture.hpp" />
   </ItemGroup>
 </Project>

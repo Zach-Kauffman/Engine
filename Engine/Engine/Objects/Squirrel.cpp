@@ -185,8 +185,9 @@ void Squirrel::physicalCollide(CollisionData& data)
 	}
 	std::tuple<sf::Vector2f, sf::Vector2f, bool> response = Collider::getKineticResponseDoublePolygon(velocity, hitbox.get(), data.getCollidedHitbox()->get());
 	colliding = std::get<2>(response);
-	setPosition(position + sf::Vector2f(0, std::get<0>(response).y));
-	setVelocity(sf::Vector2f(0, std::get<1>(response).y) + velocity);
+	setPosition(position + std::get<1>(response));
+	setVelocity(std::get<1>(response)+ velocity);
+	hitbox.updatePosition();
 	//gravity = false;
 	//applyForce(sf::Vector2f(0, -GRAVITY));
 	std::cout << colliding << ": " << std::get<0>(response).x << ", " << std::get<0>(response).x << ": " << std::get<1>(response).x << ", " << std::get<1>(response).x << std::endl;
