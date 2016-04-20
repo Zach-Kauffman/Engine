@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML\Graphics.hpp>
+#include <math.h>
 
 class HitBox	//convex shape collision
 {
@@ -25,7 +26,8 @@ public:
 
 	void move(sf::Vector2f& newPosition);		//just an alias
 
-
+	void feather(const bool& onoff, const int& amount = 2);
+	bool isFeather();
 protected:
 	
 	sf::Vector2f lastPosition;
@@ -33,6 +35,8 @@ protected:
 
 	std::vector<sf::Vector2f> polygon;	//non-translated version of hitbox
 	std::vector<sf::Vector2f> hitbox;
+
+	bool feathered;
 
 };
 

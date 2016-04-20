@@ -1,36 +1,12 @@
 <?xml version="1.0"?>
 <resources>
 	<resource>
-		<path>Resources/TestResources/ModernArtBlue.png</path>
-		<name>ModernArt</name>
-	</resource>
-		<resource>
-		<path>Resources/TestResources/KittyKitty.png</path>
-		<name>KittyKitty</name>
-	</resources>
-	<resource>
-		<path>Resources/TestResources/potato.png</path>
-		<name>potato</name>
-	</resource>
-	<resource>
 		<path>Resources/TestResources/acorn.png</path>
 		<name>acorn</name>
 	</resource>
 	<resource>
-		<path>Resources/TestResources/sky.png</path>
-		<name>sky</name>
-	</resource>
-	<resource>
-		<path>Resources/TestResources/squirrel.png</path>
-		<name>squirrel</name>
-	</resource>
-	<resource>
 		<path>Resources/TestResources/grass.png</path>
 		<name>grass</name>
-	</resource>
-	<resource>
-		<path>Resources/TestResources/ArrowCross.png</path>
-		<name>ArrowCross</name>
 	</resource>
 	<resource>
 		<path>Resources/TestResources/darksky.png</path>
@@ -41,12 +17,28 @@
 		<name>moon</name>
 	</resource>
 	<resource>
+		<path>Resources/tree.png</path>
+		<name>tree</name>
+	</resource>
+		<resource>
+		<path>Resources/sky.png</path>
+		<name>sky</name>
+	</resource>
+	<resource>
 		<path>Resources/TestResources/EasterEgg.png</path>
 		<name>egg</name>
 	</resource>
 	<resource>
 		<path>Resources/GUIResources/TextBar.png</path>
 		<name>EditorEntryBar</name>
+	</resource>
+	<resource>
+		<path>Resources/TurnRight.png</path>
+		<name>TurnRight</name>
+	</resource>
+	<resource>
+		<path>Resources/TurnLeft.png</path>
+		<name>TurnLeft</name>
 	</resource>
 	<resource>
 		<path>Resources/GUIResources/GrayTextBoxBackground.png</path>

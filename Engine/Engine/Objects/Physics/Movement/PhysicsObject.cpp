@@ -24,27 +24,25 @@ void PhysicsObject::updateMovement()
 			acceleration -= air;	//apply air resistance
 		}
 
+		if (gravity)
+		{
+			acceleration += sf::Vector2f(0, GRAVITY);	//apply gravity for next frame
+		}
+		
 		velocity += sf::Vector2f(acceleration.x * frameTime, acceleration.y * frameTime);
 		position += velocity;
 
-		if (gravity)
-		{
-			acceleration = sf::Vector2f(0, GRAVITY);	//apply gravity for next frame
-		}
-		else
-		{
-			acceleration = sf::Vector2f(0, 0);
-		}
+		acceleration = sf::Vector2f(0, 0);
 
+	}
 
-		if (velocity.x < .05 && velocity.x > -.05)
-		{
-			velocity.x = 0;
-		}
-		if (velocity.y < .05 && velocity.y > -.05)
-		{
-			velocity.y = 0;
-		}
+	if (velocity.x < .05 && velocity.x > -.05)
+	{
+		velocity.x = 0;
+	}
+	if (velocity.y < .05 && velocity.y > -.05)
+	{
+		velocity.y = 0;
 	}
 
 }

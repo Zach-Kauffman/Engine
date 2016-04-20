@@ -72,3 +72,31 @@ void HitBox::move(sf::Vector2f& newPosition)
 		hitbox.push_back(*position + polygon[i]);
 	}
 }
+
+void HitBox::feather(const bool& onoff, const int& amount)
+{
+	feathered = onoff;
+	if (onoff == feathered) //all good
+	{
+		return;
+	}
+	for (int i = 0; i < polygon.size(); i++)
+	{
+		float slope = polygon[i].y / polygon[i].x;
+		sf::Vector2f disp = sf::Vector2f(amount, slope*amount);
+		if (!onoff) //if its being removed reverse it
+		{
+			polygon[i] -= disp;
+		}
+		else
+		{
+			polygon[i] += disp;
+		}
+	}
+
+}
+
+bool HitBox::isFeather()
+{
+	return feathered;
+}
