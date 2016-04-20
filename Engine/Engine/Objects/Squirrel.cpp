@@ -65,7 +65,6 @@ void Squirrel::update(InputData& inpData)
 
 	}
 	float multiplier = 1;
-	std::cout << colliding << std::endl;
 	if (!colliding)
 	{
 		multiplier *= airborneMultiplier;
@@ -156,6 +155,8 @@ void Squirrel::physicalCollide(CollisionData& data)
 {
 	std::tuple<sf::Vector2f, sf::Vector2f, bool> response = Collider::getKineticResponseDoublePolygon(velocity, hitbox.get(), data.getCollidedHitbox()->get());
 	colliding = std::get<2>(response);
-	setPosition(position + std::get<0>(response));
-	setVelocity(std::get<1>(response) + velocity);
+	setPosition(position + sf::Vector2f(0, std::get<0>(response).y));
+	setVelocity(sf::Vector2f(0, std::get<1>(response).y) + velocity);
+	std::cout << colliding << ": " << std::get<0>(response).x << ", " << std::get<0>(response).x << ": " << std::get<1>(response).x << ", " << std::get<1>(response).x << std::endl;
+	//std::cout << "vel:" << velocity.x << ", " << velocity.y << std::endl;
 }
