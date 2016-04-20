@@ -26,6 +26,7 @@
 
 	#include "Objects/Squirrel.hpp"
 	#include "Objects/ObjectClasses/Pickups/Pickup.hpp"
+#include "Objects/ObjectClasses/Pickups/PickupZone.hpp"
 
 #include "Objects/Platform.hpp"
 #include "Objects/Physics/Collision/Collidable.hpp"

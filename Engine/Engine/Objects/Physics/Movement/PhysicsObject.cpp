@@ -29,8 +29,6 @@ void PhysicsObject::updateMovement()
 			acceleration += sf::Vector2f(0, GRAVITY);	//apply gravity for next frame
 		}
 		
-		
-		
 		velocity += sf::Vector2f(acceleration.x * frameTime, acceleration.y * frameTime);
 		position += velocity;
 

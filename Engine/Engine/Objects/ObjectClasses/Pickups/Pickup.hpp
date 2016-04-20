@@ -4,6 +4,7 @@
 #include "PickupData.hpp"
 
 #include "../../../Utility/INIParser.hpp"
+#include "../../Graphics/Texture.hpp"
 
 namespace objects
 {
@@ -29,7 +30,7 @@ namespace objects
 
 	private:
 
-		void subSetup();
+		void subSetup(ResourceManager& rman);
 		std::string getTexName(const std::string& typname);
 
 
@@ -39,20 +40,13 @@ namespace objects
 		PickupData pdata;
 
 
-		const sf::Texture* pickupTexture;
-		sf::VertexArray textureCoords;
-		std::string textureName;
-
 		sf::Vector2f position;
 		sf::Vector2f size;
-
-		
-
 
 		std::string seasonName;
 		std::string pickupName;
 
-
+		Texture tex;
 	};
 
 }

@@ -5,6 +5,7 @@ using namespace objects;
 Squirrel::Squirrel()
 {
 	displaySize = sf::Vector2f(100, 100);
+	lastAcceleration = sf::Vector2f(0, 0);
 	jumping = false;
 	colliding = false;
 	movable = true;
@@ -16,19 +17,37 @@ void Squirrel::draw(Layer& renderTarget)
 {
 	if (!isActive){return;}
 
-	if (velocity.x > .5)
+	if (velocity.x > 0)
 	{
+		if (lastAcceleration.x < 0)
+		{
+			TR.drawNextFrame(*renderTarget.getRenderTexture());
+		}
+		else
+		{
+			RR.drawNextFrame(*renderTarget.getRenderTexture());
+		}
 		//sf::RenderTexture* renderTex = renderTarget.getRenderTexture();
-		RR.drawNextFrame(*renderTarget.getRenderTexture());
+
 	}
-	else if (velocity.x < -.5)
+	else if (velocity.x < 0)
 	{
-		RL.drawNextFrame(*renderTarget.getRenderTexture());
+		if (lastAcceleration.x > 0)
+		{
+			TL.drawNextFrame(*renderTarget.getRenderTexture());
+		}
+		else
+		{
+			RL.drawNextFrame(*renderTarget.getRenderTexture());
+		}
+
 	}
 	else
 	{
 		idle.drawNextFrame(*renderTarget.getRenderTexture()); 
 	}
+	
+	//setAcceleration(sf::Vector2f(0, 0));
 }
 
 void Squirrel::update(InputData& inpData)
@@ -77,7 +96,7 @@ void Squirrel::update(InputData& inpData)
 	{
 		applyForce(sf::Vector2f(moveForce*multiplier, 0));
 	}
-
+	lastAcceleration = acceleration;
 	updateMovement();
 	hitbox.updatePosition();
 
@@ -100,9 +119,7 @@ void Squirrel::load(boost::property_tree::ptree& dataTree, ResourceManager& recM
 	frameSize.y = reader.readValue<float>("frameSize.<xmlattr>.y", dataTree);
 
 	//should some of these be loaded from ini??
-	RR = Animation(recMan.getTexturePointerByName(RRName), frameSize, displaySize, fps, position);
-	RL = Animation(recMan.getTexturePointerByName(RLName), frameSize, displaySize, fps, position);
-	idle = Animation(recMan.getTexturePointerByName(idleSSName), frameSize, displaySize, fps, position);
+
 
 	//default values
 	jumpTime = 1000;
@@ -121,8 +138,17 @@ void Squirrel::load(boost::property_tree::ptree& dataTree, ResourceManager& recM
 	options.readValue<float>("JumpTime", jumpTime);
 	options.readValue<float>("AirMoveMultiplier", airborneMultiplier);
 
+
 	options.setSection("Graphics");
 	options.readValue<int>("AnimationFPS", fps);
+	options.readValue <std::string>("TurnLeft", TLName);
+	options.readValue<std::string>("TurnRight", TRName);
+
+	RR = Animation(recMan.getTexturePointerByName(RRName), frameSize, displaySize, fps, position);
+	RL = Animation(recMan.getTexturePointerByName(RLName), frameSize, displaySize, fps, position);
+	idle = Animation(recMan.getTexturePointerByName(idleSSName), frameSize, displaySize, fps, position);
+	TL = Animation(recMan.getTexturePointerByName(TLName), frameSize, displaySize, fps, position);
+	TR = Animation(recMan.getTexturePointerByName(TRName), frameSize, displaySize, fps, position);
 
 	HitBox box;
 	box.create(displaySize);
@@ -153,10 +179,16 @@ boost::property_tree::ptree Squirrel::write()
 
 void Squirrel::physicalCollide(CollisionData& data)
 {
+	if (data.getFeathered())
+	{
+		return;
+	}
 	std::tuple<sf::Vector2f, sf::Vector2f, bool> response = Collider::getKineticResponseDoublePolygon(velocity, hitbox.get(), data.getCollidedHitbox()->get());
 	colliding = std::get<2>(response);
 	setPosition(position + sf::Vector2f(0, std::get<0>(response).y));
 	setVelocity(sf::Vector2f(0, std::get<1>(response).y) + velocity);
+	//gravity = false;
+	//applyForce(sf::Vector2f(0, -GRAVITY));
 	std::cout << colliding << ": " << std::get<0>(response).x << ", " << std::get<0>(response).x << ": " << std::get<1>(response).x << ", " << std::get<1>(response).x << std::endl;
 	//std::cout << "vel:" << velocity.x << ", " << velocity.y << std::endl;
 }

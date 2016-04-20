@@ -20,11 +20,9 @@ void Pickup::setup(const sf::Vector2f& pos, const sf::Vector2f& siz, const std::
 	seasonName = snam;
 	pickupName = pnam;
 
-	textureName = getTexName(pickupName);
 	
-	pickupTexture = rman.getTexturePointerByName(textureName);
 
-	subSetup();
+	subSetup(rman);
 
 
 
@@ -34,7 +32,9 @@ void Pickup::draw(Layer& renderTarget)
 {
 	if (!removed)
 	{
-		renderTarget.getRenderTexture()->draw(textureCoords, pickupTexture);
+		if (!isActive){ return; }
+		tex.update();
+		tex.draw(*renderTarget.getRenderTexture());
 	}
 	
 }
@@ -43,6 +43,7 @@ void Pickup::update(InputData& inpData)
 {
 	if (!removed)
 	{
+		if (!isActive){ return; }
 		//if (/*getCollidingWithSquirrel*/)
 		//{
 		//	removed = true;
@@ -63,9 +64,7 @@ void Pickup::load(boost::property_tree::ptree& dataTree, ResourceManager& rman)
 	//loading texture
 
 
-	pickupTexture = rman.getTexturePointerByName(getTexName(pickupName));
-
-	subSetup();
+	subSetup(rman);
 
 
 
@@ -96,36 +95,12 @@ void Pickup::load(boost::property_tree::ptree& dataTree, ResourceManager& rman)
  }
 
 
- void Pickup::subSetup()
+ void Pickup::subSetup(ResourceManager& rman)
  {
-	
-	
-	sf::Vector2f texSize = (sf::Vector2f)(pickupTexture->getSize());
 
-	textureCoords = sf::VertexArray(sf::Quads, 4); 
+	sf::Texture* platformTexture = rman.getTexturePointerByName(getTexName(pickupName));
 
-	//defining edge coordinates centered on position
-	if (size.x + size.y == 0)
-	{
-		textureCoords[0].position = sf::Vector2f(position.x + texSize.x / 2, position.y + texSize.y / 2);	//bottom right
-		textureCoords[1].position = sf::Vector2f(position.x - texSize.x / 2, position.y + texSize.y / 2);	//bottom left
-		textureCoords[2].position = sf::Vector2f(position.x - texSize.x / 2, position.y - texSize.y / 2);	//top left
-		textureCoords[3].position = sf::Vector2f(position.x + texSize.x / 2, position.y - texSize.y / 2);	//top right
-	}
-	else
-	{
-		textureCoords[0].position = sf::Vector2f(position.x + size.x / 2, position.y + size.y / 2);	//bottom right
-		textureCoords[1].position = sf::Vector2f(position.x - size.x / 2, position.y + size.y / 2);	//bottom left
-		textureCoords[2].position = sf::Vector2f(position.x - size.x / 2, position.y - size.y / 2);	//top left
-		textureCoords[3].position = sf::Vector2f(position.x + size.x / 2, position.y - size.y / 2);	//top right
-	}
-	
-
-	//defining texture mapping coords
-	textureCoords[0].texCoords = sf::Vector2f(texSize.x, texSize.y);			//bottom right
-	textureCoords[1].texCoords = sf::Vector2f(0, texSize.y);					//bottom left
-	textureCoords[2].texCoords = sf::Vector2f(0, 0);			//top left
-	textureCoords[3].texCoords = sf::Vector2f(texSize.x, 0);	//top right
+	tex = Texture(platformTexture, &position, &size);
 
 	
 	pdata.load(pickupName);

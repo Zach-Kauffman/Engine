@@ -294,6 +294,7 @@ void Game::loadObjects()
 	objMan.addPrototype<objects::Squirrel>("Squirrel");
 	objMan.addPrototype<objects::Platform>("Platform");
 	objMan.addPrototype<objects::Pickup>("Pickup");
+	objMan.addPrototype<objects::PickupZone>("PickupZone");
 }
 
 void Game::loadMap()
@@ -396,6 +397,7 @@ void Game::doCollisions()
 	CollisionData result = Collider::collide(pcol, collidableMap[104]);
 	if (result.collided())
 	{
+
 		player->physicalCollide(result);
 	}
 

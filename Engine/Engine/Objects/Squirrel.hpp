@@ -27,6 +27,8 @@ namespace objects
 		Animation RR;
 		Animation RL;
 		Animation idle;
+		Animation TL; //turn left
+		Animation TR; //turn right
 
 		float moveForce;
 		float jumpForce;
@@ -38,9 +40,12 @@ namespace objects
 		sf::Vector2f frameSize;
 		std::string RRName, RLName;
 		std::string idleSSName;
+		std::string TLName;
+		std::string TRName;
 		int fps;
 
 		float airborneMultiplier;	//multiplier for airborne movement
 
+		sf::Vector2f lastAcceleration;
 	};
 }
