@@ -44,6 +44,7 @@ namespace objects
 		std::string TRName;
 		int fps;
 
+		bool onGround;
 		float airborneMultiplier;	//multiplier for airborne movement
 
 		sf::Vector2f lastAcceleration;

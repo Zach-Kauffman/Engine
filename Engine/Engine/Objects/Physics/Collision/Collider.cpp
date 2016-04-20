@@ -26,7 +26,7 @@ CollisionData Collider::collide(Collidable* o1, std::vector<Collidable*>& oVec)
 CollisionData Collider::collide(HitBox& b1, HitBox& b2)
 {
 	CollisionData ret = CollisionData(isCollide(b1.get(), b2.get()), b2);
-	ret.setFeathered(b2.isFeather());
+	//ret.setFeathered(b2.isFeather());
 	return ret;
 }
 
@@ -36,7 +36,7 @@ CollisionData Collider::collide(HitBox& b1, std::vector<HitBox*>& b2)
 	for (unsigned int i = 0; i < b2.size(); i++)
 	{
 		data = CollisionData(isCollide(b1.get(), b2[i]->get()), *b2[i]);
-		data.setFeathered(b2[i]->isFeather());
+		//data.setFeathered(b2[i]->isFeather());
 		if (data.collided())
 		{
 			return data;
