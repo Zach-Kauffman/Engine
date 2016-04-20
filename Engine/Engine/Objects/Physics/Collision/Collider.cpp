@@ -267,7 +267,7 @@ std::tuple<sf::Vector2f, sf::Vector2f, bool> Collider::getKineticResponseDoubleP
 	unsigned int critLine1 = 0;
 	unsigned int critLine2 = 0;
 	unsigned int critCorner = 0;
-	const double knockback = 1;
+	const double knockback = .1;
 
 	sf::Vector2f firstPoi;
 
@@ -302,27 +302,27 @@ std::tuple<sf::Vector2f, sf::Vector2f, bool> Collider::getKineticResponseDoubleP
 
 	
 
-	sf::Vector2f critLineVec = polyB[critLine2] - polyB[critLine1]; //move line to origin
+	const sf::Vector2f critLineVec = polyB[critLine2] - polyB[critLine1]; //move line to origin
+	const sf::Vector2f groundVel = -corDisp;
 
 	const double critMagSq = magSq(critLineVec);
 
 	//find dot product
-	const double dotProd = dotProduct(critLineVec, vel);
+	const double dotProd = dotProduct(critLineVec, groundVel);
 
 	//find projection vector
 	const sf::Vector2f projVec(dotProd / critMagSq * critLineVec.x, dotProd / critMagSq * critLineVec.y);
 
 	//find other component (rejection vector)
-	sf::Vector2f normalVelocity =  projVec - vel;
+	sf::Vector2f normalVelocity =  projVec - groundVel;
 
-	const double normalMag = sqrt(magSq(normalVelocity));
-
-
+	double normalMag = sqrt(magSq(normalVelocity));
 
 	sf::Vector2f knockbackVec;
 	knockbackVec.x = normalVelocity.x / normalMag * knockback;
 	knockbackVec.y = normalVelocity.y / normalMag * knockback;
 
+	normalVelocity += knockbackVec;
 
 	corDisp += knockbackVec;
 

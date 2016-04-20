@@ -20,12 +20,16 @@ public:
 	static CollisionData collide(HitBox& b1, HitBox& b2);
 	static CollisionData collide(HitBox& b1, std::vector<HitBox*>& b2);
 
-	static	std::tuple<sf::Vector2f, sf::Vector2f, bool> Collider::getKineticResponseDoublePolygon(const sf::Vector2f& vel, const polygon& polyA, const polygon& polyB);
+	//static std::pair<sf::Vector2f, bool> preemptive
+	static std::tuple<sf::Vector2f, sf::Vector2f, bool> getKineticResponseDoublePolygon(const sf::Vector2f& vel, const polygon& polyA, const polygon& polyB);
+
+
 
 private:
 
 	static std::pair<sf::Vector2f, bool> getLinePoint(const sf::Vector2f& u, const sf::Vector2f& v, const sf::Vector2f& a, const sf::Vector2f& b);
 	static bool checkPointOnLine(const sf::Vector2f& point, const sf::Vector2f& pa, const sf::Vector2f& vec);
+
 	static std::pair<sf::Vector2f, sf::Vector2f> getBoundingBoxCorners(const std::vector<sf::Vector2f>& points);
 	static bool isCollide(const std::vector<sf::Vector2f>& hb1, const std::vector<sf::Vector2f>& hb2);
 
