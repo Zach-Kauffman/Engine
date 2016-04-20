@@ -38,6 +38,15 @@ void PhysicsObject::updateMovement()
 
 	}
 
+	if (velocity.x < .05 && velocity.x > -.05)
+	{
+		velocity.x = 0;
+	}
+	if (velocity.y < .05 && velocity.y > -.05)
+	{
+		velocity.y = 0;
+	}
+
 }
 
 void PhysicsObject::setPosition(const sf::Vector2f& newPosition)
