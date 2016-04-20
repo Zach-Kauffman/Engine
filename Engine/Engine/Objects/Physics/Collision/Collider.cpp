@@ -19,13 +19,14 @@ CollisionData Collider::collide(Collidable* o1, std::vector<Collidable*>& oVec)
 			return data;
 		}
 	}
-	CollisionData unit; //returning null data
+	CollisionData unit = CollisionData(false, *oVec.back()->getHitBox()); //returning null data
 	return unit;
 }
 
 CollisionData Collider::collide(HitBox& b1, HitBox& b2)
 {
-	CollisionData ret = CollisionData(isCollide(b1.get(), b2.get()), b2);
+	bool c = isCollide(b1.get(), b2.get());
+	CollisionData ret = CollisionData(c, b2);
 	//ret.setFeathered(b2.isFeather());
 	return ret;
 }
@@ -39,10 +40,11 @@ CollisionData Collider::collide(HitBox& b1, std::vector<HitBox*>& b2)
 		//data.setFeathered(b2[i]->isFeather());
 		if (data.collided())
 		{
+
 			return data;
 		}
 	}
-	CollisionData unit; //returning null data
+	CollisionData unit = CollisionData(false, *b2.back()); //returning null data
 	return unit;
 }
 
@@ -274,7 +276,7 @@ std::tuple<sf::Vector2f, sf::Vector2f, bool> Collider::getKineticResponseDoubleP
 	unsigned int critLine1 = 0;
 	unsigned int critLine2 = 0;
 	unsigned int critCorner = 0;
-	const double knockback = .1;
+	const double knockback = .01;
 
 	sf::Vector2f firstPoi;
 

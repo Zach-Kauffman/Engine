@@ -54,7 +54,7 @@ void Squirrel::update(InputData& inpData)
 {
 	if (!isActive){ return; }
 
-	if (inpData.isKeyHeld(sf::Keyboard::Up))
+	if (inpData.isKeyHeld(sf::Keyboard::Up) && onGround)
 	{
 		float time;
 		if (!jumping)
@@ -179,10 +179,12 @@ boost::property_tree::ptree Squirrel::write()
 
 void Squirrel::physicalCollide(CollisionData& data)
 {
+	std::cout << "PositionI: " << position.x << ", " << position.y << std::endl;
+	std::cout << "VelocityI: " << velocity.x << ", " << velocity.y << std::endl;
 
 	std::tuple<sf::Vector2f, sf::Vector2f, bool> response = Collider::getKineticResponseDoublePolygon(velocity, hitbox.get(), data.getCollidedHitbox()->get());
 	
-	//if (colliding)
+	//if (onGround)
 	//{
 	//	setPosition(sf::Vector2f(position.x + std::get<1>(response).x, 0));
 	//	setVelocity(sf::Vector2f(velocity.x + std::get<1>(response).x, 0));
@@ -195,9 +197,16 @@ void Squirrel::physicalCollide(CollisionData& data)
 
 
 	colliding = std::get<2>(response);
+	onGround = std::get<2>(response);
+
+	hitbox.updatePosition();
 
 	//gravity = false;
 	//applyForce(sf::Vector2f(0, -GRAVITY));
-	std::cout << colliding << ": " << std::get<0>(response).x << ", " << std::get<0>(response).x << ": " << std::get<1>(response).x << ", " << std::get<1>(response).x << std::endl;
+	std::cout << "Normal: " << std::get<1>(response).x << ", " << std::get<1>(response).y << std::endl;
+	std::cout << "PositionF: " << position.x << ", " << position.y << std::endl;
+	std::cout << "VelocityF: " << velocity.x << ", " << velocity.y << std::endl;
+	std::cout <<std::endl;
+	//std::cout << colliding << ": " << std::get<0>(response).x << ", " << std::get<0>(response).y << ": " << std::get<1>(response).x << ", " << std::get<1>(response).y << std::endl;
 	//std::cout << "vel:" << velocity.x << ", " << velocity.y << std::endl;
 }
