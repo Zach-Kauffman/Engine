@@ -246,13 +246,13 @@ bool Collider::isCollide(const std::vector<sf::Vector2f>& hb1, const std::vector
 
 
 
-double magSq(const sf::Vector2f& vec)
+double Collider::magSq(const sf::Vector2f& vec)
 {
 	return ((double)(vec.x * vec.x + vec.y * vec.y));
 }
 
 
-double distSq(const sf::Vector2f& veca, const sf::Vector2f& vecb)
+double Collider::distSq(const sf::Vector2f& veca, const sf::Vector2f& vecb)
 {
 	return ((double)((veca.x - vecb.x) * (veca.x - vecb.x) + (veca.y - vecb.y) * (veca.y - vecb.y)));
 }
@@ -295,24 +295,40 @@ std::tuple<sf::Vector2f, sf::Vector2f, bool> Collider::getKineticResponseDoubleP
 
 	sf::Vector2f corDisp = firstPoi - polyA[critCorner];
 
-	const double corMag = sqrt(magSq(corDisp));
+	//const double corMag = sqrt(magSq(corDisp));
 
-	corDisp.x += corDisp.x / corMag * knockback;
-	corDisp.y += corDisp.y / corMag * knockback;
+	//corDisp.x += corDisp.x / corMag * knockback;
+	//corDisp.y += corDisp.y / corMag * knockback;
 
+	
 
-	sf::Vector2f critLineVec = polyB[critLine1] - polyB[critLine2]; //move line to origin
+	sf::Vector2f critLineVec = polyB[critLine2] - polyB[critLine1]; //move line to origin
 
-
+	const double critMagSq = magSq(critLineVec);
 
 	//find dot product
-	const double dotProduct = critLineVec.x * vel.x + critLineVec.y * vel.y;
+	const double dotProd = dotProduct(critLineVec, vel);
 
 	//find projection vector
-	const sf::Vector2f projVec(dotProduct / magSq(critLineVec) * critLineVec.x, dotProduct / magSq(critLineVec) * critLineVec.y);
+	const sf::Vector2f projVec(dotProd / critMagSq * critLineVec.x, dotProd / critMagSq * critLineVec.y);
 
 	//find other component (rejection vector)
 	sf::Vector2f normalVelocity =  projVec - vel;
+
+	const double normalMag = sqrt(magSq(normalVelocity));
+
+
+
+	sf::Vector2f knockbackVec;
+	knockbackVec.x = normalVelocity.x / normalMag * knockback;
+	knockbackVec.y = normalVelocity.y / normalMag * knockback;
+
+
+	corDisp += knockbackVec;
+
+
+
+
 
 
 	bool jumpable = false;
@@ -327,3 +343,18 @@ std::tuple<sf::Vector2f, sf::Vector2f, bool> Collider::getKineticResponseDoubleP
 
 }
 
+
+
+sf::Vector3f Collider::crossProductZN(const sf::Vector2f& v, const sf::Vector2f& u)
+{
+	return crossProduct(sf::Vector3f(v.x, v.y, 0), sf::Vector3f(u.x, u.y, 0));
+}
+sf::Vector3f Collider::crossProduct(const sf::Vector3f& v, const sf::Vector3f& u)
+{
+	return sf::Vector3f(v.y *u.z - v.z * u.y, v.y * u.x - v.x * u.y, v.x * u.y - v.y * v.x);
+}
+
+double Collider::dotProduct(const sf::Vector2f& v, const sf::Vector2f& u)
+{
+	return v.x * u.x + v.y * u.y;
+}

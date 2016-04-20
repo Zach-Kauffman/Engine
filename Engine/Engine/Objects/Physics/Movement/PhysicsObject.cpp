@@ -35,6 +35,16 @@ void PhysicsObject::updateMovement()
 		{
 			acceleration = sf::Vector2f(0, 0);
 		}
+
+
+		if (velocity.x < .05 && velocity.x > -.05)
+		{
+			velocity.x = 0;
+		}
+		if (velocity.y < .05 && velocity.y > -.05)
+		{
+			velocity.y = 0;
+		}
 	}
 
 }
