@@ -157,8 +157,11 @@ void Game::draw()
 
 void Game::update()
 {
+
 	doChunks();
-	objMan.getObject(1030001)->update(inpData);
+	player->update(inpData);
+	doCollisions();
+
 
 
 	//for each layer
@@ -291,6 +294,8 @@ void Game::loadObjects()
 	objMan.addPrototype<objects::MovingTestObject>("MovingTestObject");
 	objMan.addPrototype<objects::Squirrel>("Squirrel");
 	objMan.addPrototype<objects::Platform>("Platform");
+	objMan.addPrototype<objects::Pickup>("Pickup");
+	objMan.addPrototype<objects::PickupZone>("PickupZone");
 }
 
 void Game::loadMap()
@@ -345,7 +350,8 @@ void Game::loadMap()
 
 	tmpCenter = sf::Vector2f(500, 500);							//starting point of reference
 
-	layMan.setReferencePoint(*util::downcast<objects::Squirrel>(objMan.getObject(1030001))->getPosition());						//make sure the layers reference the point
+	player = util::downcast<objects::Squirrel>(objMan.getObject(1030001));
+	layMan.setReferencePoint(*player->getPosition());						//make sure the layers reference the point
 
 	for (int i = 0; i < numLayers; i++)
 	{
@@ -370,6 +376,53 @@ void Game::loadMap()
 	layMan.createLayers();	//i just added this to the constructor...... and it broke 
 	layMan.setDependentLocking(true, 0);
 
+	organizeObjects();
 	
-	
+}
+
+void Game::organizeObjects()
+{
+	std::vector<boost::shared_ptr<Collidable>> boxes;
+	for (unsigned int i = 1; i <= objMan.getTypeAmount(104)-1040000; i++)
+	{
+		auto obj = objMan.getObject(1040000 + i);
+		boost::shared_ptr<objects::Platform> platform = util::downcast<objects::Platform>(obj);
+		boxes.push_back(platform);
+	}
+	collidableMap[104] = boxes;
+	boxes.clear();
+	for (unsigned int i = 1; i <= objMan.getTypeAmount(105) - 1050000; i++)
+	{
+		auto obj = objMan.getObject(1050000 + i);
+		boost::shared_ptr<objects::Pickup> platform = util::downcast<objects::Pickup>(obj);
+		boxes.push_back(platform);
+	}
+	collidableMap[105] = boxes;
+}
+
+void Game::doCollisions()
+{
+	boost::shared_ptr<Collidable> pcol = (boost::shared_ptr<Collidable>)player;
+	CollisionData result = Collider::collide(pcol, collidableMap[104]);	//cyles through platforms
+	while(result.collided())
+	{
+		player->physicalCollide(result);
+
+		CollisionData res = Collider::collide(pcol, collidableMap[104]);
+		result = res;
+	}
+
+	for (int pickIt = 0; pickIt < collidableMap[105].size(); pickIt++)	//cycles through pickups
+	{
+		if (Collider::collide(pcol, collidableMap[105][pickIt]).collided())
+		{
+			boost::shared_ptr<objects::Pickup> p = util::downcast<objects::Pickup>(collidableMap[105][pickIt]);
+			//if (player->pickupCollide(p))
+			//{
+			//	objMan.deleteObject(p->getID());
+			//}
+		}
+
+	}
+
 }

@@ -136,7 +136,7 @@ void Animation::updatePosition()
 	for (int i = 0; i < texCoords.getVertexCount(); i++)
 	{
 		sf::Vector2f dif = *position - lastPosition;
-		texCoords[i].position += dif + dif;
+		texCoords[i].position += dif;
 	}
 
 	lastPosition = *position;

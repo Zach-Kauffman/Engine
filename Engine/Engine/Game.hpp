@@ -25,7 +25,12 @@
 	#include "MenuStuff\MenuManager.hpp"
 
 	#include "Objects/Squirrel.hpp"
+	#include "Objects/ObjectClasses/Pickups/Pickup.hpp"
+#include "Objects/ObjectClasses/Pickups/PickupZone.hpp"
 
+#include "Objects/Platform.hpp"
+#include "Objects/Physics/Collision/Collidable.hpp"
+#include "Objects\Physics\Collision\Collider.hpp"
 
 class Game
 {
@@ -81,5 +86,12 @@ protected:
 
 	src::severity_logger<severity_level> logger;	//logger to handle debuging and errors
 
+
+	//GAMEPLAY STUFF
+	void organizeObjects();
+	void doCollisions();
+	boost::shared_ptr<objects::Squirrel> player;
+
+	std::map<int, std::vector<boost::shared_ptr<Collidable> > > collidableMap;
 	
 };

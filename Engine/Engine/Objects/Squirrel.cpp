@@ -1,10 +1,11 @@
-#include "squirrel.hpp"
+#include "Squirrel.hpp"
 
 using namespace objects;
 
 Squirrel::Squirrel()
 {
 	displaySize = sf::Vector2f(100, 100);
+	lastAcceleration = sf::Vector2f(0, 0);
 	jumping = false;
 	colliding = false;
 	movable = true;
@@ -16,29 +17,42 @@ void Squirrel::draw(Layer& renderTarget)
 {
 	if (!isActive){return;}
 
-	if (abs(velocity.x) > .5)
+	if (velocity.x > 0)
 	{
+		if (lastAcceleration.x < 0)
+		{
+			TR.drawNextFrame(*renderTarget.getRenderTexture());
+		}
+		else
+		{
+			RR.drawNextFrame(*renderTarget.getRenderTexture());
+		}
 		//sf::RenderTexture* renderTex = renderTarget.getRenderTexture();
-		walking.drawNextFrame(*renderTarget.getRenderTexture());
+
+	}
+	else if (velocity.x < 0)
+	{
+		if (lastAcceleration.x > 0)
+		{
+			TL.drawNextFrame(*renderTarget.getRenderTexture());
+		}
+		else
+		{
+			RL.drawNextFrame(*renderTarget.getRenderTexture());
+		}
+
 	}
 	else
 	{
 		idle.drawNextFrame(*renderTarget.getRenderTexture()); 
 	}
+	
+	//setAcceleration(sf::Vector2f(0, 0));
 }
 
 void Squirrel::update(InputData& inpData)
 {
 	if (!isActive){ return; }
-
-	if (abs(position.y - 1000) < .5)
-	{
-		colliding = true;
-	}
-	else
-	{
-		colliding = false;
-	}
 
 	if (inpData.isKeyHeld(sf::Keyboard::Up))
 	{
@@ -56,7 +70,7 @@ void Squirrel::update(InputData& inpData)
 
 			if (time > jumpTime)
 			{
-				if (abs(velocity.y) > .1 && colliding)
+				if (colliding)
 				{
 					jumping = false;
 				}
@@ -70,7 +84,6 @@ void Squirrel::update(InputData& inpData)
 
 	}
 	float multiplier = 1;
-
 	if (!colliding)
 	{
 		multiplier *= airborneMultiplier;
@@ -83,14 +96,45 @@ void Squirrel::update(InputData& inpData)
 	{
 		applyForce(sf::Vector2f(moveForce*multiplier, 0));
 	}
+	lastAcceleration = acceleration;
+
+
+
+
+	if ((velocity.x != velocity.x) || (velocity.y != velocity.y))
+	{
+		std::cout << "why?" << std::endl;
+	}
+	if ((position.x != position.x) || (position.y != position.y))
+	{
+		std::cout << "why?" << std::endl;
+	}
+
+
 
 	updateMovement();
+	hitbox.updatePosition();
+
+
+
+	if ((velocity.x != velocity.x) || (velocity.y != velocity.y))
+	{
+		std::cout << "why?" << std::endl;
+	}
+	if ((position.x != position.x) || (position.y != position.y))
+	{
+		std::cout << "why?" << std::endl;
+	}
+
+
+	colliding = false;
 }
 
 void Squirrel::load(boost::property_tree::ptree& dataTree, ResourceManager& recMan)
 {
 	XMLParser reader;
-	walkingSSName = reader.readValue<std::string>("walking", dataTree);
+	RRName = reader.readValue<std::string>("RunRight", dataTree);
+	RLName = reader.readValue<std::string>("RunLeft", dataTree);
 	idleSSName = reader.readValue<std::string>("idle", dataTree);
 	fps = reader.readValue<int>("fps", dataTree);
 	moveForce = reader.readValue<float>("moveSpeed", dataTree);
@@ -102,8 +146,7 @@ void Squirrel::load(boost::property_tree::ptree& dataTree, ResourceManager& recM
 	frameSize.y = reader.readValue<float>("frameSize.<xmlattr>.y", dataTree);
 
 	//should some of these be loaded from ini??
-	walking = Animation(recMan.getTexturePointerByName(walkingSSName), frameSize, displaySize, fps, position);
-	idle = Animation(recMan.getTexturePointerByName(idleSSName), frameSize, displaySize, fps, position);
+
 
 	//default values
 	jumpTime = 1000;
@@ -122,16 +165,30 @@ void Squirrel::load(boost::property_tree::ptree& dataTree, ResourceManager& recM
 	options.readValue<float>("JumpTime", jumpTime);
 	options.readValue<float>("AirMoveMultiplier", airborneMultiplier);
 
+
 	options.setSection("Graphics");
 	options.readValue<int>("AnimationFPS", fps);
-	
+	options.readValue <std::string>("TurnLeft", TLName);
+	options.readValue<std::string>("TurnRight", TRName);
+
+	RR = Animation(recMan.getTexturePointerByName(RRName), frameSize, displaySize, fps, position);
+	RL = Animation(recMan.getTexturePointerByName(RLName), frameSize, displaySize, fps, position);
+	idle = Animation(recMan.getTexturePointerByName(idleSSName), frameSize, displaySize, fps, position);
+	TL = Animation(recMan.getTexturePointerByName(TLName), frameSize, displaySize, fps, position);
+	TR = Animation(recMan.getTexturePointerByName(TRName), frameSize, displaySize, fps, position);
+
+	HitBox box;
+	box.create(displaySize);
+	box.setPosition(position);
+	hitbox = box;
 
 }
 
 boost::property_tree::ptree Squirrel::write()
 {
 	boost::property_tree::ptree xml;
-	xml.put("walking", walkingSSName);
+	xml.put("RunRight", RRName);
+	xml.put("RunLeft", RLName);
 	xml.put("idle", idleSSName);
 	xml.put("fps", fps);
 	xml.put("moveSpeed", moveForce);
@@ -141,7 +198,49 @@ boost::property_tree::ptree Squirrel::write()
 	xml.put("size.<xmlattr>.y", displaySize.y);
 	xml.put("frameSize.<xmlattr>.x", frameSize.x);
 	xml.put("frameSize.<xmlattr>.y", frameSize.y);
+	xml.put("type", type);
 
 
 	return xml;
+}
+
+void Squirrel::physicalCollide(CollisionData& data)
+{
+	std::cout << "PositionI: " << position.x << ", " << position.y << std::endl;
+	std::cout << "VelocityI: " << velocity.x << ", " << velocity.y << std::endl;
+
+	std::tuple<sf::Vector2f, sf::Vector2f, bool> response = Collider::getKineticResponseDoublePolygon(velocity, hitbox.get(), data.getCollidedHitbox()->get());
+
+	colliding = std::get<2>(response);
+
+	setPosition(position + std::get<1>(response));
+	setVelocity(std::get<1>(response)+ velocity);
+	hitbox.updatePosition();
+	//gravity = false;
+	//applyForce(sf::Vector2f(0, -GRAVITY));
+	//std::cout << "Normal: " << std::get<1>(response).x << ", " << std::get<1>(response).y << std::endl;
+	//std::cout << "PositionF: " << position.x << ", " << position.y << std::endl;
+	//std::cout << "VelocityF: " << velocity.x << ", " << velocity.y << std::endl;
+	//std::cout <<std::endl;
+	//std::cout << colliding << ": " << std::get<0>(response).x << ", " << std::get<0>(response).y << ": " << std::get<1>(response).x << ", " << std::get<1>(response).y << std::endl;
+	//std::cout << "vel:" << velocity.x << ", " << velocity.y << std::endl;
+}
+
+bool Squirrel::pickupCollide(boost::shared_ptr<objects::Pickup>& pickup)
+{
+	if (pickup->getPickupData().isPowerup())
+	{
+		//apply powerup
+		return true;
+	}
+	else
+	{
+		if (nuts.size() < nutCapacity)
+		{
+			nuts.push_back(pickup);
+			return true;
+		}
+		return false;
+	}
+	return false;
 }
