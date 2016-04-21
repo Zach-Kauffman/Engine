@@ -15,8 +15,8 @@ public:
 	Collider();
 	~Collider();
 
-	static CollisionData collide(Collidable* o1, Collidable* o2);
-	static CollisionData collide(Collidable* o1, std::vector<Collidable*>& oVec);
+	static CollisionData collide(boost::shared_ptr<Collidable>& o1, boost::shared_ptr<Collidable>&  o2);
+	static CollisionData collide(boost::shared_ptr<Collidable>& o1, std::vector<boost::shared_ptr<Collidable>>& oVec);
 	static CollisionData collide(HitBox& b1, HitBox& b2);
 	static CollisionData collide(HitBox& b1, std::vector<HitBox*>& b2);
 

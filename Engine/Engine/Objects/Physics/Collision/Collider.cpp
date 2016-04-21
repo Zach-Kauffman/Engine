@@ -3,17 +3,17 @@
 Collider::Collider(){}
 Collider::~Collider(){}
 
-CollisionData Collider::collide(Collidable* o1, Collidable* o2)
+CollisionData Collider::collide(boost::shared_ptr<Collidable>& o1, boost::shared_ptr<Collidable>& o2)
 {
-	return collide(*o1->getHitBox(), *o2->getHitBox());
+	return collide(*(o1->getHitBox()), *(o2->getHitBox()));
 }
 
-CollisionData Collider::collide(Collidable* o1, std::vector<Collidable*>& oVec)
+CollisionData Collider::collide(boost::shared_ptr<Collidable>& o1, std::vector<boost::shared_ptr<Collidable> >& oVec)
 {
 	CollisionData data;
 	for (unsigned int i = 0; i < oVec.size(); i++)
 	{
-		data = collide(*o1->getHitBox(), *oVec[i]->getHitBox());
+		data = collide(*(o1->getHitBox()), *(oVec[i]->getHitBox()));
 		if (data.collided())
 		{
 			return data;

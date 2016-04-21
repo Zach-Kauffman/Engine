@@ -181,7 +181,10 @@ std::pair<sf::Vector2f, sf::Vector2f> Layer::getWindowCorners()
 }
 
 
-
+sf::Vector2f Layer::getViewCenter()
+{
+	return view.getCenter();
+}
 
 void Layer::interpretViewPos(const sf::Vector2f& scrollDist)	//this interprets a distance and moves the view based on this -- this gives the illusion of scrolling
 {

@@ -51,10 +51,6 @@
 		<group>EditorButton:1</group>
 	</resource>
 	<resource>
-		<path>Resources/ShipGame</path>
-		<name>DONTCARE</name>
-	</resource>
-	<resource>
 		<path>Resources/idle.png</path>
 		<name>idle</name>
 	</resource>
@@ -65,5 +61,9 @@
 		<resource>
 		<path>Resources/RunLeft.png</path>
 		<name>RunLeft</name>
+	</resource>
+			<resource>
+		<path>Resources/Nuts</path>
+		<name>NEIN</name>
 	</resource>
 </resources>

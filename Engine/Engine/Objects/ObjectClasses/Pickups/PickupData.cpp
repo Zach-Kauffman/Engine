@@ -64,3 +64,13 @@ void PickupData::load(const std::string& sectionName)
 	options.readValue<int>("Score", score);
 	options.readValue<int>("Rarity", rarity);
 }
+
+bool PickupData::isPowerup()
+{
+	return powerup;
+}
+
+void PickupData::setPowerup(const bool& p)
+{
+	powerup = p;
+}

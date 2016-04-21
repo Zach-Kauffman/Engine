@@ -186,6 +186,25 @@ void Squirrel::physicalCollide(CollisionData& data)
 	setPosition(position + std::get<1>(response));
 	setVelocity(std::get<1>(response)+ velocity);
 	hitbox.updatePosition();
-	std::cout << colliding << ": " << std::get<0>(response).x << ", " << std::get<0>(response).x << ": " << std::get<1>(response).x << ", " << std::get<1>(response).x << std::endl;
+	//std::cout << colliding << ": " << std::get<0>(response).x << ", " << std::get<0>(response).x << ": " << std::get<1>(response).x << ", " << std::get<1>(response).x << std::endl;
 	//std::cout << "vel:" << velocity.x << ", " << velocity.y << std::endl;
+}
+
+bool Squirrel::pickupCollide(boost::shared_ptr<objects::Pickup>& pickup)
+{
+	if (pickup->getPickupData().isPowerup())
+	{
+		//apply powerup
+		return true;
+	}
+	else
+	{
+		if (nuts.size() < nutCapacity)
+		{
+			nuts.push_back(pickup);
+			return true;
+		}
+		return false;
+	}
+	return false;
 }

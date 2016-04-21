@@ -37,7 +37,7 @@ namespace objects
 
 	private:
 
-		TiledTexture tex;
+		Texture tex;
 
 		sf::Vector2f position;
 		sf::Vector2f size;

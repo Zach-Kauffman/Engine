@@ -22,7 +22,8 @@ public:
 
 	void load(const std::string& sectionName);
 
-
+	bool isPowerup();
+	void setPowerup(const bool& p);
 
 
 private:
@@ -30,5 +31,7 @@ private:
 		int toughness;
 		int score;
 		int rarity;
+
+		bool powerup;
 };
 

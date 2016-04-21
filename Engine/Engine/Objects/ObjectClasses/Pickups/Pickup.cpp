@@ -66,9 +66,6 @@ void Pickup::load(boost::property_tree::ptree& dataTree, ResourceManager& rman)
 
 	subSetup(rman);
 
-
-
-
 }
 
  boost::property_tree::ptree Pickup::write()
@@ -105,8 +102,11 @@ void Pickup::load(boost::property_tree::ptree& dataTree, ResourceManager& rman)
 	
 	pdata.load(pickupName);
 
-	hitbox.setPosition(position);
-	hitbox.create(size.x, 10);
+	HitBox box;
+	box.create(sqrt(pow(size.x, 2) + pow(size.y, 2)));
+	box.setPosition(position);
+
+	hitbox = box;
 
  }
 

@@ -21,4 +21,10 @@ namespace util	//this is a utility class
 	{
 		return boost::dynamic_pointer_cast<T>(base);
 	}
+
+	template<class T>
+	inline boost::shared_ptr<T> downcast(boost::shared_ptr<Collidable> c)
+	{
+		return boost::static_pointer_cast<T>(c);
+	}
 }

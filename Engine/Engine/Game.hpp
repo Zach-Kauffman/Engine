@@ -92,6 +92,6 @@ protected:
 	void doCollisions();
 	boost::shared_ptr<objects::Squirrel> player;
 
-	std::map<int, std::vector<Collidable*>> collidableMap;
+	std::map<int, std::vector<boost::shared_ptr<Collidable> > > collidableMap;
 	
 };

@@ -6,6 +6,7 @@
 #include "../Utility/XMLParser.hpp"
 #include "../Utility/INIParser.hpp"
 #include "Physics/Collision/Collider.hpp"
+#include "ObjectClasses/Pickups/Pickup.hpp"
 
 namespace objects
 {
@@ -22,19 +23,14 @@ namespace objects
 		boost::property_tree::ptree write();
 
 		void physicalCollide(CollisionData& data);
-
+		bool pickupCollide(boost::shared_ptr<objects::Pickup>& p);	//parses collision with pickup objects returns true if object is used/picked up
 	private:
 		Animation RR;
 		Animation RL;
 		Animation idle;
 		Animation TL; //turn left
 		Animation TR; //turn right
-
-		float moveForce;
-		float jumpForce;
-		bool jumping;
-		sf::Clock jumpTimer;
-		float jumpTime;
+		int fps;
 
 		sf::Vector2f displaySize;
 		sf::Vector2f frameSize;
@@ -42,10 +38,19 @@ namespace objects
 		std::string idleSSName;
 		std::string TLName;
 		std::string TRName;
-		int fps;
+
+		float moveForce;
+		float jumpForce;
+		bool jumping;
+		sf::Clock jumpTimer;
+		float jumpTime;
+
+		int nutCapacity;			//maximum nuts that can be carried
 
 		float airborneMultiplier;	//multiplier for airborne movement
 
 		sf::Vector2f lastAcceleration;
+
+		std::vector<boost::shared_ptr<objects::Pickup> > nuts;
 	};
 }

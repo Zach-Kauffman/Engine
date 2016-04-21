@@ -51,8 +51,6 @@ void PickupZone::load(boost::property_tree::ptree& dataTree, ResourceManager& rm
 	sf::Texture* tmpTex = rman.getTexturePointerByName(textureName);
 	
 	tex = Texture(tmpTex, &position, &size);
-
-
 }
 
 
@@ -107,8 +105,6 @@ Pickup PickupZone::generatePickup(ResourceManager& rman)
 	newPickup.setup(sf::Vector2f(randXPos, yVal + default_size.y / 2 + gapDist), default_size, seasonName, typName, rman);
 
 	return newPickup;
-
-
 }
 
 void PickupZone::createDistribution()
@@ -149,7 +145,6 @@ void PickupZone::createDistribution()
 	}
 
 
-
 	double sumOld = 0;
 	for (unsigned int i = 0; i < pickupNames.size(); i++)
 	{
@@ -162,11 +157,6 @@ void PickupZone::createDistribution()
 	}
 
 	distrMax = sum;
-
-
-
-
-
 }
 
 

@@ -18,4 +18,5 @@ private:
 	sf::Vector2f TLC;
 	sf::Vector2f* centerPosition;
 	sf::Vector2f drawPosition;
+	sf::Vector2u texSize;
 };

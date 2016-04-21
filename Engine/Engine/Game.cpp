@@ -157,6 +157,7 @@ void Game::draw()
 
 void Game::update()
 {
+
 	doChunks();
 	player->update(inpData);
 	doCollisions();
@@ -381,25 +382,46 @@ void Game::loadMap()
 
 void Game::organizeObjects()
 {
-	std::vector<Collidable*> boxes;
+	std::vector<boost::shared_ptr<Collidable>> boxes;
 	for (unsigned int i = 1; i <= objMan.getTypeAmount(104)-1040000; i++)
 	{
 		auto obj = objMan.getObject(1040000 + i);
 		boost::shared_ptr<objects::Platform> platform = util::downcast<objects::Platform>(obj);
-		boxes.push_back(platform.get());
+		boxes.push_back(platform);
 	}
 	collidableMap[104] = boxes;
+	boxes.clear();
+	for (unsigned int i = 1; i <= objMan.getTypeAmount(105) - 1050000; i++)
+	{
+		auto obj = objMan.getObject(1050000 + i);
+		boost::shared_ptr<objects::Pickup> platform = util::downcast<objects::Pickup>(obj);
+		boxes.push_back(platform);
+	}
+	collidableMap[105] = boxes;
 }
 
 void Game::doCollisions()
 {
-	Collidable* pcol = player.get();
-	CollisionData result = Collider::collide(pcol, collidableMap[104]);
+	boost::shared_ptr<Collidable> pcol = (boost::shared_ptr<Collidable>)player;
+	CollisionData result = Collider::collide(pcol, collidableMap[104]);	//cyles through platforms
 	while(result.collided())
 	{
 		player->physicalCollide(result);
 		CollisionData res = Collider::collide(pcol, collidableMap[104]);
 		result = res;
+	}
+
+	for (int pickIt = 0; pickIt < collidableMap[105].size(); pickIt++)	//cycles through pickups
+	{
+		if (Collider::collide(pcol, collidableMap[105][pickIt]).collided())
+		{
+			boost::shared_ptr<objects::Pickup> p = util::downcast<objects::Pickup>(collidableMap[105][pickIt]);
+			//if (player->pickupCollide(p))
+			//{
+			//	objMan.deleteObject(p->getID());
+			//}
+		}
+
 	}
 
 }
