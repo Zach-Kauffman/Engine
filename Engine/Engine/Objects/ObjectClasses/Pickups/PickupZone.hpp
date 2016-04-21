@@ -3,6 +3,7 @@
 #include <stdio.h>      /* printf, NULL */
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
+#include "../../ObjectManager.hpp"
 
 namespace objects
 {
@@ -13,6 +14,8 @@ namespace objects
 		PickupZone();
 		~PickupZone();
 
+		void setManagerPtrs(ResourceManager& rman, ObjectManager& obMan);
+
 		void draw(Layer& renderTarget);
 		void update(InputData& inpData);
 		void load(boost::property_tree::ptree& dataTree, ResourceManager& rman);
@@ -21,7 +24,7 @@ namespace objects
 
 		void changeSeason(const std::string& newSeason);
 
-		Pickup generatePickup(ResourceManager& rman);
+		void generatePickup();
 
 
 	private:
@@ -50,7 +53,8 @@ namespace objects
 		int distrMax;
 		double gapDist;
 
-		//ResourceManager* resMan;
+		ResourceManager* resMan;
+		ObjectManager* objMan;
 
 	};
 

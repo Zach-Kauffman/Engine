@@ -13,6 +13,16 @@ PickupZone::~PickupZone()
 }
 
 
+
+void PickupZone::setManagerPtrs(ResourceManager& rman, ObjectManager& obMan)
+{
+	resMan = &rman;
+	objMan = &obMan;
+}
+
+
+
+
 void PickupZone::draw(Layer& renderTarget)
 {
 	if (displaying)
@@ -75,7 +85,7 @@ void PickupZone::changeSeason(const std::string& newSeason)
 }
 
 
-Pickup PickupZone::generatePickup(ResourceManager& rman)
+void PickupZone::generatePickup()
 {
 
 	typedef std::map<std::pair<int, int>, std::string>::iterator it_type;
@@ -101,10 +111,12 @@ Pickup PickupZone::generatePickup(ResourceManager& rman)
 
 	const sf::Vector2f default_size(100, 100);
 
-	Pickup newPickup;
-	newPickup.setup(sf::Vector2f(randXPos, yVal + default_size.y / 2 + gapDist), default_size, seasonName, typName, rman);
+	boost::shared_ptr<Object> protoPickup = objMan->getPrototype("Pickup");
 
-	return newPickup;
+	boost::shared_ptr<Pickup> newPickup = util::downcast<Pickup>(protoPickup);
+	newPickup->setup(sf::Vector2f(randXPos, yVal + default_size.y / 2 + gapDist), default_size, seasonName, typName, *resMan);
+
+	objMan->addObject(protoPickup, "Layers.Layer0");
 }
 
 void PickupZone::createDistribution()
