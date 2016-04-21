@@ -184,10 +184,8 @@ void Squirrel::physicalCollide(CollisionData& data)
 	colliding = std::get<2>(response);
 
 	setPosition(position + std::get<1>(response));
-	setVelocity(std::get<1>(response) + velocity);
-
-	//gravity = false;
-	//applyForce(sf::Vector2f(0, -GRAVITY));
+	setVelocity(std::get<1>(response)+ velocity);
+	hitbox.updatePosition();
 	std::cout << colliding << ": " << std::get<0>(response).x << ", " << std::get<0>(response).x << ": " << std::get<1>(response).x << ", " << std::get<1>(response).x << std::endl;
 	//std::cout << "vel:" << velocity.x << ", " << velocity.y << std::endl;
 }

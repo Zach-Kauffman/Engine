@@ -30,7 +30,7 @@ void TestObject::load(boost::property_tree::ptree& dataTree, ResourceManager& re
 	//loading texture
 	parser.readValue<std::string>("texture", textureName, dataTree);
 	sf::Texture* testTex = resources.getTexturePointerByName(textureName);
-	tex = Texture(testTex, &position, &size);
+	tex = TiledTexture(testTex, &position, &size, sf::Vector2f(3, 3));
 
 }
 

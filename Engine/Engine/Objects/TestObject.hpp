@@ -16,7 +16,7 @@
 //SFML includes
 #include <SFML/Graphics.hpp>
 
-#include "Graphics/Texture.hpp"
+#include "Graphics/TiledTexture.hpp"
 
 namespace objects
 {
@@ -37,7 +37,7 @@ namespace objects
 
 	private:
 
-		Texture tex;
+		TiledTexture tex;
 
 		sf::Vector2f position;
 		sf::Vector2f size;
