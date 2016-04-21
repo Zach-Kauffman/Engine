@@ -24,7 +24,8 @@
 		<attr attr="layer.<xmlattr>.boundy"></attr>
 	</type>
 	<type name="Squirrel">
-		<attr attr="walking"/>
+		<attr attr="RunLeft"/>
+		<attr attr="RunRight"/>
 		<attr attr="idle"/>
 		<attr attr="fps"/>
 		<attr attr="position.<xmlattr>.x"/>
@@ -40,5 +41,23 @@
 		<attr attr="position.<xmlattr>.y"/>
 		<attr attr="size.<xmlattr>.x"/>
 		<attr attr="size.<xmlattr>.y"/>
+		<attr attr="texture"/>
+	</type>
+	<type name="Pickup">
+		<attr attr="position.<xmlattr>.x"/>
+		<attr attr="position.<xmlattr>.y"/>
+		<attr attr="size.<xmlattr>.x"/>
+		<attr attr="size.<xmlattr>.y"/>
+		<attr attr="season_name"/>
+		<attr attr="pickup_name"/>
+	</type>
+	<type name="PickupZone">
+		<attr attr="y_value"/>
+		<attr attr="x_value_left"/>
+		<attr attr="x_value_right"/>
+		<attr attr="season_name"/>
+		<attr attr="thickness"/>
+		<attr attr="gap_distance"/>
+		<attr attr="texture_name"/>
 	</type>
 </types>
