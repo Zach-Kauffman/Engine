@@ -97,8 +97,35 @@ void Squirrel::update(InputData& inpData)
 		applyForce(sf::Vector2f(moveForce*multiplier, 0));
 	}
 	lastAcceleration = acceleration;
+
+
+
+
+	if ((velocity.x != velocity.x) || (velocity.y != velocity.y))
+	{
+		std::cout << "why?" << std::endl;
+	}
+	if ((position.x != position.x) || (position.y != position.y))
+	{
+		std::cout << "why?" << std::endl;
+	}
+
+
+
 	updateMovement();
 	hitbox.updatePosition();
+
+
+
+	if ((velocity.x != velocity.x) || (velocity.y != velocity.y))
+	{
+		std::cout << "why?" << std::endl;
+	}
+	if ((position.x != position.x) || (position.y != position.y))
+	{
+		std::cout << "why?" << std::endl;
+	}
+
 
 	colliding = false;
 }
