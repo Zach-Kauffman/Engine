@@ -1,14 +1,15 @@
 #include "MainMenu.hpp"
 
 
-MainMenu::MainMenu(sf::RenderWindow& window)
+MainMenu::MainMenu()
 {
-	size.x = window.getSize().x;
-	size.y = window.getSize().y;
+
 }
 
-void MainMenu::initialize(ResourceManager* resources)
+void MainMenu::initialize(ResourceManager* resources, const sf::Vector2f& windowSize)
 {
+	size = windowSize;
+
 	recMan = resources;
 
 	MenuElement* background;
@@ -63,10 +64,10 @@ void MainMenu::initialize(ResourceManager* resources)
 	setButtonCallback("start", "startButton", boundFxn, 12);
 	*/
 
-	boost::function<void()> boundFxn = boost::bind(&Menu::deactivate, mainMenu);						 //MainMenu
+	boost::function<void()> boundFxn = boost::bind(&Menu::deactivate, this->getMenuPtr("mainMenu"));						 //MainMenu
 	setButtonCallback("main", "optionsButton", boundFxn, 12);
 
-	boundFxn = boost::bind(&Menu::activate, optionsMenu);						 //OptionsMenu
+	boundFxn = boost::bind(&Menu::activate, this->getMenuPtr("optionsMenu"));						 //OptionsMenu
 	setButtonCallback("options", "optionsButton", boundFxn, 12);
 	
 	

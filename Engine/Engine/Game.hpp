@@ -25,7 +25,7 @@
 	#include "MenuStuff\MenuManager.hpp"
 
 	#include "Objects/Squirrel.hpp"
-
+#include "MainMenu.hpp"
 
 class Game
 {
@@ -47,6 +47,8 @@ protected:
 	void loadMap();			//loads basic map information
 
 	void updateMap();		//finds new bounds and adds/removes objects
+
+	MainMenu mainMenu;
 
 	std::string configFile;
 	std::string resourceFile;

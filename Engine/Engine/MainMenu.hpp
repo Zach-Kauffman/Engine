@@ -1,3 +1,5 @@
+#pragma once
+
 #include "MenuStuff\MenuManager.hpp"
 #include "Input\KeyboardData.hpp"
 #include "Input\MouseData.hpp"
@@ -7,11 +9,11 @@
 class MainMenu : public MenuManager
 {
 public:
-	MainMenu(sf::RenderWindow& window);
+	MainMenu();
 
 	~MainMenu();
 
-	void initialize(ResourceManager* resources);
+	void initialize(ResourceManager* resources, const sf::Vector2f& windowSize);
 
 	void setButtonCallback(const std::string menuName, const std::string& buttonName, boost::function<void()> fxn, int buttonStates);
 

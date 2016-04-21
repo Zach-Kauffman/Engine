@@ -32,6 +32,8 @@ void Game::initialize(const std::string& cfgFile, const std::string& resFile, co
 
 	//thats all for now folks
 	inpData.frameUpdate();
+
+	mainMenu.initialize(&recMan, (sf::Vector2f)windowPtr->getSize());
 	
 }
 
@@ -122,8 +124,10 @@ void Game::begin()
 
 		window.clear();
 
-		update();
-		draw();
+		mainMenu.update(inpData);
+		mainMenu.draw(window);
+		//update();
+		//draw();
 
 		window.display();
 
