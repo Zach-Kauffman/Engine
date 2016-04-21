@@ -32,6 +32,27 @@ void PhysicsObject::updateMovement()
 		velocity += sf::Vector2f(acceleration.x * frameTime, acceleration.y * frameTime);
 		position += velocity;
 
+
+
+
+		if ((acceleration.x != acceleration.x) || (acceleration.y != acceleration.y))
+		{
+			std::cout << "why?" << std::endl;
+		}
+		if ((velocity.x != velocity.x) || (velocity.y != velocity.y))
+		{
+			std::cout << "why?" << std::endl;
+		}
+		if ((position.x != position.x) || (position.y != position.y))
+		{
+			std::cout << "why?" << std::endl;
+		}
+
+
+
+
+
+
 		acceleration = sf::Vector2f(0, 0);
 
 	}

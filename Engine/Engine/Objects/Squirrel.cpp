@@ -97,8 +97,35 @@ void Squirrel::update(InputData& inpData)
 		applyForce(sf::Vector2f(moveForce*multiplier, 0));
 	}
 	lastAcceleration = acceleration;
+
+
+
+
+	if ((velocity.x != velocity.x) || (velocity.y != velocity.y))
+	{
+		std::cout << "why?" << std::endl;
+	}
+	if ((position.x != position.x) || (position.y != position.y))
+	{
+		std::cout << "why?" << std::endl;
+	}
+
+
+
 	updateMovement();
 	hitbox.updatePosition();
+
+
+
+	if ((velocity.x != velocity.x) || (velocity.y != velocity.y))
+	{
+		std::cout << "why?" << std::endl;
+	}
+	if ((position.x != position.x) || (position.y != position.y))
+	{
+		std::cout << "why?" << std::endl;
+	}
+
 
 	colliding = false;
 }
@@ -179,14 +206,23 @@ boost::property_tree::ptree Squirrel::write()
 
 void Squirrel::physicalCollide(CollisionData& data)
 {
+	std::cout << "PositionI: " << position.x << ", " << position.y << std::endl;
+	std::cout << "VelocityI: " << velocity.x << ", " << velocity.y << std::endl;
 
 	std::tuple<sf::Vector2f, sf::Vector2f, bool> response = Collider::getKineticResponseDoublePolygon(velocity, hitbox.get(), data.getCollidedHitbox()->get());
+
 	colliding = std::get<2>(response);
 
 	setPosition(position + std::get<1>(response));
 	setVelocity(std::get<1>(response)+ velocity);
 	hitbox.updatePosition();
-	//std::cout << colliding << ": " << std::get<0>(response).x << ", " << std::get<0>(response).x << ": " << std::get<1>(response).x << ", " << std::get<1>(response).x << std::endl;
+	//gravity = false;
+	//applyForce(sf::Vector2f(0, -GRAVITY));
+	//std::cout << "Normal: " << std::get<1>(response).x << ", " << std::get<1>(response).y << std::endl;
+	//std::cout << "PositionF: " << position.x << ", " << position.y << std::endl;
+	//std::cout << "VelocityF: " << velocity.x << ", " << velocity.y << std::endl;
+	//std::cout <<std::endl;
+	//std::cout << colliding << ": " << std::get<0>(response).x << ", " << std::get<0>(response).y << ": " << std::get<1>(response).x << ", " << std::get<1>(response).y << std::endl;
 	//std::cout << "vel:" << velocity.x << ", " << velocity.y << std::endl;
 }
 

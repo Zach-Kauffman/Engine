@@ -407,6 +407,7 @@ void Game::doCollisions()
 	while(result.collided())
 	{
 		player->physicalCollide(result);
+
 		CollisionData res = Collider::collide(pcol, collidableMap[104]);
 		result = res;
 	}

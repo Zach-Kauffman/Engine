@@ -47,6 +47,7 @@ namespace objects
 
 		int nutCapacity;			//maximum nuts that can be carried
 
+		bool onGround;
 		float airborneMultiplier;	//multiplier for airborne movement
 
 		sf::Vector2f lastAcceleration;
