@@ -13,11 +13,10 @@ Pickup::~Pickup()
 }
 
 
-void Pickup::setup(const sf::Vector2f& pos, const sf::Vector2f& siz, const std::string& snam, const std::string& pnam, ResourceManager& rman)
+void Pickup::setup(const sf::Vector2f& pos, const sf::Vector2f& siz, const std::string& pnam, ResourceManager& rman)
 {
 	position = pos;
 	size = siz;
-	seasonName = snam;
 	pickupName = pnam;
 
 	
@@ -58,8 +57,7 @@ void Pickup::load(boost::property_tree::ptree& dataTree, ResourceManager& rman)
 	parser.readValue<float>("position.<xmlattr>.y", position.y, dataTree);	//loading y coord
 	parser.readValue<float>("size.<xmlattr>.x", size.x, dataTree);
 	parser.readValue<float>("size.<xmlattr>.y", size.y, dataTree);
-	parser.readValue<std::string>("season_name", seasonName, dataTree);
-	parser.readValue<std::string>("pickup_name", pickupName, dataTree);
+	parser.readValue<std::string>("pickupName", pickupName, dataTree);
 
 	//loading texture
 
@@ -75,8 +73,7 @@ void Pickup::load(boost::property_tree::ptree& dataTree, ResourceManager& rman)
 	properties.put("position.<xmlattr>.y", position.y);
 	properties.put("size.<xmlattr>.x", size.x);
 	properties.put("size.<xmlattr>.y", size.y);
-	properties.put("season_name", seasonName);
-	properties.put("pickup_name", pickupName);
+	properties.put("pickupName", pickupName);
 	properties.put("type", type);
 
 	return properties;

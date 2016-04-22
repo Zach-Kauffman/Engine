@@ -20,7 +20,7 @@ namespace objects
 		std::vector<boost::shared_ptr<objects::Pickup> > getPickupArray();
 		boost::shared_ptr<objects::Pickup> getNextPickup();
 
-		bool dropoff(boost::shared_ptr<objects::Pickup>& p);
+		bool dropoff(boost::shared_ptr<objects::Pickup> p);
 	private:
 		std::vector<boost::shared_ptr<objects::Pickup> > pickups;
 

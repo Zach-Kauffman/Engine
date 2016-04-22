@@ -44,11 +44,15 @@ namespace objects
 		double xValRight;
 		double thickness;
 
+
+		
+
 		sf::Vector2f position;
 		sf::Vector2f size;
 
 		std::string seasonName;
 
+		int rarityThreshold;
 		std::map<std::pair<int, int>, std::string> distribution;
 		int distrMax;
 		double gapDist;

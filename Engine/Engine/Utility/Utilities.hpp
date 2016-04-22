@@ -162,6 +162,24 @@ namespace util
 		}
 	}
 
+
+	inline int gcf(int a, int b)
+	{
+		int c = 1;
+		while (c != 0)
+		{
+			c = a % b;
+			a = b;
+			b = c;
+		}
+		return a;
+	}
+
+	inline int lcm(const int& a, const int& b)
+	{
+		return a * b / gcf(a, b);
+	}
+
 	inline std::string reverseString(const std::string& str)
 	{
 		std::stack<char> string;

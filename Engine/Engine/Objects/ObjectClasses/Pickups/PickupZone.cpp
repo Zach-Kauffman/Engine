@@ -47,12 +47,13 @@ void PickupZone::update(InputData& inpData)
 void PickupZone::load(boost::property_tree::ptree& dataTree, ResourceManager& rman)
 {
 	XMLParser parser;
-	parser.readValue<double>("y_value", yVal, dataTree);	//loading x coord
-	parser.readValue<double>("x_value_left", xValLeft, dataTree);	//loading y coord
-	parser.readValue<double>("x_value_right", xValRight, dataTree);
-	parser.readValue<double>("thickness", thickness, dataTree);
-	parser.readValue<double>("gap_distance", gapDist, dataTree);
-	parser.readValue<std::string>("season_name", seasonName, dataTree);
+	parser.readValue<double>("topYPos", yVal, dataTree);	//loading x coord
+	parser.readValue<double>("leftXPos", xValLeft, dataTree);	//loading y coord
+	parser.readValue<double>("rightXPos", xValRight, dataTree);
+	parser.readValue<double>("ySize", thickness, dataTree);
+	parser.readValue<double>("pickupHoverDistance", gapDist, dataTree);
+	parser.readValue<std::string>("seasonName", seasonName, dataTree);
+	parser.readValue<int>("rarityThreshold", rarityThreshold, dataTree);
 
 	//resMan = &rman;
 
@@ -73,14 +74,15 @@ void PickupZone::load(boost::property_tree::ptree& dataTree, ResourceManager& rm
 boost::property_tree::ptree PickupZone::write()
 {
 	boost::property_tree::ptree properties;
-	properties.put("y_value", yVal);
-	properties.put("x_value_left", xValLeft);
-	properties.put("x_value_right", xValLeft); 
-	properties.put("season_name", seasonName);
-	properties.put("thickness", thickness);
-	properties.put("gap_distance", gapDist);
-	properties.put("texture_name", textureName);
-	properties.put("type", type);
+
+	properties.put("topYPos", yVal);
+	properties.put("leftXPos", xValLeft);
+	properties.put("rightXPos", xValLeft); 
+	properties.put("seasonName", seasonName);
+	properties.put("ySize", thickness);
+	properties.put("pickupHoverDistance", gapDist);
+	properties.put("texture", textureName);
+	properties.put("rarityThreshold", rarityThreshold);
 
 	return properties;
 }
@@ -113,15 +115,18 @@ void PickupZone::generatePickup()
 	}
 
 
-	double randXPos = rand() / RAND_MAX * (xValRight - xValLeft) + xValLeft;
+	const sf::Vector2f default_size(100, 100);
+
+
+	double randXPos = rand() / RAND_MAX * (xValRight - xValLeft - default_size.x / 2) + xValLeft + default_size.x / 2;
 	
 
-	const sf::Vector2f default_size(100, 100);
+	
 
 	boost::shared_ptr<Object> protoPickup = objMan->getPrototype("Pickup");
 
 	boost::shared_ptr<Pickup> newPickup = util::downcast<Pickup>(protoPickup);
-	newPickup->setup(sf::Vector2f(randXPos, yVal + default_size.y / 2 + gapDist), default_size, seasonName, typName, *resMan);
+	newPickup->setup(sf::Vector2f(randXPos , yVal + default_size.y / 2 + gapDist), default_size, typName, *resMan);
 
 	objMan->addObject(protoPickup, "Layers.Layer0");
 	objMan->addObject(protoPickup, "Collidables");
@@ -130,12 +135,11 @@ void PickupZone::generatePickup()
 void PickupZone::createDistribution()
 {
 	distribution.clear();
-	double sum = 0;
 
 
 	std::string snames[2] = { "YearRound", seasonName };
 	std::vector<std::string> pickupNames;
-	std::vector<double> rarities;
+	std::vector<int> rarities;
 
 
 
@@ -165,15 +169,37 @@ void PickupZone::createDistribution()
 	}
 
 
-	double sumOld = 0;
+	
+
 	for (unsigned int i = 0; i < pickupNames.size(); i++)
 	{
 		options.setSection(pickupNames[i]);
-		double tmprar;
-		options.readValue<double>("Rarity", tmprar);
+		int tmprar;
+		options.readValue<int>("Rarity", tmprar);
+
+		if (tmprar >= rarityThreshold)
+		{
+			rarities.push_back(tmprar);
+		}
+
+	}
+
+	int tlcm = 1;
+	for (unsigned int i = 0; i < rarities.size(); i++)
+	{
+		tlcm = util::lcm(tlcm, rarities[i]);
+	}
+
+
+	int sum = 0;
+	int sumOld = 0;
+	for (unsigned int i = 0; i < rarities.size(); i++)
+	{
+		int hitNumber = tlcm / rarities[i];
+		sum += hitNumber;
 
 		distribution[std::make_pair(sumOld, sum)] = pickupNames[i];
-
+		sumOld = sum;
 	}
 
 	distrMax = sum;

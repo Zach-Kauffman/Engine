@@ -2,7 +2,10 @@
 
 using namespace objects;
 
-DropoffZone::DropoffZone(){}
+DropoffZone::DropoffZone()
+{
+	pickups.resize(100);
+}
 
 DropoffZone::~DropoffZone(){}
 
@@ -75,7 +78,7 @@ boost::shared_ptr<objects::Pickup> DropoffZone::getNextPickup()
 	return boost::shared_ptr<objects::Pickup>();	//return null if there are none
 }
 
-bool DropoffZone::dropoff(boost::shared_ptr<objects::Pickup>& p)
+bool DropoffZone::dropoff(boost::shared_ptr<objects::Pickup> p)
 {
 	if (dropoffClock.getElapsedTime().asSeconds() > minDropTime)
 	{
