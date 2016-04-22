@@ -137,12 +137,13 @@ boost::shared_ptr<Object> ObjectGroup::getObject(const int& ID, const bool& tree
 		for (int i = 0; i < groups.size(); i++)
 		{
 			boost::shared_ptr<Object> tmp = groups[i].getObject(ID);
-			if (tmp)
+			if (tmp != NULL)
 			{
 				return tmp;
 			}
 		}
 	}
+	return NULL;
 	
 }
 

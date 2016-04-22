@@ -191,9 +191,6 @@ boost::property_tree::ptree Squirrel::write()
 
 void Squirrel::physicalCollide(CollisionData& data)
 {
-	std::cout << "PositionI: " << position.x << ", " << position.y << std::endl;
-	std::cout << "VelocityI: " << velocity.x << ", " << velocity.y << std::endl;
-
 	std::tuple<sf::Vector2f, sf::Vector2f, bool> response = Collider::getKineticResponseDoublePolygon(velocity, hitbox.get(), data.getCollidedHitbox()->get());
 
 	colliding = std::get<2>(response);
@@ -228,4 +225,16 @@ bool Squirrel::pickupCollide(boost::shared_ptr<objects::Pickup>& pickup)
 		return false;
 	}
 	return false;
+}
+
+void Squirrel::dropoffCollide(boost::shared_ptr<objects::DropoffZone>& d)
+{
+	if (nuts.size() > 0)
+	{
+		if (d->dropoff(nuts[0]))
+		{
+			nuts.erase(nuts.begin());
+		}
+	}
+
 }
