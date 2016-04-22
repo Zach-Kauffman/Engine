@@ -15,8 +15,8 @@
             <fps>10</fps>
             <moveSpeed>20</moveSpeed>
             <position x="900" y="400" />
-            <size x="400" y="200" />
-            <frameSize x="64" y="32" />
+            <size x="600" y="200" />
+            <frameSize x="96" y="32" />
             <type>Squirrel</type>
          </object>
          <object>

@@ -39,8 +39,8 @@ void Game::initialize(const std::string& cfgFile, const std::string& resFile, co
 	mainMenu.initialize(&recMan, (sf::Vector2f)windowPtr->getSize());
 	
 
-	//boost::function<void()> boundFxn = boost::bind(&Game::unpause, this);			 //goes in game
-	//mainMenu.setButtonCallback("mainMenu", "startButton", boundFxn, 12);
+	boost::function<void()> boundFxn = boost::bind(&Game::unpause, this);			 //goes in game
+	mainMenu.setButtonCallback("mainMenu", "startButton", boundFxn, 12);
 	
 }
 

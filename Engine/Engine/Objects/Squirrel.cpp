@@ -19,7 +19,11 @@ void Squirrel::draw(Layer& renderTarget)
 
 	if (velocity.x > 0)
 	{
-		if (lastAcceleration.x < 0)
+		if (jumping && velocity.y > 0)
+		{
+			JUMP.drawNextFrame(*renderTarget.getRenderTexture());
+		}
+		else if (lastAcceleration.x < -100000)
 		{
 			TR.drawNextFrame(*renderTarget.getRenderTexture());
 		}
@@ -32,7 +36,11 @@ void Squirrel::draw(Layer& renderTarget)
 	}
 	else if (velocity.x < 0)
 	{
-		if (lastAcceleration.x > 0)
+		if (jumping && velocity.y > 0)
+		{
+			JUMP.drawNextFrame(*renderTarget.getRenderTexture());
+		}
+		else if (lastAcceleration.x > 1000000)
 		{
 			TL.drawNextFrame(*renderTarget.getRenderTexture());
 		}
@@ -144,15 +152,17 @@ void Squirrel::load(boost::property_tree::ptree& dataTree, ResourceManager& recM
 	options.readValue<int>("AnimationFPS", fps);
 	options.readValue <std::string>("TurnLeft", TLName);
 	options.readValue<std::string>("TurnRight", TRName);
+	options.readValue<std::string>("Jump", JumpName);
 
 	RR = Animation(recMan.getTexturePointerByName(RRName), frameSize, displaySize, fps, position);
 	RL = Animation(recMan.getTexturePointerByName(RLName), frameSize, displaySize, fps, position);
 	idle = Animation(recMan.getTexturePointerByName(idleSSName), frameSize, displaySize, fps, position);
 	TL = Animation(recMan.getTexturePointerByName(TLName), frameSize, displaySize, fps, position);
 	TR = Animation(recMan.getTexturePointerByName(TRName), frameSize, displaySize, fps, position);
+	JUMP = Animation(recMan.getTexturePointerByName(JumpName), frameSize, displaySize, fps, position);
 
 	HitBox box;
-	box.create(displaySize);
+	box.create(sf::Vector2f(displaySize.x/3, displaySize.y));
 	box.setPosition(position);
 	hitbox = box;
 

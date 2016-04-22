@@ -30,6 +30,8 @@ namespace objects
 		Animation idle;
 		Animation TL; //turn left
 		Animation TR; //turn right
+		Animation JUMP;
+
 		int fps;
 
 		sf::Vector2f displaySize;
@@ -38,6 +40,7 @@ namespace objects
 		std::string idleSSName;
 		std::string TLName;
 		std::string TRName;
+		std::string JumpName;
 
 		float moveForce;
 		float jumpForce;
