@@ -9,6 +9,7 @@ Squirrel::Squirrel()
 	jumping = false;
 	colliding = false;
 	movable = true;
+	nutCapacity = 2;
 }
 
 Squirrel::~Squirrel(){}
@@ -19,7 +20,11 @@ void Squirrel::draw(Layer& renderTarget)
 
 	if (velocity.x > 0)
 	{
-		if (lastAcceleration.x < 0)
+		if (jumping && velocity.y > .1 && !colliding)
+		{
+			JUMP.drawNextFrame(*renderTarget.getRenderTexture());
+		}
+		else if (lastAcceleration.x < -100000)
 		{
 			TR.drawNextFrame(*renderTarget.getRenderTexture());
 		}
@@ -32,7 +37,11 @@ void Squirrel::draw(Layer& renderTarget)
 	}
 	else if (velocity.x < 0)
 	{
-		if (lastAcceleration.x > 0)
+		if (jumping && velocity.y > .1 && !colliding)
+		{
+			JUMP.drawNextFrame(*renderTarget.getRenderTexture());
+		}
+		else if (lastAcceleration.x > 1000000)
 		{
 			TL.drawNextFrame(*renderTarget.getRenderTexture());
 		}
@@ -98,34 +107,8 @@ void Squirrel::update(InputData& inpData)
 	}
 	lastAcceleration = acceleration;
 
-
-
-
-	if ((velocity.x != velocity.x) || (velocity.y != velocity.y))
-	{
-		std::cout << "why?" << std::endl;
-	}
-	if ((position.x != position.x) || (position.y != position.y))
-	{
-		std::cout << "why?" << std::endl;
-	}
-
-
-
 	updateMovement();
 	hitbox.updatePosition();
-
-
-
-	if ((velocity.x != velocity.x) || (velocity.y != velocity.y))
-	{
-		std::cout << "why?" << std::endl;
-	}
-	if ((position.x != position.x) || (position.y != position.y))
-	{
-		std::cout << "why?" << std::endl;
-	}
-
 
 	colliding = false;
 }
@@ -170,15 +153,17 @@ void Squirrel::load(boost::property_tree::ptree& dataTree, ResourceManager& recM
 	options.readValue<int>("AnimationFPS", fps);
 	options.readValue <std::string>("TurnLeft", TLName);
 	options.readValue<std::string>("TurnRight", TRName);
+	options.readValue<std::string>("Jump", JumpName);
 
 	RR = Animation(recMan.getTexturePointerByName(RRName), frameSize, displaySize, fps, position);
 	RL = Animation(recMan.getTexturePointerByName(RLName), frameSize, displaySize, fps, position);
 	idle = Animation(recMan.getTexturePointerByName(idleSSName), frameSize, displaySize, fps, position);
 	TL = Animation(recMan.getTexturePointerByName(TLName), frameSize, displaySize, fps, position);
 	TR = Animation(recMan.getTexturePointerByName(TRName), frameSize, displaySize, fps, position);
+	JUMP = Animation(recMan.getTexturePointerByName(JumpName), frameSize, displaySize, fps, position);
 
 	HitBox box;
-	box.create(displaySize);
+	box.create(sf::Vector2f(displaySize.x/3, displaySize.y));
 	box.setPosition(position);
 	hitbox = box;
 
@@ -243,4 +228,16 @@ bool Squirrel::pickupCollide(boost::shared_ptr<objects::Pickup>& pickup)
 		return false;
 	}
 	return false;
+}
+
+
+bool Squirrel::isGhostCollidable(boost::shared_ptr<Collidable> collid)
+{
+	if (ghostCollidableIDs.count(collid->getID)) {
+   // x is in the set, count is 1
+	}
+	else
+	{
+
+	}
 }

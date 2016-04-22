@@ -44,6 +44,7 @@ sf::Vector2f* Texture::getSize()
 void Texture::setPosition(sf::Vector2f* newPosition)
 {
 	position = newPosition;
+	lastPosition = sf::Vector2f(0, 0);
 }
 
 sf::Vector2f* Texture::getPosition()

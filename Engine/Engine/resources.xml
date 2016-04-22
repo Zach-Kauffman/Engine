@@ -1,12 +1,20 @@
 <?xml version="1.0"?>
 <resources>
 	<resource>
-		<path>Resources/TestResources/acorn.png</path>
+		<path>Resources/Nuts/acorn.png</path>
 		<name>acorn</name>
+	</resource>
+		<resource>
+		<path>Resources/Nuts/pumpkin.png</path>
+		<name>pumpkin</name>
 	</resource>
 	<resource>
 		<path>Resources/TestResources/grass.png</path>
 		<name>grass</name>
+	</resource>
+	<resource>
+		<path>Resources/MenuBG.png</path>
+		<name>MenuBackground</name>
 	</resource>
 	<resource>
 		<path>Resources/TestResources/darksky.png</path>
@@ -25,8 +33,12 @@
 		<name>sky</name>
 	</resource>
 	<resource>
-		<path>Resources/TestResources/EasterEgg.png</path>
-		<name>egg</name>
+		<path>Resources/RunRight.png</path>
+		<name>RunRight</name>
+	</resource>
+			<resource>
+		<path>Resources/RunLeft.png</path>
+		<name>RunLeft</name>
 	</resource>
 	<resource>
 		<path>Resources/GUIResources/TextBar.png</path>
@@ -51,19 +63,56 @@
 		<group>EditorButton:1</group>
 	</resource>
 	<resource>
+		<path>Resources/GUIResources/TextBar.png</path>
+		<name>OptionsSlider</name>
+	</resource>
+	<resource>
+		<path>Resources/GUIResources/GrayTextBoxBackground.png</path>
+		<name>SliderBackground</name>
+	</resource>
+	<resource>
+		<path>Resources/MenuButton</path>
+		<name>DONTCARE</name>
+		<group>MenuButton</group>
+	</resource>
+	<resource>
+		<path>Resources/walking.png</path>
+		<name>walking</name>
+	</resource>
+	<resource>
 		<path>Resources/idle.png</path>
 		<name>idle</name>
 	</resource>
 		<resource>
-		<path>Resources/RunRight.png</path>
-		<name>RunRight</name>
+		<path>Resources/GUIResources/TimesNewRoman.ttf</path>
+		<name>MainMenuFont</name>
 	</resource>
 		<resource>
-		<path>Resources/RunLeft.png</path>
-		<name>RunLeft</name>
+		<path>Resources/OptionsButton</path>
+		<name>DONTCARE</name>
+		<group>OptionsButton</group>
+	</resource>
+		<resource>
+		<path>Resources/QuitButton</path>
+		<name>DONTCARE</name>
+		<group>QuitButton</group>
+	</resource>
+	<resource>
+		<path>Resources/StartButton</path>
+		<name>DONTCARE</name>
+		<group>StartButton</group>
+	</resource>
+		<resource>
+		<path>Resources/JumpLeft.png</path>
+		<name>JumpLeft</name>
 	</resource>
 			<resource>
-		<path>Resources/Nuts</path>
-		<name>NEIN</name>
+		<path>Resources/nothing.png</path>
+		<name>nothing</name>
 	</resource>
+				<resource>
+		<path>Resources/snow.png</path>
+		<name>snow</name>
+	</resource>
+
 </resources>

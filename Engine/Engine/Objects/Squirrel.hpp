@@ -24,12 +24,17 @@ namespace objects
 
 		void physicalCollide(CollisionData& data);
 		bool pickupCollide(boost::shared_ptr<objects::Pickup>& p);	//parses collision with pickup objects returns true if object is used/picked up
+
+		bool isGhostCollidable(boost::shared_ptr<Collidable> collid);
+
 	private:
 		Animation RR;
 		Animation RL;
 		Animation idle;
 		Animation TL; //turn left
 		Animation TR; //turn right
+		Animation JUMP;
+
 		int fps;
 
 		sf::Vector2f displaySize;
@@ -38,6 +43,7 @@ namespace objects
 		std::string idleSSName;
 		std::string TLName;
 		std::string TRName;
+		std::string JumpName;
 
 		float moveForce;
 		float jumpForce;
@@ -51,6 +57,7 @@ namespace objects
 		float airborneMultiplier;	//multiplier for airborne movement
 
 		sf::Vector2f lastAcceleration;
+		std::set<int> ghostCollidableIDs;
 
 		std::vector<boost::shared_ptr<objects::Pickup> > nuts;
 	};

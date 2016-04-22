@@ -74,6 +74,8 @@ void Pickup::load(boost::property_tree::ptree& dataTree, ResourceManager& rman)
 	properties.put("size.<xmlattr>.x", size.x);
 	properties.put("size.<xmlattr>.y", size.y);
 	properties.put("pickupName", pickupName);
+	properties.put("type", type);
+
 
 	return properties;
 }
@@ -100,7 +102,8 @@ void Pickup::load(boost::property_tree::ptree& dataTree, ResourceManager& rman)
 	pdata.load(pickupName);
 
 	HitBox box;
-	box.create(sqrt(pow(size.x, 2) + pow(size.y, 2)));
+	//box.create(sqrt(pow(size.x, 2) + pow(size.y, 2)));
+	box.create(size);
 	box.setPosition(position);
 
 	hitbox = box;

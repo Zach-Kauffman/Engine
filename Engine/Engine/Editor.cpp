@@ -160,7 +160,6 @@ void Editor::editorBegin()
 		draw();
 		editorDraw();
 
-
 		window.display();
 
 		inpData.frameUpdate();

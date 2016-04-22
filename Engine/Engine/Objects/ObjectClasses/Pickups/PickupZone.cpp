@@ -21,8 +21,6 @@ void PickupZone::setManagerPtrs(ResourceManager& rman, ObjectManager& obMan)
 }
 
 
-
-
 void PickupZone::draw(Layer& renderTarget)
 {
 	if (displaying)
@@ -36,6 +34,14 @@ void PickupZone::draw(Layer& renderTarget)
 void PickupZone::update(InputData& inpData)
 {
 	if (!isActive){ return; }
+	for (int pickIt = 0; pickIt < pickups.size(); pickIt++)
+	{
+		if (pickups[pickIt] == NULL)	//if the pickup has been deleted (picked up)
+		{
+			pickups.erase(pickups.begin()+pickIt);	//erase it
+			pickIt -= 1;							//move back b/c vector is shorter now
+		}
+	}
 }
 
 void PickupZone::load(boost::property_tree::ptree& dataTree, ResourceManager& rman)
@@ -68,6 +74,7 @@ void PickupZone::load(boost::property_tree::ptree& dataTree, ResourceManager& rm
 boost::property_tree::ptree PickupZone::write()
 {
 	boost::property_tree::ptree properties;
+
 	properties.put("topYPos", yVal);
 	properties.put("leftXPos", xValLeft);
 	properties.put("rightXPos", xValLeft); 
@@ -76,6 +83,7 @@ boost::property_tree::ptree PickupZone::write()
 	properties.put("pickupHoverDistance", gapDist);
 	properties.put("texture", textureName);
 	properties.put("rarityThreshold", rarityThreshold);
+
 
 	return properties;
 }
@@ -93,7 +101,7 @@ void PickupZone::generatePickup()
 	typedef std::map<std::pair<int, int>, std::string>::iterator it_type;
 
 
-	srand(time(NULL));
+
 	int randNum = rand() % distrMax;
 
 	std::string typName;
@@ -122,6 +130,7 @@ void PickupZone::generatePickup()
 	newPickup->setup(sf::Vector2f(randXPos , yVal + default_size.y / 2 + gapDist), default_size, typName, *resMan);
 
 	objMan->addObject(protoPickup, "Layers.Layer0");
+	objMan->addObject(protoPickup, "Collidables");
 }
 
 void PickupZone::createDistribution()

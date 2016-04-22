@@ -175,7 +175,7 @@ namespace util
 		return a;
 	}
 
-	inline lcm(const int& a, const int& b)
+	inline int lcm(const int& a, const int& b)
 	{
 		return a * b / gcf(a, b);
 	}

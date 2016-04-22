@@ -25,12 +25,16 @@
 	#include "MenuStuff\MenuManager.hpp"
 
 	#include "Objects/Squirrel.hpp"
+#include "MainMenu.hpp"
 	#include "Objects/ObjectClasses/Pickups/Pickup.hpp"
 #include "Objects/ObjectClasses/Pickups/PickupZone.hpp"
 
 #include "Objects/Platform.hpp"
 #include "Objects/Physics/Collision/Collidable.hpp"
 #include "Objects\Physics\Collision\Collider.hpp"
+#include "Objects\ObjectClasses\Pickups\PickupZone.hpp"
+#include "Objects\ParticleSystem.hpp"
+
 
 class Game
 {
@@ -41,7 +45,10 @@ public:
 	void initialize(const std::string& cfgFile, const std::string& resFile, const std::string& objFile, const std::string& mpFile, const std::string& save, const bool& doLoadScreen);	//initializes the game and begins loading of objects
 	void begin();			//starts sfml main loop
 
+	void pause();
+	void unpause();
 protected:
+	void setDisplay(const bool& onoff);
 
 	void draw();			//renders drawables to screen
 	void update();			//calculates physics, item interactions, etc
@@ -52,6 +59,8 @@ protected:
 	void loadMap();			//loads basic map information
 
 	void updateMap();		//finds new bounds and adds/removes objects
+
+	MainMenu mainMenu;
 
 	std::string configFile;
 	std::string resourceFile;
@@ -89,9 +98,17 @@ protected:
 
 	//GAMEPLAY STUFF
 	void organizeObjects();
+	void updateCollidables();
 	void doCollisions();
+
 	boost::shared_ptr<objects::Squirrel> player;
+	boost::shared_ptr<objects::ParticleSystem> part;
 
 	std::map<int, std::vector<boost::shared_ptr<Collidable> > > collidableMap;
+	std::vector<boost::shared_ptr<objects::PickupZone> > zones;
+	int lastCollidablesSize;
+
+	bool paused;
+	bool displaying;
 	
 };
