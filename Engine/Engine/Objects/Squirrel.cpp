@@ -19,7 +19,7 @@ void Squirrel::draw(Layer& renderTarget)
 
 	if (velocity.x > 0)
 	{
-		if (jumping && velocity.y > 0)
+		if (jumping && velocity.y > .1 && !colliding)
 		{
 			JUMP.drawNextFrame(*renderTarget.getRenderTexture());
 		}
@@ -36,7 +36,7 @@ void Squirrel::draw(Layer& renderTarget)
 	}
 	else if (velocity.x < 0)
 	{
-		if (jumping && velocity.y > 0)
+		if (jumping && velocity.y > .1 && !colliding)
 		{
 			JUMP.drawNextFrame(*renderTarget.getRenderTexture());
 		}
