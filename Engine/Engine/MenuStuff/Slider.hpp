@@ -8,7 +8,7 @@ class Slider : public MenuElement
 {
 public:
 
-	Slider(sf::Vector2f& position, const sf::Texture& bg, const sf::Texture& indicator, double M, double m, double start, const std::string& text, const unsigned int& charSize);
+	Slider(const sf::Vector2f& position, sf::Texture* bg, sf::Texture* indicator, sf::Font* newFont, double M, double m, double start, const std::string& text, const unsigned int& charSize);
 
 	//bool getEventDataBool();//so that the class is not abstract
 	int getEventDataInt();//returns slider value
@@ -28,14 +28,14 @@ private:
 	float cordScale;
 	unsigned int charSize;
 	
-	sf::Font font;
+	sf::Font* font;
 	SingleTextBox textBox;
 	std::string textString;
 	AppSprite bgSprite;
 	AppSprite slSprite;
 	sf::Text text;
-	sf::Texture background;
-	sf::Texture sliderThing;
+	sf::Texture* background;
+	sf::Texture* sliderThing;
 	sf::Vector2f textureTLPos;
 	sf::Vector2f bgTLPos, bgBRPos;
 

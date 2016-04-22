@@ -157,8 +157,11 @@ void Editor::editorBegin()
 		std::cout << "TMPOS:" << tmPos.x << ", " << tmPos.y << std::endl;
 
 
-		draw();
-		editorDraw();
+		//draw();
+		//editorDraw();
+
+		mainMenu.update(inpData);
+		mainMenu.draw(window);
 
 
 		window.display();

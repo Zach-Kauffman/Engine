@@ -13,16 +13,16 @@ void MainMenu::initialize(ResourceManager* resources, const sf::Vector2f& window
 	recMan = resources;
 
 	MenuElement* background;
-	background = new MenuSprite(recMan->getTexturePointerByName("MenuBackground"), sf::Vector2f(0, 0), sf::Vector2f(size.x, size.y));
+	background = new MenuSprite(recMan->getTexturePointerByName("MenuBackground"), sf::Vector2f(size.x/2, size.y/2), sf::Vector2f(size.x, size.y));
 
 	MenuElement* startButton;
-	startButton = new BasicButton(sf::Vector2f(size.x / 2, size.y / 6), recMan->getResourceGroupByName("MenuButton"), "Start", sf::Color::Black, sf::Vector2f(300, 100), 10, 10);
+	startButton = new BasicButton(sf::Vector2f(size.x * .37, size.y *.9), recMan->getResourceGroupByName("StartButton"), "Start", sf::Color::Black, sf::Vector2f(300, 100), 10, 10);
 
 	MenuElement* optionsButton;
-	optionsButton = new BasicButton(sf::Vector2f(size.x / 2, size.y / 2), recMan->getResourceGroupByName("MenuButton"), "Options", sf::Color::Black, sf::Vector2f(300, 100), 10, 10);
+	optionsButton = new BasicButton(sf::Vector2f(size.x , size.y / 2), recMan->getResourceGroupByName("OptionsButton"), "Options", sf::Color::Black, sf::Vector2f(300, 100), 10, 10);
 	
 	MenuElement* quitButton;
-	quitButton = new BasicButton(sf::Vector2f(size.x / 2, 2 * size.y / 3), recMan->getResourceGroupByName("MenuButton"), "Quit", sf::Color::Black, sf::Vector2f(300, 100), 10, 10);
+	quitButton = new BasicButton(sf::Vector2f(size.x * .617, size.y * .5), recMan->getResourceGroupByName("QuitButton"), "Quit", sf::Color::Black, sf::Vector2f(100, 100), 10, 10);
 
 	Menu mainMenu;
 
@@ -31,19 +31,21 @@ void MainMenu::initialize(ResourceManager* resources, const sf::Vector2f& window
 	mainMenu.addMenuElement(optionsButton, "optionsButton");
 	mainMenu.addMenuElement(quitButton, "quitButton");
 
+	mainMenu.activate();
+
 
 	///////////////////////////HIGHLY UNSTABLE OPTIONS MENU BELOW//////////////////////////////////
 
 	
 	
 	MenuElement* backButton;
-	backButton = new BasicButton(sf::Vector2f(size.x / 2, size.y / 6), recMan->getResourceGroupByName("MenuButton"), "Back", sf::Color::Black, sf::Vector2f(300, 100), 10, 10);
+	backButton = new BasicButton(sf::Vector2f(size.x / 2, size.y / 6), recMan->getResourceGroupByName("StartButton"), "Back", sf::Color::Black, sf::Vector2f(300, 100), 10, 10);
 
 	MenuElement* volumeSlider;
-	volumeSlider = new Slider(sf::Vector2f(size.x / 2, size.y / 2), *recMan->getTexturePointerByName("SliderBackground"), *recMan->getTexturePointerByName("OptionsSlider"), 100, 0, 50, "Volume", 30);
+	volumeSlider = new Slider(sf::Vector2f(size.x / 2, size.y / 2), recMan->getTexturePointerByName("SliderBackground"), recMan->getTexturePointerByName("OptionsSlider"), recMan->getFontPointerByName("MainMenuFont"),100, 0, 50, "Volume", 30);
 
 	MenuElement* brightnessSlider;
-	brightnessSlider = new Slider(sf::Vector2f(size.x / 2, 3 * size.y / 4), *recMan->getTexturePointerByName("SliderBackground"), *recMan->getTexturePointerByName("OptionsSlider"), 100, 0, 50, "Brightness", 30);
+	brightnessSlider = new Slider(sf::Vector2f(size.x / 2, 3 * size.y / 4), recMan->getTexturePointerByName("SliderBackground"), recMan->getTexturePointerByName("OptionsSlider"), recMan->getFontPointerByName("MainMenuFont"), 100, 0, 50, "Brightness", 30);
 
 	Menu optionsMenu;
 
@@ -57,18 +59,27 @@ void MainMenu::initialize(ResourceManager* resources, const sf::Vector2f& window
 	
 
 	this->addMenu(mainMenu, "mainMenu", sf::Vector2f(0, 0));
-	this->addMenu(optionsMenu, "optionsMenu", sf::Vector2f(0, 0));
+	this->addMenu(optionsMenu, "optionsMenu", sf::Vector2f(500, 500));
 
 	/*
-	boost::function<void()> boundFxn = boost::bind(&Game::begin, this);			 //goes in game
-	setButtonCallback("start", "startButton", boundFxn, 12);
+	boost::function<void()> boundFxn = boost::bind(&Game::unpause, this);			 //goes in game
+	mainMenu.setButtonCallback("mainMenu", "startButton", boundFxn, 12);
+
+	boundFxn = boost::bind(&Game::pause, this);
+	mainMenu.setButtonCallback("pauseMenu", "pauseButton")
 	*/
 
 	boost::function<void()> boundFxn = boost::bind(&Menu::deactivate, this->getMenuPtr("mainMenu"));						 //MainMenu
-	setButtonCallback("main", "optionsButton", boundFxn, 12);
+	setButtonCallback("mainMenu", "optionsButton", boundFxn, 12);
 
 	boundFxn = boost::bind(&Menu::activate, this->getMenuPtr("optionsMenu"));						 //OptionsMenu
-	setButtonCallback("options", "optionsButton", boundFxn, 12);
+	setButtonCallback("mainMenu", "optionsButton", boundFxn, 12);
+
+	boundFxn = boost::bind(&Menu::deactivate, this->getMenuPtr("optionsMenu"));
+	setButtonCallback("optionsMenu", "backButton", boundFxn, 12);
+
+	boundFxn = boost::bind(&Menu::activate,	this->getMenuPtr("mainMenu"));
+	setButtonCallback("optionsMenu", "backButton", boundFxn, 12);
 	
 	
 	

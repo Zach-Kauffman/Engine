@@ -7,6 +7,8 @@
 Game::Game()
 {
 	logger = logger::getSLogger();
+	paused = true;
+	displaying = false;
 }
 
 
@@ -17,7 +19,8 @@ void Game::initialize(const std::string& cfgFile, const std::string& resFile, co
 	configFile = cfgFile; resourceFile = resFile; objectFile = objFile; mapFile = mpFile; saveFile = save;
 	loadGameConfig(configFile);
 
-	windowPtr = boost::shared_ptr<sf::RenderWindow>(new sf::RenderWindow(sf::VideoMode(renderSize.x, renderSize.y), windowName));
+	windowPtr = boost::shared_ptr<sf::RenderWindow>(new sf::RenderWindow(sf::VideoMode(renderSize.x, renderSize.y), windowName));// , sf::Style::Fullscreen));
+
 	
 	if (maxFPS > 0)
 	{
@@ -34,6 +37,10 @@ void Game::initialize(const std::string& cfgFile, const std::string& resFile, co
 	inpData.frameUpdate();
 
 	mainMenu.initialize(&recMan, (sf::Vector2f)windowPtr->getSize());
+	
+
+	//boost::function<void()> boundFxn = boost::bind(&Game::unpause, this);			 //goes in game
+	//mainMenu.setButtonCallback("mainMenu", "startButton", boundFxn, 12);
 	
 }
 
@@ -124,10 +131,19 @@ void Game::begin()
 
 		window.clear();
 
-		mainMenu.update(inpData);
-		mainMenu.draw(window);
-		//update();
-		//draw();
+		if (!paused)
+		{
+			update();
+		}
+		if (displaying)
+		{
+			draw();
+		}
+		if (!displaying && paused)
+		{
+			mainMenu.update(inpData);
+			mainMenu.draw(window);
+		}
 
 		window.display();
 
@@ -138,8 +154,23 @@ void Game::begin()
 
 }
 
+void Game::pause()
+{
+	paused = true;
+}
+
+void Game::unpause()
+{
+	paused = false;
+	setDisplay(true);
+}
 
 //PRIVATE FUNCTIONS
+
+void Game::setDisplay(const bool& onoff)
+{
+	displaying = onoff;
+}
 
 void Game::draw()
 {

@@ -1,6 +1,6 @@
 #include "Slider.hpp"
 
-Slider::Slider(sf::Vector2f& p, const sf::Texture& bg, const sf::Texture& indicator, double M, double m, double start, const std::string& t, const unsigned int& fcharSize)
+Slider::Slider(const sf::Vector2f& p, sf::Texture* bg, sf::Texture* indicator, sf::Font* newFont, double M, double m, double start, const std::string& t, const unsigned int& fcharSize)
 {
 	textString = t;
 	charSize = fcharSize;
@@ -10,17 +10,13 @@ Slider::Slider(sf::Vector2f& p, const sf::Texture& bg, const sf::Texture& indica
 	maxValue = M;
 	minValue = m;
 	position = p;
-	cordScale = bg.getSize().x / (maxValue - minValue);
-	
-	if (!font.loadFromFile("arial.ttf"))
-	{
+	cordScale = bg->getSize().x / (maxValue - minValue);
+	font = newFont;
 
-	}
+	bgSprite.setup(bg, position, sf::Vector2f(300, 100), 0);
+	slSprite.setup(indicator, position, sf::Vector2f(300, 100), 0);
 
-	bgSprite.setup(&bg, position, sf::Vector2f(300, 100), 0);
-	slSprite.setup(&indicator, position, sf::Vector2f(300, 100), 0);
-
-	text.setFont(font);
+	text.setFont(*font);
 	text.setString(textString);
 	text.setCharacterSize(charSize);
 	//std::cout << cordScale;
@@ -84,12 +80,12 @@ void Slider::draw(sf::RenderWindow& window, const sf::Vector2f& drawPos)
 {
 	//reset BR and TL corner positions for collision
 
-	bgTLPos = sf::Vector2f((position.x - (background.getSize().x / 2)), (position.y - (background.getSize().y / 2)));
-	bgBRPos = sf::Vector2f((bgTLPos.x + (background.getSize().x)), (bgTLPos.y + (background.getSize().y)));
+	bgTLPos = sf::Vector2f((position.x - (background->getSize().x / 2)), (position.y - (background->getSize().y / 2)));
+	bgBRPos = sf::Vector2f((bgTLPos.x + (background->getSize().x)), (bgTLPos.y + (background->getSize().y)));
 
 	bgSprite.setPosition(sf::Vector2f(position.x, position.y));
-	slSprite.setPosition(sf::Vector2f(bgTLPos.x + ((currentValue - minValue)*cordScale) - sliderThing.getSize().y / 2, (bgTLPos.y + ((background.getSize().y / 2) - (sliderThing.getSize().y / 2)))));
-	text.setPosition(position.x - text.getGlobalBounds().width / 2, position.y - sliderThing.getSize().y / 2 - text.getGlobalBounds().height / 2 - 10); //sets position of text
+	slSprite.setPosition(sf::Vector2f(bgTLPos.x + ((currentValue - minValue)*cordScale) - sliderThing->getSize().y / 2, (bgTLPos.y + ((background->getSize().y / 2) - (sliderThing->getSize().y / 2)))));
+	text.setPosition(position.x - text.getGlobalBounds().width / 2, position.y - sliderThing->getSize().y / 2 - text.getGlobalBounds().height / 2 - 10); //sets position of text
 	//sliderThing->draw(sf::Vector2f(bgTLPos.x + ((currentValue - minValue)*cordScale) - sliderThing->getSize().y / 2, (bgTLPos.y + ((background->getSize().y / 2) - (sliderThing->getSize().y / 2))))); //needs to be centered
 
 	//        ofCircle(bgTLPos, 10);

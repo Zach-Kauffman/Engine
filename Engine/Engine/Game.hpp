@@ -42,7 +42,10 @@ public:
 	void initialize(const std::string& cfgFile, const std::string& resFile, const std::string& objFile, const std::string& mpFile, const std::string& save, const bool& doLoadScreen);	//initializes the game and begins loading of objects
 	void begin();			//starts sfml main loop
 
+	void pause();
+	void unpause();
 protected:
+	void setDisplay(const bool& onoff);
 
 	void draw();			//renders drawables to screen
 	void update();			//calculates physics, item interactions, etc
@@ -96,5 +99,8 @@ protected:
 	boost::shared_ptr<objects::Squirrel> player;
 
 	std::map<int, std::vector<boost::shared_ptr<Collidable> > > collidableMap;
+
+	bool paused;
+	bool displaying;
 	
 };

@@ -9,6 +9,10 @@
 		<name>grass</name>
 	</resource>
 	<resource>
+		<path>Resources/MenuBG.png</path>
+		<name>MenuBackground</name>
+	</resource>
+	<resource>
 		<path>Resources/TestResources/darksky.png</path>
 		<name>darksky</name>
 	</resource>
@@ -23,6 +27,14 @@
 		<resource>
 		<path>Resources/sky.png</path>
 		<name>sky</name>
+	</resource>
+	<resource>
+		<path>Resources/RunRight.png</path>
+		<name>RunRight</name>
+	</resource>
+			<resource>
+		<path>Resources/RunLeft.png</path>
+		<name>RunLeft</name>
 	</resource>
 	<resource>
 		<path>Resources/TestResources/EasterEgg.png</path>
@@ -51,17 +63,12 @@
 		<group>EditorButton:1</group>
 	</resource>
 	<resource>
-		<path>Resources/MenuButton/BlackButton.png</path>
-		<name>MenuBackground</name>
-	</resource>
-	<resource>
-		<path>Resources/MenuResources/SliderThing.png</path>
+		<path>Resources/GUIResources/TextBar.png</path>
 		<name>OptionsSlider</name>
-		<group>MenuButton:2</group>
 	</resource>
 	<resource>
-		<path>Resources/ShipGame</path>
-		<name>DONTCARE</name>
+		<path>Resources/GUIResources/GrayTextBoxBackground.png</path>
+		<name>SliderBackground</name>
 	</resource>
 	<resource>
 		<path>Resources/MenuButton</path>
@@ -76,9 +83,24 @@
 		<path>Resources/idle.png</path>
 		<name>idle</name>
 	</resource>
-	<resource>
+		<resource>
 		<path>Resources/GUIResources/TimesNewRoman.ttf</path>
-		<name>EditorFont</name>
-		<group>MenuButton:1</group>
+		<name>MainMenuFont</name>
 	</resource>
+		<resource>
+		<path>Resources/OptionsButton</path>
+		<name>DONTCARE</name>
+		<group>OptionsButton</group>
+	</resource>
+		<resource>
+		<path>Resources/QuitButton</path>
+		<name>DONTCARE</name>
+		<group>QuitButton</group>
+	</resource>
+		<resource>
+		<path>Resources/StartButton</path>
+		<name>DONTCARE</name>
+		<group>StartButton</group>
+	</resource>
+
 </resources>
