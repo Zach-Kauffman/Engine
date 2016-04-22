@@ -59,5 +59,6 @@
 		<attr attr="thickness"/>
 		<attr attr="gap_distance"/>
 		<attr attr="texture_name"/>
+		<attr attr="rarity_threshold"/>
 	</type>
 </types>
