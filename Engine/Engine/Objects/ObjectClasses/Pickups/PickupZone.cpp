@@ -47,6 +47,7 @@ void PickupZone::load(boost::property_tree::ptree& dataTree, ResourceManager& rm
 	parser.readValue<double>("thickness", thickness, dataTree);
 	parser.readValue<double>("gap_distance", gapDist, dataTree);
 	parser.readValue<std::string>("season_name", seasonName, dataTree);
+	parser.readValue<int>("rarity_threshold", rarityThreshold, dataTree);
 
 	//resMan = &rman;
 
@@ -106,15 +107,18 @@ void PickupZone::generatePickup()
 	}
 
 
-	double randXPos = rand() / RAND_MAX * (xValRight - xValLeft) + xValLeft;
+	const sf::Vector2f default_size(100, 100);
+
+
+	double randXPos = rand() / RAND_MAX * (xValRight - xValLeft - default_size.x / 2) + xValLeft + default_size.x / 2;
 	
 
-	const sf::Vector2f default_size(100, 100);
+	
 
 	boost::shared_ptr<Object> protoPickup = objMan->getPrototype("Pickup");
 
 	boost::shared_ptr<Pickup> newPickup = util::downcast<Pickup>(protoPickup);
-	newPickup->setup(sf::Vector2f(randXPos, yVal + default_size.y / 2 + gapDist), default_size, seasonName, typName, *resMan);
+	newPickup->setup(sf::Vector2f(randXPos , yVal + default_size.y / 2 + gapDist), default_size, seasonName, typName, *resMan);
 
 	objMan->addObject(protoPickup, "Layers.Layer0");
 }
@@ -122,12 +126,11 @@ void PickupZone::generatePickup()
 void PickupZone::createDistribution()
 {
 	distribution.clear();
-	double sum = 0;
 
 
 	std::string snames[2] = { "YearRound", seasonName };
 	std::vector<std::string> pickupNames;
-	std::vector<double> rarities;
+	std::vector<int> rarities;
 
 
 
@@ -157,15 +160,37 @@ void PickupZone::createDistribution()
 	}
 
 
-	double sumOld = 0;
+	
+
 	for (unsigned int i = 0; i < pickupNames.size(); i++)
 	{
 		options.setSection(pickupNames[i]);
-		double tmprar;
-		options.readValue<double>("Rarity", tmprar);
+		int tmprar;
+		options.readValue<int>("Rarity", tmprar);
+
+		if (tmprar >= rarityThreshold)
+		{
+			rarities.push_back(tmprar);
+		}
+
+	}
+
+	int tlcm = 1;
+	for (unsigned int i = 0; i < rarities.size(); i++)
+	{
+		tlcm = util::lcm(tlcm, rarities[i]);
+	}
+
+
+	int sum = 0;
+	int sumOld = 0;
+	for (unsigned int i = 0; i < rarities.size(); i++)
+	{
+		int hitNumber = tlcm / rarities[i];
+		sum += hitNumber;
 
 		distribution[std::make_pair(sumOld, sum)] = pickupNames[i];
-
+		sumOld = sum;
 	}
 
 	distrMax = sum;
