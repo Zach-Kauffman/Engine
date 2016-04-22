@@ -4,6 +4,7 @@ using namespace objects;
 
 ParticleSystem::ParticleSystem()
 {
+	randomMove = true;
 	position = &sf::Vector2f(0, 0);
 }
 
@@ -39,8 +40,10 @@ void ParticleSystem::update(InputData& inputData)
 			std::get<0>(p) += std::get<1>(p);	//pos += vel
 			if (randomMove)
 			{
-				std::get<2>(p) = sf::Vector2f(wind.x, wind.y) + grav;	//reset acceleration
-				//std::get<2>(p) = randomVector(sf::Vector2f(wind.x*-1, wind.y*-1), wind);
+				const double randWindMult = .3;	// lower number is more random
+				//std::get<2>(p) = sf::Vector2f(wind.x, wind.y) + grav;	//reset acceleration
+				std::get<2>(p) = randomVector(sf::Vector2f(wind.x * randWindMult, wind.y * randWindMult),
+								sf::Vector2f(wind.x * (2 - randWindMult), wind.y * (2 - randWindMult)));
 			}
 			else
 			{
@@ -105,7 +108,7 @@ void ParticleSystem::setPosition(sf::Vector2f& newPos)
 //private functions
 void ParticleSystem::generateParticles()
 {
-	for (unsigned int gen = 0; gen < numParticles / 100 && particles.size() < numParticles; gen++)
+	for (unsigned int gen = 0; gen < numParticles / 1000 && particles.size() < numParticles; gen++)
 	{
 		particle p = std::make_tuple(randomVector(sf::Vector2f(0, 0), sf::Vector2f(spawnArea.x, 100)),
 			randomVector(sf::Vector2f(-1 * wind.x, -1 * wind.y), wind), sf::Vector2f(0, GRAVITY / gravityEffect), randomNum(lifeSpan / 3, lifeSpan));

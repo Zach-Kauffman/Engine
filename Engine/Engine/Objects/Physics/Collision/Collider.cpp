@@ -421,7 +421,7 @@ std::tuple<sf::Vector2f, sf::Vector2f, unsigned int> Collider::getKineticRespons
 	}
 
 
-	return std::make_tuple(corDisp, normalVelocity, jumpable, 1);
+	return std::make_tuple(corDisp, normalVelocity, jumpable);
 	//return std::make_pair(corDisp, normalVelocity);
 
 }
