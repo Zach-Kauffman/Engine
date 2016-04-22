@@ -48,17 +48,16 @@
 		<attr attr="position.<xmlattr>.y"/>
 		<attr attr="size.<xmlattr>.x"/>
 		<attr attr="size.<xmlattr>.y"/>
-		<attr attr="season_name"/>
-		<attr attr="pickup_name"/>
+		<attr attr="pickupName"/>
 	</type>
 	<type name="PickupZone">
-		<attr attr="y_value"/>
-		<attr attr="x_value_left"/>
-		<attr attr="x_value_right"/>
-		<attr attr="season_name"/>
-		<attr attr="thickness"/>
-		<attr attr="gap_distance"/>
-		<attr attr="texture_name"/>
-		<attr attr="rarity_threshold"/>
+		<attr attr="topYPos"/>
+		<attr attr="leftXPos"/>
+		<attr attr="rightXPos"/>
+		<attr attr="seasonName"/>
+		<attr attr="ySize"/>
+		<attr attr="pickupHoverDistance"/>
+		<attr attr="texture"/>
+		<attr attr="rarityThreshold"/>
 	</type>
 </types>

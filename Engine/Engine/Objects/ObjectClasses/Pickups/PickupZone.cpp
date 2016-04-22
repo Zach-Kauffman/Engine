@@ -41,13 +41,13 @@ void PickupZone::update(InputData& inpData)
 void PickupZone::load(boost::property_tree::ptree& dataTree, ResourceManager& rman)
 {
 	XMLParser parser;
-	parser.readValue<double>("y_value", yVal, dataTree);	//loading x coord
-	parser.readValue<double>("x_value_left", xValLeft, dataTree);	//loading y coord
-	parser.readValue<double>("x_value_right", xValRight, dataTree);
-	parser.readValue<double>("thickness", thickness, dataTree);
-	parser.readValue<double>("gap_distance", gapDist, dataTree);
-	parser.readValue<std::string>("season_name", seasonName, dataTree);
-	parser.readValue<int>("rarity_threshold", rarityThreshold, dataTree);
+	parser.readValue<double>("topYPos", yVal, dataTree);	//loading x coord
+	parser.readValue<double>("leftXPos", xValLeft, dataTree);	//loading y coord
+	parser.readValue<double>("rightXPos", xValRight, dataTree);
+	parser.readValue<double>("ySize", thickness, dataTree);
+	parser.readValue<double>("pickupHoverDistance", gapDist, dataTree);
+	parser.readValue<std::string>("seasonName", seasonName, dataTree);
+	parser.readValue<int>("rarityThreshold", rarityThreshold, dataTree);
 
 	//resMan = &rman;
 
@@ -68,13 +68,14 @@ void PickupZone::load(boost::property_tree::ptree& dataTree, ResourceManager& rm
 boost::property_tree::ptree PickupZone::write()
 {
 	boost::property_tree::ptree properties;
-	properties.put("y_value", yVal);
-	properties.put("x_value_left", xValLeft);
-	properties.put("x_value_right", xValLeft); 
-	properties.put("season_name", seasonName);
-	properties.put("thickness", thickness);
-	properties.put("gap_distance", gapDist);
-	properties.put("texture_name", textureName);
+	properties.put("topYPos", yVal);
+	properties.put("leftXPos", xValLeft);
+	properties.put("rightXPos", xValLeft); 
+	properties.put("seasonName", seasonName);
+	properties.put("ySize", thickness);
+	properties.put("pickupHoverDistance", gapDist);
+	properties.put("texture", textureName);
+	properties.put("rarityThreshold", rarityThreshold);
 
 	return properties;
 }
@@ -118,7 +119,7 @@ void PickupZone::generatePickup()
 	boost::shared_ptr<Object> protoPickup = objMan->getPrototype("Pickup");
 
 	boost::shared_ptr<Pickup> newPickup = util::downcast<Pickup>(protoPickup);
-	newPickup->setup(sf::Vector2f(randXPos , yVal + default_size.y / 2 + gapDist), default_size, seasonName, typName, *resMan);
+	newPickup->setup(sf::Vector2f(randXPos , yVal + default_size.y / 2 + gapDist), default_size, typName, *resMan);
 
 	objMan->addObject(protoPickup, "Layers.Layer0");
 }

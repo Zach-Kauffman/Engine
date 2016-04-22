@@ -16,7 +16,7 @@ namespace objects
 		Pickup();
 		~Pickup();
 
-		void setup(const sf::Vector2f& pos, const sf::Vector2f& siz, const std::string& snam, const std::string& pnam, ResourceManager& rman);
+		void setup(const sf::Vector2f& pos, const sf::Vector2f& siz, const std::string& pnam, ResourceManager& rman);
 
 		void draw(Layer& renderTarget);
 		void update(InputData& inpData);
@@ -43,7 +43,6 @@ namespace objects
 		sf::Vector2f position;
 		sf::Vector2f size;
 
-		std::string seasonName;
 		std::string pickupName;
 
 		Texture tex;
