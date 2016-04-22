@@ -19,6 +19,7 @@
 
 int main(int, char*[])
 {
+	srand(time(NULL));
 	logger::init();
 	logger::setSeverityLevel(DEBUG);
 	auto slg = logger::getSLogger();

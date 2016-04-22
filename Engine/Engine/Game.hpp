@@ -32,6 +32,9 @@
 #include "Objects/Platform.hpp"
 #include "Objects/Physics/Collision/Collidable.hpp"
 #include "Objects\Physics\Collision\Collider.hpp"
+#include "Objects\ObjectClasses\Pickups\PickupZone.hpp"
+#include "Objects\ParticleSystem.hpp"
+
 
 class Game
 {
@@ -95,10 +98,15 @@ protected:
 
 	//GAMEPLAY STUFF
 	void organizeObjects();
+	void updateCollidables();
 	void doCollisions();
+
 	boost::shared_ptr<objects::Squirrel> player;
+	boost::shared_ptr<objects::ParticleSystem> part;
 
 	std::map<int, std::vector<boost::shared_ptr<Collidable> > > collidableMap;
+	std::vector<boost::shared_ptr<objects::PickupZone> > zones;
+	int lastCollidablesSize;
 
 	bool paused;
 	bool displaying;

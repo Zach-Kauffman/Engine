@@ -9,6 +9,7 @@ Squirrel::Squirrel()
 	jumping = false;
 	colliding = false;
 	movable = true;
+	nutCapacity = 2;
 }
 
 Squirrel::~Squirrel(){}

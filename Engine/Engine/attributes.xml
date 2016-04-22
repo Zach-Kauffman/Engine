@@ -60,4 +60,7 @@
 		<attr attr="gap_distance"/>
 		<attr attr="texture_name"/>
 	</type>
+	<type name="ParticleSystem">
+		<attr attr="systemType"/>
+	</type>
 </types>

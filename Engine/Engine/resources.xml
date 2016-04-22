@@ -1,8 +1,12 @@
 <?xml version="1.0"?>
 <resources>
 	<resource>
-		<path>Resources/TestResources/acorn.png</path>
+		<path>Resources/Nuts/acorn.png</path>
 		<name>acorn</name>
+	</resource>
+		<resource>
+		<path>Resources/Nuts/pumpkin.png</path>
+		<name>pumpkin</name>
 	</resource>
 	<resource>
 		<path>Resources/TestResources/grass.png</path>
@@ -35,10 +39,6 @@
 			<resource>
 		<path>Resources/RunLeft.png</path>
 		<name>RunLeft</name>
-	</resource>
-	<resource>
-		<path>Resources/TestResources/EasterEgg.png</path>
-		<name>egg</name>
 	</resource>
 	<resource>
 		<path>Resources/GUIResources/TextBar.png</path>
@@ -105,6 +105,14 @@
 		<resource>
 		<path>Resources/JumpLeft.png</path>
 		<name>JumpLeft</name>
+	</resource>
+			<resource>
+		<path>Resources/nothing.png</path>
+		<name>nothing</name>
+	</resource>
+				<resource>
+		<path>Resources/snow.png</path>
+		<name>snow</name>
 	</resource>
 
 </resources>

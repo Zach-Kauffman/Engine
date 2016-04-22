@@ -38,6 +38,7 @@
     <ClInclude Include="MenuStuff\TableEntry\EntryTextBox.hpp" />
     <ClInclude Include="MenuStuff\TableEntry\TablePair.hpp" />
     <ClInclude Include="NameSearchable\NameSearchable.hpp" />
+    <ClInclude Include="Objects\DropoffZone.hpp" />
     <ClInclude Include="Objects\Graphics\Animation\Animation.hpp" />
     <ClInclude Include="Objects\Graphics\Graphics.hpp" />
     <ClInclude Include="Objects\Graphics\Texture.hpp" />
@@ -49,6 +50,7 @@
     <ClInclude Include="Objects\ObjectClasses\Pickups\PickupZone.hpp" />
     <ClInclude Include="Objects\ObjectGroup.hpp" />
     <ClInclude Include="Objects\ObjectManager.hpp" />
+    <ClInclude Include="Objects\ParticleSystem.hpp" />
     <ClInclude Include="Objects\Physics\Collision\Collidable.hpp" />
     <ClInclude Include="Objects\Physics\Collision\Collider.hpp" />
     <ClInclude Include="Objects\Physics\Collision\CollisionData.hpp" />
@@ -94,6 +96,7 @@
     <ClCompile Include="MenuStuff\TableEntry\EntryTextBox.cpp" />
     <ClCompile Include="MenuStuff\TableEntry\TablePair.cpp" />
     <ClCompile Include="NameSearchable\NameSearchable.cpp" />
+    <ClCompile Include="Objects\DropoffZone.cpp" />
     <ClCompile Include="Objects\Graphics\Animation\Animation.cpp" />
     <ClCompile Include="Objects\Graphics\Texture.cpp" />
     <ClCompile Include="Objects\Graphics\TiledTexture.cpp" />
@@ -104,6 +107,7 @@
     <ClCompile Include="Objects\ObjectClasses\Pickups\PickupZone.cpp" />
     <ClCompile Include="Objects\ObjectGroup.cpp" />
     <ClCompile Include="Objects\ObjectManager.cpp" />
+    <ClCompile Include="Objects\ParticleSystem.cpp" />
     <ClCompile Include="Objects\Physics\Collision\Collidable.cpp" />
     <ClCompile Include="Objects\Physics\Collision\Collider.cpp" />
     <ClCompile Include="Objects\Physics\Collision\CollisionData.cpp" />

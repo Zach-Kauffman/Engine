@@ -56,6 +56,8 @@ namespace objects
 		ResourceManager* resMan;
 		ObjectManager* objMan;
 
+		std::vector<Pickup*> pickups;
+
 	};
 
 

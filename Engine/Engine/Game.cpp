@@ -9,6 +9,7 @@ Game::Game()
 	logger = logger::getSLogger();
 	paused = true;
 	displaying = false;
+	lastCollidablesSize = 0;
 }
 
 
@@ -195,6 +196,11 @@ void Game::update()
 
 	doChunks();
 	player->update(inpData);
+	for (int zoneIt = 0; zoneIt < zones.size(); zoneIt++)
+	{
+		zones[zoneIt]->update(inpData);
+	}
+	part->update(inpData);
 	doCollisions();
 
 
@@ -332,6 +338,7 @@ void Game::loadObjects()
 	objMan.addPrototype<objects::Platform>("Platform");
 	objMan.addPrototype<objects::Pickup>("Pickup");
 	objMan.addPrototype<objects::PickupZone>("PickupZone");
+	objMan.addPrototype<objects::ParticleSystem>("ParticleSystem");
 }
 
 void Game::loadMap()
@@ -388,6 +395,8 @@ void Game::loadMap()
 
 	player = util::downcast<objects::Squirrel>(objMan.getObject(1030001));
 	layMan.setReferencePoint(*player->getPosition());						//make sure the layers reference the point
+	part = util::downcast<objects::ParticleSystem>(objMan.getObject(1070001));
+	part->setPosition(*player->getPosition());
 
 	for (int i = 0; i < numLayers; i++)
 	{
@@ -434,8 +443,42 @@ void Game::organizeObjects()
 		boxes.push_back(platform);
 	}
 	collidableMap[105] = boxes;
+
+	//stores downcast zones and generates pickups
+	for (unsigned int i = 1; i <= objMan.getTypeAmount(106) - 1060000; i++)
+	{
+		auto obj = objMan.getObject(1060000 + i);
+		zones.push_back(util::downcast<objects::PickupZone>(obj));
+	}
+	for (unsigned int i = 0; i < zones.size(); i++)
+	{
+		zones[i]->setManagerPtrs(recMan, objMan);
+		zones[i]->generatePickup();
+	}
+	
 }
 
+void Game::updateCollidables()
+{
+	std::vector<int> IDS = objMan.getObjectGroup("Collidables")->getObjectIDs();
+	if (lastCollidablesSize != IDS.size())
+	{
+		for (int i = lastCollidablesSize; i < IDS.size(); i++)
+		{
+			int typeID = IDS[i] / 100000;
+			if (typeID == 104)
+			{
+				collidableMap[104].push_back(util::downcast<objects::Platform>(objMan.getObject(IDS[i])));
+
+			}
+			else if (typeID == 105)
+			{
+				collidableMap[105].push_back(util::downcast<objects::Pickup>(objMan.getObject(IDS[i])));
+
+			}
+		}
+	}
+}
 void Game::doCollisions()
 {
 	boost::shared_ptr<Collidable> pcol = (boost::shared_ptr<Collidable>)player;
@@ -453,10 +496,10 @@ void Game::doCollisions()
 		if (Collider::collide(pcol, collidableMap[105][pickIt]).collided())
 		{
 			boost::shared_ptr<objects::Pickup> p = util::downcast<objects::Pickup>(collidableMap[105][pickIt]);
-			//if (player->pickupCollide(p))
-			//{
-			//	objMan.deleteObject(p->getID());
-			//}
+			if (player->pickupCollide(p))
+			{
+				objMan.deleteObject(p->getID());
+			}
 		}
 
 	}
