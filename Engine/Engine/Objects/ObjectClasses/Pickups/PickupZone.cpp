@@ -119,7 +119,7 @@ void PickupZone::generatePickup()
 	const sf::Vector2f default_size(100, 100);
 
 
-	double randXPos = rand() / RAND_MAX * (xValRight - xValLeft - default_size.x / 2) + xValLeft + default_size.x / 2;
+	double randXPos = rand() / (float)(RAND_MAX) * (xValRight - xValLeft - default_size.x / 2) + xValLeft + default_size.x / 2;
 	
 
 	

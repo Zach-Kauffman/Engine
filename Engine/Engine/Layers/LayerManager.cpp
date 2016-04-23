@@ -53,7 +53,7 @@ void  LayerManager::createLayers()									//creates all layers -- must call som
 	for (unsigned int i = 0; i < layers.size(); i++)
 	{
 		layers[i]->create();
-		layers[i]->setViewCenter(*referencePoint);
+		//layers[i]->setViewCenter(*referencePoint);
 	}
 }
 
