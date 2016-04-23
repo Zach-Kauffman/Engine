@@ -138,6 +138,12 @@
 		<path>Resources/Particles/rainHeavy.png</path>
 		<name>rainHeavy</name>
 	</resource>
-
-
+<resource>
+		<path>Resources/Platforms</path>
+		<name>platforms</name>
+	</resource>
+<resource>
+		<path>Resources/BG</path>
+		<name>backgrounds</name>
+	</resource>
 </resources>
