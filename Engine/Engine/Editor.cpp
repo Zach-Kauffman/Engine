@@ -154,7 +154,7 @@ void Editor::editorBegin()
 		sf::Vector2f sspeed = layMan.getLayerPtr(currentLayer)->getScrollSpeed();
 		ppos = sf::Vector2f(sspeed.x * ppos.x, sspeed.y*ppos.y);
 		sf::Vector2f tmPos = mPos + ppos;
-		std::cout << "TMPOS:" << tmPos.x << ", " << tmPos.y << std::endl;
+		//std::cout << "TMPOS:" << tmPos.x << ", " << tmPos.y << std::endl;
 
 
 		draw();

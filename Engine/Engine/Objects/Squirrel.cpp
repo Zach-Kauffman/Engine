@@ -244,6 +244,7 @@ bool Squirrel::isGhostCollidable(boost::shared_ptr<Collidable> collid)
 	return false;
 }
 
+
 void Squirrel::dropoffCollide(boost::shared_ptr<objects::DropoffZone>& d)
 {
 	if (nuts.size() > 0)

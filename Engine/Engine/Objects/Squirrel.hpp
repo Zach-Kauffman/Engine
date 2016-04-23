@@ -28,7 +28,6 @@ namespace objects
 
 		bool isGhostCollidable(boost::shared_ptr<Collidable> collid);
 
-
 		void dropoffCollide(boost::shared_ptr<objects::DropoffZone>& d);
 
 	private:

@@ -32,7 +32,7 @@
 #include "Objects/Platform.hpp"
 #include "Objects/Physics/Collision/Collidable.hpp"
 #include "Objects\Physics\Collision\Collider.hpp"
-#include "Objects\ObjectClasses\Pickups\PickupZone.hpp"
+#include "Objects\Home.hpp"
 #include "Objects\ParticleSystem.hpp"
 
 

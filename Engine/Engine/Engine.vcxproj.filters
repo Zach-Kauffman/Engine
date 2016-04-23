@@ -53,6 +53,7 @@
     <ClCompile Include="MenuStuff\Slider.cpp" />
     <ClCompile Include="Objects\DropoffZone.cpp" />
     <ClCompile Include="Objects\ParticleSystem.cpp" />
+    <ClCompile Include="Objects\Home.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Defines.hpp" />
@@ -113,6 +114,7 @@
     <ClInclude Include="Utility\XMLParser.hpp" />
     <ClInclude Include="Objects\DropoffZone.hpp" />
     <ClInclude Include="Objects\ParticleSystem.hpp" />
+    <ClInclude Include="Objects\Home.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Utility\Downcast.cpp">

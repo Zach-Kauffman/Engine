@@ -21,7 +21,7 @@ namespace objects
 
 		void setPosition(sf::Vector2f& position);
 	private:
-		typedef std::tuple<sf::Vector2f, sf::Vector2f, sf::Vector2f, double> particle;
+		typedef std::tuple<sf::Vector2f, sf::Vector2f, sf::Vector2f, double, double> particle;
 
 		void generateParticles();
 		double getSinusoidalValue(const double& bound, const double& offset);
@@ -49,6 +49,7 @@ namespace objects
 		double gravityEffect;
 		sf::Vector2f wind;	//constant application of wind of range or random move
 		double particleWindVariance;
+		double upwardWindPreference;
 
 		bool randomSpawn;	//spawning at top or random
 		bool randomMove;
