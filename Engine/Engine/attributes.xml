@@ -58,6 +58,7 @@
 		<attr attr="ySize"/>
 		<attr attr="pickupHoverDistance"/>
 		<attr attr="texture"/>
+		<attr attr="maxNuts"/>
 		<attr attr="rarityThreshold"/>
 	</type>
 	<type name="ParticleSystem">

@@ -23,7 +23,7 @@ namespace objects
 		void load(boost::property_tree::ptree& dataTree, ResourceManager& recMan);
 		boost::property_tree::ptree write();
 
-		void physicalCollide(CollisionData& data);
+		bool physicalCollide(CollisionData& data, bool isGhosting); //returns if ghosting
 		bool pickupCollide(boost::shared_ptr<objects::Pickup>& p);	//parses collision with pickup objects returns true if object is used/picked up
 
 		void dropoffCollide(boost::shared_ptr<objects::DropoffZone>& d);

@@ -195,6 +195,7 @@ void Game::update()
 {
 
 	doChunks();
+	updateCollidables();
 	player->update(inpData);
 	for (int zoneIt = 0; zoneIt < zones.size(); zoneIt++)
 	{
@@ -471,7 +472,8 @@ void Game::organizeObjects()
 	for (unsigned int i = 0; i < zones.size(); i++)
 	{
 		zones[i]->setManagerPtrs(recMan, objMan);
-		zones[i]->generatePickup();
+		zones[i]->createDistribution();
+		zones[i]->regeneratePickups();
 	}
 	
 }
@@ -483,7 +485,7 @@ void Game::updateCollidables()
 	{
 		for (int i = lastCollidablesSize; i < IDS.size(); i++)
 		{
-			int typeID = IDS[i] / 100000;
+			int typeID = IDS[i] / 10000;
 			if (typeID == 104)
 			{
 				collidableMap[104].push_back(util::downcast<objects::Platform>(objMan.getObject(IDS[i])));
@@ -495,20 +497,40 @@ void Game::updateCollidables()
 
 			}
 		}
+		lastCollidablesSize = IDS.size();
 	}
 }
 void Game::doCollisions()
 {
 	boost::shared_ptr<Collidable> pcol = (boost::shared_ptr<Collidable>)player;
+	/*
 	CollisionData result = Collider::collide(pcol, collidableMap[104]);	//cyles through platforms
 	while(result.collided())
 	{
-		player->physicalCollide(result);
+		player->physicalCollide(result, false);
 
 		CollisionData res = Collider::collide(pcol, collidableMap[104]);
 		result = res;
 	}
+	*/
 
+	for (int platIt = 0; platIt < collidableMap[104].size(); platIt++)
+	{
+		CollisionData res = Collider::collide(pcol, collidableMap[104][platIt]);
+		if (res.collided())
+		{
+			if (player->physicalCollide(res, ghosting))	//if it got ghosting
+			{
+				ghosting = platIt;
+			}
+		}
+		else if (platIt == ghosting)	//if its not colliding but is the ghosting one then its above now or has fallen away
+		{
+			ghosting = 0;
+
+		}
+	}
+	
 	for (int pickIt = 0; pickIt < collidableMap[105].size(); pickIt++)	//cycles through pickups
 	{
 		if (Collider::collide(pcol, collidableMap[105][pickIt]).collided())

@@ -57,6 +57,7 @@ boost::property_tree::ptree Platform::write()
 	xml.put("size.<xmlattr>.x", size.x);
 	xml.put("size.<xmlattr>.y", size.y);
 	xml.put("texture", textureName);
+	xml.put("hasBottom", hitbox.hasBottom());
 	xml.put("type", type);
 	return xml;
 }

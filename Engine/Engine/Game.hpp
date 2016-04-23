@@ -101,6 +101,7 @@ protected:
 	void updateCollidables();
 	void doCollisions();
 
+	int ghosting;	//id of ghosting platform
 	boost::shared_ptr<objects::Squirrel> player;
 	boost::shared_ptr<objects::ParticleSystem> part;
 

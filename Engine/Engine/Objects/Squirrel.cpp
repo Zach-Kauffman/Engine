@@ -70,31 +70,35 @@ void Squirrel::update(InputData& inpData)
 	}
 	if (inpData.isKeyHeld(sf::Keyboard::Up))
 	{
-		float time;
-		if (!jumping)
+		if (jumpTimer.getElapsedTime().asSeconds() > jumpTime*4 || jumping)
 		{
-			jumping = true;
-			jumpTimer.restart().asSeconds();
-
-		}
-		
-		if (jumping)
-		{
-			time = jumpTimer.getElapsedTime().asSeconds();
-
-			if (time > jumpTime)
+			float time;
+			if (!jumping)
 			{
-				if (colliding)
+				jumping = true;
+				jumpTimer.restart().asSeconds();
+
+			}
+
+			if (jumping)
+			{
+				time = jumpTimer.getElapsedTime().asSeconds();
+
+				if (time > jumpTime)
 				{
-					jumping = false;
+					if (colliding)
+					{
+						jumping = false;
+					}
 				}
-			}
-			else
-			{
-				applyForce(sf::Vector2f(0, -jumpForce));
-			}
+				else
+				{
+					applyForce(sf::Vector2f(0, -jumpForce));
+				}
 
+			}
 		}
+
 
 	}
 	float multiplier = 1;
@@ -207,23 +211,42 @@ boost::property_tree::ptree Squirrel::write()
 	return xml;
 }
 
-void Squirrel::physicalCollide(CollisionData& data)
+bool Squirrel::physicalCollide(CollisionData& data, bool isGhosting)
 {
 	if (!data.getCollidedHitbox()->hasBottom())
 	{
 		std::cout << "YA";
 	}
-	std::tuple<sf::Vector2f, sf::Vector2f, bool> response = Collider::getKineticResponseDoublePolygon(velocity, hitbox.get(), data.getCollidedHitbox()->get(), data.getCollidedHitbox()->hasBottom());
+	std::tuple<sf::Vector2f, sf::Vector2f, int> response = Collider::getKineticResponseDoublePolygon(velocity, hitbox.get(), data.getCollidedHitbox()->get(), false);
 
 
 	colliding = std::get<2>(response);
 
-	if (!falling && data.getCollidedHitbox()->hasBottom())
+
+	if (velocity.y < -.1 && !data.getCollidedHitbox()->hasBottom())
+	{
+		//dont apply transform
+
+		setPosition(data.getCollidedHitbox()->getPosition() + sf::Vector2f(0, -150));
+		setVelocity(velocity - sf::Vector2f(0, velocity.y));
+		colliding = true;
+
+		return true;
+	}
+	else if (falling && !data.getCollidedHitbox()->hasBottom())
+	{
+		setPosition(data.getCollidedHitbox()->getPosition() + sf::Vector2f(0, 150));
+		colliding = false;
+		return true;
+	}
+	else
 	{
 		setPosition(position + std::get<1>(response));
 		setVelocity(std::get<1>(response)+velocity);
-		hitbox.updatePosition();
+		return false;
 	}
+
+	hitbox.updatePosition();
 
 	//gravity = false;
 	//applyForce(sf::Vector2f(0, -GRAVITY));
