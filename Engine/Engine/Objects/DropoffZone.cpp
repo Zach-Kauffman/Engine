@@ -82,7 +82,9 @@ bool DropoffZone::dropoff(boost::shared_ptr<objects::Pickup> p)
 {
 	if (dropoffClock.getElapsedTime().asSeconds() > minDropTime)
 	{
-		pickups.push_back(p);
+		boost::shared_ptr<objects::Pickup> pick;
+		//pickups.push_back(pick);
+		//pickups.push_back(p);
 		dropoffClock.restart();
 		return 1;
 	}

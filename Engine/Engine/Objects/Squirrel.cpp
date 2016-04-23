@@ -208,7 +208,7 @@ void Squirrel::physicalCollide(CollisionData& data)
 	//std::cout << "vel:" << velocity.x << ", " << velocity.y << std::endl;
 }
 
-bool Squirrel::pickupCollide(boost::shared_ptr<objects::Pickup>& pickup)
+bool Squirrel::pickupCollide(boost::shared_ptr<Pickup>& pickup)
 {
 	if (pickup->getPickupData().isPowerup())
 	{
