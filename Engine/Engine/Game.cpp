@@ -405,7 +405,7 @@ void Game::loadMap()
 	const sf::Vector2f squirrelPos = *player->getPosition();
 	part = util::downcast<objects::ParticleSystem>(objMan.getObject(1070001));
 	part->setPosition(*player->getPosition());
-
+	
 	for (int i = 0; i < numLayers; i++)
 	{
 		std::string layerNumber = "1";	//default is 1
@@ -422,7 +422,7 @@ void Game::loadMap()
 
 		layMan.setScrollBounds({ 0, 0, bounds.x, bounds.y}, i);
 
-		const sf::Vector2f layerCenter = squirrelPos - sf::Vector2f(windowPtr->getSize().x / 2, windowPtr->getSize().y / 2);
+		const sf::Vector2f layerCenter = sf::Vector2f(windowPtr->getSize().x / 2, windowPtr->getSize().y / 2);
 		layMan.setCorners(sf::Vector2f(0, 0), (sf::Vector2f)windowPtr->getSize(), i);
 		layMan.getLayerPtr(i)->setScrollBoundedness(true);
 
@@ -517,7 +517,7 @@ void Game::doCollisions()
 	for (int platIt = 0; platIt < collidableMap[104].size(); platIt++)
 	{
 		CollisionData res = Collider::collide(pcol, collidableMap[104][platIt]);
-		if (res.collided())
+		if (false)//res.collided())
 		{
 			if (player->physicalCollide(res, ghosting))	//if it got ghosting
 			{

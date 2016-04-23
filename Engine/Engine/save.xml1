@@ -62,6 +62,13 @@
             <hasBottom>true</hasBottom>
             <type>Platform</type>
          </object>
+		 <object>
+            <position x="2000" y="5000" />
+            <size x="5000" y="300" />
+            <texture>grass</texture>
+            <hasBottom>true</hasBottom>
+            <type>Platform</type>
+         </object>
          <object>
             <position x="1000" y="200" />
             <size x="200" y="100" />

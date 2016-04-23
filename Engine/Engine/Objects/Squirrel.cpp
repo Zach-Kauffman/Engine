@@ -70,7 +70,8 @@ void Squirrel::update(InputData& inpData)
 	}
 	if (inpData.isKeyHeld(sf::Keyboard::Up))
 	{
-		if (jumpTimer.getElapsedTime().asSeconds() > jumpTime*4 || jumping)
+		applyForce(sf::Vector2f(0, -moveForce));
+		if (false)//jumpTimer.getElapsedTime().asSeconds() > jumpTime*4 || jumping)
 		{
 			float time;
 			if (!jumping)
@@ -116,6 +117,7 @@ void Squirrel::update(InputData& inpData)
 	}
 	if (inpData.isKeyHeld(sf::Keyboard::Down))
 	{
+		applyForce(sf::Vector2f(0, moveForce));
 		falling = true;
 	}
 	else
