@@ -103,8 +103,8 @@
 		<group>StartButton</group>
 	</resource>
 		<resource>
-		<path>Resources/JumpLeft.png</path>
-		<name>JumpLeft</name>
+		<path>Resources/JumpRight.png</path>
+		<name>JumpRight</name>
 	</resource>
 			<resource>
 		<path>Resources/nothing.png</path>
@@ -117,6 +117,10 @@
 	<resource>
 		<path>Resources/drop.png</path>
 		<name>drop</name>
+	</resource>
+		<resource>
+		<path>Resources/JumpLeft.png</path>
+		<name>JumpLeft</name>
 	</resource>
 
 </resources>

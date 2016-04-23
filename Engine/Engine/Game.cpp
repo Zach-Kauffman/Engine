@@ -523,7 +523,7 @@ void Game::doCollisions()
 	{
 		if (Collider::collide(pcol, collidableMap[108][dropIt]).collided())
 		{
-			boost::shared_ptr<objects::DropoffZone> p = util::downcast<objects::DropoffZone>(collidableMap[105][dropIt]);
+			boost::shared_ptr<objects::DropoffZone> p = util::downcast<objects::DropoffZone>(collidableMap[108][dropIt]);
 			player->dropoffCollide(p);
 		}
 

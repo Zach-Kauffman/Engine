@@ -26,13 +26,15 @@ namespace objects
 		void physicalCollide(CollisionData& data);
 		bool pickupCollide(boost::shared_ptr<objects::Pickup>& p);	//parses collision with pickup objects returns true if object is used/picked up
 		void dropoffCollide(boost::shared_ptr<objects::DropoffZone>& d);
+
 	private:
 		Animation RR;
 		Animation RL;
 		Animation idle;
 		Animation TL; //turn left
 		Animation TR; //turn right
-		Animation JUMP;
+		Animation JR;
+		Animation JL;
 
 		int fps;
 
@@ -42,7 +44,8 @@ namespace objects
 		std::string idleSSName;
 		std::string TLName;
 		std::string TRName;
-		std::string JumpName;
+		std::string JLName;
+		std::string JRName;
 
 		float moveForce;
 		float jumpForce;

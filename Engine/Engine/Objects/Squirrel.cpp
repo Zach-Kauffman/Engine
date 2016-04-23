@@ -20,11 +20,11 @@ void Squirrel::draw(Layer& renderTarget)
 
 	if (velocity.x > 0)
 	{
-		if (jumping && velocity.y > .1 && !colliding)
+		if (velocity.y > .1 || velocity.y < -.1)
 		{
-			JUMP.drawNextFrame(*renderTarget.getRenderTexture());
+			JR.drawNextFrame(*renderTarget.getRenderTexture());
 		}
-		else if (lastAcceleration.x < -100000)
+		else if (lastAcceleration.x < 0)
 		{
 			TR.drawNextFrame(*renderTarget.getRenderTexture());
 		}
@@ -37,11 +37,11 @@ void Squirrel::draw(Layer& renderTarget)
 	}
 	else if (velocity.x < 0)
 	{
-		if (jumping && velocity.y > .1 && !colliding)
+		if (velocity.y > .1 || velocity.y < -.1)
 		{
-			JUMP.drawNextFrame(*renderTarget.getRenderTexture());
+			JL.drawNextFrame(*renderTarget.getRenderTexture());
 		}
-		else if (lastAcceleration.x > 1000000)
+		else if (lastAcceleration.x > 0)
 		{
 			TL.drawNextFrame(*renderTarget.getRenderTexture());
 		}
@@ -62,7 +62,12 @@ void Squirrel::draw(Layer& renderTarget)
 void Squirrel::update(InputData& inpData)
 {
 	if (!isActive){ return; }
-
+	if (colliding)
+	{
+		jumping = false;
+		JL.reset();
+		JR.reset();
+	}
 	if (inpData.isKeyHeld(sf::Keyboard::Up))
 	{
 		float time;
@@ -153,14 +158,19 @@ void Squirrel::load(boost::property_tree::ptree& dataTree, ResourceManager& recM
 	options.readValue<int>("AnimationFPS", fps);
 	options.readValue <std::string>("TurnLeft", TLName);
 	options.readValue<std::string>("TurnRight", TRName);
-	options.readValue<std::string>("Jump", JumpName);
+	options.readValue<std::string>("JumpLeft", JLName);
+	options.readValue<std::string>("JumpRight", JRName);
 
 	RR = Animation(recMan.getTexturePointerByName(RRName), frameSize, displaySize, fps, position);
 	RL = Animation(recMan.getTexturePointerByName(RLName), frameSize, displaySize, fps, position);
 	idle = Animation(recMan.getTexturePointerByName(idleSSName), frameSize, displaySize, fps, position);
 	TL = Animation(recMan.getTexturePointerByName(TLName), frameSize, displaySize, fps, position);
 	TR = Animation(recMan.getTexturePointerByName(TRName), frameSize, displaySize, fps, position);
-	JUMP = Animation(recMan.getTexturePointerByName(JumpName), frameSize, displaySize, fps, position);
+
+	JR = Animation(recMan.getTexturePointerByName(JRName), frameSize, displaySize, fps, position);
+	JR.setFrameFreeze(true);
+	JL = Animation(recMan.getTexturePointerByName(JLName), frameSize, displaySize, fps, position);
+	JL.setFrameFreeze(true);
 
 	HitBox box;
 	box.create(sf::Vector2f(displaySize.x/3, displaySize.y));

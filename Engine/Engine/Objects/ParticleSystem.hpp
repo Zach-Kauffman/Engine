@@ -24,7 +24,10 @@ namespace objects
 		typedef std::tuple<sf::Vector2f, sf::Vector2f, sf::Vector2f, double> particle;
 
 		void generateParticles();
+		double getSinusoidalValue(const double& bound, const double& offset);
 		sf::Vector2f randomVector(const sf::Vector2f& min, const sf::Vector2f& max);
+		
+
 		int sign(const float& d);
 
 		float randomNum(const float& min, const float& max);
@@ -45,9 +48,17 @@ namespace objects
 		double lifeSpan;	//lifespan in frames or seconds
 		double gravityEffect;
 		sf::Vector2f wind;	//constant application of wind of range or random move
+		double particleWindVariance;
+
 		bool randomSpawn;	//spawning at top or random
 		bool randomMove;
 		sf::Vector2f spawnArea;
 		int numParticles;
+
+		sf::Clock timer; // allows sinusoidal motion based on time
+		double frameTime;
+		double lastFrameElapsedTime;
+		double genFrameTime;
+		int newParticleNumber;
 	};
 }
