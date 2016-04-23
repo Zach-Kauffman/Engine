@@ -4,7 +4,7 @@
       <chunk index="1">
 		<object>
 			<type>ParticleSystem</type>
-			<systemType>Snow</systemType>
+			<systemType>Dust</systemType>
 		</object>
 	     <object>
             <RunRight>RunRight</RunRight>

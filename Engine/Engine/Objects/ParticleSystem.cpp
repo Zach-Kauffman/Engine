@@ -5,6 +5,11 @@ using namespace objects;
 ParticleSystem::ParticleSystem()
 {
 	randomMove = true;
+	timer.restart();
+	frameTime = .1;
+	lastFrameElapsedTime = 0;
+	newParticleNumber = 0;
+	genFrameTime = 0;
 	position = &sf::Vector2f(0, 0);
 }
 
@@ -25,7 +30,16 @@ void ParticleSystem::draw(Layer& rendertarget)
 
 void ParticleSystem::update(InputData& inputData)
 {
+	frameTime = timer.getElapsedTime().asSeconds() - lastFrameElapsedTime;
+	genFrameTime += frameTime;
+	newParticleNumber = numParticles / lifeSpan * genFrameTime;
+
 	sf::Vector2f grav = sf::Vector2f(0, GRAVITY / gravityEffect);
+
+	const double yWindMultiplier = .4;
+	const double tmp = (1 - yWindMultiplier) / 2;
+	const sf::Vector2f generalGust(getSinusoidalValue(1,0) * wind.x, (getSinusoidalValue(tmp, 10) + yWindMultiplier + tmp) * wind.y );
+
 	for (unsigned int partIt = 0; partIt < particles.size(); partIt++)
 	{
 		std::tuple<sf::Vector2f, sf::Vector2f, sf::Vector2f, double>& p = particles[partIt];
@@ -40,16 +54,20 @@ void ParticleSystem::update(InputData& inputData)
 			std::get<0>(p) += std::get<1>(p);	//pos += vel
 			if (randomMove)
 			{
-				const double randWindMult = .3;	// lower number is more random
+				
 				//std::get<2>(p) = sf::Vector2f(wind.x, wind.y) + grav;	//reset acceleration
-				std::get<2>(p) = randomVector(sf::Vector2f(wind.x * randWindMult, wind.y * randWindMult),
-								sf::Vector2f(wind.x * (2 - randWindMult), wind.y * (2 - randWindMult)));
+				
+
+				const sf::Vector2f randWind = randomVector(sf::Vector2f(wind.x * -particleWindVariance, wind.y * -particleWindVariance),
+											sf::Vector2f(wind.x * particleWindVariance, wind.y * particleWindVariance));
+
+				std::get<2>(p) = generalGust + randWind;
 			}
 			else
 			{
 				std::get<2>(p) = sf::Vector2f(wind.x, wind.y) + grav;	//reset acceleration
 			}
-			std::get<3>(p) -= 1;
+			std::get<3>(p) -= frameTime;
 
 		}
 		sf::Vector2f velocity = std::get<1>(p);
@@ -58,7 +76,10 @@ void ParticleSystem::update(InputData& inputData)
 		std::get<1>(p) -= air;
 
 	}
+
+	
 	generateParticles();
+	lastFrameElapsedTime = timer.getElapsedTime().asSeconds();
 }
 
 void ParticleSystem::load(boost::property_tree::ptree& dataTree, ResourceManager& rMan)
@@ -78,6 +99,7 @@ void ParticleSystem::load(boost::property_tree::ptree& dataTree, ResourceManager
 	reader.readValue<double>("Floatiness", gravityEffect);
 	reader.readValue<float>("Wind_X", wind.x);
 	reader.readValue<float>("Wind_Y", wind.y);
+	reader.readValue<double>("Particle_Wind_Variance", particleWindVariance);
 	reader.readValue<bool>("RandomSpawn", randomSpawn);
 	reader.readValue<float>("SpawnArea_X", spawnArea.x);
 	reader.readValue<float>("SpawnArea_Y", spawnArea.y);
@@ -108,13 +130,49 @@ void ParticleSystem::setPosition(sf::Vector2f& newPos)
 //private functions
 void ParticleSystem::generateParticles()
 {
-	for (unsigned int gen = 0; gen < numParticles / 1000 && particles.size() < numParticles; gen++)
+	bool ranThrough = false;
+	for (unsigned int gen = 0; gen <  newParticleNumber  && particles.size() < numParticles; gen++)
 	{
 		particle p = std::make_tuple(randomVector(sf::Vector2f(0, 0), sf::Vector2f(spawnArea.x, 100)),
 			randomVector(sf::Vector2f(-1 * wind.x, -1 * wind.y), wind), sf::Vector2f(0, GRAVITY / gravityEffect), randomNum(lifeSpan / 3, lifeSpan));
 
 		particles.push_back(p);
+		ranThrough = true;
 	}
+	if (ranThrough)
+	{
+		genFrameTime = 0;
+	}
+	
+}
+
+double ParticleSystem::getSinusoidalValue(const double& bound, const double& offset)
+{
+	//this is very arbitrary, btw
+
+	double t = timer.getElapsedTime().asSeconds() + offset;
+
+	const double peroidModifier = 40;
+	const double ka = 2;
+	const double pa = 41;
+	const double kb = 5;
+	const double pb = 23;
+	const double kc = 4;
+	const double pc = 7;
+
+	const double ssa = ka * sin(pa * t / peroidModifier);
+	const double ssb = kb * sin(pb * t / peroidModifier);
+	const double ssc = kc * sin(pc * t / peroidModifier);
+
+	const double sum = ssa + ssb + ssc;
+
+	const double maxVal = 10.3; //it is what it is lol
+
+	return sum * bound / 10.3;
+
+
+	
+
 }
 
 sf::Vector2f ParticleSystem::randomVector(const sf::Vector2f& min, const sf::Vector2f& max)
