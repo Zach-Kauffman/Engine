@@ -60,12 +60,17 @@ void Slider::updateButtonState(InputData& inpData)
 	}
 }
 
-void Slider::update(){}
+void Slider::update()
+{
+
+}
 
 void Slider::update(InputData& inpData)
 {
 	updateButtonState(inpData);
 }
+
+
 //also just here to prevent error
 
 void Slider::resetMD(){}
