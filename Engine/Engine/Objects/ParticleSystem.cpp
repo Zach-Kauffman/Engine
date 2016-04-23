@@ -37,12 +37,12 @@ void ParticleSystem::update(InputData& inputData)
 	sf::Vector2f grav = sf::Vector2f(0, GRAVITY / gravityEffect);
 
 	const double yWindMultiplier = .4;
-	const double tmp = (1 - yWindMultiplier) / 2;
-	const sf::Vector2f generalGust(getSinusoidalValue(1,0) * wind.x, (getSinusoidalValue(tmp, 10) + yWindMultiplier + tmp) * wind.y );
+	const double tmpGust = (1 - yWindMultiplier) / 2;
+	const sf::Vector2f generalGust(getSinusoidalValue(1,0) * wind.x, (getSinusoidalValue(tmpGust, 10) + yWindMultiplier + tmpGust) * wind.y );
 
 	for (unsigned int partIt = 0; partIt < particles.size(); partIt++)
 	{
-		std::tuple<sf::Vector2f, sf::Vector2f, sf::Vector2f, double>& p = particles[partIt];
+		particle& p = particles[partIt];
 		if (std::get<3>(p) < 0)
 		{
 			particles.erase(particles.begin() + partIt);
@@ -58,10 +58,12 @@ void ParticleSystem::update(InputData& inputData)
 				//std::get<2>(p) = sf::Vector2f(wind.x, wind.y) + grav;	//reset acceleration
 				
 
-				const sf::Vector2f randWind = randomVector(sf::Vector2f(wind.x * -particleWindVariance, wind.y * -particleWindVariance),
-											sf::Vector2f(wind.x * particleWindVariance, wind.y * particleWindVariance));
+				const double offset = std::get<4>(p);
+				const double tmpInd = (particleWindVariance - upwardWindPreference) / 2;
+				const sf::Vector2f smallWind(sf::Vector2f(getSinusoidalValue(particleWindVariance, offset) * wind.x,
+														((getSinusoidalValue(tmpInd, offset + 25) + upwardWindPreference + tmpInd) * wind.y)));
 
-				std::get<2>(p) = generalGust + randWind;
+				std::get<2>(p) = generalGust + smallWind;
 			}
 			else
 			{
@@ -96,7 +98,8 @@ void ParticleSystem::load(boost::property_tree::ptree& dataTree, ResourceManager
 	reader.readValue<float>("ParticleVar_X", particleSizeVariation.x);
 	reader.readValue<float>("ParticleVar_Y", particleSizeVariation.y);
 	reader.readValue<double>("Lifespan", lifeSpan);
-	reader.readValue<double>("Floatiness", gravityEffect);
+	reader.readValue<double>("GravityCut", gravityEffect);
+	reader.readValue<double>("Floatiness", upwardWindPreference);
 	reader.readValue<float>("Wind_X", wind.x);
 	reader.readValue<float>("Wind_Y", wind.y);
 	reader.readValue<double>("Particle_Wind_Variance", particleWindVariance);
@@ -134,7 +137,7 @@ void ParticleSystem::generateParticles()
 	for (unsigned int gen = 0; gen <  newParticleNumber  && particles.size() < numParticles; gen++)
 	{
 		particle p = std::make_tuple(randomVector(sf::Vector2f(0, 0), sf::Vector2f(spawnArea.x, 100)),
-			randomVector(sf::Vector2f(-1 * wind.x, -1 * wind.y), wind), sf::Vector2f(0, GRAVITY / gravityEffect), randomNum(lifeSpan / 3, lifeSpan));
+			randomVector(sf::Vector2f(-1 * wind.x, -1 * wind.y), wind), sf::Vector2f(0, GRAVITY / gravityEffect), randomNum(lifeSpan / 3, lifeSpan), randomNum(0,100));
 
 		particles.push_back(p);
 		ranThrough = true;

@@ -25,8 +25,8 @@ namespace objects
 
 		void physicalCollide(CollisionData& data);
 		bool pickupCollide(boost::shared_ptr<objects::Pickup>& p);	//parses collision with pickup objects returns true if object is used/picked up
-		void dropoffCollide(boost::shared_ptr<objects::DropoffZone>& d);
 
+		void dropoffCollide(boost::shared_ptr<objects::DropoffZone>& d);
 	private:
 		Animation RR;
 		Animation RL;
@@ -55,7 +55,7 @@ namespace objects
 
 		int nutCapacity;			//maximum nuts that can be carried
 
-		bool onGround;
+		bool falling;
 		float airborneMultiplier;	//multiplier for airborne movement
 
 		sf::Vector2f lastAcceleration;

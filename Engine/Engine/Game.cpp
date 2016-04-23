@@ -345,6 +345,7 @@ void Game::loadObjects()
 	objMan.addPrototype<objects::PickupZone>("PickupZone");
 	objMan.addPrototype<objects::ParticleSystem>("ParticleSystem");
 	objMan.addPrototype<objects::DropoffZone>("DropoffZone");
+	objMan.addPrototype<objects::Home>("Home");
 }
 
 void Game::loadMap()
@@ -397,10 +398,8 @@ void Game::loadMap()
 	}
 
 
-	tmpCenter = sf::Vector2f(500, 500);							//starting point of reference
-
 	player = util::downcast<objects::Squirrel>(objMan.getObject(1030001));
-	layMan.setReferencePoint(*player->getPosition());						//make sure the layers reference the point
+	layMan.setReferencePoint(player->getPosition());						//make sure the layers reference the point
 	part = util::downcast<objects::ParticleSystem>(objMan.getObject(1070001));
 	part->setPosition(*player->getPosition());
 
