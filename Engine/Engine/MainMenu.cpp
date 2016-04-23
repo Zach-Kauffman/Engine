@@ -39,13 +39,13 @@ void MainMenu::initialize(ResourceManager* resources, const sf::Vector2f& window
 	
 	
 	MenuElement* backButton;
-	backButton = new BasicButton(sf::Vector2f(size.x / 2, size.y / 6), recMan->getResourceGroupByName("StartButton"), "Back", sf::Color::Black, sf::Vector2f(300, 100), 10, 10);
+	backButton = new BasicButton(sf::Vector2f(size.x * .5 - 500, size.y * .3 - 500), recMan->getResourceGroupByName("StartButton"), "Back", sf::Color::Black, sf::Vector2f(300, 100), 10, 10);
 
 	MenuElement* volumeSlider;
-	volumeSlider = new Slider(sf::Vector2f(size.x / 2, size.y / 2), recMan->getTexturePointerByName("SliderBackground"), recMan->getTexturePointerByName("OptionsSlider"), recMan->getFontPointerByName("MainMenuFont"),100, 0, 50, "Volume", 30);
+	volumeSlider = new Slider(sf::Vector2f(size.x * .5 - 500, size.y * .5 - 500), recMan->getTexturePointerByName("SliderBackground"), recMan->getTexturePointerByName("OptionsSlider"), recMan->getFontPointerByName("MainMenuFont"), 100, 0, 50, "Volume", 30);
 
 	MenuElement* brightnessSlider;
-	brightnessSlider = new Slider(sf::Vector2f(size.x / 2, 3 * size.y / 4), recMan->getTexturePointerByName("SliderBackground"), recMan->getTexturePointerByName("OptionsSlider"), recMan->getFontPointerByName("MainMenuFont"), 100, 0, 50, "Brightness", 30);
+	brightnessSlider = new Slider(sf::Vector2f(size.x * .5 - 500, size.y * .75 - 500), recMan->getTexturePointerByName("SliderBackground"), recMan->getTexturePointerByName("OptionsSlider"), recMan->getFontPointerByName("MainMenuFont"), 100, 0, 50, "Brightness", 30);
 
 	Menu optionsMenu;
 
