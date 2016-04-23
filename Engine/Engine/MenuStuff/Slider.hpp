@@ -14,29 +14,48 @@ public:
 	int getEventDataInt();//returns slider value
 
 	void setButtonTextString(std::string);
+
 	std::string getButtonTextString();
 
 	void draw(sf::RenderWindow& window, const sf::Vector2f& drawPos);
-	void update(sf::Vector2f&, bool&, bool&);
-	void update(InputData& inpData);//so that the class is not abstract
+
+	void updateButtonState(InputData& inpData);
+
+	//void update(sf::Vector2f&, bool&, bool&);
+
 	void update();
+
+	void update(InputData& inpData);//main update function
 
 	void resetMD();
 
 private:
 	double currentValue, maxValue, minValue;
+
 	float cordScale;
+
 	unsigned int charSize;
 	
+	sf::Vector2f lastDrawPosition;
+
 	sf::Font* font;
+
 	SingleTextBox textBox;
+
 	std::string textString;
+
 	AppSprite bgSprite;
+
 	AppSprite slSprite;
+
 	sf::Text text;
+
 	sf::Texture* background;
+
 	sf::Texture* sliderThing;
+
 	sf::Vector2f textureTLPos;
+
 	sf::Vector2f bgTLPos, bgBRPos;
 
 

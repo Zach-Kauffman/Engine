@@ -13,8 +13,9 @@ Slider::Slider(const sf::Vector2f& p, sf::Texture* bg, sf::Texture* indicator, s
 	cordScale = bg->getSize().x / (maxValue - minValue);
 	font = newFont;
 
-	bgSprite.setup(bg, position, sf::Vector2f(300, 100), 0);
-	slSprite.setup(indicator, position, sf::Vector2f(300, 100), 0);
+	bgSprite.setup(background, position, sf::Vector2f(400, 75), 0);
+	slSprite.setup(sliderThing, position, sf::Vector2f(10, 100), 0);
+	textBox.setup(position, font, textString, charSize, 300, sf::Color::Blue);
 
 	text.setFont(*font);
 	text.setString(textString);
@@ -36,12 +37,39 @@ std::string Slider::getButtonTextString()
 {
 	return textString;
 }
+void Slider::updateButtonState(InputData& inpData)
+{
+	const sf::Vector2f mousePos = inpData.getMousePosition() - lastDrawPosition;
+
+	const unsigned int leftData = inpData.getLeftData();
+
+	if (mousePos.x > bgTLPos.x && mousePos.x < bgBRPos.x && mousePos.y > bgTLPos.y && mousePos.y < bgBRPos.y)
+	{
+		slSprite.setPosition(mousePos);
+
+		currentValue = (mousePos.x - bgTLPos.x) / cordScale + minValue;
+
+		if (currentValue > maxValue)
+		{
+			currentValue = maxValue;
+		}
+		else if (currentValue < minValue)
+		{
+			currentValue = minValue;
+		}
+	}
+}
 
 void Slider::update(){}
-void Slider::update(InputData& inpData){}//also just here to prevent error
+
+void Slider::update(InputData& inpData)
+{
+	updateButtonState(inpData);
+}
+//also just here to prevent error
 
 void Slider::resetMD(){}
-
+/*
 void Slider::update(sf::Vector2f& mousePos, bool& clicked, bool& pressed)
 {
 	if (pressed == true)
@@ -75,17 +103,24 @@ void Slider::update(sf::Vector2f& mousePos, bool& clicked, bool& pressed)
 		currentValue = minValue;
 	}
 }
-
+*/
 void Slider::draw(sf::RenderWindow& window, const sf::Vector2f& drawPos)
 {
 	//reset BR and TL corner positions for collision
+	if (lastDrawPosition != drawPos)
+	{
+		lastDrawPosition = drawPos;
+	}
 
 	bgTLPos = sf::Vector2f((position.x - (background->getSize().x / 2)), (position.y - (background->getSize().y / 2)));
 	bgBRPos = sf::Vector2f((bgTLPos.x + (background->getSize().x)), (bgTLPos.y + (background->getSize().y)));
-
-	bgSprite.setPosition(sf::Vector2f(position.x, position.y));
-	slSprite.setPosition(sf::Vector2f(bgTLPos.x + ((currentValue - minValue)*cordScale) - sliderThing->getSize().y / 2, (bgTLPos.y + ((background->getSize().y / 2) - (sliderThing->getSize().y / 2)))));
-	text.setPosition(position.x - text.getGlobalBounds().width / 2, position.y - sliderThing->getSize().y / 2 - text.getGlobalBounds().height / 2 - 10); //sets position of text
+	
+	
+	bgSprite.draw(window, drawPos);
+	slSprite.draw(window, drawPos);
+	textBox.draw(window, drawPos);
+	
+	//window.display();
 	//sliderThing->draw(sf::Vector2f(bgTLPos.x + ((currentValue - minValue)*cordScale) - sliderThing->getSize().y / 2, (bgTLPos.y + ((background->getSize().y / 2) - (sliderThing->getSize().y / 2))))); //needs to be centered
 
 	//        ofCircle(bgTLPos, 10);
