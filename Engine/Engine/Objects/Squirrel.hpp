@@ -7,6 +7,7 @@
 #include "../Utility/INIParser.hpp"
 #include "Physics/Collision/Collider.hpp"
 #include "ObjectClasses/Pickups/Pickup.hpp"
+#include "DropoffZone.hpp"
 
 namespace objects
 {
@@ -26,6 +27,9 @@ namespace objects
 		bool pickupCollide(boost::shared_ptr<objects::Pickup>& p);	//parses collision with pickup objects returns true if object is used/picked up
 
 		bool isGhostCollidable(boost::shared_ptr<Collidable> collid);
+
+
+		void dropoffCollide(boost::shared_ptr<objects::DropoffZone>& d);
 
 	private:
 		Animation RR;

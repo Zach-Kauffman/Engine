@@ -16,10 +16,10 @@ void MainMenu::initialize(ResourceManager* resources, const sf::Vector2f& window
 	background = new MenuSprite(recMan->getTexturePointerByName("MenuBackground"), sf::Vector2f(size.x/2, size.y/2), sf::Vector2f(size.x, size.y));
 
 	MenuElement* startButton;
-	startButton = new BasicButton(sf::Vector2f(size.x * .37, size.y *.9), recMan->getResourceGroupByName("StartButton"), "Start", sf::Color::Black, sf::Vector2f(300, 100), 10, 10);
+	startButton = new BasicButton(sf::Vector2f(size.x * .37, size.y *.85), recMan->getResourceGroupByName("StartButton"), "Start", sf::Color::Black, sf::Vector2f(400, 200), 10, 10);
 
 	MenuElement* optionsButton;
-	optionsButton = new BasicButton(sf::Vector2f(size.x , size.y / 2), recMan->getResourceGroupByName("OptionsButton"), "Options", sf::Color::Black, sf::Vector2f(300, 100), 10, 10);
+	optionsButton = new BasicButton(sf::Vector2f(size.x * .8 , size.y * .3), recMan->getResourceGroupByName("OptionsButton"), "Options", sf::Color::Black, sf::Vector2f(300, 100), 10, 10);
 	
 	MenuElement* quitButton;
 	quitButton = new BasicButton(sf::Vector2f(size.x * .617, size.y * .5), recMan->getResourceGroupByName("QuitButton"), "Quit", sf::Color::Black, sf::Vector2f(100, 100), 10, 10);

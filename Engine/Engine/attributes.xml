@@ -63,4 +63,13 @@
 	<type name="ParticleSystem">
 		<attr attr="systemType"/>
 	</type>
+	<type name="DropoffZone">
+		<attr attr="position.<xmlattr>.x"/>
+		<attr attr="position.<xmlattr>.y"/>
+		<attr attr="size.<xmlattr>.x"/>
+		<attr attr="size.<xmlattr>.y"/>
+		<attr attr="minDropTime"/>
+		<attr attr="texture"/>
+		<attr attr="display"/>
+	</type>
 </types>

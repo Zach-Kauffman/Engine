@@ -201,6 +201,11 @@ void Game::update()
 		zones[zoneIt]->update(inpData);
 	}
 	part->update(inpData);
+	for (unsigned int i = 1; i <= objMan.getTypeAmount(108) - 1080000; i++)
+	{
+		auto obj = objMan.getObject(1080000 + i);
+		obj->update(inpData);
+	}
 	doCollisions();
 
 
@@ -339,6 +344,7 @@ void Game::loadObjects()
 	objMan.addPrototype<objects::Pickup>("Pickup");
 	objMan.addPrototype<objects::PickupZone>("PickupZone");
 	objMan.addPrototype<objects::ParticleSystem>("ParticleSystem");
+	objMan.addPrototype<objects::DropoffZone>("DropoffZone");
 }
 
 void Game::loadMap()
@@ -439,10 +445,19 @@ void Game::organizeObjects()
 	for (unsigned int i = 1; i <= objMan.getTypeAmount(105) - 1050000; i++)
 	{
 		auto obj = objMan.getObject(1050000 + i);
-		boost::shared_ptr<objects::Pickup> platform = util::downcast<objects::Pickup>(obj);
-		boxes.push_back(platform);
+		boost::shared_ptr<objects::Pickup> pickup = util::downcast<objects::Pickup>(obj);
+		boxes.push_back(pickup);
 	}
 	collidableMap[105] = boxes;
+
+	boxes.clear();
+	for (unsigned int i = 1; i <= objMan.getTypeAmount(108) - 1080000; i++)
+	{
+		auto obj = objMan.getObject(1080000 + i);
+		boost::shared_ptr<objects::DropoffZone> dropoff = util::downcast<objects::DropoffZone>(obj);
+		boxes.push_back(dropoff);
+	}
+	collidableMap[108] = boxes;
 
 	//stores downcast zones and generates pickups
 	for (unsigned int i = 1; i <= objMan.getTypeAmount(106) - 1060000; i++)
@@ -500,6 +515,16 @@ void Game::doCollisions()
 			{
 				objMan.deleteObject(p->getID());
 			}
+		}
+
+	}
+
+	for (int dropIt = 0; dropIt < collidableMap[108].size(); dropIt++)	//cycles through pickups
+	{
+		if (Collider::collide(pcol, collidableMap[108][dropIt]).collided())
+		{
+			boost::shared_ptr<objects::DropoffZone> p = util::downcast<objects::DropoffZone>(collidableMap[108][dropIt]);
+			player->dropoffCollide(p);
 		}
 
 	}

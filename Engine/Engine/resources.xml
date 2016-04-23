@@ -110,9 +110,13 @@
 		<path>Resources/nothing.png</path>
 		<name>nothing</name>
 	</resource>
-				<resource>
+	<resource>
 		<path>Resources/snow.png</path>
 		<name>snow</name>
+	</resource>
+	<resource>
+		<path>Resources/drop.png</path>
+		<name>drop</name>
 	</resource>
 
 </resources>
