@@ -182,7 +182,11 @@ std::pair<sf::Vector2f, sf::Vector2f> Layer::getWindowCorners()
 
 void Layer::setViewCenter(const sf::Vector2f& viewCent)
 {
+	//const sf::Vector2f view.getCenter();
 	view.setCenter(viewCent);
+	//const sf::Vector2f()
+	//moveBoundCorners(dist);
+	//moveTrackCorners(dist); 
 }
 
 sf::Vector2f Layer::getViewCenter()

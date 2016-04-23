@@ -400,6 +400,8 @@ void Game::loadMap()
 
 	player = util::downcast<objects::Squirrel>(objMan.getObject(1030001));
 	layMan.setReferencePoint(player->getPosition());						//make sure the layers reference the point
+
+	const sf::Vector2f squirrelPos = *player->getPosition();
 	part = util::downcast<objects::ParticleSystem>(objMan.getObject(1070001));
 	part->setPosition(*player->getPosition());
 
@@ -418,6 +420,8 @@ void Game::loadMap()
 		parser.readValue<float>("<xmlattr>.boundy", bounds.y, layers[0][i]);
 
 		layMan.setScrollBounds({ 0, 0, bounds.x, bounds.y}, i);
+
+		const sf::Vector2f layerCenter = squirrelPos - sf::Vector2f(windowPtr->getSize().x / 2, windowPtr->getSize().y / 2);
 		layMan.setCorners(sf::Vector2f(0, 0), (sf::Vector2f)windowPtr->getSize(), i);
 		layMan.getLayerPtr(i)->setScrollBoundedness(true);
 
